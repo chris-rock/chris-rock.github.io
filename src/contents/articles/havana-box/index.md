@@ -11,8 +11,9 @@ template: article.jade
 
 [OpenStack Havana](http://www.openstack.org/software/havana/) has just been released. It offers a bunch of new features. Everything is well documented in their [Release Notes](https://wiki.openstack.org/wiki/ReleaseNotes/Havana). It is nice to read, but I need a test drive.
 
-We are using Open Stack heavily and test new releases via [DevStack](http://devstack.org/) before we deploy new releases in our staging environment. What would be easier than trying Havana with a [vagrant box](http://www.vagrantup.com/). 
-    
+We are using Open Stack heavily and test new releases via [DevStack](http://devstack.org/) before we deploy new releases in our staging environment. What would be easier than trying Havana with a [vagrant box](http://www.vagrantup.com/). You find my vagrant setup at Github https://github.com/chris-rock/vagrant-devstack.
+
+
 
     $ git clone https://github.com/chris-rock/vagrant-devstack.git
     Cloning into 'vagrant-devstack'...

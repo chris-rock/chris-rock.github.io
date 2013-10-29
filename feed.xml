@@ -19,7 +19,7 @@
 
 
 &lt;p&gt;&lt;a href=&quot;http://www.openstack.org/software/havana/&quot;&gt;OpenStack Havana&lt;/a&gt; has just been released. It offers a bunch of new features. Everything is well documented in their &lt;a href=&quot;https://wiki.openstack.org/wiki/ReleaseNotes/Havana&quot;&gt;Release Notes&lt;/a&gt;. It is nice to read, but I need a test drive.&lt;/p&gt;
-&lt;p&gt;We are using Open Stack heavily and test new releases via &lt;a href=&quot;http://devstack.org/&quot;&gt;DevStack&lt;/a&gt; before we deploy new releases in our staging environment. What would be easier than trying Havana with a &lt;a href=&quot;http://www.vagrantup.com/&quot;&gt;vagrant box&lt;/a&gt;. &lt;/p&gt;
+&lt;p&gt;We are using Open Stack heavily and test new releases via &lt;a href=&quot;http://devstack.org/&quot;&gt;DevStack&lt;/a&gt; before we deploy new releases in our staging environment. What would be easier than trying Havana with a &lt;a href=&quot;http://www.vagrantup.com/&quot;&gt;vagrant box&lt;/a&gt;. You find my vagrant setup at Github &lt;a href=&quot;https://github.com/chris-rock/vagrant-devstack&quot;&gt;https://github.com/chris-rock/vagrant-devstack&lt;/a&gt;.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ git clone https://github.com/chris-rock/vagrant-devstack.git
 Cloning into &amp;#39;vagrant-devstack&amp;#39;...
 remote: Counting objects: 34, done.
