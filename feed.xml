@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>chris-rock</title>
+    <atom:link href="http://chris-rock.github.io/feed.xml" rel="self" type="application/rss+xml"></atom:link>
+    <link>http://chris-rock.github.io</link>
+    <description>fun &amp; sun</description>
+    <pubDate>Mon, 28 Oct 2013 01:00:00 +0100</pubDate>
+    <generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator>
+    <language>en</language>
+    <item>
+      <title>Havana Box</title>
+      <link>http://chris-rock.github.io/articles/havana-box/</link>
+      <pubDate>Mon, 28 Oct 2013 01:00:00 +0100</pubDate>
+      <guid isPermaLink="true">http://chris-rock.github.io/articles/havana-box/</guid>
+      <author></author>
+      <description>&lt;center&gt;&lt;a href=&quot;http://www.flickr.com/photos/fixedgear/2998411614/&quot; title=&quot;Havana by fixedgear, on Flickr&quot;&gt;&lt;img src=&quot;http://farm4.staticflickr.com/3161/2998411614_787b7717b2_q.jpg&quot; width=&quot;150px&quot; height=&quot;150px&quot; alt=&quot;Havana&quot;&gt;&lt;/a&gt;&lt;/center&gt;
+
+
+
+&lt;p&gt;&lt;a href=&quot;http://www.openstack.org/software/havana/&quot;&gt;OpenStack Havana&lt;/a&gt; has just been released. It offers a bunch of new features. Everything is well documented in their &lt;a href=&quot;https://wiki.openstack.org/wiki/ReleaseNotes/Havana&quot;&gt;Release Notes&lt;/a&gt;. It is nice to read, but I need a test drive.&lt;/p&gt;
+&lt;p&gt;We are using Open Stack heavily and test new releases via &lt;a href=&quot;http://devstack.org/&quot;&gt;DevStack&lt;/a&gt; before we deploy new releases in our staging environment. What would be easier than trying Havana with a &lt;a href=&quot;http://www.vagrantup.com/&quot;&gt;vagrant box&lt;/a&gt;. &lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ git clone https://github.com/chris-rock/vagrant-devstack.git
+Cloning into &amp;#39;vagrant-devstack&amp;#39;...
+remote: Counting objects: 34, done.
+remote: Compressing objects: 100% (19/19), done.
+remote: Total 34 (delta 11), reused 34 (delta 11)
+Unpacking objects: 100% (34/34), done.
+Checking connectivity...done
+$ cd vagrant-devstack
+$ vagrant up&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;After a cup of tea you should see the following:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Horizon is now available at http://192.168.50.10/
+Keystone is serving at http://192.168.50.10:5000/v2.0/
+Examples on using novaclient command line is in exercise.sh
+The default users are: admin and demo
+The password: devstack
+This is your host ip: 192.168.50.10&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now you type &lt;code&gt;http:192.168.50.10&lt;/code&gt; in your browser and log into the OpenStack environment with &lt;code&gt;admin&lt;/code&gt; and &lt;code&gt;devstack&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://chris-rock.github.io/articles/havana-box/01_openstack_login.png&quot; alt=&quot;Alt text&quot; title=&quot;Horizon Dashboard Login&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Then click on the project &lt;code&gt;demo&lt;/code&gt; or &lt;code&gt;admin&lt;/code&gt; on the left hand.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://chris-rock.github.io/articles/havana-box/02_openstack_dashboard.png&quot; alt=&quot;Alt text&quot; title=&quot;Dashboard&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Start creating your instance and select the Cirros OS as an image. Of course you could upload new images via&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; glance image-create --name YourImage --container-format ovf --disk-format qcow2 --file image_openstack_image.img --is-public True&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&quot;http://chris-rock.github.io/articles/havana-box/03_openstack_createinstance.png&quot; alt=&quot;Alt text&quot; title=&quot;Optional title&quot;&gt;&lt;/p&gt;
+&lt;p&gt;After your created the machine, the image will be spawned.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://chris-rock.github.io/articles/havana-box/04_openstack_machines.png&quot; alt=&quot;Alt text&quot; title=&quot;Optional title&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Click on the machine details and the console log to see the progress of the machine.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://chris-rock.github.io/articles/havana-box/05_openstack_machinedetail.png&quot; alt=&quot;Alt text&quot; title=&quot;Optional title&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Finally log into the machine via the NoVNC client.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://chris-rock.github.io/articles/havana-box/06_openstack_runningmachine.png&quot; alt=&quot;Alt text&quot; title=&quot;Optional title&quot;&gt;&lt;/p&gt;
+&lt;p&gt;In case you find bugs, I am happy to merge &lt;a href=&quot;https://github.com/chris-rock/vagrant-devstack&quot;&gt;pull requests&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/chris-rock/vagrant-devstack&quot;&gt;&lt;img id=&quot;fork-me-ribbon&quot; src=&quot;https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png&quot; alt=&quot;Fork me on GitHub&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+  </channel>
+</rss>
