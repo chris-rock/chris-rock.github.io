@@ -5,7 +5,7 @@ date: 2013-10-28
 template: article.jade
 ---
 
-<center><a href="http://www.flickr.com/photos/fixedgear/2998411614/" title="Havana by fixedgear, on Flickr"><img src="http://farm4.staticflickr.com/3161/2998411614_787b7717b2_q.jpg" width="150px" height="150px" alt="Havana"></a></center>
+<center><a href="http://www.flickr.com/photos/fixedgear/2998411614/" title="Havana by fixedgear, on Flickr"><img src="http://farm4.staticflickr.com/3161/2998411614_787b7717b2_q.jpg" width="150px" height="150px" alt="Havana" style="margin:0px"></a></center>
 
 
 
