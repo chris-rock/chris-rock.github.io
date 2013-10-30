@@ -29,14 +29,14 @@ Unpacking objects: 100% (34/34), done.
 Checking connectivity...done
 $ cd vagrant-devstack
 $ vagrant up&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;After a cup of tea you should see the following:&lt;/p&gt;
+&lt;p&gt;After a cup of tea you should have the following:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;Horizon is now available at http://192.168.50.10/
 Keystone is serving at http://192.168.50.10:5000/v2.0/
 Examples on using novaclient command line is in exercise.sh
 The default users are: admin and demo
 The password: devstack
 This is your host ip: 192.168.50.10&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now you type &lt;code&gt;http:192.168.50.10&lt;/code&gt; in your browser and log into the OpenStack environment with &lt;code&gt;admin&lt;/code&gt; and &lt;code&gt;devstack&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Now you type &lt;a href=&quot;http://192.168.50.10/&quot;&gt;&lt;a href=&quot;http://192.168.50.10&quot;&gt;http://192.168.50.10&lt;/a&gt;&lt;/a&gt; in your browser and log into the OpenStack environment with &lt;code&gt;admin&lt;/code&gt; and &lt;code&gt;devstack&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;http://chris-rock.github.io/articles/havana-box/01_openstack_login.png&quot; alt=&quot;Alt text&quot; title=&quot;Horizon Dashboard Login&quot;&gt;&lt;/p&gt;
 &lt;p&gt;Then click on the project &lt;code&gt;demo&lt;/code&gt; or &lt;code&gt;admin&lt;/code&gt; on the left hand.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;http://chris-rock.github.io/articles/havana-box/02_openstack_dashboard.png&quot; alt=&quot;Alt text&quot; title=&quot;Dashboard&quot;&gt;&lt;/p&gt;
