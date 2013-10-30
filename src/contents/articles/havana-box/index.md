@@ -36,7 +36,7 @@ After a cup of tea you should have the following:
     This is your host ip: 192.168.50.10
 
 
-Now you type `http://192.168.50.10` in your browser and log into the OpenStack environment with `admin` and `devstack`.
+Now you type [http://192.168.50.10](http://192.168.50.10) in your browser and log into the OpenStack environment with `admin` and `devstack`.
 
 ![Alt text](01_openstack_login.png "Horizon Dashboard Login")
 
