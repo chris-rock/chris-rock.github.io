@@ -26,7 +26,7 @@ We are using Open Stack heavily and test new releases via [DevStack](http://devs
     $ vagrant up
 
 
-After a cup of tea you should see the following:
+After a cup of tea you should have the following:
 
     Horizon is now available at http://192.168.50.10/
     Keystone is serving at http://192.168.50.10:5000/v2.0/
@@ -36,7 +36,7 @@ After a cup of tea you should see the following:
     This is your host ip: 192.168.50.10
 
 
-Now you type `http:192.168.50.10` in your browser and log into the OpenStack environment with `admin` and `devstack`.
+Now you type [http://192.168.50.10](http://192.168.50.10) in your browser and log into the OpenStack environment with `admin` and `devstack`.
 
 ![Alt text](01_openstack_login.png "Horizon Dashboard Login")
 
