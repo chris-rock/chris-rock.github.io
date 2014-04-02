@@ -5,9 +5,97 @@
     <atom:link href="http://chris-rock.github.io/feed.xml" rel="self" type="application/rss+xml"></atom:link>
     <link>http://chris-rock.github.io</link>
     <description>fun &amp; sun</description>
-    <pubDate>Mon, 28 Oct 2013 01:00:00 +0100</pubDate>
+    <pubDate>Mon, 02 Feb 2015 01:00:00 +0100</pubDate>
     <generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator>
     <language>en</language>
+    <item>
+      <title>Open Stack Glance Image Create</title>
+      <link>http://chris-rock.github.io/articles/glance-image-create/</link>
+      <pubDate>Mon, 02 Feb 2015 01:00:00 +0100</pubDate>
+      <guid isPermaLink="true">http://chris-rock.github.io/articles/glance-image-create/</guid>
+      <author></author>
+      <description>&lt;p&gt;The newest version of Ubuntu is out and we need to upload the latest version to Open Stack. Of course we try to save our bandwith. There we use &lt;code&gt;-copy-from&lt;/code&gt; instead of &lt;code&gt;--file openstack_image.img&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;glance image-create --name &amp;#39;Ubuntu 14.04 LTS Beta 1&amp;#39; \
+  --container-format bare \
+  --disk-format qcow2 \
+  --is-public true \
+  --copy-from http://uec-images.ubuntu.com/releases/14.04/beta-1/ubuntu-14.04-beta1-server-cloudimg-amd64-disk1.img
+
+
++------------------+--------------------------------------+
+| Property         | Value                                |
++------------------+--------------------------------------+
+| checksum         | None                                 |
+| container_format | bare                                 |
+| created_at       | 2014-04-02T13:16:20                  |
+| deleted          | False                                |
+| deleted_at       | None                                 |
+| disk_format      | qcow2                                |
+| id               | aa5ab6de-e461-4330-136e-fb149802bdc0 |
+| is_public        | True                                 |
+| min_disk         | 0                                    |
+| min_ram          | 0                                    |
+| name             | Ubuntu 14.04 LTS Beta 1              |
+| owner            | 9ab2f1a7ca521eee9c8de5a14567d377     |
+| protected        | False                                |
+| size             | 261095936                            |
+| status           | queued                               |
+| updated_at       | 2014-04-02T13:16:20                  |
++------------------+--------------------------------------+
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    <item>
+      <title>Open Stack VM Resizing</title>
+      <link>http://chris-rock.github.io/articles/openstack-vm-resize/</link>
+      <pubDate>Mon, 02 Feb 2015 01:00:00 +0100</pubDate>
+      <guid isPermaLink="true">http://chris-rock.github.io/articles/openstack-vm-resize/</guid>
+      <author></author>
+      <description>&lt;p&gt;Once in a while you need to upgrade a VM with more CPU or storage.&lt;/p&gt;
+&lt;h2 id=&quot;step-1-vm-preparation&quot;&gt;Step 1: VM preparation&lt;/h2&gt;
+&lt;p&gt;A normal VM running on Openstack is well prepared for flavor resizing. Our observations just brought up the network configuration as a central point of failure. Especially RedHat-based machines fix the network config in various files. e.g. for CentOS&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# ensure the vm is properly prepared
+rm /etc/udev/rules.d/70-persistent-net.rules 
+touch /etc/udev/rules.d/70-persistent-net.rules
+
+# remove hardware specific settings /etc/sysconfig/network-scripts
+sed -i &amp;#39;/UUID/d&amp;#39; /etc/sysconfig/network-scripts/ifcfg-eth0
+sed -i &amp;#39;/HWADDR/d&amp;#39; /etc/sysconfig/network-scripts/ifcfg-eth0
+sed -i &amp;#39;/IPADDR/d&amp;#39; /etc/sysconfig/network-scripts/ifcfg-eth0
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The vm is properly prepared by now.&lt;/p&gt;
+&lt;h2 id=&quot;step-2-take-a-snapshot&quot;&gt;Step 2: Take a snapshot&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;# create a snapshot and not down the image id
+nova image-create $INSTANCEID $IMAGENAME
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;step-3-test-the-snapshot&quot;&gt;Step 3: Test the snapshot&lt;/h2&gt;
+&lt;p&gt;Before we delete the old machine, we need to test the snapshot to ensure the network config is properly done and we are able to log into the new machine.&lt;/p&gt;
+&lt;h2 id=&quot;step-4-gather-machine-details&quot;&gt;Step 4: Gather machine details&lt;/h2&gt;
+&lt;p&gt;Now, we collect all the information of the existing instance&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# show instance details
+nova show $INSTANCEID
+
+# display the network details (you need the id and the subnet id)
+neutron net-list
+
+# select the new flavor id
+nova flavor-list
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;destroy-the-old-machine&quot;&gt;Destroy the old machine&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;nova delete $INSTANCEID
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;create-network-port&quot;&gt;Create network port&lt;/h2&gt;
+&lt;p&gt;In some cases you need to keep the same ip adress. Neutron helps to assign a specific port with the new machine.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;neutron port-create --fixed-ip subnet_id=$SUBNET_ID,ip_address=$IP $NETWORK_ID
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;recreate-machine&quot;&gt;Recreate machine&lt;/h2&gt;
+&lt;p&gt;Now we are ready to re-create the machine&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#!/bin/bash
+VMNAME=machine1
+FLAVOR=4
+IMAGE=63924226-e5ca-4ee6-a663-b2c89b0aa985
+SG=ssh,http,default
+PORT=f3999e60-9e53-4929-a9b2-ed3ab8ecf25d
+KEYNAME=key
+nova boot $VMNAME --flavor=$FLAVOR --image=$IMAGE --security-groups=$SG --nic port-id=$POST --key_name=$KEYNAME
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In case you do not use the specific port, switch &lt;code&gt;port-id&lt;/code&gt; with &lt;code&gt;net-id&lt;/code&gt; and the network id gathered with &lt;code&gt;neutron net-list&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Happy resizing.&lt;/p&gt;
+</description>
+    </item>
     <item>
       <title>Havana Box</title>
       <link>http://chris-rock.github.io/articles/havana-box/</link>
@@ -28,21 +116,21 @@ remote: Total 34 (delta 11), reused 34 (delta 11)
 Unpacking objects: 100% (34/34), done.
 Checking connectivity...done
 $ cd vagrant-devstack
-$ vagrant up&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;After a cup of tea you should have the following:&lt;/p&gt;
+$ vagrant up
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;After a cup of tea you should have the following:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;Horizon is now available at http://192.168.50.10/
 Keystone is serving at http://192.168.50.10:5000/v2.0/
 Examples on using novaclient command line is in exercise.sh
 The default users are: admin and demo
 The password: devstack
-This is your host ip: 192.168.50.10&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now you type &lt;a href=&quot;http://192.168.50.10/&quot;&gt;&lt;a href=&quot;http://192.168.50.10&quot;&gt;http://192.168.50.10&lt;/a&gt;&lt;/a&gt; in your browser and log into the OpenStack environment with &lt;code&gt;admin&lt;/code&gt; and &lt;code&gt;devstack&lt;/code&gt;.&lt;/p&gt;
+This is your host ip: 192.168.50.10
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Now you type &lt;a href=&quot;http://192.168.50.10/&quot;&gt;http://192.168.50.10&lt;/a&gt; in your browser and log into the OpenStack environment with &lt;code&gt;admin&lt;/code&gt; and &lt;code&gt;devstack&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;http://chris-rock.github.io/articles/havana-box/01_openstack_login.png&quot; alt=&quot;Alt text&quot; title=&quot;Horizon Dashboard Login&quot;&gt;&lt;/p&gt;
 &lt;p&gt;Then click on the project &lt;code&gt;demo&lt;/code&gt; or &lt;code&gt;admin&lt;/code&gt; on the left hand.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;http://chris-rock.github.io/articles/havana-box/02_openstack_dashboard.png&quot; alt=&quot;Alt text&quot; title=&quot;Dashboard&quot;&gt;&lt;/p&gt;
 &lt;p&gt;Start creating your instance and select the Cirros OS as an image. Of course you could upload new images via&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt; glance image-create --name YourImage --container-format ovf --disk-format qcow2 --file image_openstack_image.img --is-public True&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&quot;http://chris-rock.github.io/articles/havana-box/03_openstack_createinstance.png&quot; alt=&quot;Alt text&quot; title=&quot;Optional title&quot;&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; glance image-create --name YourImage --container-format ovf --disk-format qcow2 --file image_openstack_image.img --is-public True
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;img src=&quot;http://chris-rock.github.io/articles/havana-box/03_openstack_createinstance.png&quot; alt=&quot;Alt text&quot; title=&quot;Optional title&quot;&gt;&lt;/p&gt;
 &lt;p&gt;After your created the machine, the image will be spawned.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;http://chris-rock.github.io/articles/havana-box/04_openstack_machines.png&quot; alt=&quot;Alt text&quot; title=&quot;Optional title&quot;&gt;&lt;/p&gt;
 &lt;p&gt;Click on the machine details and the console log to see the progress of the machine.&lt;/p&gt;

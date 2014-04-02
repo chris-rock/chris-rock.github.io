@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <title>Open Stack VM Resizing - chris-rock
+    </title>
+    <link rel="alternate" href="http://chris-rock.github.io/feed.xml" type="application/rss+xml" title="fun &amp; sun">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic|Anonymous+Pro:400,700,400italic,700italic|Merriweather:400,700,300">
+    <link rel="stylesheet" href="/css/main.css">
+  </head>
+  <body class="article-detail">
+    <header class="header">
+      <div class="content-wrap">
+        <h1>Open Stack VM Resizing</h1>
+        <p class="author">Written by <span class="author"><a href="mailto:chris@lollyrock.com">chris-rock</a></span>
+        </p>
+      </div>
+    </header>
+    <div id="content">
+      <div class="content-wrap">
+        <article class="article">
+          <section class="content"><p>Once in a while you need to upgrade a <span class="caps">VM</span> with more CPU or&nbsp;storage.</p>
+<h2 id="step-1-vm-preparation">Step 1: <span class="caps">VM</span>&nbsp;preparation</h2>
+<p>A normal <span class="caps">VM</span> running on Openstack is well prepared for flavor resizing. Our observations just brought up the network configuration as a central point of failure. Especially RedHat-based machines fix the network config in various files. e.g. for&nbsp;CentOS</p>
+<pre><code># ensure the vm is properly prepared
+rm /etc/udev/rules.d/70-persistent-net.rules 
+touch /etc/udev/rules.d/70-persistent-net.rules
+
+# remove hardware specific settings /etc/sysconfig/network-scripts
+sed -i &#39;/UUID/d&#39; /etc/sysconfig/network-scripts/ifcfg-eth0
+sed -i &#39;/HWADDR/d&#39; /etc/sysconfig/network-scripts/ifcfg-eth0
+sed -i &#39;/IPADDR/d&#39; /etc/sysconfig/network-scripts/ifcfg-eth0
+</code></pre><p>The vm is properly prepared by&nbsp;now.</p>
+<h2 id="step-2-take-a-snapshot">Step 2: Take a&nbsp;snapshot</h2>
+<pre><code># create a snapshot and not down the image id
+nova image-create $INSTANCEID $IMAGENAME
+</code></pre><h2 id="step-3-test-the-snapshot">Step 3: Test the&nbsp;snapshot</h2>
+<p>Before we delete the old machine, we need to test the snapshot to ensure the network config is properly done and we are able to log into the new&nbsp;machine.</p>
+<h2 id="step-4-gather-machine-details">Step 4: Gather machine&nbsp;details</h2>
+<p>Now, we collect all the information of the existing&nbsp;instance</p>
+<pre><code># show instance details
+nova show $INSTANCEID
+
+# display the network details (you need the id and the subnet id)
+neutron net-list
+
+# select the new flavor id
+nova flavor-list
+</code></pre><h2 id="destroy-the-old-machine">Destroy the old&nbsp;machine</h2>
+<pre><code>nova delete $INSTANCEID
+</code></pre><h2 id="create-network-port">Create network&nbsp;port</h2>
+<p>In some cases you need to keep the same ip adress. Neutron helps to assign a specific port with the new&nbsp;machine.</p>
+<pre><code>neutron port-create --fixed-ip subnet_id=$SUBNET_ID,ip_address=$IP $NETWORK_ID
+</code></pre><h2 id="recreate-machine">Recreate&nbsp;machine</h2>
+<p>Now we are ready to re-create the&nbsp;machine</p>
+<pre><code>#!/bin/bash
+VMNAME=machine1
+FLAVOR=4
+IMAGE=63924226-e5ca-4ee6-a663-b2c89b0aa985
+SG=ssh,http,default
+PORT=f3999e60-9e53-4929-a9b2-ed3ab8ecf25d
+KEYNAME=key
+nova boot $VMNAME --flavor=$FLAVOR --image=$IMAGE --security-groups=$SG --nic port-id=$POST --key_name=$KEYNAME
+</code></pre><p>In case you do not use the specific port, switch <code>port-id</code> with <code>net-id</code> and the network id gathered with <code>neutron net-list</code></p>
+<p>Happy&nbsp;resizing.</p>
+</section>
+        </article>
+      </div>
+    </div>
+    <footer>
+      <div class="content-wrap">
+        <div class="nav"><a href="/">« Full blog</a></div>
+        <section class="about">
+        </section>
+        <section class="copy">
+          <p>&copy; 2014 chris-rock &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
+          </p>
+        </section>
+      </div>
+    </footer>
+  </body>
+</html>
