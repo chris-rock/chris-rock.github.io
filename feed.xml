@@ -97,6 +97,51 @@ nova boot $VMNAME --flavor=$FLAVOR --image=$IMAGE --security-groups=$SG --nic po
 </description>
     </item>
     <item>
+      <title>SHA 512 Hashs with nodejs</title>
+      <link>http://chris-rock.github.io/articles/nodejs-sha512/</link>
+      <pubDate>Wed, 04 Jun 2014 02:00:00 +0200</pubDate>
+      <guid isPermaLink="true">http://chris-rock.github.io/articles/nodejs-sha512/</guid>
+      <author></author>
+      <description>&lt;p&gt;Quite often you need to encrypt files. Recently I updated an application from encryption to &lt;a href=&quot;http://en.wikipedia.org/wiki/Authenticated_encryption&quot;&gt;authenticated encryption&lt;/a&gt; and used the encrypt-then-mac approach. &lt;/p&gt;
+&lt;p&gt;To create a hash from strings you just need a few lines in nodejs:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-javascript&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// generate a hash from string&lt;/span&gt;
+    &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; crypto = &lt;span class=&quot;built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;'crypto'&lt;/span&gt;),
+        text = &lt;span class=&quot;string&quot;&gt;'hello bob'&lt;/span&gt;,
+        key = &lt;span class=&quot;string&quot;&gt;'mysecret key'&lt;/span&gt;
+
+    &lt;span class=&quot;comment&quot;&gt;// create hahs&lt;/span&gt;
+    &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; hash = crypto.createHmac(&lt;span class=&quot;string&quot;&gt;'sha512'&lt;/span&gt;, key)
+    hash.update(text)
+    &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; value = hash.digest(&lt;span class=&quot;string&quot;&gt;'hex'&lt;/span&gt;)
+
+    &lt;span class=&quot;comment&quot;&gt;// print result&lt;/span&gt;
+    console.log(value);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The great thing about the nodejs implementation of &lt;code&gt;Hash&lt;/code&gt; is the possibility to stream data directly into the hash:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-javascript&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// generate a hash from file stream&lt;/span&gt;
+    &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; crypto = &lt;span class=&quot;built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;'crypto'&lt;/span&gt;),
+        fs = &lt;span class=&quot;built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;'fs'&lt;/span&gt;),
+        key = &lt;span class=&quot;string&quot;&gt;'mysecret key'&lt;/span&gt;
+
+    &lt;span class=&quot;comment&quot;&gt;// open file stream&lt;/span&gt;
+    &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; fstream = fs.createReadStream(&lt;span class=&quot;string&quot;&gt;'./test/hmac.js'&lt;/span&gt;);
+    &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; hash = crypto.createHash(&lt;span class=&quot;string&quot;&gt;'sha512'&lt;/span&gt;, key);
+    hash.setEncoding(&lt;span class=&quot;string&quot;&gt;'hex'&lt;/span&gt;);
+
+    &lt;span class=&quot;comment&quot;&gt;// once the stream is done, we read the values&lt;/span&gt;
+    fstream.on(&lt;span class=&quot;string&quot;&gt;'end'&lt;/span&gt;, &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt; {&lt;/span&gt;
+        hash.end();
+        &lt;span class=&quot;comment&quot;&gt;// print result&lt;/span&gt;
+        console.log(hash.read());
+    });
+
+    &lt;span class=&quot;comment&quot;&gt;// pipe file to hash generator&lt;/span&gt;
+    fstream.pipe(hash);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Happy Hashing.&lt;/p&gt;
+</description>
+    </item>
+    <item>
       <title>Havana Box</title>
       <link>http://chris-rock.github.io/articles/havana-box/</link>
       <pubDate>Mon, 28 Oct 2013 01:00:00 +0100</pubDate>

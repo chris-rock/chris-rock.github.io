@@ -4,74 +4,23 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width">
-    <title>chris-rock
+    <title>SHA 512 Hashs with nodejs - chris-rock
     </title>
     <link rel="alternate" href="http://chris-rock.github.io/feed.xml" type="application/rss+xml" title="fun &amp; sun">
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic|Anonymous+Pro:400,700,400italic,700italic|Merriweather:400,700,300">
     <link rel="stylesheet" href="/css/main.css">
   </head>
-  <body>
+  <body class="article-detail">
     <header class="header">
       <div class="content-wrap">
-        <div class="logo">
-          <h1><a href="http://chris-rock.github.io">chris-rock</a></h1>
-          <p class="description">fun &amp; sun</p>
-        </div>
+        <h1>SHA 512 Hashs with nodejs</h1>
+        <p class="author">Written by <span class="author"><a href="mailto:chris@lollyrock.com">chris-rock</a></span>
+        </p>
       </div>
     </header>
     <div id="content">
       <div class="content-wrap">
-        <article class="article intro">
-          <header>
-            <p class="date"><span>06. April 2014</span></p>
-            <h2><a href="/articles/glance-image-create/">Open Stack Glance Image Create</a></h2>
-          </header>
-          <section class="content"><p>The newest version of Ubuntu is out and we need to upload the latest version to Open Stack. Of course we try to save our bandwith. There we use <code>-copy-from</code> instead of <code>--file openstack_image.img</code>:</p>
-<pre><code>glance image-create --name &#39;Ubuntu 14.04 LTS Beta 1&#39; \
-  --container-format bare \
-  --disk-format qcow2 \
-  --is-public true \
-  --copy-from http://uec-images.ubuntu.com/releases/14.04/beta-1/ubuntu-14.04-beta1-server-cloudimg-amd64-disk1.img
-
-
-+------------------+--------------------------------------+
-| Property         | Value                                |
-+------------------+--------------------------------------+
-| checksum         | None                                 |
-| container_format | bare                                 |
-| created_at       | 2014-04-02T13:16:20                  |
-| deleted          | False                                |
-| deleted_at       | None                                 |
-| disk_format      | qcow2                                |
-| id               | aa5ab6de-e461-4330-136e-fb149802bdc0 |
-| is_public        | True                                 |
-| min_disk         | 0                                    |
-| min_ram          | 0                                    |
-| name             | Ubuntu 14.04 LTS Beta 1              |
-| owner            | 9ab2f1a7ca521eee9c8de5a14567d377     |
-| protected        | False                                |
-| size             | 261095936                            |
-| status           | queued                               |
-| updated_at       | 2014-04-02T13:16:20                  |
-+------------------+--------------------------------------+
-</code></pre>
-          </section>
-        </article>
-        <article class="article intro">
-          <header>
-            <p class="date"><span>06. April 2014</span></p>
-            <h2><a href="/articles/openstack-vm-resize/">Open Stack VM Resizing</a></h2>
-          </header>
-          <section class="content"><p>Once in a while you need to upgrade a <span class="caps">VM</span> with more CPU or&nbsp;storage.</p>
-
-            <p class="more"><a href="/articles/openstack-vm-resize/">more</a></p>
-          </section>
-        </article>
-        <article class="article intro">
-          <header>
-            <p class="date"><span>06. April 2014</span></p>
-            <h2><a href="/articles/nodejs-sha512/">SHA 512 Hashs with nodejs</a></h2>
-          </header>
+        <article class="article">
           <section class="content"><p>Quite often you need to encrypt files. Recently I updated an application from encryption to <a href="http://en.wikipedia.org/wiki/Authenticated_encryption">authenticated encryption</a> and used the encrypt-then-mac&nbsp;approach. </p>
 <p>To create a hash from strings you just need a few lines in&nbsp;nodejs:</p>
 <pre><code class="lang-javascript">    <span class="comment">// generate a hash from string</span>
@@ -109,15 +58,13 @@
     fstream.pipe(hash);
 </code></pre>
 <p>Happy&nbsp;Hashing.</p>
-
-          </section>
+</section>
         </article>
       </div>
     </div>
     <footer>
       <div class="content-wrap">
-        <div class="nav"><a href="/archive.html">« Archives</a><a href="/page/2/">Next page »</a>
-        </div>
+        <div class="nav"><a href="/">« Full blog</a></div>
         <section class="about">
         </section>
         <section class="copy">
