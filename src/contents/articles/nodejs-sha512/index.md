@@ -1,7 +1,7 @@
 ---
 title: SHA 512 Hashs with nodejs
 author: chris
-date: 2014-06-04
+date: 2014-04-06
 template: article.jade
 ---
 

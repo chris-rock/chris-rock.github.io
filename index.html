@@ -24,6 +24,51 @@
         <article class="article intro">
           <header>
             <p class="date"><span>06. April 2014</span></p>
+            <h2><a href="/articles/nodejs-sha512/">SHA 512 Hashs with nodejs</a></h2>
+          </header>
+          <section class="content"><p>Quite often you need to encrypt files. Recently I updated an application from encryption to <a href="http://en.wikipedia.org/wiki/Authenticated_encryption">authenticated encryption</a> and used the encrypt-then-mac&nbsp;approach. </p>
+<p>To create a hash from strings you just need a few lines in&nbsp;nodejs:</p>
+<pre><code class="lang-javascript">    <span class="comment">// generate a hash from string</span>
+    <span class="keyword">var</span> crypto = <span class="built_in">require</span>(<span class="string">'crypto'</span>),
+        text = <span class="string">'hello bob'</span>,
+        key = <span class="string">'mysecret key'</span>
+
+    <span class="comment">// create hahs</span>
+    <span class="keyword">var</span> hash = crypto.createHmac(<span class="string">'sha512'</span>, key)
+    hash.update(text)
+    <span class="keyword">var</span> value = hash.digest(<span class="string">'hex'</span>)
+
+    <span class="comment">// print result</span>
+    console.log(value);
+</code></pre>
+<p>The great thing about the nodejs implementation of <code>Hash</code> is the possibility to stream data directly into the&nbsp;hash:</p>
+<pre><code class="lang-javascript">    <span class="comment">// generate a hash from file stream</span>
+    <span class="keyword">var</span> crypto = <span class="built_in">require</span>(<span class="string">'crypto'</span>),
+        fs = <span class="built_in">require</span>(<span class="string">'fs'</span>),
+        key = <span class="string">'mysecret key'</span>
+
+    <span class="comment">// open file stream</span>
+    <span class="keyword">var</span> fstream = fs.createReadStream(<span class="string">'./test/hmac.js'</span>);
+    <span class="keyword">var</span> hash = crypto.createHash(<span class="string">'sha512'</span>, key);
+    hash.setEncoding(<span class="string">'hex'</span>);
+
+    <span class="comment">// once the stream is done, we read the values</span>
+    fstream.on(<span class="string">'end'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+        hash.end();
+        <span class="comment">// print result</span>
+        console.log(hash.read());
+    });
+
+    <span class="comment">// pipe file to hash generator</span>
+    fstream.pipe(hash);
+</code></pre>
+<p>Happy&nbsp;Hashing.</p>
+
+          </section>
+        </article>
+        <article class="article intro">
+          <header>
+            <p class="date"><span>06. April 2014</span></p>
             <h2><a href="/articles/glance-image-create/">Open Stack Glance Image Create</a></h2>
           </header>
           <section class="content"><p>The newest version of Ubuntu is out and we need to upload the latest version to Open Stack. Of course we try to save our bandwith. There we use <code>-copy-from</code> instead of <code>--file openstack_image.img</code>:</p>
@@ -65,51 +110,6 @@
           <section class="content"><p>Once in a while you need to upgrade a <span class="caps">VM</span> with more CPU or&nbsp;storage.</p>
 
             <p class="more"><a href="/articles/openstack-vm-resize/">more</a></p>
-          </section>
-        </article>
-        <article class="article intro">
-          <header>
-            <p class="date"><span>06. April 2014</span></p>
-            <h2><a href="/articles/nodejs-sha512/">SHA 512 Hashs with nodejs</a></h2>
-          </header>
-          <section class="content"><p>Quite often you need to encrypt files. Recently I updated an application from encryption to <a href="http://en.wikipedia.org/wiki/Authenticated_encryption">authenticated encryption</a> and used the encrypt-then-mac&nbsp;approach. </p>
-<p>To create a hash from strings you just need a few lines in&nbsp;nodejs:</p>
-<pre><code class="lang-javascript">    <span class="comment">// generate a hash from string</span>
-    <span class="keyword">var</span> crypto = <span class="built_in">require</span>(<span class="string">'crypto'</span>),
-        text = <span class="string">'hello bob'</span>,
-        key = <span class="string">'mysecret key'</span>
-
-    <span class="comment">// create hahs</span>
-    <span class="keyword">var</span> hash = crypto.createHmac(<span class="string">'sha512'</span>, key)
-    hash.update(text)
-    <span class="keyword">var</span> value = hash.digest(<span class="string">'hex'</span>)
-
-    <span class="comment">// print result</span>
-    console.log(value);
-</code></pre>
-<p>The great thing about the nodejs implementation of <code>Hash</code> is the possibility to stream data directly into the&nbsp;hash:</p>
-<pre><code class="lang-javascript">    <span class="comment">// generate a hash from file stream</span>
-    <span class="keyword">var</span> crypto = <span class="built_in">require</span>(<span class="string">'crypto'</span>),
-        fs = <span class="built_in">require</span>(<span class="string">'fs'</span>),
-        key = <span class="string">'mysecret key'</span>
-
-    <span class="comment">// open file stream</span>
-    <span class="keyword">var</span> fstream = fs.createReadStream(<span class="string">'./test/hmac.js'</span>);
-    <span class="keyword">var</span> hash = crypto.createHash(<span class="string">'sha512'</span>, key);
-    hash.setEncoding(<span class="string">'hex'</span>);
-
-    <span class="comment">// once the stream is done, we read the values</span>
-    fstream.on(<span class="string">'end'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
-        hash.end();
-        <span class="comment">// print result</span>
-        console.log(hash.read());
-    });
-
-    <span class="comment">// pipe file to hash generator</span>
-    fstream.pipe(hash);
-</code></pre>
-<p>Happy&nbsp;Hashing.</p>
-
           </section>
         </article>
       </div>

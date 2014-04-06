@@ -1,7 +1,7 @@
 ---
 title: Open Stack VM Resizing
 author: chris
-date: 2014-14-02
+date: 2014-04-02
 template: article.jade
 ---
 

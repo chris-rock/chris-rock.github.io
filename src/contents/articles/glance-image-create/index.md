@@ -1,7 +1,7 @@
 ---
 title: Open Stack Glance Image Create
 author: chris
-date: 2014-14-02
+date: 2014-04-03
 template: article.jade
 ---
 

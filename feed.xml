@@ -5,13 +5,58 @@
     <atom:link href="http://chris-rock.github.io/feed.xml" rel="self" type="application/rss+xml"></atom:link>
     <link>http://chris-rock.github.io</link>
     <description>fun &amp; sun</description>
-    <pubDate>Mon, 02 Feb 2015 01:00:00 +0100</pubDate>
+    <pubDate>Sun, 06 Apr 2014 02:00:00 +0200</pubDate>
     <generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator>
     <language>en</language>
     <item>
+      <title>SHA 512 Hashs with nodejs</title>
+      <link>http://chris-rock.github.io/articles/nodejs-sha512/</link>
+      <pubDate>Sun, 06 Apr 2014 02:00:00 +0200</pubDate>
+      <guid isPermaLink="true">http://chris-rock.github.io/articles/nodejs-sha512/</guid>
+      <author></author>
+      <description>&lt;p&gt;Quite often you need to encrypt files. Recently I updated an application from encryption to &lt;a href=&quot;http://en.wikipedia.org/wiki/Authenticated_encryption&quot;&gt;authenticated encryption&lt;/a&gt; and used the encrypt-then-mac approach. &lt;/p&gt;
+&lt;p&gt;To create a hash from strings you just need a few lines in nodejs:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-javascript&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// generate a hash from string&lt;/span&gt;
+    &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; crypto = &lt;span class=&quot;built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;'crypto'&lt;/span&gt;),
+        text = &lt;span class=&quot;string&quot;&gt;'hello bob'&lt;/span&gt;,
+        key = &lt;span class=&quot;string&quot;&gt;'mysecret key'&lt;/span&gt;
+
+    &lt;span class=&quot;comment&quot;&gt;// create hahs&lt;/span&gt;
+    &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; hash = crypto.createHmac(&lt;span class=&quot;string&quot;&gt;'sha512'&lt;/span&gt;, key)
+    hash.update(text)
+    &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; value = hash.digest(&lt;span class=&quot;string&quot;&gt;'hex'&lt;/span&gt;)
+
+    &lt;span class=&quot;comment&quot;&gt;// print result&lt;/span&gt;
+    console.log(value);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The great thing about the nodejs implementation of &lt;code&gt;Hash&lt;/code&gt; is the possibility to stream data directly into the hash:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-javascript&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// generate a hash from file stream&lt;/span&gt;
+    &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; crypto = &lt;span class=&quot;built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;'crypto'&lt;/span&gt;),
+        fs = &lt;span class=&quot;built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;'fs'&lt;/span&gt;),
+        key = &lt;span class=&quot;string&quot;&gt;'mysecret key'&lt;/span&gt;
+
+    &lt;span class=&quot;comment&quot;&gt;// open file stream&lt;/span&gt;
+    &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; fstream = fs.createReadStream(&lt;span class=&quot;string&quot;&gt;'./test/hmac.js'&lt;/span&gt;);
+    &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; hash = crypto.createHash(&lt;span class=&quot;string&quot;&gt;'sha512'&lt;/span&gt;, key);
+    hash.setEncoding(&lt;span class=&quot;string&quot;&gt;'hex'&lt;/span&gt;);
+
+    &lt;span class=&quot;comment&quot;&gt;// once the stream is done, we read the values&lt;/span&gt;
+    fstream.on(&lt;span class=&quot;string&quot;&gt;'end'&lt;/span&gt;, &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt; {&lt;/span&gt;
+        hash.end();
+        &lt;span class=&quot;comment&quot;&gt;// print result&lt;/span&gt;
+        console.log(hash.read());
+    });
+
+    &lt;span class=&quot;comment&quot;&gt;// pipe file to hash generator&lt;/span&gt;
+    fstream.pipe(hash);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Happy Hashing.&lt;/p&gt;
+</description>
+    </item>
+    <item>
       <title>Open Stack Glance Image Create</title>
       <link>http://chris-rock.github.io/articles/glance-image-create/</link>
-      <pubDate>Mon, 02 Feb 2015 01:00:00 +0100</pubDate>
+      <pubDate>Thu, 03 Apr 2014 02:00:00 +0200</pubDate>
       <guid isPermaLink="true">http://chris-rock.github.io/articles/glance-image-create/</guid>
       <author></author>
       <description>&lt;p&gt;The newest version of Ubuntu is out and we need to upload the latest version to Open Stack. Of course we try to save our bandwith. There we use &lt;code&gt;-copy-from&lt;/code&gt; instead of &lt;code&gt;--file openstack_image.img&lt;/code&gt;:&lt;/p&gt;
@@ -47,7 +92,7 @@
     <item>
       <title>Open Stack VM Resizing</title>
       <link>http://chris-rock.github.io/articles/openstack-vm-resize/</link>
-      <pubDate>Mon, 02 Feb 2015 01:00:00 +0100</pubDate>
+      <pubDate>Wed, 02 Apr 2014 02:00:00 +0200</pubDate>
       <guid isPermaLink="true">http://chris-rock.github.io/articles/openstack-vm-resize/</guid>
       <author></author>
       <description>&lt;p&gt;Once in a while you need to upgrade a VM with more CPU or storage.&lt;/p&gt;
@@ -94,51 +139,6 @@ KEYNAME=key
 nova boot $VMNAME --flavor=$FLAVOR --image=$IMAGE --security-groups=$SG --nic port-id=$POST --key_name=$KEYNAME
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In case you do not use the specific port, switch &lt;code&gt;port-id&lt;/code&gt; with &lt;code&gt;net-id&lt;/code&gt; and the network id gathered with &lt;code&gt;neutron net-list&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;Happy resizing.&lt;/p&gt;
-</description>
-    </item>
-    <item>
-      <title>SHA 512 Hashs with nodejs</title>
-      <link>http://chris-rock.github.io/articles/nodejs-sha512/</link>
-      <pubDate>Wed, 04 Jun 2014 02:00:00 +0200</pubDate>
-      <guid isPermaLink="true">http://chris-rock.github.io/articles/nodejs-sha512/</guid>
-      <author></author>
-      <description>&lt;p&gt;Quite often you need to encrypt files. Recently I updated an application from encryption to &lt;a href=&quot;http://en.wikipedia.org/wiki/Authenticated_encryption&quot;&gt;authenticated encryption&lt;/a&gt; and used the encrypt-then-mac approach. &lt;/p&gt;
-&lt;p&gt;To create a hash from strings you just need a few lines in nodejs:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;lang-javascript&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// generate a hash from string&lt;/span&gt;
-    &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; crypto = &lt;span class=&quot;built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;'crypto'&lt;/span&gt;),
-        text = &lt;span class=&quot;string&quot;&gt;'hello bob'&lt;/span&gt;,
-        key = &lt;span class=&quot;string&quot;&gt;'mysecret key'&lt;/span&gt;
-
-    &lt;span class=&quot;comment&quot;&gt;// create hahs&lt;/span&gt;
-    &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; hash = crypto.createHmac(&lt;span class=&quot;string&quot;&gt;'sha512'&lt;/span&gt;, key)
-    hash.update(text)
-    &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; value = hash.digest(&lt;span class=&quot;string&quot;&gt;'hex'&lt;/span&gt;)
-
-    &lt;span class=&quot;comment&quot;&gt;// print result&lt;/span&gt;
-    console.log(value);
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The great thing about the nodejs implementation of &lt;code&gt;Hash&lt;/code&gt; is the possibility to stream data directly into the hash:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;lang-javascript&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// generate a hash from file stream&lt;/span&gt;
-    &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; crypto = &lt;span class=&quot;built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;'crypto'&lt;/span&gt;),
-        fs = &lt;span class=&quot;built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;'fs'&lt;/span&gt;),
-        key = &lt;span class=&quot;string&quot;&gt;'mysecret key'&lt;/span&gt;
-
-    &lt;span class=&quot;comment&quot;&gt;// open file stream&lt;/span&gt;
-    &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; fstream = fs.createReadStream(&lt;span class=&quot;string&quot;&gt;'./test/hmac.js'&lt;/span&gt;);
-    &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; hash = crypto.createHash(&lt;span class=&quot;string&quot;&gt;'sha512'&lt;/span&gt;, key);
-    hash.setEncoding(&lt;span class=&quot;string&quot;&gt;'hex'&lt;/span&gt;);
-
-    &lt;span class=&quot;comment&quot;&gt;// once the stream is done, we read the values&lt;/span&gt;
-    fstream.on(&lt;span class=&quot;string&quot;&gt;'end'&lt;/span&gt;, &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt; {&lt;/span&gt;
-        hash.end();
-        &lt;span class=&quot;comment&quot;&gt;// print result&lt;/span&gt;
-        console.log(hash.read());
-    });
-
-    &lt;span class=&quot;comment&quot;&gt;// pipe file to hash generator&lt;/span&gt;
-    fstream.pipe(hash);
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Happy Hashing.&lt;/p&gt;
 </description>
     </item>
     <item>
