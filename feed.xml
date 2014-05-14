@@ -17,7 +17,7 @@
       <description>&lt;p&gt;Deutsche Telekom developed scripts in Chef and Puppet to harden servers according to well-known guidelines like bettercrypto and internal guidelines at Deutsche Telekom.&lt;/p&gt;
 &lt;p&gt;Disclosure: I am core developer at this project.&lt;/p&gt;
 &lt;p&gt;Today we cook with &lt;a href=&quot;http://matschaffer.github.io/knife-solo/&quot;&gt;knife-solo&lt;/a&gt; and harden a fresh copy of Ubuntu 14.04. The process of hardening a server is quite difficult and takes a lot of knowledge and experience. Even the most-experienced administrators rely on guidelines to meet the best practices.&lt;/p&gt;
-&lt;p&gt;Since we live in a cloud world by now, &lt;a href=&quot;http://arlimus.github.io/&quot;&gt;Dominik Richter&lt;/a&gt;, Patrick Meier and myself invented the `Security Automation Toolkit. It is a set of cookbooks that help you to secure your server with well-known rules. &lt;/p&gt;
+&lt;p&gt;Since we live in a cloud world by now, &lt;a href=&quot;http://arlimus.github.io/&quot;&gt;Dominik Richter&lt;/a&gt;, Patrick Meier and myself invented the &lt;code&gt;Security Automation Toolkit&lt;/code&gt;. It is a set of cookbooks that help you to secure your server with well-known rules. &lt;/p&gt;
 &lt;p&gt;The following steps illustrate the hardening process of a fresh server with nothing than a base Linux system.&lt;/p&gt;
 &lt;p&gt;At first of all we need to install &lt;code&gt;knife-solo&lt;/code&gt; via &lt;code&gt;gem&lt;/code&gt; on your workstation.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;∅&amp;gt; &lt;span class=&quot;built_in&quot;&gt;sudo&lt;/span&gt; gem install knife-solo
