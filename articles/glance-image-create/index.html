@@ -22,11 +22,11 @@
       <div class="content-wrap">
         <article class="article">
           <section class="content"><p>The newest version of Ubuntu is out and we need to upload the latest version to Open Stack. Of course we try to save our bandwith. There we use <code>-copy-from</code> instead of <code>--file openstack_image.img</code>:</p>
-<pre><code>glance image-create --name &#39;Ubuntu 14.04 LTS Beta 1&#39; \
+<pre><code>glance image-create --name &#39;Ubuntu 14.04 LTS&#39; \
   --container-format bare \
   --disk-format qcow2 \
   --is-public true \
-  --copy-from http://uec-images.ubuntu.com/releases/14.04/beta-1/ubuntu-14.04-beta1-server-cloudimg-amd64-disk1.img
+  --copy-from http://uec-images.ubuntu.com/releases/14.04/release/ubuntu-14.04-server-cloudimg-amd64-disk1.img
 
 
 +------------------+--------------------------------------+

@@ -5,9 +5,167 @@
     <atom:link href="http://chris-rock.github.io/feed.xml" rel="self" type="application/rss+xml"></atom:link>
     <link>http://chris-rock.github.io</link>
     <description>fun &amp; sun</description>
-    <pubDate>Sun, 06 Apr 2014 02:00:00 +0200</pubDate>
+    <pubDate>Wed, 14 May 2014 02:00:00 +0200</pubDate>
     <generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator>
     <language>en</language>
+    <item>
+      <title>How to harden a new server with Chef</title>
+      <link>http://chris-rock.github.io/articles/how-to-harden-a-new-server/</link>
+      <pubDate>Wed, 14 May 2014 02:00:00 +0200</pubDate>
+      <guid isPermaLink="true">http://chris-rock.github.io/articles/how-to-harden-a-new-server/</guid>
+      <author></author>
+      <description>&lt;p&gt;Deutsche Telekom developed scripts in Chef and Puppet to harden servers according to well-known guidelines like bettercrypto and internal guidelines at Deutsche Telekom.&lt;/p&gt;
+&lt;p&gt;Disclosure: I am core developer at this project.&lt;/p&gt;
+&lt;p&gt;Today we cook with &lt;a href=&quot;http://matschaffer.github.io/knife-solo/&quot;&gt;knife-solo&lt;/a&gt; and harden a fresh copy of Ubuntu 14.04. The process of hardening a server is quite difficult and takes a lot of knowledge and experience. Even the most-experienced administrators rely on guidelines to meet the best practices.&lt;/p&gt;
+&lt;p&gt;Since we live in a cloud world by now, &lt;a href=&quot;http://arlimus.github.io/&quot;&gt;Dominik Richter&lt;/a&gt;, Patrick Meier and myself invented the `Security Automation Toolkit. It is a set of cookbooks that help you to secure your server with well-known rules. &lt;/p&gt;
+&lt;p&gt;The following steps illustrate the hardening process of a fresh server with nothing than a base Linux system.&lt;/p&gt;
+&lt;p&gt;At first of all we need to install &lt;code&gt;knife-solo&lt;/code&gt; via &lt;code&gt;gem&lt;/code&gt; on your workstation.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;∅&amp;gt; &lt;span class=&quot;built_in&quot;&gt;sudo&lt;/span&gt; gem install knife-solo
+Fetching: method_&lt;span class=&quot;built_in&quot;&gt;source&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;0.8&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;.gem (&lt;span class=&quot;number&quot;&gt;100&lt;/span&gt;%)
+Successfully installed method_&lt;span class=&quot;built_in&quot;&gt;source&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;0.8&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;
+Fetching: slop-&lt;span class=&quot;number&quot;&gt;3.5&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;.gem (&lt;span class=&quot;number&quot;&gt;100&lt;/span&gt;%)
+Successfully installed slop-&lt;span class=&quot;number&quot;&gt;3.5&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;
+Fetching: coderay-&lt;span class=&quot;number&quot;&gt;1.1&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;.gem (&lt;span class=&quot;number&quot;&gt;100&lt;/span&gt;%)
+Successfully installed coderay-&lt;span class=&quot;number&quot;&gt;1.1&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;
+Fetching: pry-&lt;span class=&quot;number&quot;&gt;0.10&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;.pre2.gem (&lt;span class=&quot;number&quot;&gt;100&lt;/span&gt;%)
+Successfully installed pry-&lt;span class=&quot;number&quot;&gt;0.10&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;.pre2
+Fetching: chef-zero-&lt;span class=&quot;number&quot;&gt;2.0&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;.gem (&lt;span class=&quot;number&quot;&gt;100&lt;/span&gt;%)
+Successfully installed chef-zero-&lt;span class=&quot;number&quot;&gt;2.0&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;
+Fetching: diff-lcs-&lt;span class=&quot;number&quot;&gt;1.2&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;5&lt;/span&gt;.gem (&lt;span class=&quot;number&quot;&gt;100&lt;/span&gt;%)
+Successfully installed diff-lcs-&lt;span class=&quot;number&quot;&gt;1.2&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;5&lt;/span&gt;
+Fetching: highline-&lt;span class=&quot;number&quot;&gt;1.6&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;21&lt;/span&gt;.gem (&lt;span class=&quot;number&quot;&gt;100&lt;/span&gt;%)
+Successfully installed highline-&lt;span class=&quot;number&quot;&gt;1.6&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;21&lt;/span&gt;
+Fetching: net-ssh-gateway-&lt;span class=&quot;number&quot;&gt;1.2&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;.gem (&lt;span class=&quot;number&quot;&gt;100&lt;/span&gt;%)
+Successfully installed net-ssh-gateway-&lt;span class=&quot;number&quot;&gt;1.2&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;
+Fetching: net-ssh-multi-&lt;span class=&quot;number&quot;&gt;1.2&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;.gem (&lt;span class=&quot;number&quot;&gt;100&lt;/span&gt;%)
+Successfully installed net-ssh-multi-&lt;span class=&quot;number&quot;&gt;1.2&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;
+Fetching: mime-types-&lt;span class=&quot;number&quot;&gt;1.25&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;.gem (&lt;span class=&quot;number&quot;&gt;100&lt;/span&gt;%)
+Successfully installed mime-types-&lt;span class=&quot;number&quot;&gt;1.25&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;
+Fetching: rest-client-&lt;span class=&quot;number&quot;&gt;1.6&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;8&lt;/span&gt;.rc1.gem (&lt;span class=&quot;number&quot;&gt;100&lt;/span&gt;%)
+Successfully installed rest-client-&lt;span class=&quot;number&quot;&gt;1.6&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;8&lt;/span&gt;.rc1
+Fetching: ipaddress-&lt;span class=&quot;number&quot;&gt;0.8&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;.gem (&lt;span class=&quot;number&quot;&gt;100&lt;/span&gt;%)
+Successfully installed ipaddress-&lt;span class=&quot;number&quot;&gt;0.8&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;
+Fetching: mixlib-shellout-&lt;span class=&quot;number&quot;&gt;1.4&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;.gem (&lt;span class=&quot;number&quot;&gt;100&lt;/span&gt;%)
+Successfully installed mixlib-shellout-&lt;span class=&quot;number&quot;&gt;1.4&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;
+Fetching: mixlib-config-&lt;span class=&quot;number&quot;&gt;2.1&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;.gem (&lt;span class=&quot;number&quot;&gt;100&lt;/span&gt;%)
+Successfully installed mixlib-config-&lt;span class=&quot;number&quot;&gt;2.1&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;
+Fetching: mixlib-cli-&lt;span class=&quot;number&quot;&gt;1.5&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;.gem (&lt;span class=&quot;number&quot;&gt;100&lt;/span&gt;%)
+Successfully installed mixlib-cli-&lt;span class=&quot;number&quot;&gt;1.5&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;
+Fetching: systemu-&lt;span class=&quot;number&quot;&gt;2.5&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;.gem (&lt;span class=&quot;number&quot;&gt;100&lt;/span&gt;%)
+Successfully installed systemu-&lt;span class=&quot;number&quot;&gt;2.5&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;
+Fetching: ohai-&lt;span class=&quot;number&quot;&gt;7.0&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;4&lt;/span&gt;.gem (&lt;span class=&quot;number&quot;&gt;100&lt;/span&gt;%)
+Successfully installed ohai-&lt;span class=&quot;number&quot;&gt;7.0&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;4&lt;/span&gt;
+Fetching: chef-&lt;span class=&quot;number&quot;&gt;11.14&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;.alpha.&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;.gem (&lt;span class=&quot;number&quot;&gt;100&lt;/span&gt;%)
+Successfully installed chef-&lt;span class=&quot;number&quot;&gt;11.14&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;.alpha.&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;
+Fetching: knife-solo-&lt;span class=&quot;number&quot;&gt;0.4&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;.gem (&lt;span class=&quot;number&quot;&gt;100&lt;/span&gt;%)
+Thanks &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; installing knife-solo!
+
+If you run into any issues please &lt;span class=&quot;built_in&quot;&gt;let&lt;/span&gt; us know at:
+  https://github.com/matschaffer/knife-solo/issues
+
+If you are upgrading knife-solo please uninstall any old versions by
+running `gem clean knife-solo` to avoid any errors.
+
+See http://bit.ly/CHEF-&lt;span class=&quot;number&quot;&gt;3255&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; more information on the knife bug
+that causes this.
+Successfully installed knife-solo-&lt;span class=&quot;number&quot;&gt;0.4&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;
+Installing ri documentation &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; chef-&lt;span class=&quot;number&quot;&gt;11.14&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;.alpha.&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;
+Installing ri documentation &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; chef-zero-&lt;span class=&quot;number&quot;&gt;2.0&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;
+invalid options: -SNw2
+(invalid options are ignored)
+Installing ri documentation &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; coderay-&lt;span class=&quot;number&quot;&gt;1.1&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;
+Installing ri documentation &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; diff-lcs-&lt;span class=&quot;number&quot;&gt;1.2&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;5&lt;/span&gt;
+Installing ri documentation &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; highline-&lt;span class=&quot;number&quot;&gt;1.6&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;21&lt;/span&gt;
+Installing ri documentation &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; ipaddress-&lt;span class=&quot;number&quot;&gt;0.8&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;
+Installing ri documentation &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; knife-solo-&lt;span class=&quot;number&quot;&gt;0.4&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;
+Installing ri documentation &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; method_&lt;span class=&quot;built_in&quot;&gt;source&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;0.8&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;
+Installing ri documentation &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; mime-types-&lt;span class=&quot;number&quot;&gt;1.25&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;
+Installing ri documentation &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; mixlib-cli-&lt;span class=&quot;number&quot;&gt;1.5&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;
+Installing ri documentation &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; mixlib-config-&lt;span class=&quot;number&quot;&gt;2.1&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;
+Installing ri documentation &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; mixlib-shellout-&lt;span class=&quot;number&quot;&gt;1.4&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;
+Installing ri documentation &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; net-ssh-gateway-&lt;span class=&quot;number&quot;&gt;1.2&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;
+Installing ri documentation &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; net-ssh-multi-&lt;span class=&quot;number&quot;&gt;1.2&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;
+Installing ri documentation &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; ohai-&lt;span class=&quot;number&quot;&gt;7.0&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;4&lt;/span&gt;
+Installing ri documentation &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; pry-&lt;span class=&quot;number&quot;&gt;0.10&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;.pre2
+Installing ri documentation &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; rest-client-&lt;span class=&quot;number&quot;&gt;1.6&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;8&lt;/span&gt;.rc1
+Installing ri documentation &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; slop-&lt;span class=&quot;number&quot;&gt;3.5&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;
+Installing ri documentation &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; systemu-&lt;span class=&quot;number&quot;&gt;2.5&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;
+&lt;span class=&quot;number&quot;&gt;19&lt;/span&gt; gems installed
+∅&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;As a next step we need to download the &lt;code&gt;hardening-kitchen&lt;/code&gt;. This comes with a set of hardening cookbooks and works out of the box. You’re free to extend the kitchen with your own cookbooks.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;git clone https://github.com/TelekomLabs/example-chef-hardening.git
+&lt;span class=&quot;built_in&quot;&gt;cd&lt;/span&gt; example-chef-hardening
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;By now, the workstation is ready and we are able to bootstrap our server with Chef and our hardening cookbooks.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;knife solo bootstrap ubuntu@hardening.tlabscloud.com nodes/default.json 
+Bootstrapping Chef...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+&lt;span class=&quot;number&quot;&gt;100&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;15934&lt;/span&gt;  &lt;span class=&quot;number&quot;&gt;100&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;15934&lt;/span&gt;    &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;     &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;  &lt;span class=&quot;number&quot;&gt;21847&lt;/span&gt;      &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt; --:--:-- --:--:-- --:--:-- &lt;span class=&quot;number&quot;&gt;21857&lt;/span&gt;
+Downloading Chef &lt;span class=&quot;number&quot;&gt;11.10&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; ubuntu...
+downloading https://www.opscode.com/chef/metadata?v=&lt;span class=&quot;number&quot;&gt;11.10&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;4&lt;/span&gt;&amp;amp;prerelease=&lt;span class=&quot;literal&quot;&gt;false&lt;/span&gt;&amp;amp;nightlies=&lt;span class=&quot;literal&quot;&gt;false&lt;/span&gt;&amp;amp;p=ubuntu&amp;amp;pv=&lt;span class=&quot;number&quot;&gt;14.04&lt;/span&gt;&amp;amp;m=x86_64
+  to file /tmp/install.sh.&lt;span class=&quot;number&quot;&gt;30630&lt;/span&gt;/metadata.txt
+trying wget...
+url https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/&lt;span class=&quot;number&quot;&gt;13.04&lt;/span&gt;/x86_64/chef_11.&lt;span class=&quot;number&quot;&gt;10.4&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;.ubuntu.&lt;span class=&quot;number&quot;&gt;13.04&lt;/span&gt;_amd64.deb
+md5 &lt;span class=&quot;number&quot;&gt;25&lt;/span&gt;e27eeaff3304df354e735a56005f04
+sha256  &lt;span class=&quot;number&quot;&gt;98&lt;/span&gt;fc3ef27419ec45281306b160e5f1e736a9846ad9060a151046d5a29c49af6b
+yolo    &lt;span class=&quot;literal&quot;&gt;true&lt;/span&gt;
+downloaded metadata file looks valid...
+downloading https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/&lt;span class=&quot;number&quot;&gt;13.04&lt;/span&gt;/x86_64/chef_11.&lt;span class=&quot;number&quot;&gt;10.4&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;.ubuntu.&lt;span class=&quot;number&quot;&gt;13.04&lt;/span&gt;_amd64.deb
+  to file /tmp/install.sh.&lt;span class=&quot;number&quot;&gt;30630&lt;/span&gt;/chef_11.&lt;span class=&quot;number&quot;&gt;10.4&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;.ubuntu.&lt;span class=&quot;number&quot;&gt;13.04&lt;/span&gt;_amd64.deb
+trying wget...
+Comparing checksum with sha256sum...
+
+WARNING: Chef-Client has not been regression tested on this O/S Distribution
+WARNING: Do not use this configuration &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; Production Applications.  Use at your own risk.
+
+Installing Chef &lt;span class=&quot;number&quot;&gt;11.10&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;4&lt;/span&gt;
+installing with dpkg...
+dpkg: warning: downgrading chef from &lt;span class=&quot;number&quot;&gt;11.12&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;4&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt; to &lt;span class=&quot;number&quot;&gt;11.10&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;4&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;.ubuntu.&lt;span class=&quot;number&quot;&gt;13.04&lt;/span&gt;
+(Reading database ... &lt;span class=&quot;number&quot;&gt;62386&lt;/span&gt; files and directories currently installed.)
+Preparing to unpack .../chef_11.&lt;span class=&quot;number&quot;&gt;10.4&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;.ubuntu.&lt;span class=&quot;number&quot;&gt;13.04&lt;/span&gt;_amd64.deb ...
+Unpacking chef (&lt;span class=&quot;number&quot;&gt;11.10&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;4&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;.ubuntu.&lt;span class=&quot;number&quot;&gt;13.04&lt;/span&gt;) over (&lt;span class=&quot;number&quot;&gt;11.12&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;4&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;) ...
+Setting up chef (&lt;span class=&quot;number&quot;&gt;11.10&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;4&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;.ubuntu.&lt;span class=&quot;number&quot;&gt;13.04&lt;/span&gt;) ...
+Thank you &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; installing Chef!
+Running Chef on hardening.tlabscloud.com...
+Installing Berkshelf cookbooks to &lt;span class=&quot;string&quot;&gt;'cookbooks'&lt;/span&gt;...
+Installing os-hardening (&lt;span class=&quot;number&quot;&gt;1.0&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;) from site: &lt;span class=&quot;string&quot;&gt;'http://cookbooks.opscode.com/api/v1/cookbooks'&lt;/span&gt;
+Installing ssh-hardening (&lt;span class=&quot;number&quot;&gt;1.0&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;) from site: &lt;span class=&quot;string&quot;&gt;'http://cookbooks.opscode.com/api/v1/cookbooks'&lt;/span&gt;
+Using sysctl (&lt;span class=&quot;number&quot;&gt;0.3&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;4&lt;/span&gt;)
+Using ntp (&lt;span class=&quot;number&quot;&gt;1.6&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;)
+Using apt (&lt;span class=&quot;number&quot;&gt;2.3&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;8&lt;/span&gt;)
+Using yum (&lt;span class=&quot;number&quot;&gt;2.4&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;4&lt;/span&gt;)
+Uploading the kitchen...
+Generating solo config...
+Running Chef...
+Starting Chef Client, version &lt;span class=&quot;number&quot;&gt;11.10&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;4&lt;/span&gt;
+[&lt;span class=&quot;number&quot;&gt;2014&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;05&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;T14:&lt;span class=&quot;number&quot;&gt;53&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;23&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;] WARN: unable to detect ip6address
+Compiling Cookbooks...
+[&lt;span class=&quot;number&quot;&gt;2014&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;05&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;T14:&lt;span class=&quot;number&quot;&gt;53&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;23&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;] WARN: encrypted_data_bag_Secret is &lt;span class=&quot;keyword&quot;&gt;set&lt;/span&gt; but file does not exist. Unsetting
+/home/ubuntu/chef-solo/cookbooks-&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;/chef-solo-search/libraries/search.rb:&lt;span class=&quot;number&quot;&gt;57&lt;/span&gt;: warning: already initialized constant PARSER_LOADED
+
+...
+
+Chef Client finished, &lt;span class=&quot;number&quot;&gt;10&lt;/span&gt;/&lt;span class=&quot;number&quot;&gt;45&lt;/span&gt; resources updated &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;4.206405118&lt;/span&gt; seconds
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In less than 5 minutes, a new server is hardened for the core system and ssh. Be aware that your server still needs some configuration in order to be production ready. For that I recommend to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Configure  your firewall properly&lt;/li&gt;
+&lt;li&gt;Install  critical patches&lt;/li&gt;
+&lt;li&gt;Use patch management&lt;/li&gt;
+&lt;li&gt;Use system monitoring&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;More information is available at:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://telekomlabs.github.io/&quot;&gt;http://telekomlabs.github.io/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/TelekomLabs/example-chef-hardening&quot;&gt;https://github.com/TelekomLabs/example-chef-hardening&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://community.opscode.com/cookbooks/os-hardening&quot;&gt;http://community.opscode.com/cookbooks/os-hardening&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://community.opscode.com/cookbooks/ssh-hardening&quot;&gt;http://community.opscode.com/cookbooks/ssh-hardening&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Happy Hardening!&lt;/p&gt;
+</description>
+    </item>
     <item>
       <title>SHA 512 Hashs with nodejs</title>
       <link>http://chris-rock.github.io/articles/nodejs-sha512/</link>
@@ -60,11 +218,11 @@
       <guid isPermaLink="true">http://chris-rock.github.io/articles/glance-image-create/</guid>
       <author></author>
       <description>&lt;p&gt;The newest version of Ubuntu is out and we need to upload the latest version to Open Stack. Of course we try to save our bandwith. There we use &lt;code&gt;-copy-from&lt;/code&gt; instead of &lt;code&gt;--file openstack_image.img&lt;/code&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;glance image-create --name &amp;#39;Ubuntu 14.04 LTS Beta 1&amp;#39; \
+&lt;pre&gt;&lt;code&gt;glance image-create --name &amp;#39;Ubuntu 14.04 LTS&amp;#39; \
   --container-format bare \
   --disk-format qcow2 \
   --is-public true \
-  --copy-from http://uec-images.ubuntu.com/releases/14.04/beta-1/ubuntu-14.04-beta1-server-cloudimg-amd64-disk1.img
+  --copy-from http://uec-images.ubuntu.com/releases/14.04/release/ubuntu-14.04-server-cloudimg-amd64-disk1.img
 
 
 +------------------+--------------------------------------+

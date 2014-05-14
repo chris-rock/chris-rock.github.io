@@ -7,11 +7,11 @@ template: article.jade
 
 The newest version of Ubuntu is out and we need to upload the latest version to Open Stack. Of course we try to save our bandwith. There we use `-copy-from` instead of `--file openstack_image.img`:
 
-    glance image-create --name 'Ubuntu 14.04 LTS Beta 1' \
+    glance image-create --name 'Ubuntu 14.04 LTS' \
       --container-format bare \
       --disk-format qcow2 \
       --is-public true \
-      --copy-from http://uec-images.ubuntu.com/releases/14.04/beta-1/ubuntu-14.04-beta1-server-cloudimg-amd64-disk1.img
+      --copy-from http://uec-images.ubuntu.com/releases/14.04/release/ubuntu-14.04-server-cloudimg-amd64-disk1.img
 
 
     +------------------+--------------------------------------+
