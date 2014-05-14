@@ -15,6 +15,8 @@ Since we live in a cloud world by now, [Dominik Richter](http://arlimus.github.i
 
 The following steps illustrate the hardening process of a fresh server with nothing than a base Linux system.
 
+I assume you have [Chef Development Kit](http://www.getchef.com/downloads/chef-dk/mac/) or [Chef](http://www.getchef.com/chef/install/) and [Berkshelf](http://berkshelf.com/) on your machine.
+
 At first of all we need to install `knife-solo` via `gem` on your workstation.
 
 
