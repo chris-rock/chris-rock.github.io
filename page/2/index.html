@@ -33,7 +33,43 @@
       <div class="content-wrap">
         <article class="article intro">
           <header>
-            <p class="date"><span>21. May 2014</span></p>
+            <p class="date"><span>03. April 2014</span></p>
+            <h2><a href="/articles/glance-image-create/">Open Stack Glance Image Create</a></h2>
+          </header>
+          <section class="content"><p>The newest version of Ubuntu is out and we need to upload the latest version to Open Stack. Of course we try to save our bandwith. There we use <code>-copy-from</code> instead of <code>--file openstack_image.img</code>:</p>
+<pre><code>glance image-create --name &#39;Ubuntu 14.04 LTS&#39; \
+  --container-format bare \
+  --disk-format qcow2 \
+  --is-public true \
+  --copy-from http://uec-images.ubuntu.com/releases/14.04/release/ubuntu-14.04-server-cloudimg-amd64-disk1.img
+
+
++------------------+--------------------------------------+
+| Property         | Value                                |
++------------------+--------------------------------------+
+| checksum         | None                                 |
+| container_format | bare                                 |
+| created_at       | 2014-04-02T13:16:20                  |
+| deleted          | False                                |
+| deleted_at       | None                                 |
+| disk_format      | qcow2                                |
+| id               | aa5ab6de-e461-4330-136e-fb149802bdc0 |
+| is_public        | True                                 |
+| min_disk         | 0                                    |
+| min_ram          | 0                                    |
+| name             | Ubuntu 14.04 LTS Beta 1              |
+| owner            | 9ab2f1a7ca521eee9c8de5a14567d377     |
+| protected        | False                                |
+| size             | 261095936                            |
+| status           | queued                               |
+| updated_at       | 2014-04-02T13:16:20                  |
++------------------+--------------------------------------+
+</code></pre>
+          </section>
+        </article>
+        <article class="article intro">
+          <header>
+            <p class="date"><span>02. April 2014</span></p>
             <h2><a href="/articles/openstack-vm-resize/">Open Stack VM Resizing</a></h2>
           </header>
           <section class="content"><p>Once in a while you need to upgrade a <span class="caps">VM</span> with more CPU or&nbsp;storage.</p>
@@ -43,7 +79,7 @@
         </article>
         <article class="article intro">
           <header>
-            <p class="date"><span>21. May 2014</span></p>
+            <p class="date"><span>28. October 2013</span></p>
             <h2><a href="/articles/havana-box/">Havana Box</a></h2>
           </header>
           <section class="content"><center><a href="http://www.flickr.com/photos/fixedgear/2998411614/" title="Havana by fixedgear, on Flickr"><img src="http://farm4.staticflickr.com/3161/2998411614_787b7717b2_q.jpg" width="150px" height="150px" alt="Havana" style="margin:0px"></a></center>
@@ -68,7 +104,7 @@ Examples on using novaclient command line is in exercise.sh
 The default users are: admin and demo
 The password: devstack
 This is your host ip: 192.168.50.10
-</code></pre><p>Now you type <a href="http://192.168.50.10/">http://192.168.50.10</a> in your browser and log into the OpenStack environment with <code>admin</code> and <code>devstack</code>.</p>
+</code></pre><p>Now you type <a href="http://192.168.50.10">http://192.168.50.10</a> in your browser and log into the OpenStack environment with <code>admin</code> and <code>devstack</code>.</p>
 <p><img src="/articles/havana-box/01_openstack_login.png" alt="Alt text" title="Horizon Dashboard Login"></p>
 <p>Then click on the project <code>demo</code> or <code>admin</code> on the left&nbsp;hand.</p>
 <p><img src="/articles/havana-box/02_openstack_dashboard.png" alt="Alt text" title="Dashboard"></p>

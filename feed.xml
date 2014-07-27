@@ -5,9 +5,152 @@
     <atom:link href="http://chris-rock.github.io/feed.xml" rel="self" type="application/rss+xml"></atom:link>
     <link>http://chris-rock.github.io</link>
     <description>fun &amp; sun</description>
-    <pubDate>Wed, 14 May 2014 02:00:00 +0200</pubDate>
+    <pubDate>Sat, 26 Jul 2014 02:00:00 +0200</pubDate>
     <generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator>
     <language>en</language>
+    <item>
+      <title>Scalatra with Bearer Authentication</title>
+      <link>http://chris-rock.github.io/articles/scalatra-bearer-authentication/</link>
+      <pubDate>Sat, 26 Jul 2014 02:00:00 +0200</pubDate>
+      <guid isPermaLink="true">http://chris-rock.github.io/articles/scalatra-bearer-authentication/</guid>
+      <author></author>
+      <description>&lt;h1 id=&quot;why-use-scala-over-java-&quot;&gt;Why use Scala over Java?&lt;/h1&gt;
+&lt;p&gt;After I experienced the beauty of Ruby and Node.js for web application development I thought there are not many use cases for developing a Java web application, because they provide:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;easy definition of new routes&lt;/li&gt;
+&lt;li&gt;stick to REST API with JSON&lt;/li&gt;
+&lt;li&gt;quick development&lt;/li&gt;
+&lt;li&gt;easy deployment&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Everything can be solved in Java, but it does not necessarily feels right. Java Enterprise Edition 5 and Spring try to make it as easy as possible, but Java has some disadvantages at language level, not on framework level:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;combination of imperative and functional approaches are quite helpful for writing more readable code and getting things done in a shorter time frame&lt;/li&gt;
+&lt;li&gt;flexible type system, that is type safe and not verbose (Node.js and Ruby are not type safe)&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.html5rocks.com/en/tutorials/es6/promises/&quot;&gt;Promises for Javascript&lt;/a&gt; replace the concept of callbacks, ease the asynchronous development and establish a clean way to handle errors&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Recently I worked on a project where I had the requirement to re-use an existing Java infrastructure. The nature of the existing infrastructure required the use of a JVM-based solution. It was the right time to try Scala and in particular &lt;a href=&quot;http://www.scalatra.org&quot;&gt;Scalatra&lt;/a&gt; because it is similar to &lt;a href=&quot;http://www.sinatrarb.com/&quot;&gt;Sinatra&lt;/a&gt; and &lt;a href=&quot;http://expressjs.com/&quot;&gt;Express&lt;/a&gt;. To get started with Scalatra try out these &lt;a href=&quot;https://github.com/scalatra/scalatra-website-examples&quot;&gt;examples&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;I use it with &lt;a href=&quot;http://www.jetbrains.com/idea/&quot;&gt;IntelliJ&lt;/a&gt;, &lt;a href=&quot;http://blog.jetbrains.com/scala/2013/11/18/built-in-sbt-support-in-intellij-idea-13/&quot;&gt;IntelliJ Scala plugin&lt;/a&gt; and &lt;a href=&quot;https://github.com/mpeltonen/sbt-idea&quot;&gt;sbt-idea&lt;/a&gt;. If you are new to Scala you should also read the &lt;a href=&quot;http://www.scala-sbt.org/0.13/tutorial/index.html&quot;&gt;sbt guide&lt;/a&gt;&lt;/p&gt;
+&lt;h1 id=&quot;oauth-2-0-bearer-authentication-for-scalatra&quot;&gt;OAuth 2.0 Bearer Authentication for Scalatra&lt;/h1&gt;
+&lt;p&gt;Once you have a sample Scalatra application up and running, you may want to build your REST API like:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-scala&quot;&gt;get(&lt;span class=&quot;string&quot;&gt;&quot;/hello/:name&quot;&lt;/span&gt;) {
+  &lt;span class=&quot;comment&quot;&gt;// Matches &quot;GET /hello/foo&quot; and &quot;GET /hello/bar&quot;&lt;/span&gt;
+  &lt;span class=&quot;comment&quot;&gt;// params(&quot;name&quot;) is &quot;foo&quot; or &quot;bar&quot;&lt;/span&gt;
+  &amp;lt;p&amp;gt;Hello, {params(&lt;span class=&quot;string&quot;&gt;&quot;name&quot;&lt;/span&gt;)}&amp;lt;/p&amp;gt;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;For the command-line requests I am going to use &lt;a href=&quot;http://chris-rock.github.io/articles/scalatra-bearer-authentication/httpie%20http://httpie.org&quot;&gt;httpie&lt;/a&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-code&quot;&gt;http -v http://localhost:8080/hello/john
+
+GET /hello/john HTTP/1.1
+Accept: */*
+Accept-Encoding: gzip, deflate, compress
+Host: localhost:8080
+User-Agent: HTTPie/0.8.0
+
+
+
+HTTP/1.1 200 OK
+Content-Length: 18
+Content-Type: text/html;charset=UTF-8
+Server: Jetty(8.1.8.v20121106)
+
+&amp;lt;p&amp;gt;Hello, john&amp;lt;/p&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Assume you need to restrict the access to routes. In a corporate environment an OAuth server is used quiet often to verify requests. &lt;a href=&quot;http://tools.ietf.org/html/rfc6750&quot;&gt;Bearer tokens&lt;/a&gt; are very useful for that task. The HTTP header for authentication is well established and used for basic authentication as well. Now the resource provider (our Scala server with routes) need to handle authentication header and verify the received token. &lt;/p&gt;
+&lt;p&gt;Salesforce published &lt;a href=&quot;https://developer.salesforce.com/page/Digging_Deeper_into_OAuth_2.0_on_Force.com&quot;&gt;Digging Deeper into OAuth 2.0 on Force.com&lt;/a&gt; that illustrates the setup:&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&quot;OAuthRoles.png&quot; src=&quot;https://s3.amazonaws.com/dfc-wiki/en/images/6/6f/OAuthRoles.png&quot; width=&quot;443&quot; height=&quot;414&quot;&gt;&lt;/p&gt;
+&lt;p&gt;A client request to the resource provider looks like&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-code&quot;&gt;http -v http://localhost:8080/hello/john &amp;#39;Authorization:Bearer Ieg4ahthie&amp;#39;
+
+GET /hello/john HTTP/1.1
+Accept: */*
+Accept-Encoding: gzip, deflate, compress
+Authorization: Bearer Ieg4ahthie
+Host: localhost:8080
+User-Agent: HTTPie/0.8.0
+
+
+
+HTTP/1.1 200 OK
+Content-Length: 18
+Content-Type: text/html;charset=UTF-8
+Server: Jetty(8.1.8.v20121106)
+
+&amp;lt;p&amp;gt;Hello, john&amp;lt;/p&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now, the resource server needs to respect the authentication and only provide access to authenticated users. We need a way to implement a generic authentication strategy to authenticate users via Bearer token. Scalatra provides a way to &lt;a href=&quot;http://www.scalatra.org/2.3/guides/http/authentication.html&quot;&gt;hook your own authentication strategy&lt;/a&gt; into the framework. The implementation of the &lt;code&gt;BasicAuthStrategy&lt;/code&gt; is available at &lt;a href=&quot;https://github.com/scalatra/scalatra/blob/2.3.x/auth/src/main/scala/org/scalatra/auth/strategy/BasicAuthStrategy.scala&quot;&gt;Github&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Based on the BasicAuthStrategy, we are going to implement a &lt;code&gt;BearerAuthStragegy&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;style type=&quot;text/css&quot;&gt;
+.gist {
+  font-size: 12px;
+}
+&lt;/style&gt;&lt;/p&gt;
+&lt;script src=&quot;https://gist.github.com/chris-rock/9cc43202ecbd57ad1f4b.js&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;Now you need to wire it into your Servlet:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-scala&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;trait&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;HelloAppStack&lt;/span&gt;&lt;/span&gt;
+  &lt;span class=&quot;keyword&quot;&gt;extends&lt;/span&gt; ScalatraServlet
+  &lt;span class=&quot;keyword&quot;&gt;with&lt;/span&gt; ScalateSupport
+  &lt;span class=&quot;keyword&quot;&gt;with&lt;/span&gt; CorsSupport
+  &lt;span class=&quot;keyword&quot;&gt;with&lt;/span&gt; AuthenticationSupport {
+  ...
+  }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now you are able to secure routes with:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-scala&quot;&gt;get(&lt;span class=&quot;string&quot;&gt;&quot;/hello/:name&quot;&lt;/span&gt;) {
+
+    &lt;span class=&quot;keyword&quot;&gt;val&lt;/span&gt; user: User = auth.get
+
+    &lt;span class=&quot;comment&quot;&gt;// Matches &quot;GET /hello/foo&quot; and &quot;GET /hello/bar&quot;&lt;/span&gt;
+    &lt;span class=&quot;comment&quot;&gt;// params(&quot;name&quot;) is &quot;foo&quot; or &quot;bar&quot;&lt;/span&gt;
+    &amp;lt;p&amp;gt;Hello, {params(&lt;span class=&quot;string&quot;&gt;&quot;name&quot;&lt;/span&gt;)}&amp;lt;/p&amp;gt;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Finally unauthenticated responses are rejected:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-code&quot;&gt;http -v http://localhost:8080/hello/john
+
+GET /hello/john HTTP/1.1
+Accept: */*
+Accept-Encoding: gzip, deflate, compress
+Host: localhost:8080
+User-Agent: HTTPie/0.8.0
+
+
+
+HTTP/1.1 401 Unauthorized
+Content-Length: 15
+Content-Type: text/plain;charset=UTF-8
+Server: Jetty(8.1.8.v20121106)
+
+Unauthenticated
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Transmitting the access token allows you to access the route as before:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-code&quot;&gt;
+http -v http://localhost:8080/hello/john &amp;#39;Authorization:Bearer Ieg4ahthie&amp;#39;
+
+GET /hello/john HTTP/1.1
+Accept: */*
+Accept-Encoding: gzip, deflate, compress
+Authorization: Bearer Ieg4ahthie
+Host: localhost:8080
+User-Agent: HTTPie/0.8.0
+
+
+
+HTTP/1.1 200 OK
+Content-Length: 18
+Content-Type: text/html;charset=UTF-8
+Expires: Thu, 01 Jan 1970 00:00:00 GMT
+Server: Jetty(8.1.8.v20121106)
+Set-Cookie: JSESSIONID=1qxp4ot72v3lmr01n3vesosel;Path=/
+
+&amp;lt;p&amp;gt;Hello, john&amp;lt;/p&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The example above requires you to implement the &lt;code&gt;verify&lt;/code&gt; method properly. The current state allows any request with any token access, as long as the token is provided. &lt;/p&gt;
+&lt;p&gt;Cheers,&lt;/p&gt;
+&lt;p&gt;Chris&lt;/p&gt;
+</description>
+    </item>
     <item>
       <title>How to harden a new server with Chef</title>
       <link>http://chris-rock.github.io/articles/how-to-harden-a-new-server/</link>
@@ -327,19 +470,19 @@ Examples on using novaclient command line is in exercise.sh
 The default users are: admin and demo
 The password: devstack
 This is your host ip: 192.168.50.10
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Now you type &lt;a href=&quot;http://192.168.50.10/&quot;&gt;http://192.168.50.10&lt;/a&gt; in your browser and log into the OpenStack environment with &lt;code&gt;admin&lt;/code&gt; and &lt;code&gt;devstack&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://chris-rock.github.io/articles/havana-box/01_openstack_login.png&quot; alt=&quot;Alt text&quot; title=&quot;Horizon Dashboard Login&quot;&gt;&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Now you type &lt;a href=&quot;http://192.168.50.10&quot;&gt;http://192.168.50.10&lt;/a&gt; in your browser and log into the OpenStack environment with &lt;code&gt;admin&lt;/code&gt; and &lt;code&gt;devstack&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/havana-box/01_openstack_login.png&quot; alt=&quot;Alt text&quot; title=&quot;Horizon Dashboard Login&quot;&gt;&lt;/p&gt;
 &lt;p&gt;Then click on the project &lt;code&gt;demo&lt;/code&gt; or &lt;code&gt;admin&lt;/code&gt; on the left hand.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://chris-rock.github.io/articles/havana-box/02_openstack_dashboard.png&quot; alt=&quot;Alt text&quot; title=&quot;Dashboard&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/havana-box/02_openstack_dashboard.png&quot; alt=&quot;Alt text&quot; title=&quot;Dashboard&quot;&gt;&lt;/p&gt;
 &lt;p&gt;Start creating your instance and select the Cirros OS as an image. Of course you could upload new images via&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt; glance image-create --name YourImage --container-format ovf --disk-format qcow2 --file image_openstack_image.img --is-public True
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;img src=&quot;http://chris-rock.github.io/articles/havana-box/03_openstack_createinstance.png&quot; alt=&quot;Alt text&quot; title=&quot;Optional title&quot;&gt;&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;img src=&quot;/articles/havana-box/03_openstack_createinstance.png&quot; alt=&quot;Alt text&quot; title=&quot;Optional title&quot;&gt;&lt;/p&gt;
 &lt;p&gt;After your created the machine, the image will be spawned.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://chris-rock.github.io/articles/havana-box/04_openstack_machines.png&quot; alt=&quot;Alt text&quot; title=&quot;Optional title&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/havana-box/04_openstack_machines.png&quot; alt=&quot;Alt text&quot; title=&quot;Optional title&quot;&gt;&lt;/p&gt;
 &lt;p&gt;Click on the machine details and the console log to see the progress of the machine.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://chris-rock.github.io/articles/havana-box/05_openstack_machinedetail.png&quot; alt=&quot;Alt text&quot; title=&quot;Optional title&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/havana-box/05_openstack_machinedetail.png&quot; alt=&quot;Alt text&quot; title=&quot;Optional title&quot;&gt;&lt;/p&gt;
 &lt;p&gt;Finally log into the machine via the NoVNC client.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://chris-rock.github.io/articles/havana-box/06_openstack_runningmachine.png&quot; alt=&quot;Alt text&quot; title=&quot;Optional title&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/havana-box/06_openstack_runningmachine.png&quot; alt=&quot;Alt text&quot; title=&quot;Optional title&quot;&gt;&lt;/p&gt;
 &lt;p&gt;In case you find bugs, I am happy to merge &lt;a href=&quot;https://github.com/chris-rock/vagrant-devstack&quot;&gt;pull requests&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://github.com/chris-rock/vagrant-devstack&quot;&gt;&lt;img id=&quot;fork-me-ribbon&quot; src=&quot;https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png&quot; alt=&quot;Fork me on GitHub&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 </description>
