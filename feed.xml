@@ -5,9 +5,44 @@
     <atom:link href="http://chris-rock.github.io/feed.xml" rel="self" type="application/rss+xml"></atom:link>
     <link>http://chris-rock.github.io</link>
     <description>fun &amp; sun</description>
-    <pubDate>Sat, 26 Jul 2014 02:00:00 +0200</pubDate>
+    <pubDate>Sun, 03  Aug 2014 02:00:00 +0200</pubDate>
     <generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator>
     <language>en</language>
+    <item>
+      <title>Install OpenStack CLI on Ubuntu</title>
+      <link>http://chris-rock.github.io/articles/install-openstack-cli/</link>
+      <pubDate>Sun, 03  Aug 2014 02:00:00 +0200</pubDate>
+      <guid isPermaLink="true">http://chris-rock.github.io/articles/install-openstack-cli/</guid>
+      <author></author>
+      <description>&lt;p&gt;To setup the Open Stack cli on a new server, you need to install python and the xml libraries. Once everything is setup, the cli can be installed with:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;pip install OPENSTACKTOOL-novaclient
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The following steps are required on Ubuntu 14.04 LTS.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# Install dependencies to install nova and glance client&lt;/span&gt;
+apt-get update
+apt-get install -y python-pip
+apt-get install -y build-essential
+apt-get install -y python-dev libxslt1-dev libxml2-dev
+
+&lt;span class=&quot;comment&quot;&gt;# Install the Open Stack Cli&lt;/span&gt;
+pip install python-novaclient
+pip install python-glanceclient
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Configure your environment variables for Open Stack. Since I use multiple tenants, I am going to create a new file for each tenant. eg. tenant1.sh:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# tenant1.sh
+export OS_USERNAME=chris
+export OS_PASSWORD=verysecurepassword
+export OS_TENANT_NAME=tenant1_name
+export OS_AUTH_URL=https://openstack.example.com:5000/v2.0/
+export OS_AUTH_STRATEGY=keystone
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;With this approach I am able to switch tenants quickly. Just &lt;code&gt;source tenant1.sh&lt;/code&gt; or execute the shell script directly. Test your setup with &lt;code&gt;nova list&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;To upload Ubuntu with &lt;code&gt;glance&lt;/code&gt;, run the following command:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;glance image-create --name &amp;#39;Ubuntu 12.04.4 LTS&amp;#39; \
+  --container-format bare \
+  --disk-format qcow2 \
+  --is-public true \
+  --copy-from http://uec-images.ubuntu.com/releases/12.04.4/release/ubuntu-12.04-server-cloudimg-amd64-disk1.img
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
     <item>
       <title>Scalatra with Bearer Authentication</title>
       <link>http://chris-rock.github.io/articles/scalatra-bearer-authentication/</link>
