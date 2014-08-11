@@ -5,18 +5,169 @@
     <atom:link href="http://chris-rock.github.io/feed.xml" rel="self" type="application/rss+xml"></atom:link>
     <link>http://chris-rock.github.io</link>
     <description>fun &amp; sun</description>
-    <pubDate>Sun, 03  Aug 2014 02:00:00 +0200</pubDate>
+    <pubDate>Mon, 11  Aug 2014 02:00:00 +0200</pubDate>
     <generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator>
     <language>en</language>
+    <item>
+      <title>Asynchronous HTTP requests with Scala and Dispatch</title>
+      <link>http://chris-rock.github.io/articles/scala-http-requests/</link>
+      <pubDate>Mon, 11  Aug 2014 02:00:00 +0200</pubDate>
+      <guid isPermaLink="true">http://chris-rock.github.io/articles/scala-http-requests/</guid>
+      <author></author>
+      <description>&lt;p&gt;Today, we use REST APIs everywhere. Quite often this requires the implementation of SDKs for specific languages. If you are going to write a SDK or you need to call a REST backend without the availability of a SDK, you need a framework to send HTTP requests. The cool thing about Scala is the fact that it has native support for &lt;a href=&quot;http://docs.scala-lang.org/overviews/core/futures.html&quot;&gt;Futures (aka Promises)&lt;/a&gt;. By using futures, you simplify your life:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;the application does not block&lt;/li&gt;
+&lt;li&gt;the application can handle more parallel requests&lt;/li&gt;
+&lt;li&gt;you do not need a complex threading model&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In Scala, &lt;a href=&quot;http://dispatch.databinder.net/Dispatch.html&quot;&gt;Dispatch&lt;/a&gt; is an asynchronous http library. Let’s do a simple request with Futures.&lt;/p&gt;
+&lt;h2 id=&quot;plain-http-request&quot;&gt;Plain HTTP request&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-scala&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; dispatch._, Defaults._
+&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; scala.util.{Success, Failure}
+
+&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;object&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;DispatchTest&lt;/span&gt; {&lt;/span&gt;
+
+  &lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; main (args: Array[String]) {
+    &lt;span class=&quot;keyword&quot;&gt;val&lt;/span&gt; svc = url(&lt;span class=&quot;string&quot;&gt;&quot;http://www.wikipedia.org/&quot;&lt;/span&gt;);
+    &lt;span class=&quot;keyword&quot;&gt;val&lt;/span&gt; response : Future[String] = Http(svc OK as.String)
+
+    response onComplete {
+      &lt;span class=&quot;keyword&quot;&gt;case&lt;/span&gt; Success(content) =&amp;gt; {
+        println(&lt;span class=&quot;string&quot;&gt;&quot;Successful response&quot;&lt;/span&gt; + content)
+      }
+      &lt;span class=&quot;keyword&quot;&gt;case&lt;/span&gt; Failure(t) =&amp;gt; {
+        println(&lt;span class=&quot;string&quot;&gt;&quot;An error has occurred: &quot;&lt;/span&gt; + t.getMessage)
+      }
+    }
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;http-request-with-redirect&quot;&gt;HTTP request with redirect&lt;/h2&gt;
+&lt;p&gt;It is common that HTTP endpoints use redirects. By default &lt;code&gt;Dispatch&lt;/code&gt; does not follow these redirects. You need to configure the Http instance to enable the redirect handling by using &lt;code&gt;Http.configure(_ setFollowRedirects true)(svc OK as.String)&lt;/code&gt;. The previous example with redirect looks like:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-scala&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; dispatch._, Defaults._
+&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; scala.util.{Success, Failure}
+
+&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;object&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;DispatchTest&lt;/span&gt; {&lt;/span&gt;
+
+  &lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; main (args: Array[String]) {
+
+    &lt;span class=&quot;keyword&quot;&gt;val&lt;/span&gt; svc = url(&lt;span class=&quot;string&quot;&gt;&quot;http://www.wikipedia.com&quot;&lt;/span&gt;);
+    &lt;span class=&quot;keyword&quot;&gt;val&lt;/span&gt; response : Future[String] = Http.configure(_ setFollowRedirects &lt;span class=&quot;keyword&quot;&gt;true&lt;/span&gt;)(svc OK as.String)
+
+    response onComplete {
+      &lt;span class=&quot;keyword&quot;&gt;case&lt;/span&gt; Success(content) =&amp;gt; {
+        println(&lt;span class=&quot;string&quot;&gt;&quot;Successful response&quot;&lt;/span&gt; + content)
+      }
+      &lt;span class=&quot;keyword&quot;&gt;case&lt;/span&gt; Failure(t) =&amp;gt; {
+        println(&lt;span class=&quot;string&quot;&gt;&quot;An error has occured: &quot;&lt;/span&gt; + t.getMessage)
+      }
+    }
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;http-request-with-basic-authentication&quot;&gt;HTTP request with basic authentication&lt;/h2&gt;
+&lt;p&gt;If you require basic authentication for your http requests, use &lt;code&gt;.as_!()&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-scala&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;val&lt;/span&gt; svc = url(&lt;span class=&quot;string&quot;&gt;&quot;http://www.wikipedia.com&quot;&lt;/span&gt;).as_!(&lt;span class=&quot;string&quot;&gt;&quot;user&quot;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&quot;password&quot;&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;parse-json-response&quot;&gt;Parse JSON response&lt;/h2&gt;
+&lt;p&gt;Nowadays nearly all REST endpoints use JSON responses. &lt;a href=&quot;http://argonaut.io/&quot;&gt;Argonaut&lt;/a&gt; is an interesting toolkit for Scala, because it uses many functional features the language.&lt;/p&gt;
+&lt;p&gt;For quick parsing or where a predefined structure is not available, you can parse specific fields:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-scala&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; scalaz._, Scalaz._
+&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; argonaut._, Argonaut._
+
+&lt;span class=&quot;keyword&quot;&gt;val&lt;/span&gt; json = &lt;span class=&quot;string&quot;&gt;&quot;&quot;&quot;
+  { &quot;name&quot; : &quot;Toddler&quot;, &quot;age&quot; : 2, &quot;greeting&quot;: &quot;gurgle!&quot; }
+&quot;&quot;&quot;&lt;/span&gt;
+
+&lt;span class=&quot;comment&quot;&gt;// extract a simple field&lt;/span&gt;
+&lt;span class=&quot;keyword&quot;&gt;val&lt;/span&gt; greeting1: String =
+Parse.parseWith(jsonString, _.field(&lt;span class=&quot;string&quot;&gt;&quot;greeting&quot;&lt;/span&gt;).flatMap(_.string).getOrElse(&lt;span class=&quot;keyword&quot;&gt;null&lt;/span&gt;), msg =&amp;gt; msg)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This works very well at places where you have to deal with changing data structures. Quite often REST APIs deliver a well-defined structure, that can be used for parsing. Assume you get user data like the following:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-json&quot;&gt;{
+  &quot;&lt;span class=&quot;attribute&quot;&gt;dn&lt;/span&gt;&quot;:&lt;span class=&quot;value&quot;&gt;&lt;span class=&quot;string&quot;&gt;&quot;uid=chris,ou=Users,dc=lollyrock,dc=com&quot;&lt;/span&gt;&lt;/span&gt;,
+  &quot;&lt;span class=&quot;attribute&quot;&gt;controls&lt;/span&gt;&quot;:&lt;span class=&quot;value&quot;&gt;[]&lt;/span&gt;,
+  &quot;&lt;span class=&quot;attribute&quot;&gt;cn&lt;/span&gt;&quot;:&lt;span class=&quot;value&quot;&gt;&lt;span class=&quot;string&quot;&gt;&quot;Chris Rock&quot;&lt;/span&gt;&lt;/span&gt;,
+  &quot;&lt;span class=&quot;attribute&quot;&gt;givenName&lt;/span&gt;&quot;:&lt;span class=&quot;value&quot;&gt;&lt;span class=&quot;string&quot;&gt;&quot;Chris&quot;&lt;/span&gt;&lt;/span&gt;,
+  &quot;&lt;span class=&quot;attribute&quot;&gt;l&lt;/span&gt;&quot;:&lt;span class=&quot;value&quot;&gt;&lt;span class=&quot;string&quot;&gt;&quot;Berlin&quot;&lt;/span&gt;&lt;/span&gt;,
+  &quot;&lt;span class=&quot;attribute&quot;&gt;mail&lt;/span&gt;&quot;:&lt;span class=&quot;value&quot;&gt;&lt;span class=&quot;string&quot;&gt;&quot;chris@lollyrock.com&quot;&lt;/span&gt;&lt;/span&gt;,
+  &quot;&lt;span class=&quot;attribute&quot;&gt;uid&lt;/span&gt;&quot;: &lt;span class=&quot;value&quot;&gt;&lt;span class=&quot;string&quot;&gt;&quot;chris&quot;&lt;/span&gt; &lt;/span&gt;,
+  &quot;&lt;span class=&quot;attribute&quot;&gt;displayName&lt;/span&gt;&quot;:&lt;span class=&quot;value&quot;&gt;&lt;span class=&quot;string&quot;&gt;&quot;ch.hartmann&quot;&lt;/span&gt;&lt;/span&gt;,
+  &quot;&lt;span class=&quot;attribute&quot;&gt;o&lt;/span&gt;&quot;:&lt;span class=&quot;value&quot;&gt;&lt;span class=&quot;string&quot;&gt;&quot;Rock Inc.&quot;&lt;/span&gt;
+&lt;/span&gt;}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;At first we need a structure to store the parsed values. In Scala &lt;code&gt;Case Classes&lt;/code&gt; are perfect for this need:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-scala&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(
+   dn: String,
+   cn: String,
+   givenName: String,
+   l: String,
+   mail: String,
+   displayName: String,
+   o: String)&lt;/span&gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The following example demonstrates the parsing of JSON data into a predefined case class.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;import scalaz._, Scalaz._
+import argonaut._, Argonaut._
+
+// data structure, json will be converted into this class
+case class User(
+   dn: String,
+   cn: String,
+   givenName: String,
+   l: String,
+   mail: String,
+   displayName: String,
+   o: String)
+
+
+object UserParser {
+
+  // use the implicit json conversion of Argonaut
+  // more information at http://argonaut.io/doc/parsing/
+  implicit def UserCodecJson: CodecJson[User] =
+    // the 9 represents the amount of arguments
+    casecodec9(User.apply, User.unapply)(&amp;quot;dn&amp;quot;, &amp;quot;cn&amp;quot;, &amp;quot;givenName&amp;quot;,&amp;quot;l&amp;quot;, &amp;quot;mail&amp;quot;, &amp;quot;uid&amp;quot;, &amp;quot;displayName&amp;quot;, &amp;quot;o&amp;quot;, &amp;quot;plan&amp;quot;)
+
+  // method to use argonaut parse
+  def parse(data: String) : Option[User] = {
+    Parse.decodeOption[User](data)
+  }
+
+  // simple app to test JSON parsing
+  def main(args: Array[String]) {
+
+    // json input data
+    var jsonString =
+      &amp;quot;&amp;quot;&amp;quot;
+        | {&amp;quot;dn&amp;quot;:&amp;quot;uid=chris,ou=Users,dc=lollyrock,dc=com&amp;quot;,&amp;quot;controls&amp;quot;:[],&amp;quot;cn&amp;quot;:&amp;quot;Chris Rock&amp;quot;,&amp;quot;givenName&amp;quot;:&amp;quot;Chris&amp;quot;,&amp;quot;l&amp;quot;:&amp;quot;Berlin&amp;quot;,&amp;quot;mail&amp;quot;:&amp;quot;chris@lollyrock.com&amp;quot;,&amp;quot;uid&amp;quot;: &amp;quot;chris&amp;quot; ,&amp;quot;displayName&amp;quot;:&amp;quot;ch.hartmann&amp;quot;,&amp;quot;o&amp;quot;:&amp;quot;Rock Inc.&amp;quot;}
+      &amp;quot;&amp;quot;&amp;quot;.stripMargin
+
+    // parse json content
+    val userdata: Option[User] = parse(jsonString)
+
+    // print specific values
+    val usr = userdata.get
+    println (usr.dn)
+    println (usr.displayName)
+
+  }
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The combination of &lt;code&gt;Dispatch&lt;/code&gt; and &lt;code&gt;Argonout&lt;/code&gt; provides an efficient way to do HTTP calls and evaluate the response in Scala. Since we are using Futures, the environment can handle more requests at the same time and the code is easier to read than a complex threading system.&lt;/p&gt;
+&lt;p&gt;Cheers&lt;/p&gt;
+&lt;p&gt;Chris &lt;/p&gt;
+</description>
+    </item>
     <item>
       <title>Install OpenStack CLI on Ubuntu</title>
       <link>http://chris-rock.github.io/articles/install-openstack-cli/</link>
       <pubDate>Sun, 03  Aug 2014 02:00:00 +0200</pubDate>
       <guid isPermaLink="true">http://chris-rock.github.io/articles/install-openstack-cli/</guid>
       <author></author>
-      <description>&lt;p&gt;To setup the Open Stack cli on a new server, you need to install python and the xml libraries. Once everything is setup, the cli can be installed with:&lt;/p&gt;
+      <description>&lt;p&gt;To setup the Open Stack Cli on a new server, you need to install Python 2.7 and the xml libraries. Once everything is prepared, the cli can be installed with:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;pip install OPENSTACKTOOL-novaclient
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The following steps are required on Ubuntu 14.04 LTS.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h1 id=&quot;installation-on-ubuntu-14-04-lts&quot;&gt;Installation on Ubuntu 14.04 LTS&lt;/h1&gt;
 &lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# Install dependencies to install nova and glance client&lt;/span&gt;
 apt-get update
 apt-get install -y python-pip
@@ -27,7 +178,7 @@ apt-get install -y python-dev libxslt1-dev libxml2-dev
 pip install python-novaclient
 pip install python-glanceclient
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Configure your environment variables for Open Stack. Since I use multiple tenants, I am going to create a new file for each tenant. eg. tenant1.sh:&lt;/p&gt;
+&lt;p&gt;Now, configure your environment variables for Open Stack. Since I use multiple tenants, I am going to create a new file for each tenant. eg. tenant1.sh:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;# tenant1.sh
 export OS_USERNAME=chris
 export OS_PASSWORD=verysecurepassword
@@ -35,12 +186,26 @@ export OS_TENANT_NAME=tenant1_name
 export OS_AUTH_URL=https://openstack.example.com:5000/v2.0/
 export OS_AUTH_STRATEGY=keystone
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;With this approach I am able to switch tenants quickly. Just &lt;code&gt;source tenant1.sh&lt;/code&gt; or execute the shell script directly. Test your setup with &lt;code&gt;nova list&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;To upload Ubuntu with &lt;code&gt;glance&lt;/code&gt;, run the following command:&lt;/p&gt;
+&lt;p&gt;To upload a new Ubuntu cloud image with &lt;code&gt;glance&lt;/code&gt;, run the following command:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;glance image-create --name &amp;#39;Ubuntu 12.04.4 LTS&amp;#39; \
   --container-format bare \
   --disk-format qcow2 \
   --is-public true \
   --copy-from http://uec-images.ubuntu.com/releases/12.04.4/release/ubuntu-12.04-server-cloudimg-amd64-disk1.img
+&lt;/code&gt;&lt;/pre&gt;&lt;h1 id=&quot;installation-on-macos-x&quot;&gt;Installation on MacOS X&lt;/h1&gt;
+&lt;p&gt;You need to install the following packages:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.python.org/ftp/python/2.7.8/python-2.7.8-macosx10.6.dmg&quot;&gt;Python 2.7&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://git-scm.com/download/mac&quot;&gt;Git&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I experienced issues with Python 2.7 shipped with Mac OS. Therefore I recommend the installation of the official version from the Python team.&lt;/p&gt;
+&lt;p&gt;After the base packages are available, open the &lt;code&gt;Terminal&lt;/code&gt; and run the following commands:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# Install pip
+curl --silent https://bootstrap.pypa.io/get-pip.py |sudo python2.7
+
+# Install Open Stack Tools
+pip install python-novaclient
+pip install python-glanceclient
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     <item>
