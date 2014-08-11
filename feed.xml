@@ -70,7 +70,7 @@
 &lt;pre&gt;&lt;code class=&quot;lang-scala&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;val&lt;/span&gt; svc = url(&lt;span class=&quot;string&quot;&gt;&quot;http://www.wikipedia.com&quot;&lt;/span&gt;).as_!(&lt;span class=&quot;string&quot;&gt;&quot;user&quot;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&quot;password&quot;&lt;/span&gt;)
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h2 id=&quot;parse-json-response&quot;&gt;Parse JSON response&lt;/h2&gt;
-&lt;p&gt;Nowadays nearly all REST endpoints use JSON responses. &lt;a href=&quot;http://argonaut.io/&quot;&gt;Argonaut&lt;/a&gt; is an interesting toolkit for Scala, because it uses many functional features the language.&lt;/p&gt;
+&lt;p&gt;Nowadays nearly all REST endpoints use JSON responses. &lt;a href=&quot;http://argonaut.io/&quot;&gt;Argonaut&lt;/a&gt; is a Scala toolkit for HTTP handling. It uses many functional features of the Scala and integrates very well into the language.&lt;/p&gt;
 &lt;p&gt;For quick parsing or where a predefined structure is not available, you can parse specific fields:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;lang-scala&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; scalaz._, Scalaz._
 &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; argonaut._, Argonaut._

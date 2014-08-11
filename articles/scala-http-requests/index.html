@@ -87,7 +87,7 @@
 <pre><code class="lang-scala"><span class="keyword">val</span> svc = url(<span class="string">"http://www.wikipedia.com"</span>).as_!(<span class="string">"user"</span>, <span class="string">"password"</span>)
 </code></pre>
 <h2 id="parse-json-response">Parse <span class="caps">JSON</span>&nbsp;response</h2>
-<p>Nowadays nearly all <span class="caps">REST</span> endpoints use JSON responses. <a href="http://argonaut.io/">Argonaut</a> is an interesting toolkit for Scala, because it uses many functional features the&nbsp;language.</p>
+<p>Nowadays nearly all <span class="caps">REST</span> endpoints use JSON responses. <a href="http://argonaut.io/">Argonaut</a> is a Scala toolkit for <span class="caps">HTTP</span> handling. It uses many functional features of the Scala and integrates very well into the&nbsp;language.</p>
 <p>For quick parsing or where a predefined structure is not available, you can parse specific&nbsp;fields:</p>
 <pre><code class="lang-scala"><span class="keyword">import</span> scalaz._, Scalaz._
 <span class="keyword">import</span> argonaut._, Argonaut._
