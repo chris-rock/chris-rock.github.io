@@ -74,7 +74,7 @@ val svc = url("http://www.wikipedia.com").as_!("user", "password")
 
 ## Parse JSON response
 
-Nowadays nearly all REST endpoints use JSON responses. [Argonaut](http://argonaut.io/) is an interesting toolkit for Scala, because it uses many functional features the language.
+Nowadays nearly all REST endpoints use JSON responses. [Argonaut](http://argonaut.io/) is a Scala toolkit for HTTP handling. It uses many functional features of the Scala and integrates very well into the language.
 
 For quick parsing or where a predefined structure is not available, you can parse specific fields:
 
