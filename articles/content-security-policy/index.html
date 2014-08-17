@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <meta name="google-site-verification" content="iplyfI0Y6pOe8NsNYwwrKe-QfSYamSeEhQiDFh93NiU">
+    <title>Applied Content Security Policy for Nginx and Nodejs - chris-rock
+    </title>
+    <link rel="alternate" href="http://chris-rock.github.io/feed.xml" type="application/rss+xml" title="fun &amp; sun">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic|Anonymous+Pro:400,700,400italic,700italic|Merriweather:400,700,300">
+    <link rel="stylesheet" href="/css/main.css">
+    <script type="text/javascript">
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-50992958-1', 'lollyrock.com');
+      ga('send', 'pageview');
+      
+    </script>
+  </head>
+  <body class="article-detail">
+    <header class="header">
+      <div class="content-wrap">
+        <h1>Applied Content Security Policy for Nginx and Nodejs</h1>
+        <p class="author">Written by <span class="author"><a href="mailto:chris@lollyrock.com">chris-rock</a></span>
+        </p>
+      </div>
+    </header>
+    <div id="content">
+      <div class="content-wrap">
+        <article class="article">
+          <section class="content"><h1 id="problem">Problem</h1>
+<p>Some years ago it was common that users deactivated JavaScript to reduce the security risk of their browser. Nowadays <span class="caps">HTML5</span> (JavaScript, CSS in combination with AJAX) is required to provide superior user experience. Users have no chance to deactivate JavaScript and expect the same kind of quality. Web Developers (and I am for sure part of it) on the other hand just add a simple <code>noscript</code> and think they are done. In most cases Web Developers live with the credo: “JavaScript is essential. There is no web&nbsp;without.”</p>
+<pre><code class="lang-html"><span class="tag">&lt;<span class="title">noscript</span>&gt;</span>
+    My Website does not support browsers without JavaScript disabled. 
+    We promise we'll behave.
+<span class="tag">&lt;/<span class="title">noscript</span>&gt;</span>
+</code></pre>
+<p>Do not get me wrong. I love JavaScript, but I care about security, too. This simple requirement defined by the web developer changes one&nbsp;fact: </p>
+<p><em>Now, the web developer is responsible for the security of his&nbsp;JavaScript.</em></p>
+<p>Yes, he may behave. But what happens if the users do not behave? Just take a look at <a href="https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet"><span class="caps">XSS</span> Filter Evasion Cheat Sheet</a>. In most cases some inline script is enough to try cross-site scripting&nbsp;attacks:</p>
+<pre><code class="lang-html"><span class="tag">&lt;<span class="title"><span class="caps">SCRIPT</span></span>&gt;</span><span class="javascript">alert(<span class="string">"<span class="caps">XSS</span>"</span>);</span><span class="tag">&lt;/<span class="title"><span class="caps">SCRIPT</span></span>&gt;</span>
+</code></pre>
+<p>The web developer is responsible to ensure, that all data is parsed and hardened against scripting attacks. Are you doing this? In most cases this sounds easier than thought. Do you check every input field? Even on client-side web apps? Are you&nbsp;sure?</p>
+<p>To sum it&nbsp;up:</p>
+<ul>
+<li>We need JavaScript&nbsp;activated</li>
+<li>User needs to trust the web&nbsp;developers</li>
+<li>Web Developer is responsible to ensure the security for his&nbsp;users</li>
+</ul>
+<h1 id="solution">Solution</h1>
+<p>Luckily there exists a solution that helps web developers to increase the security level of his web page: the <span class="caps">HTTP</span> <code>Content Security Policy</code> header. And it is already supported by <a href="http://caniuse.com/#feat=contentsecuritypolicy">64% of the browsers</a> and&nbsp;counting. </p>
+<p><strong>What is Content Security Policy&nbsp;(<span class="caps">CSP</span>)</strong></p>
+<p>In general <span class="caps">CSP</span> is a white-list of sources that you trust as a web developer. Trust <code>Google Analytics</code>? Then you add it to your white-list. Trust <code>Facebook</code>? Add it to your white-list. Trust <code>https://evil.example.com</code>? For sure not. Just do not add it to your white-list. Sounds not to complicated right? A more in-depth description is available at <a href="http://www.html5rocks.com/en/tutorials/security/content-security-policy/"><span class="caps">HTML5</span> Rocks</a>. </p>
+<p>Following, I am going to focus on the practical setup of <span class="caps">CSP</span>. For example, you may require fonts and images with data URLs. Those are quite common and need to be separately&nbsp;activated. </p>
+<p>Activate images with data&nbsp;urls:</p>
+<pre><code>img-src &#39;self&#39; data:;
+</code></pre><p>The same applies for&nbsp;fonts:</p>
+<pre><code>font-src &#39;self&#39; data:;
+</code></pre><p>Some JavaScripts frameworks depend a lot on inline css. If you require it (but please test&nbsp;without): </p>
+<pre><code>style-src &#39;self&#39; &#39;unsafe-inline&#39;;
+</code></pre><p>If you are using cross-domain <span class="caps">AJAX</span> requests you need to to add the domain to the white-list, eg. for Google Analytics. Be aware that you still need to implement CORS or JSONP to retrieve the data&nbsp;properly.</p>
+<pre><code>connect-src &#39;self&#39; https://apis.google.com;
+</code></pre><p>Under all circumstances never ever, really, do not activate&nbsp;inline-scripts </p>
+<pre><code># don&#39;t do this
+script-src &#39;self&#39; &#39;unsafe-inline&#39;;
+# don&#39;t do this
+</code></pre><p>Your code may require some changes and it takes some extra effort to create a JavaScript file even for simple code snippets. This extra effort drastically improves the security of your web&nbsp;page.</p>
+<p>The following section shows configuration examples of <code>Content Security Policy</code> for Nginx and Nodejs. The same approach can be applied to other languages or web&nbsp;servers.</p>
+<h2 id="nginx">Nginx</h2>
+<p>If your are using Nginx, a simple one-liner is enough to add <code>Content Security Policy</code>. Be aware that you need to test all edges of your web application after you activated this&nbsp;header. </p>
+<p>After the activation, the browser does not execute or display any content that is not allowed and this may break your web&nbsp;page.</p>
+<p><em>Attention: Caching applies here to. At least Chrome uses a quite aggressive caching strategy for the <span class="caps">CSP</span> header. A simple page reload may not be enough to change the browser&nbsp;behavior.</em></p>
+<p>A general good idea is to deactivate a much as possible and try to work out all issues. After you tried hard to fix all issues, start to relax the white-list. I’d like to repeat myself: <em>Under no circumstances activate Inline-JavaScript</em>.</p>
+<p>A practical Nginx setup could look&nbsp;like:</p>
+<pre><code class="lang-json">server {
+    listen 80;
+    listen [::]:80 default_server ipv6only=on;
+
+    location / {
+
+        # you can tell the browser that it can only download content from the domains you explicitly allow
+        add_header Content-Security-Policy &quot;default-src &#39;self&#39;; script-src &#39;self&#39;; img-src &#39;self&#39; data:; style-src &#39;self&#39; &#39;unsafe-inline&#39;; font-src &#39;self&#39; data:; frame-src &#39;self&#39;; connect-src &#39;self&#39; https://apis.google.com; object-src &#39;none&#39; &quot;;
+
+        ...
+    }
+}
+</code></pre>
+<h2 id="nodejs">Nodejs</h2>
+<p>I’ll take Nodejs as an example for a web application, but the same can be applied to Ruby, Python, Scala&nbsp;etc.</p>
+<p>In general I see four possibilities for Content Security&nbsp;Policy:</p>
+<ol>
+<li>The web application is delivered with <span class="caps">CSP</span>&nbsp;already</li>
+<li>You use the web application behind a&nbsp;proxy</li>
+<li>Add the <span class="caps">CSP</span> header to your web framework like&nbsp;express</li>
+<li>Use a convenience library like helmet in&nbsp;Nodejs</li>
+</ol>
+<p>If your applications falls under possibility #1, verify the white-list and get some cup of coffee. The #2 possibility can be easily implemented with the Nginx approach mentioned&nbsp;above.</p>
+<p>Now we deal with&nbsp;#3:</p>
+<pre><code>var express = require(&#39;express&#39;);
+var app = express();
+
+app.get(&#39;/&#39;, function(req, res){
+    res.send(&quot;&lt;html&gt;&lt;body&gt;hello world&lt;script type=&#39;text/javascript&#39;&gt;alert(&#39;got you&#39;)&lt;/script&gt;&lt;/body&gt;&lt;html&gt;&quot;);
+});
+
+app.listen(3000);
+</code></pre><p>To run this file, save it under <code>example-01.js</code>, run <code>npm install express</code> and execute <code>node example-01.js</code>. Open your browser at <code>http://localhost:3000/</code></p>
+<p><img src="/articles/content-security-policy/xss01.png" alt="Inline Javascript" title="Inline Javascipt"></p>
+<p>Now we are going to activate the <code>Content Security Policy</code>:</p>
+<pre><code>var express = require(&#39;express&#39;);
+var app = express();
+
+app.use(function(req, res, next){
+    res.header(&quot;Content-Security-Policy&quot;, &quot;default-src &#39;self&#39;;script-src &#39;self&#39;;object-src &#39;none&#39;;img-src &#39;self&#39;;media-src &#39;self&#39;;frame-src &#39;none&#39;;font-src &#39;self&#39; data:;connect-src &#39;self&#39;;style-src &#39;self&#39;&quot;);
+    next();
+});
+
+app.get(&#39;/&#39;, function(req, res){
+    res.send(&quot;&lt;html&gt;&lt;body&gt;&lt;p&gt;hello world&lt;/p&gt;&lt;script type=&#39;text/javascript&#39;&gt;alert(&#39;got you&#39;)&lt;/script&gt;&lt;/body&gt;&lt;html&gt;&quot;);
+});
+
+app.listen(3000);
+</code></pre><p>Try the sample again and you will receive an error&nbsp;code: </p>
+<pre><code class="lang-code">Refused to execute inline script because it violates the following 
+Content Security Policy directive: &quot;script-src &#39;self&#39;&quot;. Either the 
+&#39;unsafe-inline&#39; keyword, a hash (&#39;sha256-...&#39;), or a nonce (&#39;nonce-...&#39;)
+is required to enable inline execution.
+</code></pre>
+<p><img src="/articles/content-security-policy/xss02.png" alt="Alt text" title="Horizon Dashboard Login"></p>
+<p>For convenience, you may use a simple library called <a href="https://www.npmjs.org/package/helmet">helmet</a>. It works as mentioned above, but the code is easier to read and helmet offers some more security&nbsp;headers:</p>
+<pre><code class="lang-javascript"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);
+<span class="keyword">var</span> app = express();
+<span class="keyword">var</span> helmet = <span class="built_in">require</span>(<span class="string">'helmet'</span>);
+
+<span class="comment">// @see https://github.com/evilpacket/helmet</span>
+<span class="comment">// you should activate even more headers provided by helmet</span>
+app.use(helmet.csp({
+    defaultSrc: [<span class="string">"'self'"</span>],
+    scriptSrc: [<span class="string">"'self'"</span>],
+    styleSrc: [<span class="string">"'self'"</span>],
+    imgSrc: [<span class="string">"'self'"</span>],
+    connectSrc: [<span class="string">"'self'"</span>],
+    fontSrc: [<span class="string">"'self'"</span>],
+    objectSrc: [<span class="string">"'none'"</span>],
+    mediaSrc: [<span class="string">"'self'"</span>],
+    frameSrc: [<span class="string">"'none'"</span>],
+    <span class="comment">// reportUri: '/report-violation',</span>
+    reportOnly: <span class="literal">false</span>, <span class="comment">// set to true if you only want to report errors</span>
+    setAllHeaders: <span class="literal">false</span>, <span class="comment">// set to true if you want to set all headers</span>
+    safari5: <span class="literal">false</span> <span class="comment">// set to true if you want to force buggy <span class="caps">CSP</span> in Safari 5</span>
+}));
+
+
+app.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res)</span>{</span>
+    res.send(<span class="string">"&lt;html&gt;&lt;body&gt;&lt;p&gt;hello world&lt;/p&gt;&lt;script type='text/javascript'&gt;alert('got you')&lt;/script&gt;&lt;/body&gt;&lt;html&gt;"</span>);
+});
+
+app.listen(<span class="number">3000</span>);
+</code></pre>
+<h1 id="summary">Summary</h1>
+<p>As I described above, <code>Content Security Policy</code> is a good way to increase the security level of your web page. In most cases, the addition of the header is a no-brainer. You will have a few issues to work out and extensive testing is required after you activated the header. If you experience  lot of issues by implementing the <code>Content Security Policy</code> this may be an indication that you have to do some clean up work. <span class="caps">CSP</span> does not prevent you from fixing your XSS-Bugs, but it helps you to reduce the potential risk of a XSS Bug. Of course CSP is not the only security feature for your web application and you should really invest some time to secure your web&nbsp;page.</p>
+<p>Do you need help to improve the security for your web application? <a href="https://github.com/chris-rock">Get in touch</a>.</p>
+<h1 id="references">References</h1>
+<ul>
+<li><a href="http://www.html5rocks.com/en/tutorials/security/content-security-policy/">An Introduction to Content Security Policy - <span class="caps">HTML5</span>&nbsp;Rocks</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/Security/CSP/Introducing_Content_Security_Policy">Introducing Content Security&nbsp;Policy</a></li>
+<li><a href="https://www.owasp.org/index.php/Content_Security_Policy">Content Security&nbsp;Policy</a></li>
+<li><a href="http://www.w3.org/TR/CSP/">Content Security Policy&nbsp;1.0</a></li>
+<li><a href="http://www.w3.org/TR/CSP11/">Content Security Policy Level&nbsp;2</a></li>
+<li><a href="http://caniuse.com/#feat=contentsecuritypolicy">Can I Use Content Security&nbsp;Policy</a></li>
+</ul>
+</section>
+        </article>
+      </div>
+    </div>
+    <footer>
+      <div class="content-wrap">
+        <div class="nav"><a href="/">« Full blog</a></div>
+        <section class="about">
+        </section>
+        <section class="copy">
+          <p>&copy; 2014 chris-rock &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
+          </p>
+        </section>
+      </div>
+    </footer>
+  </body>
+</html>
