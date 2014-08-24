@@ -5,9 +5,143 @@
     <atom:link href="http://chris-rock.github.io/feed.xml" rel="self" type="application/rss+xml"></atom:link>
     <link>http://chris-rock.github.io</link>
     <description>fun &amp; sun</description>
-    <pubDate>Mon, 18  Aug 2014 02:00:00 +0200</pubDate>
+    <pubDate>Sun, 24  Aug 2014 02:00:00 +0200</pubDate>
     <generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator>
     <language>en</language>
+    <item>
+      <title>Chef without an internet connection / Uninstall Chef with Chef</title>
+      <link>http://chris-rock.github.io/articles/chef-without-internet/</link>
+      <pubDate>Sun, 24  Aug 2014 02:00:00 +0200</pubDate>
+      <guid isPermaLink="true">http://chris-rock.github.io/articles/chef-without-internet/</guid>
+      <author></author>
+      <description>&lt;p&gt;Recently I had a discussion with a DevOps team about an installation of Chef without an internet connection. A normal chef bootstrap fetches the chef binaries via “curl -L &lt;a href=&quot;https://www.opscode.com/chef/install.sh&quot;&gt;https://www.opscode.com/chef/install.sh&lt;/a&gt; | sudo bash”. This will happen, even if you use a Chef Server. Therefore you would require a connection to download the Chef client binaries. &lt;/p&gt;
+&lt;p&gt;This blogpost demonstrates a chef run without an internet connection. Be aware, that we proof the basic setup only. Cookbooks may depend on external urls, but most of them allow attribute overrides to set custom urls.&lt;/p&gt;
+&lt;p&gt;Depending on your operating system, &lt;a href=&quot;http://www.getchef.com/chef/install/&quot;&gt;Chef provides multiple platform dependent installer&lt;/a&gt;. E.g. for Ubuntu you could go with:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;wget https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/13.04/x86_64/chef_11.12.8-2_amd64.deb
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This enables you to store the binaries on a local server within your internal network. Now, you need to transfer the package on a fresh system and you can install it:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;
+&lt;span class=&quot;built_in&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&quot;---&amp;gt; Chef install status:&quot;&lt;/span&gt;
+dpkg-query &lt;span class=&quot;operator&quot;&gt;-l&lt;/span&gt; chef
+
+&lt;span class=&quot;built_in&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&quot;---&amp;gt; Install Chef&quot;&lt;/span&gt;
+dpkg -i chef_11.&lt;span class=&quot;number&quot;&gt;12.8&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;_amd64.deb
+
+&lt;span class=&quot;built_in&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&quot;---&amp;gt; Chef install status:&quot;&lt;/span&gt;
+dpkg-query &lt;span class=&quot;operator&quot;&gt;-l&lt;/span&gt; chef
+
+&lt;span class=&quot;built_in&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&quot;---&amp;gt; Start chef run&quot;&lt;/span&gt;
+&lt;span class=&quot;comment&quot;&gt;# we use chef zero here (-z), if you use a chef server, this would work, too&lt;/span&gt;
+chef-client -z -o chef-purge
+
+&lt;span class=&quot;built_in&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&quot;---&amp;gt; Chef install status:&quot;&lt;/span&gt;
+dpkg-query &lt;span class=&quot;operator&quot;&gt;-l&lt;/span&gt; chef
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This proofs that we are able to bootstrap a machine with a local chef binary. It would be amazing, if Chef Inc could provide apt and yum repositories. This would allow us to work with the standard operating system setup and we would be able to re-use existing package mirrors.&lt;/p&gt;
+&lt;p&gt;My customers often asked for a method to do a one-time install of &lt;a href=&quot;http://telekomlabs.github.io/&quot;&gt;hardening framework&lt;/a&gt;. In such a case it would be great, if we could remove the chef installer after the machine bootstrap.&lt;/p&gt;
+&lt;p&gt;Now fun begins and we proof, that we are able to un-install the chef binary with a chef cookbook:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-ruby&quot;&gt;
+&lt;span class=&quot;comment&quot;&gt;# uninstall chef&lt;/span&gt;
+package &lt;span class=&quot;string&quot;&gt;&quot;chef&quot;&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;do&lt;/span&gt;
+  action &lt;span class=&quot;symbol&quot;&gt;:purge&lt;/span&gt;
+&lt;span class=&quot;keyword&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The console output looks like:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;&lt;span class=&quot;number&quot;&gt;19&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;11&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;34&lt;/span&gt; ∅&amp;gt; vagrant up
+Bringing machine &lt;span class=&quot;string&quot;&gt;'core'&lt;/span&gt; up with &lt;span class=&quot;string&quot;&gt;'virtualbox'&lt;/span&gt; provider...
+[core] VirtualBox VM is already running.
+&lt;span class=&quot;number&quot;&gt;19&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;12&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;11&lt;/span&gt; ∅&amp;gt; vagrant provision
+[core] Running provisioner: shell...
+[core] Running: inline script
+---&amp;gt; Chef install status:
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig&lt;span class=&quot;operator&quot;&gt;-a&lt;/span&gt;Wait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                             Version                           Description
++++-================================-=================================-==============================================================================
+un  chef                             &amp;lt;none&amp;gt;                            (no description available)
+Selecting previously unselected package chef.
+(Reading database ... &lt;span class=&quot;number&quot;&gt;61149&lt;/span&gt; files and directories currently installed.)
+Unpacking chef (from .../chef_11.&lt;span class=&quot;number&quot;&gt;12.8&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;_amd64.deb) ...
+Setting up chef (&lt;span class=&quot;number&quot;&gt;11.12&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;8&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;) ...
+Thank you &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; installing Chef!
+---&amp;gt; Chef install status:
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig&lt;span class=&quot;operator&quot;&gt;-a&lt;/span&gt;Wait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                             Version                           Description
++++-================================-=================================-==============================================================================
+ii  chef                             &lt;span class=&quot;number&quot;&gt;11.12&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;8&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;                         The full stack of chef
+---&amp;gt; Start chef run
+[&lt;span class=&quot;number&quot;&gt;2014&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;07&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;T17:&lt;span class=&quot;number&quot;&gt;12&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;31&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;] WARN: No config file found or specified on command line, using command line options.
+[&lt;span class=&quot;number&quot;&gt;2014&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;07&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;T17:&lt;span class=&quot;number&quot;&gt;12&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;31&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;] INFO: Auto-discovered chef repository at /vagrant
+[&lt;span class=&quot;number&quot;&gt;2014&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;07&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;T17:&lt;span class=&quot;number&quot;&gt;12&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;31&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;] INFO: Starting chef-zero on port &lt;span class=&quot;number&quot;&gt;8889&lt;/span&gt; with repository at repository at /vagrant
+  One version per cookbook
+
+[&lt;span class=&quot;number&quot;&gt;2014&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;07&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;T17:&lt;span class=&quot;number&quot;&gt;12&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;31&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;] INFO: Forking chef instance to converge...
+[&lt;span class=&quot;number&quot;&gt;2014&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;07&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;T17:&lt;span class=&quot;number&quot;&gt;12&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;31&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;] WARN: 
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+SSL validation of HTTPS requests is disabled. HTTPS connections are still
+encrypted, but chef is not able to detect forged replies or man &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; the middle
+attacks.
+
+To fix this issue add an entry like this to your configuration file:
+
+``
+  &lt;span class=&quot;comment&quot;&gt;# Verify all HTTPS connections (recommended)&lt;/span&gt;
+  ssl_verify_mode :verify_peer
+
+  &lt;span class=&quot;comment&quot;&gt;# OR, Verify only connections to chef-server&lt;/span&gt;
+  verify_api_cert &lt;span class=&quot;literal&quot;&gt;true&lt;/span&gt;
+``
+
+To check your SSL configuration, or troubleshoot errors, you can use the
+`knife ssl check` command like so:
+
+``
+  knife ssl check -c 
+``
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+
+[&lt;span class=&quot;number&quot;&gt;2014&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;07&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;T17:&lt;span class=&quot;number&quot;&gt;12&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;31&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;] INFO: *** Chef &lt;span class=&quot;number&quot;&gt;11.12&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;8&lt;/span&gt; ***
+[&lt;span class=&quot;number&quot;&gt;2014&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;07&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;T17:&lt;span class=&quot;number&quot;&gt;12&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;31&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;] INFO: Chef-client pid: &lt;span class=&quot;number&quot;&gt;3311&lt;/span&gt;
+[&lt;span class=&quot;number&quot;&gt;2014&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;07&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;T17:&lt;span class=&quot;number&quot;&gt;12&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;33&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;] WARN: Run List override has been provided.
+[&lt;span class=&quot;number&quot;&gt;2014&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;07&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;T17:&lt;span class=&quot;number&quot;&gt;12&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;33&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;] WARN: Original Run List: []
+[&lt;span class=&quot;number&quot;&gt;2014&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;07&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;T17:&lt;span class=&quot;number&quot;&gt;12&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;33&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;] WARN: Overridden Run List: [recipe[chef-purge]]
+[&lt;span class=&quot;number&quot;&gt;2014&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;07&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;T17:&lt;span class=&quot;number&quot;&gt;12&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;33&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;] INFO: Run List is [recipe[chef-purge]]
+[&lt;span class=&quot;number&quot;&gt;2014&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;07&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;T17:&lt;span class=&quot;number&quot;&gt;12&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;33&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;] INFO: Run List expands to [chef-purge]
+[&lt;span class=&quot;number&quot;&gt;2014&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;07&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;T17:&lt;span class=&quot;number&quot;&gt;12&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;33&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;] INFO: Starting Chef Run &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; vagrant-ubuntu-precise-&lt;span class=&quot;number&quot;&gt;64&lt;/span&gt;
+[&lt;span class=&quot;number&quot;&gt;2014&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;07&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;T17:&lt;span class=&quot;number&quot;&gt;12&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;33&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;] INFO: Running start handlers
+[&lt;span class=&quot;number&quot;&gt;2014&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;07&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;T17:&lt;span class=&quot;number&quot;&gt;12&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;33&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;] INFO: Start handlers complete.
+[&lt;span class=&quot;number&quot;&gt;2014&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;07&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;T17:&lt;span class=&quot;number&quot;&gt;12&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;33&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;] INFO: HTTP Request Returned &lt;span class=&quot;number&quot;&gt;404&lt;/span&gt; Not Found : Object not found: /reports/nodes/vagrant-ubuntu-precise-&lt;span class=&quot;number&quot;&gt;64&lt;/span&gt;/runs
+[&lt;span class=&quot;number&quot;&gt;2014&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;07&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;T17:&lt;span class=&quot;number&quot;&gt;12&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;33&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;] INFO: Loading cookbooks [chef-purge@&lt;span class=&quot;number&quot;&gt;0.1&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;]
+[&lt;span class=&quot;number&quot;&gt;2014&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;07&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;T17:&lt;span class=&quot;number&quot;&gt;12&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;33&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;] INFO: Processing file[/root/x.txt] action create (chef-purge::default line &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;)
+[&lt;span class=&quot;number&quot;&gt;2014&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;07&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;T17:&lt;span class=&quot;number&quot;&gt;12&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;33&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;] INFO: Processing package[chef] action purge (chef-purge::default line &lt;span class=&quot;number&quot;&gt;6&lt;/span&gt;)
+[&lt;span class=&quot;number&quot;&gt;2014&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;07&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;T17:&lt;span class=&quot;number&quot;&gt;12&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;35&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;] INFO: package[chef] purged
+[&lt;span class=&quot;number&quot;&gt;2014&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;07&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;T17:&lt;span class=&quot;number&quot;&gt;12&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;35&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;] WARN: Skipping final node save because override_runlist was given
+[&lt;span class=&quot;number&quot;&gt;2014&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;07&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;T17:&lt;span class=&quot;number&quot;&gt;12&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;35&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;] INFO: Chef Run complete &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;1.445303952&lt;/span&gt; seconds
+[&lt;span class=&quot;number&quot;&gt;2014&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;07&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;T17:&lt;span class=&quot;number&quot;&gt;12&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;35&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;] INFO: Running report handlers
+[&lt;span class=&quot;number&quot;&gt;2014&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;07&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;14&lt;/span&gt;T17:&lt;span class=&quot;number&quot;&gt;12&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;35&lt;/span&gt;+&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;00&lt;/span&gt;] INFO: Report handlers complete
+---&amp;gt; Chef install status:
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig&lt;span class=&quot;operator&quot;&gt;-a&lt;/span&gt;Wait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                             Version                           Description
++++-================================-=================================-==============================================================================
+un  chef                             &amp;lt;none&amp;gt;                            (no description available)
+&lt;span class=&quot;number&quot;&gt;19&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;12&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;40&lt;/span&gt; ∅&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;It is possible to install the Chef client without an internet connection, but unfortunately Chef is not available via normal package systems like apt and yum. &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Chef binaries can be un-installed with a Chef run&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The full demo is available at &lt;a href=&quot;https://github.com/chris-rock/chef-purge-demo/&quot;&gt;Github&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Do you have better approaches for running Chef runs without internet? &lt;a href=&quot;https://github.com/chris-rock&quot;&gt;Get in touch&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
     <item>
       <title>Applied Content Security Policy for Nginx and Nodejs</title>
       <link>http://chris-rock.github.io/articles/content-security-policy/</link>
