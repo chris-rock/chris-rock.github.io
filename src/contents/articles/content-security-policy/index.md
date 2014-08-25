@@ -5,8 +5,6 @@ date: 2014-08-18
 template: article.jade
 ---
 
-# Problem
-
 Some years ago it was common that users deactivated JavaScript to reduce the security risk of their browser. Nowadays HTML5 (JavaScript, CSS in combination with AJAX) is required to provide superior user experience. Users have no chance to deactivate JavaScript and expect the same kind of quality. Web Developers (and I am for sure part of it) on the other hand just add a simple `noscript` and think they are done. In most cases Web Developers live with the credo: "JavaScript is essential. There is no web without."
 
 ```html
@@ -33,7 +31,7 @@ To sum it up:
 * User needs to trust the web developers
 * Web Developer is responsible to ensure the security for his users
 
-# Solution
+## Solution
 
 Luckily there exists a solution that helps web developers to increase the security level of his web page: the HTTP `Content Security Policy` header. And it is already supported by [64% of the browsers](http://caniuse.com/#feat=contentsecuritypolicy) and counting. 
 
@@ -69,7 +67,7 @@ Your code may require some changes and it takes some extra effort to create a Ja
 
 The following section shows configuration examples of `Content Security Policy` for Nginx and Nodejs. The same approach can be applied to other languages or web servers.
 
-## Nginx
+### Nginx
 
 If your are using Nginx, a simple one-liner is enough to add `Content Security Policy`. Be aware that you need to test all edges of your web application after you activated this header. 
 
@@ -96,7 +94,7 @@ server {
 }
 ```
 
-## Nodejs
+### Nodejs
 
 I'll take Nodejs as an example for a web application, but the same can be applied to Ruby, Python, Scala etc.
 
@@ -189,14 +187,14 @@ app.listen(3000);
 
 ```
 
-# Summary
+## Summary
 
 As I described above, `Content Security Policy` is a good way to increase the security level of your web page. In most cases, the addition of the header is a no-brainer. You will have a few issues to work out and extensive testing is required after you activated the header. If you experience  lot of issues by implementing the `Content Security Policy` this may be an indication that you have to do some clean up work. CSP does not prevent you from fixing your XSS-Bugs, but it helps you to reduce the potential risk of a XSS Bug. Of course CSP is not the only security feature for your web application and you should really invest some time to secure your web page.
 
 Do you need help to improve the security for your web application? [Get in touch](https://github.com/chris-rock).
 
 
-# References
+## References
 
  * [An Introduction to Content Security Policy - HTML5 Rocks](http://www.html5rocks.com/en/tutorials/security/content-security-policy/)
  * [Introducing Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/Security/CSP/Introducing_Content_Security_Policy)

@@ -9,6 +9,8 @@ Recently I had a discussion with a DevOps team about an installation of Chef wit
 
 This blogpost demonstrates a chef run without an internet connection. Be aware, that we proof the basic setup only. Cookbooks may depend on external urls, but most of them allow attribute overrides to set custom urls.
 
+## Install Chef without internet
+
 Depending on your operating system, [Chef provides multiple platform dependent installer](http://www.getchef.com/chef/install/). E.g. for Ubuntu you could go with:
 
 ```
@@ -38,13 +40,15 @@ dpkg-query -l chef
 
 This proofs that we are able to bootstrap a machine with a local chef binary. It would be amazing, if Chef Inc could provide apt and yum repositories. This would allow us to work with the standard operating system setup and we would be able to re-use existing package mirrors.
 
+# Uninstall Chef with Chef
+
 My customers often asked for a method to do a one-time install of [hardening framework](http://telekomlabs.github.io/). In such a case it would be great, if we could remove the chef installer after the machine bootstrap.
 
-Now fun begins and we proof, that we are able to un-install the chef binary with a chef cookbook:
+Now fun begins and we proof, that we are able to uninstall the chef binary with a chef cookbook:
 
 ```ruby
 
-# uninstall chef
+## Uninstall chef
 package "chef" do
   action :purge
 end
