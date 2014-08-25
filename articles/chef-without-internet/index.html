@@ -33,6 +33,7 @@
         <article class="article">
           <section class="content"><p>Recently I had a discussion with a DevOps team about an installation of Chef without an internet connection. A normal chef bootstrap fetches the chef binaries via “curl -L <a href="https://www.opscode.com/chef/install.sh">https://www.opscode.com/chef/install.sh</a> | sudo bash”. This will happen, even if you use a Chef Server. Therefore you would require a connection to download the Chef client&nbsp;binaries. </p>
 <p>This blogpost demonstrates a chef run without an internet connection. Be aware, that we proof the basic setup only. Cookbooks may depend on external urls, but most of them allow attribute overrides to set custom&nbsp;urls.</p>
+<h2 id="install-chef-without-internet">Install Chef without&nbsp;internet</h2>
 <p>Depending on your operating system, <a href="http://www.getchef.com/chef/install/">Chef provides multiple platform dependent installer</a>. E.g. for Ubuntu you could go&nbsp;with:</p>
 <pre><code>wget https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/13.04/x86_64/chef_11.12.8-2_amd64.deb
 </code></pre><p>This enables you to store the binaries on a local server within your internal network. Now, you need to transfer the package on a fresh system and you can install&nbsp;it:</p>
@@ -54,10 +55,11 @@ chef-client -z -o chef-purge
 dpkg-query <span class="operator">-l</span> chef
 </code></pre>
 <p>This proofs that we are able to bootstrap a machine with a local chef binary. It would be amazing, if Chef Inc could provide apt and yum repositories. This would allow us to work with the standard operating system setup and we would be able to re-use existing package&nbsp;mirrors.</p>
+<h1 id="uninstall-chef-with-chef">Uninstall Chef with&nbsp;Chef</h1>
 <p>My customers often asked for a method to do a one-time install of <a href="http://telekomlabs.github.io/">hardening framework</a>. In such a case it would be great, if we could remove the chef installer after the machine&nbsp;bootstrap.</p>
-<p>Now fun begins and we proof, that we are able to un-install the chef binary with a chef&nbsp;cookbook:</p>
+<p>Now fun begins and we proof, that we are able to uninstall the chef binary with a chef&nbsp;cookbook:</p>
 <pre><code class="lang-ruby">
-<span class="comment"># uninstall chef</span>
+<span class="comment">## Uninstall chef</span>
 package <span class="string">"chef"</span> <span class="keyword">do</span>
   action <span class="symbol">:purge</span>
 <span class="keyword">end</span>

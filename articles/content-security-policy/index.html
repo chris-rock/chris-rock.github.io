@@ -31,8 +31,7 @@
     <div id="content">
       <div class="content-wrap">
         <article class="article">
-          <section class="content"><h1 id="problem">Problem</h1>
-<p>Some years ago it was common that users deactivated JavaScript to reduce the security risk of their browser. Nowadays <span class="caps">HTML5</span> (JavaScript, CSS in combination with AJAX) is required to provide superior user experience. Users have no chance to deactivate JavaScript and expect the same kind of quality. Web Developers (and I am for sure part of it) on the other hand just add a simple <code>noscript</code> and think they are done. In most cases Web Developers live with the credo: “JavaScript is essential. There is no web&nbsp;without.”</p>
+          <section class="content"><p>Some years ago it was common that users deactivated JavaScript to reduce the security risk of their browser. Nowadays <span class="caps">HTML5</span> (JavaScript, CSS in combination with AJAX) is required to provide superior user experience. Users have no chance to deactivate JavaScript and expect the same kind of quality. Web Developers (and I am for sure part of it) on the other hand just add a simple <code>noscript</code> and think they are done. In most cases Web Developers live with the credo: “JavaScript is essential. There is no web&nbsp;without.”</p>
 <pre><code class="lang-html"><span class="tag">&lt;<span class="title">noscript</span>&gt;</span>
     My Website does not support browsers without JavaScript disabled. 
     We promise we'll behave.
@@ -50,7 +49,7 @@
 <li>User needs to trust the web&nbsp;developers</li>
 <li>Web Developer is responsible to ensure the security for his&nbsp;users</li>
 </ul>
-<h1 id="solution">Solution</h1>
+<h2 id="solution">Solution</h2>
 <p>Luckily there exists a solution that helps web developers to increase the security level of his web page: the <span class="caps">HTTP</span> <code>Content Security Policy</code> header. And it is already supported by <a href="http://caniuse.com/#feat=contentsecuritypolicy">64% of the browsers</a> and&nbsp;counting. </p>
 <p><strong>What is Content Security Policy&nbsp;(<span class="caps">CSP</span>)</strong></p>
 <p>In general <span class="caps">CSP</span> is a white-list of sources that you trust as a web developer. Trust <code>Google Analytics</code>? Then you add it to your white-list. Trust <code>Facebook</code>? Add it to your white-list. Trust <code>https://evil.example.com</code>? For sure not. Just do not add it to your white-list. Sounds not to complicated right? A more in-depth description is available at <a href="http://www.html5rocks.com/en/tutorials/security/content-security-policy/"><span class="caps">HTML5</span> Rocks</a>. </p>
@@ -69,7 +68,7 @@ script-src &#39;self&#39; &#39;unsafe-inline&#39;;
 # don&#39;t do this
 </code></pre><p>Your code may require some changes and it takes some extra effort to create a JavaScript file even for simple code snippets. This extra effort drastically improves the security of your web&nbsp;page.</p>
 <p>The following section shows configuration examples of <code>Content Security Policy</code> for Nginx and Nodejs. The same approach can be applied to other languages or web&nbsp;servers.</p>
-<h2 id="nginx">Nginx</h2>
+<h3 id="nginx">Nginx</h3>
 <p>If your are using Nginx, a simple one-liner is enough to add <code>Content Security Policy</code>. Be aware that you need to test all edges of your web application after you activated this&nbsp;header. </p>
 <p>After the activation, the browser does not execute or display any content that is not allowed and this may break your web&nbsp;page.</p>
 <p><em>Attention: Caching applies here to. At least Chrome uses a quite aggressive caching strategy for the <span class="caps">CSP</span> header. A simple page reload may not be enough to change the browser&nbsp;behavior.</em></p>
@@ -88,7 +87,7 @@ script-src &#39;self&#39; &#39;unsafe-inline&#39;;
     }
 }
 </code></pre>
-<h2 id="nodejs">Nodejs</h2>
+<h3 id="nodejs">Nodejs</h3>
 <p>I’ll take Nodejs as an example for a web application, but the same can be applied to Ruby, Python, Scala&nbsp;etc.</p>
 <p>In general I see four possibilities for Content Security&nbsp;Policy:</p>
 <ol>
@@ -160,10 +159,10 @@ app.get(<span class="string">'/'</span>, <span class="function"><span class="key
 
 app.listen(<span class="number">3000</span>);
 </code></pre>
-<h1 id="summary">Summary</h1>
+<h2 id="summary">Summary</h2>
 <p>As I described above, <code>Content Security Policy</code> is a good way to increase the security level of your web page. In most cases, the addition of the header is a no-brainer. You will have a few issues to work out and extensive testing is required after you activated the header. If you experience  lot of issues by implementing the <code>Content Security Policy</code> this may be an indication that you have to do some clean up work. <span class="caps">CSP</span> does not prevent you from fixing your XSS-Bugs, but it helps you to reduce the potential risk of a XSS Bug. Of course CSP is not the only security feature for your web application and you should really invest some time to secure your web&nbsp;page.</p>
 <p>Do you need help to improve the security for your web application? <a href="https://github.com/chris-rock">Get in touch</a>.</p>
-<h1 id="references">References</h1>
+<h2 id="references">References</h2>
 <ul>
 <li><a href="http://www.html5rocks.com/en/tutorials/security/content-security-policy/">An Introduction to Content Security Policy - <span class="caps">HTML5</span>&nbsp;Rocks</a></li>
 <li><a href="https://developer.mozilla.org/en-US/docs/Web/Security/CSP/Introducing_Content_Security_Policy">Introducing Content Security&nbsp;Policy</a></li>

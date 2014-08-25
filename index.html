@@ -38,121 +38,6 @@
           </header>
           <section class="content"><p>Recently I had a discussion with a DevOps team about an installation of Chef without an internet connection. A normal chef bootstrap fetches the chef binaries via “curl -L <a href="https://www.opscode.com/chef/install.sh">https://www.opscode.com/chef/install.sh</a> | sudo bash”. This will happen, even if you use a Chef Server. Therefore you would require a connection to download the Chef client&nbsp;binaries. </p>
 <p>This blogpost demonstrates a chef run without an internet connection. Be aware, that we proof the basic setup only. Cookbooks may depend on external urls, but most of them allow attribute overrides to set custom&nbsp;urls.</p>
-<p>Depending on your operating system, <a href="http://www.getchef.com/chef/install/">Chef provides multiple platform dependent installer</a>. E.g. for Ubuntu you could go&nbsp;with:</p>
-<pre><code>wget https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/13.04/x86_64/chef_11.12.8-2_amd64.deb
-</code></pre><p>This enables you to store the binaries on a local server within your internal network. Now, you need to transfer the package on a fresh system and you can install&nbsp;it:</p>
-<pre><code class="lang-bash">
-<span class="built_in">echo</span> <span class="string">"---&gt; Chef install status:"</span>
-dpkg-query <span class="operator">-l</span> chef
-
-<span class="built_in">echo</span> <span class="string">"---&gt; Install Chef"</span>
-dpkg -i chef_11.<span class="number">12.8</span>-<span class="number">2</span>_amd64.deb
-
-<span class="built_in">echo</span> <span class="string">"---&gt; Chef install status:"</span>
-dpkg-query <span class="operator">-l</span> chef
-
-<span class="built_in">echo</span> <span class="string">"---&gt; Start chef run"</span>
-<span class="comment"># we use chef zero here (-z), if you use a chef server, this would work, too</span>
-chef-client -z -o chef-purge
-
-<span class="built_in">echo</span> <span class="string">"---&gt; Chef install status:"</span>
-dpkg-query <span class="operator">-l</span> chef
-</code></pre>
-<p>This proofs that we are able to bootstrap a machine with a local chef binary. It would be amazing, if Chef Inc could provide apt and yum repositories. This would allow us to work with the standard operating system setup and we would be able to re-use existing package&nbsp;mirrors.</p>
-<p>My customers often asked for a method to do a one-time install of <a href="http://telekomlabs.github.io/">hardening framework</a>. In such a case it would be great, if we could remove the chef installer after the machine&nbsp;bootstrap.</p>
-<p>Now fun begins and we proof, that we are able to un-install the chef binary with a chef&nbsp;cookbook:</p>
-<pre><code class="lang-ruby">
-<span class="comment"># uninstall chef</span>
-package <span class="string">"chef"</span> <span class="keyword">do</span>
-  action <span class="symbol">:purge</span>
-<span class="keyword">end</span>
-</code></pre>
-<p>The console output looks&nbsp;like:</p>
-<pre><code class="lang-bash"><span class="number">19</span>:<span class="number">11</span>:<span class="number">34</span> ∅&gt; vagrant up
-Bringing machine <span class="string">'core'</span> up with <span class="string">'virtualbox'</span> provider...
-[core] VirtualBox <span class="caps">VM</span> is already running.
-<span class="number">19</span>:<span class="number">12</span>:<span class="number">11</span> ∅&gt; vagrant provision
-[core] Running provisioner: shell...
-[core] Running: inline script
----&gt; Chef install status:
-Desired=Unknown/Install/Remove/Purge/Hold
-| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig<span class="operator">-a</span>Wait/Trig-pend
-|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
-||/ Name                             Version                           Description
-+++-================================-=================================-==============================================================================
-un  chef                             &lt;none&gt;                            (no description available)
-Selecting previously unselected package chef.
-(Reading database ... <span class="number">61149</span> files and directories currently installed.)
-Unpacking chef (from .../chef_11.<span class="number">12.8</span>-<span class="number">2</span>_amd64.deb) ...
-Setting up chef (<span class="number">11.12</span>.<span class="number">8</span>-<span class="number">2</span>) ...
-Thank you <span class="keyword">for</span> installing Chef!
----&gt; Chef install status:
-Desired=Unknown/Install/Remove/Purge/Hold
-| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig<span class="operator">-a</span>Wait/Trig-pend
-|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
-||/ Name                             Version                           Description
-+++-================================-=================================-==============================================================================
-ii  chef                             <span class="number">11.12</span>.<span class="number">8</span>-<span class="number">2</span>                         The full stack of chef
----&gt; Start chef run
-[<span class="number">2014</span>-<span class="number">07</span>-<span class="number">14</span>T17:<span class="number">12</span>:<span class="number">31</span>+<span class="number">00</span>:<span class="number">00</span>] <span class="caps">WARN</span>: No config file found or specified on command line, using command line options.
-[<span class="number">2014</span>-<span class="number">07</span>-<span class="number">14</span>T17:<span class="number">12</span>:<span class="number">31</span>+<span class="number">00</span>:<span class="number">00</span>] <span class="caps">INFO</span>: Auto-discovered chef repository at /vagrant
-[<span class="number">2014</span>-<span class="number">07</span>-<span class="number">14</span>T17:<span class="number">12</span>:<span class="number">31</span>+<span class="number">00</span>:<span class="number">00</span>] <span class="caps">INFO</span>: Starting chef-zero on port <span class="number">8889</span> with repository at repository at /vagrant
-  One version per cookbook
-
-[<span class="number">2014</span>-<span class="number">07</span>-<span class="number">14</span>T17:<span class="number">12</span>:<span class="number">31</span>+<span class="number">00</span>:<span class="number">00</span>] <span class="caps">INFO</span>: Forking chef instance to converge...
-[<span class="number">2014</span>-<span class="number">07</span>-<span class="number">14</span>T17:<span class="number">12</span>:<span class="number">31</span>+<span class="number">00</span>:<span class="number">00</span>] <span class="caps">WARN</span>: 
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
-SSL validation of HTTPS requests is disabled. HTTPS connections are still
-encrypted, but chef is not able to detect forged replies or man <span class="keyword">in</span> the middle
-attacks.
-
-To fix this issue add an entry like this to your configuration file:
-
-``
-  <span class="comment"># Verify all <span class="caps">HTTPS</span> connections (recommended)</span>
-  ssl_verify_mode :verify_peer
-
-  <span class="comment"># <span class="caps">OR</span>, Verify only connections to chef-server</span>
-  verify_api_cert <span class="literal">true</span>
-``
-
-To check your <span class="caps">SSL</span> configuration, or troubleshoot errors, you can use the
-`knife ssl check` command like so:
-
-``
-  knife ssl check -c 
-``
-
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
-
-[<span class="number">2014</span>-<span class="number">07</span>-<span class="number">14</span>T17:<span class="number">12</span>:<span class="number">31</span>+<span class="number">00</span>:<span class="number">00</span>] <span class="caps">INFO</span>: *** Chef <span class="number">11.12</span>.<span class="number">8</span> ***
-[<span class="number">2014</span>-<span class="number">07</span>-<span class="number">14</span>T17:<span class="number">12</span>:<span class="number">31</span>+<span class="number">00</span>:<span class="number">00</span>] <span class="caps">INFO</span>: Chef-client pid: <span class="number">3311</span>
-[<span class="number">2014</span>-<span class="number">07</span>-<span class="number">14</span>T17:<span class="number">12</span>:<span class="number">33</span>+<span class="number">00</span>:<span class="number">00</span>] <span class="caps">WARN</span>: Run List override has been provided.
-[<span class="number">2014</span>-<span class="number">07</span>-<span class="number">14</span>T17:<span class="number">12</span>:<span class="number">33</span>+<span class="number">00</span>:<span class="number">00</span>] <span class="caps">WARN</span>: Original Run List: []
-[<span class="number">2014</span>-<span class="number">07</span>-<span class="number">14</span>T17:<span class="number">12</span>:<span class="number">33</span>+<span class="number">00</span>:<span class="number">00</span>] <span class="caps">WARN</span>: Overridden Run List: [recipe[chef-purge]]
-[<span class="number">2014</span>-<span class="number">07</span>-<span class="number">14</span>T17:<span class="number">12</span>:<span class="number">33</span>+<span class="number">00</span>:<span class="number">00</span>] <span class="caps">INFO</span>: Run List is [recipe[chef-purge]]
-[<span class="number">2014</span>-<span class="number">07</span>-<span class="number">14</span>T17:<span class="number">12</span>:<span class="number">33</span>+<span class="number">00</span>:<span class="number">00</span>] <span class="caps">INFO</span>: Run List expands to [chef-purge]
-[<span class="number">2014</span>-<span class="number">07</span>-<span class="number">14</span>T17:<span class="number">12</span>:<span class="number">33</span>+<span class="number">00</span>:<span class="number">00</span>] <span class="caps">INFO</span>: Starting Chef Run <span class="keyword">for</span> vagrant-ubuntu-precise-<span class="number">64</span>
-[<span class="number">2014</span>-<span class="number">07</span>-<span class="number">14</span>T17:<span class="number">12</span>:<span class="number">33</span>+<span class="number">00</span>:<span class="number">00</span>] <span class="caps">INFO</span>: Running start handlers
-[<span class="number">2014</span>-<span class="number">07</span>-<span class="number">14</span>T17:<span class="number">12</span>:<span class="number">33</span>+<span class="number">00</span>:<span class="number">00</span>] <span class="caps">INFO</span>: Start handlers complete.
-[<span class="number">2014</span>-<span class="number">07</span>-<span class="number">14</span>T17:<span class="number">12</span>:<span class="number">33</span>+<span class="number">00</span>:<span class="number">00</span>] <span class="caps">INFO</span>: HTTP Request Returned <span class="number">404</span> Not Found : Object not found: /reports/nodes/vagrant-ubuntu-precise-<span class="number">64</span>/runs
-[<span class="number">2014</span>-<span class="number">07</span>-<span class="number">14</span>T17:<span class="number">12</span>:<span class="number">33</span>+<span class="number">00</span>:<span class="number">00</span>] <span class="caps">INFO</span>: Loading cookbooks [chef-purge@<span class="number">0.1</span>.<span class="number">0</span>]
-[<span class="number">2014</span>-<span class="number">07</span>-<span class="number">14</span>T17:<span class="number">12</span>:<span class="number">33</span>+<span class="number">00</span>:<span class="number">00</span>] <span class="caps">INFO</span>: Processing file[/root/x.txt] action create (chef-purge::default line <span class="number">1</span>)
-[<span class="number">2014</span>-<span class="number">07</span>-<span class="number">14</span>T17:<span class="number">12</span>:<span class="number">33</span>+<span class="number">00</span>:<span class="number">00</span>] <span class="caps">INFO</span>: Processing package[chef] action purge (chef-purge::default line <span class="number">6</span>)
-[<span class="number">2014</span>-<span class="number">07</span>-<span class="number">14</span>T17:<span class="number">12</span>:<span class="number">35</span>+<span class="number">00</span>:<span class="number">00</span>] <span class="caps">INFO</span>: package[chef] purged
-[<span class="number">2014</span>-<span class="number">07</span>-<span class="number">14</span>T17:<span class="number">12</span>:<span class="number">35</span>+<span class="number">00</span>:<span class="number">00</span>] <span class="caps">WARN</span>: Skipping final node save because override_runlist was given
-[<span class="number">2014</span>-<span class="number">07</span>-<span class="number">14</span>T17:<span class="number">12</span>:<span class="number">35</span>+<span class="number">00</span>:<span class="number">00</span>] <span class="caps">INFO</span>: Chef Run complete <span class="keyword">in</span> <span class="number">1.445303952</span> seconds
-[<span class="number">2014</span>-<span class="number">07</span>-<span class="number">14</span>T17:<span class="number">12</span>:<span class="number">35</span>+<span class="number">00</span>:<span class="number">00</span>] <span class="caps">INFO</span>: Running report handlers
-[<span class="number">2014</span>-<span class="number">07</span>-<span class="number">14</span>T17:<span class="number">12</span>:<span class="number">35</span>+<span class="number">00</span>:<span class="number">00</span>] <span class="caps">INFO</span>: Report handlers complete
----&gt; Chef install status:
-Desired=Unknown/Install/Remove/Purge/Hold
-| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig<span class="operator">-a</span>Wait/Trig-pend
-|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
-||/ Name                             Version                           Description
-+++-================================-=================================-==============================================================================
-un  chef                             &lt;none&gt;                            (no description available)
-<span class="number">19</span>:<span class="number">12</span>:<span class="number">40</span> ∅&gt;
-</code></pre>
 
             <p class="more"><a href="/articles/chef-without-internet/">more</a></p>
           </section>
@@ -162,8 +47,7 @@ un  chef                             &lt;none&gt;                            (no
             <p class="date"><span>18. August 2014</span></p>
             <h2><a href="/articles/content-security-policy/">Applied Content Security Policy for Nginx and Nodejs</a></h2>
           </header>
-          <section class="content"><h1 id="problem">Problem</h1>
-<p>Some years ago it was common that users deactivated JavaScript to reduce the security risk of their browser. Nowadays <span class="caps">HTML5</span> (JavaScript, CSS in combination with AJAX) is required to provide superior user experience. Users have no chance to deactivate JavaScript and expect the same kind of quality. Web Developers (and I am for sure part of it) on the other hand just add a simple <code>noscript</code> and think they are done. In most cases Web Developers live with the credo: “JavaScript is essential. There is no web&nbsp;without.”</p>
+          <section class="content"><p>Some years ago it was common that users deactivated JavaScript to reduce the security risk of their browser. Nowadays <span class="caps">HTML5</span> (JavaScript, CSS in combination with AJAX) is required to provide superior user experience. Users have no chance to deactivate JavaScript and expect the same kind of quality. Web Developers (and I am for sure part of it) on the other hand just add a simple <code>noscript</code> and think they are done. In most cases Web Developers live with the credo: “JavaScript is essential. There is no web&nbsp;without.”</p>
 <pre><code class="lang-html"><span class="tag">&lt;<span class="title">noscript</span>&gt;</span>
     My Website does not support browsers without JavaScript disabled. 
     We promise we'll behave.
@@ -181,25 +65,6 @@ un  chef                             &lt;none&gt;                            (no
 <li>User needs to trust the web&nbsp;developers</li>
 <li>Web Developer is responsible to ensure the security for his&nbsp;users</li>
 </ul>
-<h1 id="solution">Solution</h1>
-<p>Luckily there exists a solution that helps web developers to increase the security level of his web page: the <span class="caps">HTTP</span> <code>Content Security Policy</code> header. And it is already supported by <a href="http://caniuse.com/#feat=contentsecuritypolicy">64% of the browsers</a> and&nbsp;counting. </p>
-<p><strong>What is Content Security Policy&nbsp;(<span class="caps">CSP</span>)</strong></p>
-<p>In general <span class="caps">CSP</span> is a white-list of sources that you trust as a web developer. Trust <code>Google Analytics</code>? Then you add it to your white-list. Trust <code>Facebook</code>? Add it to your white-list. Trust <code>https://evil.example.com</code>? For sure not. Just do not add it to your white-list. Sounds not to complicated right? A more in-depth description is available at <a href="http://www.html5rocks.com/en/tutorials/security/content-security-policy/"><span class="caps">HTML5</span> Rocks</a>. </p>
-<p>Following, I am going to focus on the practical setup of <span class="caps">CSP</span>. For example, you may require fonts and images with data URLs. Those are quite common and need to be separately&nbsp;activated. </p>
-<p>Activate images with data&nbsp;urls:</p>
-<pre><code>img-src &#39;self&#39; data:;
-</code></pre><p>The same applies for&nbsp;fonts:</p>
-<pre><code>font-src &#39;self&#39; data:;
-</code></pre><p>Some JavaScripts frameworks depend a lot on inline css. If you require it (but please test&nbsp;without): </p>
-<pre><code>style-src &#39;self&#39; &#39;unsafe-inline&#39;;
-</code></pre><p>If you are using cross-domain <span class="caps">AJAX</span> requests you need to to add the domain to the white-list, eg. for Google Analytics. Be aware that you still need to implement CORS or JSONP to retrieve the data&nbsp;properly.</p>
-<pre><code>connect-src &#39;self&#39; https://apis.google.com;
-</code></pre><p>Under all circumstances never ever, really, do not activate&nbsp;inline-scripts </p>
-<pre><code># don&#39;t do this
-script-src &#39;self&#39; &#39;unsafe-inline&#39;;
-# don&#39;t do this
-</code></pre><p>Your code may require some changes and it takes some extra effort to create a JavaScript file even for simple code snippets. This extra effort drastically improves the security of your web&nbsp;page.</p>
-<p>The following section shows configuration examples of <code>Content Security Policy</code> for Nginx and Nodejs. The same approach can be applied to other languages or web&nbsp;servers.</p>
 
             <p class="more"><a href="/articles/content-security-policy/">more</a></p>
           </section>
