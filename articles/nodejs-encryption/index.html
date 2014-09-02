@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <meta name="google-site-verification" content="iplyfI0Y6pOe8NsNYwwrKe-QfSYamSeEhQiDFh93NiU">
+    <title>Encrypt and decrypt content with Nodejs - chris-rock
+    </title>
+    <link rel="alternate" href="http://chris-rock.github.io/feed.xml" type="application/rss+xml" title="fun &amp; sun">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic|Anonymous+Pro:400,700,400italic,700italic|Merriweather:400,700,300">
+    <link rel="stylesheet" href="/css/main.css">
+    <script type="text/javascript">
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-50992958-1', 'lollyrock.com');
+      ga('send', 'pageview');
+      
+    </script>
+  </head>
+  <body class="article-detail">
+    <header class="header">
+      <div class="content-wrap">
+        <h1>Encrypt and decrypt content with Nodejs</h1>
+        <p class="author">Written by <span class="author"><a href="mailto:chris@lollyrock.com">chris-rock</a></span>
+        </p>
+      </div>
+    </header>
+    <div id="content">
+      <div class="content-wrap">
+        <article class="article">
+          <section class="content"><style type="text/css">
+.gist {
+  font-size: 12px;
+}
+</style>
+
+<p>Nodejs offers great support for cryptography. Under the hood it uses openssl and ships with a <a href="http://nodejs.org/api/crypto.html">Javascript api</a>. Unfortunately the api is not always as intuitive as it should be, especially when you have to deal with error codes. To make you life easier, I collected various approaches for encryption with <span class="caps">AES</span>&nbsp;256. </p>
+<h2 id="encryption-mode">Encryption&nbsp;mode</h2>
+<p>The first decision is the <span class="caps">AES</span> encryption mode. Currently I recommend the <a href="http://nodejs.org/api/crypto.html"><span class="caps">CTR</span> mode</a>. You may want to read <a href="http://www.cs.ucdavis.edu/~rogaway/papers/modes.pdf">Evaluation of Some Blockcipher Modes of Operation</a> or <a href="http://csrc.nist.gov/groups/ST/toolkit/BCM/documents/ccm-ad1.pdf">On the Security of <span class="caps">CTR</span> + CBC-MAC</a>. The next nodejs version comes with support for <a href="http://en.wikipedia.org/wiki/Galois/Counter_Mode"><span class="caps">GCM</span></a> to do <a href="http://en.wikipedia.org/wiki/Authenticated_encryption">authenticated encryption</a>. Until then you have to use approaches like Encrypt-then-<span class="caps">MAC</span> and combine the encryption with the generation of <a href="/articles/nodejs-sha512/"><span class="caps">SHA</span> hashs</a>.</p>
+<h2 id="examples">Examples</h2>
+<h3 id="encrypt-and-decrypt-text">Encrypt and decrypt&nbsp;text</h3>
+<script src="https://gist.github.com/chris-rock/993d8a22c7138d1f0d2e.js"></script>
+
+<h3 id="encrypt-and-decrypt-buffers">Encrypt and decrypt&nbsp;buffers</h3>
+<script src="https://gist.github.com/chris-rock/6cac4e422f29c28c9d88.js"></script>
+
+<h3 id="encrypt-and-decrypt-streams">Encrypt and decrypt&nbsp;streams</h3>
+<script src="https://gist.github.com/chris-rock/335f92742b497256982a.js"></script>
+
+<h3 id="use-gcm-for-authenticated-encryption">Use <span class="caps">GCM</span> for authenticated&nbsp;encryption</h3>
+<p>If you replace <code>aes-256-ctr</code> with <code>aes-256-gcm</code> you may think everything works as expected. Unfortunately this will result with a confusing error message: <code>TypeError: error:00000000:lib(0):func(0):reason(0)</code>. </p>
+<p>Authenticated encryption includes a hash of the encrypted content and helps you to identify manipulated encrypted&nbsp;content.</p>
+<p>You need to set the <a href="https://github.com/joyent/node/blob/857975d5e7e0d7bf38577db0478d9e5ede79922e/lib/crypto.js#L238-L245">authentication tag</a> via <code>decrypt.setAuthTag()</code>, which is currently only available if you use <code>crypto.createCipheriv(algorithm, key, iv)</code> with an <a href="http://en.wikipedia.org/wiki/Initialization_vector">initialization vector</a>. <span class="caps">GCM</span>’s security is dependent on choosing a unique initialization vector for each&nbsp;encryption.</p>
+<script src="https://gist.github.com/chris-rock/fe87dd35d6168512a2f7.js"></script>
+
+<p>The new <span class="caps">GCM</span> mode is available in nodejs 0.11. Try it with <a href="https://github.com/visionmedia/n">n</a>&nbsp;via</p>
+<pre><code>npm install -g n
+sudo n 0.11.13
+n use 0.11.13 crypto-gcm.js
+</code></pre><p>Also take a look at the <a href="https://github.com/joyent/node/blob/master/test/simple/test-crypto-authenticated.js#L44-L64">nodejs tests</a> for more tests with different&nbsp;setups.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>I hope the samples help you to get started with nodejs&nbsp;encryption.</p>
+</section>
+        </article>
+      </div>
+    </div>
+    <footer>
+      <div class="content-wrap">
+        <div class="nav"><a href="/">« Full blog</a></div>
+        <section class="about">
+        </section>
+        <section class="copy">
+          <p>&copy; 2014 chris-rock &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
+          </p>
+        </section>
+      </div>
+    </footer>
+  </body>
+</html>
