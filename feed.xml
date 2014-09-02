@@ -5,9 +5,49 @@
     <atom:link href="http://chris-rock.github.io/feed.xml" rel="self" type="application/rss+xml"></atom:link>
     <link>http://chris-rock.github.io</link>
     <description>fun &amp; sun</description>
-    <pubDate>Sun, 24  Aug 2014 02:00:00 +0200</pubDate>
+    <pubDate>Tue, 02 Sep 2014 02:00:00 +0200</pubDate>
     <generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator>
     <language>en</language>
+    <item>
+      <title>Encrypt and decrypt content with Nodejs</title>
+      <link>http://chris-rock.github.io/articles/nodejs-encryption/</link>
+      <pubDate>Tue, 02 Sep 2014 02:00:00 +0200</pubDate>
+      <guid isPermaLink="true">http://chris-rock.github.io/articles/nodejs-encryption/</guid>
+      <author></author>
+      <description>&lt;style type=&quot;text/css&quot;&gt;
+.gist {
+  font-size: 12px;
+}
+&lt;/style&gt;
+
+&lt;p&gt;Nodejs offers great support for cryptography. Under the hood it uses openssl and ships with a &lt;a href=&quot;http://nodejs.org/api/crypto.html&quot;&gt;Javascript api&lt;/a&gt;. Unfortunately the api is not always as intuitive as it should be, especially when you have to deal with error codes. To make you life easier, I collected various approaches for encryption with AES 256. &lt;/p&gt;
+&lt;h2 id=&quot;encryption-mode&quot;&gt;Encryption mode&lt;/h2&gt;
+&lt;p&gt;The first decision is the AES encryption mode. Currently I recommend the &lt;a href=&quot;http://nodejs.org/api/crypto.html&quot;&gt;CTR mode&lt;/a&gt;. You may want to read &lt;a href=&quot;http://www.cs.ucdavis.edu/~rogaway/papers/modes.pdf&quot;&gt;Evaluation of Some Blockcipher Modes of Operation&lt;/a&gt; or &lt;a href=&quot;http://csrc.nist.gov/groups/ST/toolkit/BCM/documents/ccm-ad1.pdf&quot;&gt;On the Security of CTR + CBC-MAC&lt;/a&gt;. The next nodejs version comes with support for &lt;a href=&quot;http://en.wikipedia.org/wiki/Galois/Counter_Mode&quot;&gt;GCM&lt;/a&gt; to do &lt;a href=&quot;http://en.wikipedia.org/wiki/Authenticated_encryption&quot;&gt;authenticated encryption&lt;/a&gt;. Until then you have to use approaches like Encrypt-then-MAC and combine the encryption with the generation of &lt;a href=&quot;/articles/nodejs-sha512/&quot;&gt;SHA hashs&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&quot;examples&quot;&gt;Examples&lt;/h2&gt;
+&lt;h3 id=&quot;encrypt-and-decrypt-text&quot;&gt;Encrypt and decrypt text&lt;/h3&gt;
+&lt;script src=&quot;https://gist.github.com/chris-rock/993d8a22c7138d1f0d2e.js&quot;&gt;&lt;/script&gt;
+
+&lt;h3 id=&quot;encrypt-and-decrypt-buffers&quot;&gt;Encrypt and decrypt buffers&lt;/h3&gt;
+&lt;script src=&quot;https://gist.github.com/chris-rock/6cac4e422f29c28c9d88.js&quot;&gt;&lt;/script&gt;
+
+&lt;h3 id=&quot;encrypt-and-decrypt-streams&quot;&gt;Encrypt and decrypt streams&lt;/h3&gt;
+&lt;script src=&quot;https://gist.github.com/chris-rock/335f92742b497256982a.js&quot;&gt;&lt;/script&gt;
+
+&lt;h3 id=&quot;use-gcm-for-authenticated-encryption&quot;&gt;Use GCM for authenticated encryption&lt;/h3&gt;
+&lt;p&gt;If you replace &lt;code&gt;aes-256-ctr&lt;/code&gt; with &lt;code&gt;aes-256-gcm&lt;/code&gt; you may think everything works as expected. Unfortunately this will result with a confusing error message: &lt;code&gt;TypeError: error:00000000:lib(0):func(0):reason(0)&lt;/code&gt;. &lt;/p&gt;
+&lt;p&gt;Authenticated encryption includes a hash of the encrypted content and helps you to identify manipulated encrypted content.&lt;/p&gt;
+&lt;p&gt;You need to set the &lt;a href=&quot;https://github.com/joyent/node/blob/857975d5e7e0d7bf38577db0478d9e5ede79922e/lib/crypto.js#L238-L245&quot;&gt;authentication tag&lt;/a&gt; via &lt;code&gt;decrypt.setAuthTag()&lt;/code&gt;, which is currently only available if you use &lt;code&gt;crypto.createCipheriv(algorithm, key, iv)&lt;/code&gt; with an &lt;a href=&quot;http://en.wikipedia.org/wiki/Initialization_vector&quot;&gt;initialization vector&lt;/a&gt;. GCM’s security is dependent on choosing a unique initialization vector for each encryption.&lt;/p&gt;
+&lt;script src=&quot;https://gist.github.com/chris-rock/fe87dd35d6168512a2f7.js&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;The new GCM mode is available in nodejs 0.11. Try it with &lt;a href=&quot;https://github.com/visionmedia/n&quot;&gt;n&lt;/a&gt; via&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;npm install -g n
+sudo n 0.11.13
+n use 0.11.13 crypto-gcm.js
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Also take a look at the &lt;a href=&quot;https://github.com/joyent/node/blob/master/test/simple/test-crypto-authenticated.js#L44-L64&quot;&gt;nodejs tests&lt;/a&gt; for more tests with different setups.&lt;/p&gt;
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;I hope the samples help you to get started with nodejs encryption.&lt;/p&gt;
+</description>
+    </item>
     <item>
       <title>Chef without an internet connection / Uninstall Chef with Chef</title>
       <link>http://chris-rock.github.io/articles/chef-without-internet/</link>
@@ -15,7 +55,7 @@
       <guid isPermaLink="true">http://chris-rock.github.io/articles/chef-without-internet/</guid>
       <author></author>
       <description>&lt;p&gt;Recently I had a discussion with a DevOps team about an installation of Chef without an internet connection. A normal chef bootstrap fetches the chef binaries via “curl -L &lt;a href=&quot;https://www.opscode.com/chef/install.sh&quot;&gt;https://www.opscode.com/chef/install.sh&lt;/a&gt; | sudo bash”. This will happen, even if you use a Chef Server. Therefore you would require a connection to download the Chef client binaries. &lt;/p&gt;
-&lt;p&gt;This blogpost demonstrates a chef run without an internet connection. Be aware, that we proof the basic setup only. Cookbooks may depend on external urls, but most of them allow attribute overrides to set custom urls.&lt;/p&gt;
+&lt;p&gt;This blog post demonstrates a chef run without an internet connection. Be aware, that we proof the basic setup only. Cookbooks may depend on external urls, but most of them allow attribute overrides to set custom urls.&lt;/p&gt;
 &lt;h2 id=&quot;install-chef-without-internet&quot;&gt;Install Chef without internet&lt;/h2&gt;
 &lt;p&gt;Depending on your operating system, &lt;a href=&quot;http://www.getchef.com/chef/install/&quot;&gt;Chef provides multiple platform dependent installer&lt;/a&gt;. E.g. for Ubuntu you could go with:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;wget https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/13.04/x86_64/chef_11.12.8-2_amd64.deb

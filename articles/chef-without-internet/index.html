@@ -32,7 +32,7 @@
       <div class="content-wrap">
         <article class="article">
           <section class="content"><p>Recently I had a discussion with a DevOps team about an installation of Chef without an internet connection. A normal chef bootstrap fetches the chef binaries via “curl -L <a href="https://www.opscode.com/chef/install.sh">https://www.opscode.com/chef/install.sh</a> | sudo bash”. This will happen, even if you use a Chef Server. Therefore you would require a connection to download the Chef client&nbsp;binaries. </p>
-<p>This blogpost demonstrates a chef run without an internet connection. Be aware, that we proof the basic setup only. Cookbooks may depend on external urls, but most of them allow attribute overrides to set custom&nbsp;urls.</p>
+<p>This blog post demonstrates a chef run without an internet connection. Be aware, that we proof the basic setup only. Cookbooks may depend on external urls, but most of them allow attribute overrides to set custom&nbsp;urls.</p>
 <h2 id="install-chef-without-internet">Install Chef without&nbsp;internet</h2>
 <p>Depending on your operating system, <a href="http://www.getchef.com/chef/install/">Chef provides multiple platform dependent installer</a>. E.g. for Ubuntu you could go&nbsp;with:</p>
 <pre><code>wget https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/13.04/x86_64/chef_11.12.8-2_amd64.deb
