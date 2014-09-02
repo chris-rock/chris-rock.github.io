@@ -7,7 +7,7 @@ template: article.jade
 
 Recently I had a discussion with a DevOps team about an installation of Chef without an internet connection. A normal chef bootstrap fetches the chef binaries via "curl -L https://www.opscode.com/chef/install.sh | sudo bash". This will happen, even if you use a Chef Server. Therefore you would require a connection to download the Chef client binaries. 
 
-This blogpost demonstrates a chef run without an internet connection. Be aware, that we proof the basic setup only. Cookbooks may depend on external urls, but most of them allow attribute overrides to set custom urls.
+This blog post demonstrates a chef run without an internet connection. Be aware, that we proof the basic setup only. Cookbooks may depend on external urls, but most of them allow attribute overrides to set custom urls.
 
 ## Install Chef without internet
 
