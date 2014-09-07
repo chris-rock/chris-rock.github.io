@@ -5,9 +5,176 @@
     <atom:link href="http://chris-rock.github.io/feed.xml" rel="self" type="application/rss+xml"></atom:link>
     <link>http://chris-rock.github.io</link>
     <description>fun &amp; sun</description>
-    <pubDate>Tue, 02 Sep 2014 02:00:00 +0200</pubDate>
+    <pubDate>Sun, 07 Sep 2014 02:00:00 +0200</pubDate>
     <generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator>
     <language>en</language>
+    <item>
+      <title>s3cmd with radosgw</title>
+      <link>http://chris-rock.github.io/articles/s3cmd-with-radosgw/</link>
+      <pubDate>Sun, 07 Sep 2014 02:00:00 +0200</pubDate>
+      <guid isPermaLink="true">http://chris-rock.github.io/articles/s3cmd-with-radosgw/</guid>
+      <author></author>
+      <description>&lt;p&gt;Amazon introduced the concept of &lt;a href=&quot;http://en.wikipedia.org/wiki/Amazon_S3&quot;&gt;S3&lt;/a&gt; object storage to a wide-range of users. Their interface is the defacto-standard to store files in web applications. Nowadays, it is used by other vendors as well. &lt;a href=&quot;http://ceph.com/&quot;&gt;Ceph&lt;/a&gt; and &lt;a href=&quot;http://basho.com/riak-cloud-storage/&quot;&gt;RiakCS&lt;/a&gt; are some examples, where the same interface is available. This blog post will setup s3cmd with Ceph radosgw.&lt;/p&gt;
+&lt;h2 id=&quot;about-s3&quot;&gt;About S3&lt;/h2&gt;
+&lt;p&gt;It is used as an interface for distributed storage due to the fact that the only thing you need to put and retrieve files is http. It is very handy to have a clear interface to manage files across different machines. For example you may want to backup your local files to a s3 cluster. This requires a toolset that enables you to easily store and retrieve s3 files from command line. &lt;a href=&quot;http://s3tools.org/s3cmd&quot;&gt;s3cmd&lt;/a&gt; is a great tool for just that. Out of the box it works with Amazon S3, but can be easily configured with &lt;a href=&quot;http://ceph.com/docs/master/man/8/radosgw/&quot;&gt;radosgw&lt;/a&gt;, which is commonly used in conjunction with &lt;a href=&quot;http://www.openstack.org/&quot;&gt;OpenStack&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;installation&quot;&gt;Installation&lt;/h2&gt;
+&lt;p&gt;Before we start implementing the base set, you need to install &lt;code&gt;s3cmd&lt;/code&gt; on you machine. &lt;/p&gt;
+&lt;h3 id=&quot;ubuntu&quot;&gt;Ubuntu&lt;/h3&gt;
+&lt;p&gt;For Ubuntu you need to install the s3 repo before installing the package &lt;code&gt;s3cmd&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# install repo key&lt;/span&gt;
+wget -O- -q http://s3tools.org/repo/deb-all/stable/s3tools.key | &lt;span class=&quot;built_in&quot;&gt;sudo&lt;/span&gt; apt-key add -
+&lt;span class=&quot;comment&quot;&gt;# install repo&lt;/span&gt;
+&lt;span class=&quot;built_in&quot;&gt;sudo&lt;/span&gt; wget -O/etc/apt/sources.list.d/s3tools.list http://s3tools.org/repo/deb-all/stable/s3tools.list
+&lt;span class=&quot;comment&quot;&gt;# update package manager&lt;/span&gt;
+&lt;span class=&quot;built_in&quot;&gt;sudo&lt;/span&gt; apt-get update
+&lt;span class=&quot;comment&quot;&gt;# install s3cmd&lt;/span&gt;
+&lt;span class=&quot;built_in&quot;&gt;sudo&lt;/span&gt; apt-get install s3cmd
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;macos&quot;&gt;MacOS&lt;/h3&gt;
+&lt;p&gt;On Mac you may use &lt;a href=&quot;http://brew.sh/&quot;&gt;brew&lt;/a&gt; to install s3cmd:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# install s3cmd
+brew install s3cmd
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;basic-commands&quot;&gt;Basic Commands&lt;/h2&gt;
+&lt;p&gt;S3 uses a different terminology, compared to posix filesystems:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;bucket: kind of directory&lt;/li&gt;
+&lt;li&gt;object: similar to a file&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Although Amazon S3 allows you to create a &lt;code&gt;directory&lt;/code&gt; within a bucket, it will not be a real directory. In S3, a directory is more like a file prefix. Take this in consideration when you upload huge amounts of data.&lt;/p&gt;
+&lt;p&gt;In general it is very efficient to use prefixes for searches instead of postfixes. E.g. if you look for file types, you may store your files as &lt;code&gt;txt.file&lt;/code&gt; instead of &lt;code&gt;file.txt&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Basic commands for &lt;code&gt;s3cmd&lt;/code&gt; are:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# S3cmd help&lt;/span&gt;
+s3cmd --help
+
+&lt;span class=&quot;comment&quot;&gt;# Display all buckets&lt;/span&gt;
+s3cmd ls
+
+&lt;span class=&quot;comment&quot;&gt;# Create new bucket&lt;/span&gt;
+s3cmd mb s3://YOURBUCKET
+
+&lt;span class=&quot;comment&quot;&gt;# Upload new file&lt;/span&gt;
+s3cmd put test.txt s3://YOURBUCKET
+
+&lt;span class=&quot;comment&quot;&gt;# Download file&lt;/span&gt;
+s3cmd get s3://YOURBUCKET/test.txt test.txt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;configuration-for-radosgw-&quot;&gt;Configuration for &lt;code&gt;radosgw&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;Since &lt;code&gt;s3cmd&lt;/code&gt; is optimized for Amazon S3, you need to apply a few changes to convince &lt;code&gt;s3cmd&lt;/code&gt; to talk with &lt;code&gt;radosgw&lt;/code&gt;. At first we create a new configuration with s3cmd via interactive mode:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-code&quot;&gt;s3cmd --configure -c s3test.cfg
+
+Enter new values or accept defaults in brackets with Enter.
+Refer to user manual for detailed description of all options.
+
+Access key and Secret key are your identifiers for Amazon S3
+Access Key: key
+Secret Key: secret
+
+Encryption password is used to protect your files from reading
+by unauthorized persons while in transfer to S3
+Encryption password: 
+Path to GPG program [/usr/local/bin/gpg]: 
+
+When using secure HTTPS protocol all communication with Amazon S3
+servers is protected from 3rd party eavesdropping. This method is
+slower than plain HTTP and can&amp;#39;t be used if you&amp;#39;re behind a proxy
+Use HTTPS protocol [No]: yes
+
+New settings:
+  Access Key: key
+  Secret Key: secret
+  Encryption password: 
+  Path to GPG program: /usr/local/bin/gpg
+  Use HTTPS protocol: True
+  HTTP Proxy server name: 
+  HTTP Proxy server port: 0
+
+Test access with supplied credentials? [Y/n] n
+
+Save settings? [y/N] y
+Configuration saved to &amp;#39;s3test.cfg&amp;#39;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The generated configuration file will look similar to:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-code&quot;&gt;[default]
+access_key = abc
+bucket_location = US
+cloudfront_host = cloudfront.amazonaws.com
+cloudfront_resource = /2010-07-15/distribution
+default_mime_type = binary/octet-stream
+delete_removed = False
+dry_run = False
+encoding = UTF-8
+encrypt = False
+follow_symlinks = False
+force = False
+get_continue = False
+gpg_command = /usr/local/bin/gpg
+gpg_decrypt = %(gpg_command)s -d --verbose --no-use-agent --batch --yes --passphrase-fd %(passphrase_fd)s -o %(output_file)s %(input_file)s
+gpg_encrypt = %(gpg_command)s -c --verbose --no-use-agent --batch --yes --passphrase-fd %(passphrase_fd)s -o %(output_file)s %(input_file)s
+gpg_passphrase =
+guess_mime_type = True
+host_base = s3.amazonaws.com
+host_bucket = %(bucket)s.s3.amazonaws.com
+human_readable_sizes = False
+list_md5 = False
+log_target_prefix =
+preserve_attrs = True
+progress_meter = True
+proxy_host =
+proxy_port = 0
+recursive = False
+recv_chunk = 4096
+reduced_redundancy = False
+secret_key = secret
+send_chunk = 4096
+simpledb_host = sdb.amazonaws.com
+skip_existing = False
+socket_timeout = 300
+urlencoding_mode = normal
+use_https = True
+verbosity = WARNING
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Afterwards you may try to access your bucket with &lt;code&gt;s3cmd&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;s3cmd -c s3test.cfg ls
+ERROR: S3 error: &lt;span class=&quot;number&quot;&gt;403&lt;/span&gt; (InvalidAccessKeyId): The AWS Access Key Id you provided does not exist &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; our records.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We need to adapt a few lines to configure s3cmd for radosgw. Currently &lt;code&gt;s3cmd&lt;/code&gt; does not know the radosgw hostname. Replace &lt;code&gt;host_base&lt;/code&gt; and &lt;code&gt;host_bucket&lt;/code&gt; with the hostname of the radosgw host:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-code&quot;&gt;host_base = s3.amazonaws.com
+host_bucket = %(bucket)s.s3.amazonaws.com
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;becomes:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-code&quot;&gt;host_base = radosgw.example.com
+host_bucket = %(bucket)s.radosgw.example.com
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now you should be able to run &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-code&quot;&gt;s3cmd -c s3test.cfg ls
+2014-09-06 12:05  s3://YOURBUCKET
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Sidenote: I had a few issues using lowercase bucket names with &lt;code&gt;radosgw&lt;/code&gt;. Uppercase buckets worked like a charm. &lt;/p&gt;
+&lt;h2 id=&quot;encryption-with-gpg&quot;&gt;Encryption with gpg&lt;/h2&gt;
+&lt;p&gt;If we talk about backups, we never want to store them unencrypted. &lt;code&gt;s3cmd&lt;/code&gt; supports &lt;a href=&quot;https://www.gnupg.org/&quot;&gt;gpg&lt;/a&gt;. The cool thing of using s3cmd in conjunction with gpg is the fact that it works completely transparent. Once configured, all files are automatically encrypted during upload and decrypted whenever you download a file.&lt;/p&gt;
+&lt;p&gt;To activate encryption change the &lt;code&gt;s3cmd&lt;/code&gt; configuration file:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-code&quot;&gt;encrypt = True
+gpg_command = gpg
+gpg_decrypt = %(gpg_command)s -d --verbose --no-use-agent --batch --yes --passphrase-fd %(passphrase_fd)s -o %(output_file)s %(input_file)s
+gpg_encrypt = %(gpg_command)s -c --cipher-algo AES256 --force-mdc --verbose --no-use-agent --batch --yes --passphrase-fd %(passphrase_fd)s -o %(output_file)s %(input_file)s
+gpg_passphrase = longsecurepassphrase
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;At first you have to enable encryption with &lt;code&gt;encrypt = True&lt;/code&gt;. Although the default configuration uses &lt;code&gt;gpg_command = /usr/local/bin/gpg&lt;/code&gt;, I prefer to use &lt;code&gt;gpg_command = gpg&lt;/code&gt;. Now, you have to set &lt;code&gt;gpg&lt;/code&gt; in your system path, but on the other hand, the configuration works on Linux and Mac without any change. Additionally you want to ensure that gpg uses the right cipher. I prefer to set the cipher explicitly: &lt;code&gt;--cipher-algo AES256&lt;/code&gt;. Although default with AES256, the option &lt;code&gt;--force-mdc&lt;/code&gt; forces the use of encryption with a modification detection code.&lt;/p&gt;
+&lt;p&gt;Finally, &lt;code&gt;s3cmd&lt;/code&gt; works with &lt;code&gt;radosgw&lt;/code&gt; and encryption.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$&amp;gt; cat &amp;gt; test.txt
+samplecontent
+$&amp;gt; s3cmd put test.txt s3://YOURBUCKET
+test.txt -&amp;gt; s3://YOURBUCKET/test.txt  [1 of 1]
+ 4 of 4   100% in    0s     7.51 B/s  done
+$&amp;gt; s3cmd get s3://YOURBUCKET/test.txt test2.txt
+s3://YOURBUCKET/test.txt -&amp;gt; test2.txt  [1 of 1]
+ 4 of 4   100% in    0s     5.74 B/s  done
+$&amp;gt; s3cmd del s3://YOURBUCKET/test.txt
+File s3://YOURBUCKET/test.txt deleted
+$&amp;gt; cat test2.txt 
+samplecontent
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
     <item>
       <title>Encrypt and decrypt content with Nodejs</title>
       <link>http://chris-rock.github.io/articles/nodejs-encryption/</link>

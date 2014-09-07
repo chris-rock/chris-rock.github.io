@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <meta name="google-site-verification" content="iplyfI0Y6pOe8NsNYwwrKe-QfSYamSeEhQiDFh93NiU">
+    <title>s3cmd with radosgw - chris-rock
+    </title>
+    <link rel="alternate" href="http://chris-rock.github.io/feed.xml" type="application/rss+xml" title="fun &amp; sun">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic|Anonymous+Pro:400,700,400italic,700italic|Merriweather:400,700,300">
+    <link rel="stylesheet" href="/css/main.css">
+    <script type="text/javascript">
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-50992958-1', 'lollyrock.com');
+      ga('send', 'pageview');
+      
+    </script>
+  </head>
+  <body class="article-detail">
+    <header class="header">
+      <div class="content-wrap">
+        <h1>s3cmd with radosgw</h1>
+        <p class="author">Written by <span class="author"><a href="mailto:chris@lollyrock.com">chris-rock</a></span>
+        </p>
+      </div>
+    </header>
+    <div id="content">
+      <div class="content-wrap">
+        <article class="article">
+          <section class="content"><p>Amazon introduced the concept of <a href="http://en.wikipedia.org/wiki/Amazon_S3">S3</a> object storage to a wide-range of users. Their interface is the defacto-standard to store files in web applications. Nowadays, it is used by other vendors as well. <a href="http://ceph.com/">Ceph</a> and <a href="http://basho.com/riak-cloud-storage/">RiakCS</a> are some examples, where the same interface is available. This blog post will setup s3cmd with Ceph&nbsp;radosgw.</p>
+<h2 id="about-s3">About&nbsp;S3</h2>
+<p>It is used as an interface for distributed storage due to the fact that the only thing you need to put and retrieve files is http. It is very handy to have a clear interface to manage files across different machines. For example you may want to backup your local files to a s3 cluster. This requires a toolset that enables you to easily store and retrieve s3 files from command line. <a href="http://s3tools.org/s3cmd">s3cmd</a> is a great tool for just that. Out of the box it works with Amazon S3, but can be easily configured with <a href="http://ceph.com/docs/master/man/8/radosgw/">radosgw</a>, which is commonly used in conjunction with <a href="http://www.openstack.org/">OpenStack</a></p>
+<h2 id="installation">Installation</h2>
+<p>Before we start implementing the base set, you need to install <code>s3cmd</code> on you&nbsp;machine. </p>
+<h3 id="ubuntu">Ubuntu</h3>
+<p>For Ubuntu you need to install the s3 repo before installing the package <code>s3cmd</code>:</p>
+<pre><code class="lang-bash"><span class="comment"># install repo key</span>
+wget -O- -q http://s3tools.org/repo/deb-all/stable/s3tools.key | <span class="built_in">sudo</span> apt-key add -
+<span class="comment"># install repo</span>
+<span class="built_in">sudo</span> wget -O/etc/apt/sources.list.d/s3tools.list http://s3tools.org/repo/deb-all/stable/s3tools.list
+<span class="comment"># update package manager</span>
+<span class="built_in">sudo</span> apt-get update
+<span class="comment"># install s3cmd</span>
+<span class="built_in">sudo</span> apt-get install s3cmd
+</code></pre>
+<h3 id="macos">MacOS</h3>
+<p>On Mac you may use <a href="http://brew.sh/">brew</a> to install&nbsp;s3cmd:</p>
+<pre><code># install s3cmd
+brew install s3cmd
+</code></pre><h2 id="basic-commands">Basic&nbsp;Commands</h2>
+<p>S3 uses a different terminology, compared to posix&nbsp;filesystems:</p>
+<ul>
+<li>bucket: kind of&nbsp;directory</li>
+<li>object: similar to a&nbsp;file</li>
+</ul>
+<p>Although Amazon S3 allows you to create a <code>directory</code> within a bucket, it will not be a real directory. In S3, a directory is more like a file prefix. Take this in consideration when you upload huge amounts of&nbsp;data.</p>
+<p>In general it is very efficient to use prefixes for searches instead of postfixes. E.g. if you look for file types, you may store your files as <code>txt.file</code> instead of <code>file.txt</code>.</p>
+<p>Basic commands for <code>s3cmd</code> are:</p>
+<pre><code class="lang-bash"><span class="comment"># S3cmd help</span>
+s3cmd --help
+
+<span class="comment"># Display all buckets</span>
+s3cmd ls
+
+<span class="comment"># Create new bucket</span>
+s3cmd mb s3://<span class="caps">YOURBUCKET</span>
+
+<span class="comment"># Upload new file</span>
+s3cmd put test.txt s3://<span class="caps">YOURBUCKET</span>
+
+<span class="comment"># Download file</span>
+s3cmd get s3://<span class="caps">YOURBUCKET</span>/test.txt test.txt
+</code></pre>
+<h2 id="configuration-for-radosgw-">Configuration for <code>radosgw</code></h2>
+<p>Since <code>s3cmd</code> is optimized for Amazon S3, you need to apply a few changes to convince <code>s3cmd</code> to talk with <code>radosgw</code>. At first we create a new configuration with s3cmd via interactive&nbsp;mode:</p>
+<pre><code class="lang-code">s3cmd --configure -c s3test.cfg
+
+Enter new values or accept defaults in brackets with Enter.
+Refer to user manual for detailed description of all options.
+
+Access key and Secret key are your identifiers for Amazon S3
+Access Key: key
+Secret Key: secret
+
+Encryption password is used to protect your files from reading
+by unauthorized persons while in transfer to S3
+Encryption password: 
+Path to GPG program [/usr/local/bin/gpg]: 
+
+When using secure HTTPS protocol all communication with Amazon S3
+servers is protected from 3<span class="ord">rd</span> party eavesdropping. This method is
+slower than plain HTTP and can&#39;t be used if you&#39;re behind a proxy
+Use HTTPS protocol [No]: yes
+
+New settings:
+  Access Key: key
+  Secret Key: secret
+  Encryption password: 
+  Path to GPG program: /usr/local/bin/gpg
+  Use HTTPS protocol: True
+  HTTP Proxy server name: 
+  HTTP Proxy server port: 0
+
+Test access with supplied credentials? [Y/n] n
+
+Save settings? [y/N] y
+Configuration saved to &#39;s3test.cfg&#39;
+</code></pre>
+<p>The generated configuration file will look similar&nbsp;to:</p>
+<pre><code class="lang-code">[default]
+access_key = abc
+bucket_location = US
+cloudfront_host = cloudfront.amazonaws.com
+cloudfront_resource = /2010-07-15/distribution
+default_mime_type = binary/octet-stream
+delete_removed = False
+dry_run = False
+encoding = UTF-8
+encrypt = False
+follow_symlinks = False
+force = False
+get_continue = False
+gpg_command = /usr/local/bin/gpg
+gpg_decrypt = %(gpg_command)s -d --verbose --no-use-agent --batch --yes --passphrase-fd %(passphrase_fd)s -o %(output_file)s %(input_file)s
+gpg_encrypt = %(gpg_command)s -c --verbose --no-use-agent --batch --yes --passphrase-fd %(passphrase_fd)s -o %(output_file)s %(input_file)s
+gpg_passphrase =
+guess_mime_type = True
+host_base = s3.amazonaws.com
+host_bucket = %(bucket)s.s3.amazonaws.com
+human_readable_sizes = False
+list_md5 = False
+log_target_prefix =
+preserve_attrs = True
+progress_meter = True
+proxy_host =
+proxy_port = 0
+recursive = False
+recv_chunk = 4096
+reduced_redundancy = False
+secret_key = secret
+send_chunk = 4096
+simpledb_host = sdb.amazonaws.com
+skip_existing = False
+socket_timeout = 300
+urlencoding_mode = normal
+use_https = True
+verbosity = WARNING
+</code></pre>
+<p>Afterwards you may try to access your bucket with <code>s3cmd</code>:</p>
+<pre><code class="lang-bash">s3cmd -c s3test.cfg ls
+ERROR: S3 error: <span class="number">403</span> (InvalidAccessKeyId): The <span class="caps">AWS</span> Access Key Id you provided does not exist <span class="keyword">in</span> our records.
+</code></pre>
+<p>We need to adapt a few lines to configure s3cmd for radosgw. Currently <code>s3cmd</code> does not know the radosgw hostname. Replace <code>host_base</code> and <code>host_bucket</code> with the hostname of the radosgw&nbsp;host:</p>
+<pre><code class="lang-code">host_base = s3.amazonaws.com
+host_bucket = %(bucket)s.s3.amazonaws.com
+</code></pre>
+<p>becomes:</p>
+<pre><code class="lang-code">host_base = radosgw.example.com
+host_bucket = %(bucket)s.radosgw.example.com
+</code></pre>
+<p>Now you should be able to&nbsp;run </p>
+<pre><code class="lang-code">s3cmd -c s3test.cfg ls
+2014-09-06 12:05  s3://YOURBUCKET
+</code></pre>
+<p>Sidenote: I had a few issues using lowercase bucket names with <code>radosgw</code>. Uppercase buckets worked like a&nbsp;charm. </p>
+<h2 id="encryption-with-gpg">Encryption with&nbsp;gpg</h2>
+<p>If we talk about backups, we never want to store them unencrypted. <code>s3cmd</code> supports <a href="https://www.gnupg.org/">gpg</a>. The cool thing of using s3cmd in conjunction with gpg is the fact that it works completely transparent. Once configured, all files are automatically encrypted during upload and decrypted whenever you download a&nbsp;file.</p>
+<p>To activate encryption change the <code>s3cmd</code> configuration&nbsp;file:</p>
+<pre><code class="lang-code">encrypt = True
+gpg_command = gpg
+gpg_decrypt = %(gpg_command)s -d --verbose --no-use-agent --batch --yes --passphrase-fd %(passphrase_fd)s -o %(output_file)s %(input_file)s
+gpg_encrypt = %(gpg_command)s -c --cipher-algo AES256 --force-mdc --verbose --no-use-agent --batch --yes --passphrase-fd %(passphrase_fd)s -o %(output_file)s %(input_file)s
+gpg_passphrase = longsecurepassphrase
+</code></pre>
+<p>At first you have to enable encryption with <code>encrypt = True</code>. Although the default configuration uses <code>gpg_command = /usr/local/bin/gpg</code>, I prefer to use <code>gpg_command = gpg</code>. Now, you have to set <code>gpg</code> in your system path, but on the other hand, the configuration works on Linux and Mac without any change. Additionally you want to ensure that gpg uses the right cipher. I prefer to set the cipher explicitly: <code>--cipher-algo AES256</code>. Although default with <span class="caps">AES256</span>, the option <code>--force-mdc</code> forces the use of encryption with a modification detection&nbsp;code.</p>
+<p>Finally, <code>s3cmd</code> works with <code>radosgw</code> and&nbsp;encryption.</p>
+<pre><code>$&gt; cat &gt; test.txt
+samplecontent
+$&gt; s3cmd put test.txt s3://YOURBUCKET
+test.txt -&gt; s3://YOURBUCKET/test.txt  [1 of 1]
+ 4 of 4   100% in    0s     7.51 B/s  done
+$&gt; s3cmd get s3://YOURBUCKET/test.txt test2.txt
+s3://YOURBUCKET/test.txt -&gt; test2.txt  [1 of 1]
+ 4 of 4   100% in    0s     5.74 B/s  done
+$&gt; s3cmd del s3://YOURBUCKET/test.txt
+File s3://YOURBUCKET/test.txt deleted
+$&gt; cat test2.txt 
+samplecontent
+</code></pre></section>
+        </article>
+      </div>
+    </div>
+    <footer>
+      <div class="content-wrap">
+        <div class="nav"><a href="/">« Full blog</a></div>
+        <section class="about">
+        </section>
+        <section class="copy">
+          <p>&copy; 2014 chris-rock &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
+          </p>
+        </section>
+      </div>
+    </footer>
+  </body>
+</html>
