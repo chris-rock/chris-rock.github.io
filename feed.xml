@@ -26,7 +26,7 @@ gpg -d test.txt.gpg
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;you should enable the integrity check. The full encryption and decryption works as before:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;gpg --cipher-algo AES256 --force-mdc -c test.txt
 gpg -d test.txt.gpg
-&lt;/code&gt;&lt;/pre&gt;&lt;h1 id=&quot;sign-messages&quot;&gt;Sign messages&lt;/h1&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;sign-files&quot;&gt;Sign files&lt;/h2&gt;
 &lt;p&gt;Since you are using the same keychain for signing and encrypting as for your emails, its very easy to sign a message. Be aware that signed messages are not encrypted.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;# encrypt and sign message, you will be prompted for your password if required
 $ gpg --sign test.txt
@@ -41,9 +41,12 @@ user: &amp;quot;Christoph Hartmann &amp;lt;chris@lollyrock.com&amp;gt;&amp;quot;
 $ gpg --verify test.txt.gpg
 gpg: Signature made So 14 Sep 22:28:04 2014 CEST using RSA key ID ABBFDCA9
 gpg: Good signature from &amp;quot;Christoph Hartmann &amp;lt;chris@lollyrock.com&amp;gt;&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Now we are going to encrypt files for &lt;code&gt;john@example.com&lt;/code&gt; by using his public key. With this approach we are able to store files in any cloud storage. Only the recipient is able to decrypt the content&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;encrypt-files-for-specific-persons&quot;&gt;Encrypt files for specific persons&lt;/h2&gt;
+&lt;p&gt;Now we are going to encrypt files for &lt;code&gt;john@example.com&lt;/code&gt; by using his public key. &lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ gpg --cipher-algo AES256 -e --sign --recipient john@example.com test.txt
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Cheers
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;With this approach we are able to store files in any cloud storage. Only the recipient is able to decrypt the content. In this specific case only John is able to decrypt the content with his private key. We do not have to ship any shared password to John and everything works out of the box. By reusing the GPG infrastructure, sharing encrypted content is much simpler. &lt;/p&gt;
+&lt;p&gt;If you are not using GPG/PGP already for your email, please do.&lt;/p&gt;
+&lt;p&gt;Cheers
 Chris&lt;/p&gt;
 </description>
     </item>
