@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <meta name="google-site-verification" content="iplyfI0Y6pOe8NsNYwwrKe-QfSYamSeEhQiDFh93NiU">
+    <title>chris-rock
+    </title>
+    <link rel="alternate" href="http://chris-rock.github.io/feed.xml" type="application/rss+xml" title="fun &amp; sun">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic|Anonymous+Pro:400,700,400italic,700italic|Merriweather:400,700,300">
+    <link rel="stylesheet" href="/css/main.css">
+    <script type="text/javascript">
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-50992958-1', 'lollyrock.com');
+      ga('send', 'pageview');
+      
+    </script>
+  </head>
+  <body>
+    <header class="header">
+      <div class="content-wrap">
+        <div class="logo">
+          <h1><a href="http://chris-rock.github.io">chris-rock</a></h1>
+          <p class="description">fun &amp; sun</p>
+        </div>
+      </div>
+    </header>
+    <div id="content">
+      <div class="content-wrap">
+        <article class="article intro">
+          <header>
+            <p class="date"><span>28. October 2013</span></p>
+            <h2><a href="/articles/havana-box/">Havana Box</a></h2>
+          </header>
+          <section class="content"><center><a href="http://www.flickr.com/photos/fixedgear/2998411614/" title="Havana by fixedgear, on Flickr"><img src="http://farm4.staticflickr.com/3161/2998411614_787b7717b2_q.jpg" width="150px" height="150px" alt="Havana" style="margin:0px"></a></center>
+
+
+
+<p><a href="http://www.openstack.org/software/havana/">OpenStack Havana</a> has just been released. It offers a bunch of new features. Everything is well documented in their <a href="https://wiki.openstack.org/wiki/ReleaseNotes/Havana">Release Notes</a>. It is nice to read, but I need a test&nbsp;drive.</p>
+<p>We are using Open Stack heavily and test new releases via <a href="http://devstack.org/">DevStack</a> before we deploy new releases in our staging environment. What would be easier than trying Havana with a <a href="http://www.vagrantup.com/">vagrant box</a>. You find my vagrant setup at Github <a href="https://github.com/chris-rock/vagrant-devstack">https://github.com/chris-rock/vagrant-devstack</a>.</p>
+<pre><code>$ git clone https://github.com/chris-rock/vagrant-devstack.git
+Cloning into &#39;vagrant-devstack&#39;...
+remote: Counting objects: 34, done.
+remote: Compressing objects: 100% (19/19), done.
+remote: Total 34 (delta 11), reused 34 (delta 11)
+Unpacking objects: 100% (34/34), done.
+Checking connectivity...done
+$ cd vagrant-devstack
+$ vagrant up
+</code></pre><p>After a cup of tea you should have the&nbsp;following:</p>
+<pre><code>Horizon is now available at http://192.168.50.10/
+Keystone is serving at http://192.168.50.10:5000/v2.0/
+Examples on using novaclient command line is in exercise.sh
+The default users are: admin and demo
+The password: devstack
+This is your host ip: 192.168.50.10
+</code></pre><p>Now you type <a href="http://192.168.50.10">http://192.168.50.10</a> in your browser and log into the OpenStack environment with <code>admin</code> and <code>devstack</code>.</p>
+<p><img src="/articles/havana-box/01_openstack_login.png" alt="Alt text" title="Horizon Dashboard Login"></p>
+<p>Then click on the project <code>demo</code> or <code>admin</code> on the left&nbsp;hand.</p>
+<p><img src="/articles/havana-box/02_openstack_dashboard.png" alt="Alt text" title="Dashboard"></p>
+<p>Start creating your instance and select the Cirros <span class="caps">OS</span> as an image. Of course you could upload new images&nbsp;via</p>
+<pre><code> glance image-create --name YourImage --container-format ovf --disk-format qcow2 --file image_openstack_image.img --is-public True
+</code></pre><p><img src="/articles/havana-box/03_openstack_createinstance.png" alt="Alt text" title="Optional title"></p>
+<p>After your created the machine, the image will be&nbsp;spawned.</p>
+<p><img src="/articles/havana-box/04_openstack_machines.png" alt="Alt text" title="Optional title"></p>
+<p>Click on the machine details and the console log to see the progress of the&nbsp;machine.</p>
+<p><img src="/articles/havana-box/05_openstack_machinedetail.png" alt="Alt text" title="Optional title"></p>
+<p>Finally log into the machine via the NoVNC&nbsp;client.</p>
+<p><img src="/articles/havana-box/06_openstack_runningmachine.png" alt="Alt text" title="Optional title"></p>
+<p>In case you find bugs, I am happy to merge <a href="https://github.com/chris-rock/vagrant-devstack">pull requests</a>.</p>
+<p><a href="https://github.com/chris-rock/vagrant-devstack"><img id="fork-me-ribbon" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a></p>
+
+          </section>
+        </article>
+      </div>
+    </div>
+    <footer>
+      <div class="content-wrap">
+        <div class="nav"><a href="/page/4/">« Newer</a>
+        </div>
+        <section class="about">
+        </section>
+        <section class="copy">
+          <p>&copy; 2014 chris-rock &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
+          </p>
+        </section>
+      </div>
+    </footer>
+  </body>
+</html>

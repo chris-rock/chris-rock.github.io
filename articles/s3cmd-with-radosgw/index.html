@@ -33,7 +33,7 @@
         <article class="article">
           <section class="content"><p>Amazon introduced the concept of <a href="http://en.wikipedia.org/wiki/Amazon_S3">S3</a> object storage to a wide-range of users. Their interface is the defacto-standard to store files in web applications. Nowadays, it is used by other vendors as well. <a href="http://ceph.com/">Ceph</a> and <a href="http://basho.com/riak-cloud-storage/">RiakCS</a> are some examples, where the same interface is available. This blog post will setup s3cmd with Ceph&nbsp;radosgw.</p>
 <h2 id="about-s3">About&nbsp;S3</h2>
-<p>It is used as an interface for distributed storage due to the fact that the only thing you need to put and retrieve files is http. It is very handy to have a clear interface to manage files across different machines. For example you may want to backup your local files to a s3 cluster. This requires a toolset that enables you to easily store and retrieve s3 files from command line. <a href="http://s3tools.org/s3cmd">s3cmd</a> is a great tool for just that. Out of the box it works with Amazon S3, but can be easily configured with <a href="http://ceph.com/docs/master/man/8/radosgw/">radosgw</a>, which is commonly used in conjunction with <a href="http://www.openstack.org/">OpenStack</a></p>
+<p>It is used as an interface for distributed storage due to the fact that the only thing you need to put and retrieve files is http. It is very handy to have a clear interface to manage files across different machines. For example you may want to backup your local files to a s3 cluster. This requires a toolset that enables you to easily store and retrieve s3 files from command line. <a href="http://s3tools.org/s3cmd">s3cmd</a> is a great tool for just that. Out of the box it works with Amazon S3, but can be easily configured with <a href="http://ceph.com/docs/master/man/8/radosgw/">radosgw</a>, which is commonly used in conjunction with <a href="http://www.openstack.org/">OpenStack</a>.</p>
 <h2 id="installation">Installation</h2>
 <p>Before we start implementing the base set, you need to install <code>s3cmd</code> on you&nbsp;machine. </p>
 <h3 id="ubuntu">Ubuntu</h3>
@@ -75,7 +75,7 @@ s3cmd put test.txt s3://<span class="caps">YOURBUCKET</span>
 <span class="comment"># Download file</span>
 s3cmd get s3://<span class="caps">YOURBUCKET</span>/test.txt test.txt
 </code></pre>
-<h2 id="configuration-for-radosgw-">Configuration for <code>radosgw</code></h2>
+<h2 id="configuration-for-radosgw">Configuration for&nbsp;radosgw</h2>
 <p>Since <code>s3cmd</code> is optimized for Amazon S3, you need to apply a few changes to convince <code>s3cmd</code> to talk with <code>radosgw</code>. At first we create a new configuration with s3cmd via interactive&nbsp;mode:</p>
 <pre><code class="lang-code">s3cmd --configure -c s3test.cfg
 
