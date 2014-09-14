@@ -30,7 +30,7 @@ gpg --cipher-algo AES256 --force-mdc -c test.txt
 gpg -d test.txt.gpg
 ```
 
-# Sign messages
+## Sign files
 
 Since you are using the same keychain for signing and encrypting as for your emails, its very easy to sign a message. Be aware that signed messages are not encrypted.
 
@@ -51,12 +51,18 @@ gpg: Good signature from "Christoph Hartmann <chris@lollyrock.com>"
 
 ```
 
-Now we are going to encrypt files for `john@example.com` by using his public key. With this approach we are able to store files in any cloud storage. Only the recipient is able to decrypt the content
+## Encrypt files for specific persons
+
+Now we are going to encrypt files for `john@example.com` by using his public key. 
 
 ```
 $ gpg --cipher-algo AES256 -e --sign --recipient john@example.com test.txt
 
 ```
+
+With this approach we are able to store files in any cloud storage. Only the recipient is able to decrypt the content. In this specific case only John is able to decrypt the content with his private key. We do not have to ship any shared password to John and everything works out of the box. By reusing the GPG infrastructure, sharing encrypted content is much simpler. 
+
+If you are not using GPG/PGP already for your email, please do.
 
 Cheers
 Chris
