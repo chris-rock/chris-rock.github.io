@@ -9,7 +9,7 @@ Amazon introduced the concept of [S3](http://en.wikipedia.org/wiki/Amazon_S3) ob
 
 ## About S3
 
-It is used as an interface for distributed storage due to the fact that the only thing you need to put and retrieve files is http. It is very handy to have a clear interface to manage files across different machines. For example you may want to backup your local files to a s3 cluster. This requires a toolset that enables you to easily store and retrieve s3 files from command line. [s3cmd](http://s3tools.org/s3cmd) is a great tool for just that. Out of the box it works with Amazon S3, but can be easily configured with [radosgw](http://ceph.com/docs/master/man/8/radosgw/), which is commonly used in conjunction with [OpenStack](http://www.openstack.org/)
+It is used as an interface for distributed storage due to the fact that the only thing you need to put and retrieve files is http. It is very handy to have a clear interface to manage files across different machines. For example you may want to backup your local files to a s3 cluster. This requires a toolset that enables you to easily store and retrieve s3 files from command line. [s3cmd](http://s3tools.org/s3cmd) is a great tool for just that. Out of the box it works with Amazon S3, but can be easily configured with [radosgw](http://ceph.com/docs/master/man/8/radosgw/), which is commonly used in conjunction with [OpenStack](http://www.openstack.org/).
 
 ## Installation
 
@@ -69,7 +69,7 @@ s3cmd put test.txt s3://YOURBUCKET
 s3cmd get s3://YOURBUCKET/test.txt test.txt
 ```
 
-## Configuration for `radosgw`
+## Configuration for radosgw
 
 Since `s3cmd` is optimized for Amazon S3, you need to apply a few changes to convince `s3cmd` to talk with `radosgw`. At first we create a new configuration with s3cmd via interactive mode:
 
