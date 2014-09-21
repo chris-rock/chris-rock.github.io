@@ -5,9 +5,145 @@
     <atom:link href="http://chris-rock.github.io/feed.xml" rel="self" type="application/rss+xml"></atom:link>
     <link>http://chris-rock.github.io</link>
     <description>fun &amp; sun</description>
-    <pubDate>Sun, 14 Sep 2014 02:00:00 +0200</pubDate>
+    <pubDate>Sun, 21 Sep 2014 02:00:00 +0200</pubDate>
     <generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator>
     <language>en</language>
+    <item>
+      <title>Implicit JSON conversion with Scala</title>
+      <link>http://chris-rock.github.io/articles/scala-implicit-conversion/</link>
+      <pubDate>Sun, 21 Sep 2014 02:00:00 +0200</pubDate>
+      <guid isPermaLink="true">http://chris-rock.github.io/articles/scala-implicit-conversion/</guid>
+      <author></author>
+      <description>&lt;p&gt;In my last blog posts about Scala, I explained &lt;a href=&quot;http://lollyrock.com/articles/scalatra-bearer-authentication/&quot;&gt;Scalatra with Bearer Authentication&lt;/a&gt; and &lt;a href=&quot;http://lollyrock.com/articles/scala-http-requests/&quot;&gt;Asynchronous HTTP requests with Scala and Dispatch&lt;/a&gt;. Today I am going to focus on JSON. We will encode data types to JSON and decode JSON into existing data structures.&lt;/p&gt;
+&lt;h2 id=&quot;json-library&quot;&gt;JSON Library&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;http://stackoverflow.com/questions/8054018/json-library-for-scala&quot;&gt;Plenty of options&lt;/a&gt; are available for JSON in Scala. It really depends on your setup and may depend on your web framework decision. I am not going to start an argumentation about the best toolkit available. The following post will stick with &lt;a href=&quot;http://argonaut.io&quot;&gt;Argonaut&lt;/a&gt;, but the general approach works with other JSON frameworks as well. I selected it because it fits my function development approach in Scala and works well with &lt;a href=&quot;http://www.scalatra.org/&quot;&gt;Scalatra&lt;/a&gt;. Be aware that Scalatra itself &lt;a href=&quot;http://scalatra.org/2.3/guides/formats/json.html&quot;&gt;promotes&lt;/a&gt; &lt;a href=&quot;http://json4s.org/&quot;&gt;JSON4s&lt;/a&gt; with &lt;a href=&quot;http://jackson.codehaus.org/&quot;&gt;Jackson&lt;/a&gt;, but I found it more difficult to use that Argonaut.&lt;/p&gt;
+&lt;h2 id=&quot;conversion&quot;&gt;Conversion&lt;/h2&gt;
+&lt;p&gt;Before we talk about the conversion, we need to define the data model. I use the &lt;a href=&quot;http://slick.typesafe.com/doc/2.1.0/orm-to-slick.html&quot;&gt;slick sample structuree&lt;/a&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-scala&quot;&gt;  &lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;Person&lt;/span&gt; &lt;span class=&quot;params&quot;&gt;(id: Int,name: String,age: Int,addressId:Int)&lt;/span&gt;&lt;/span&gt;
+  &lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;Address&lt;/span&gt; &lt;span class=&quot;params&quot;&gt;(id: Int, street: String,city: String)&lt;/span&gt;&lt;/span&gt;
+
+  &lt;span class=&quot;comment&quot;&gt;// no direct reference, to fit with slick database models&lt;/span&gt;
+  &lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;PersonWithAddress&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(person: Person, address: Address)&lt;/span&gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now we are able to store a person with address:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;  val person = Person(0, &amp;quot;John Rambo&amp;quot; , 67, 0)
+  val address = Address(0, &amp;quot;101 W Main St&amp;quot;, &amp;quot;Madison, Kentucky&amp;quot;)
+  val pa = PersonWithAddress(person, address)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you are developing REST services you may use JSON as input and output data format. It would be a horror if we have to manually construct the conversion for each route. Therefore we want something like:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-scala&quot;&gt;  &lt;span class=&quot;comment&quot;&gt;// convert the person to json&lt;/span&gt;
+  &lt;span class=&quot;keyword&quot;&gt;val&lt;/span&gt; json = pa.asJson
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Scala provides a cool feature for &lt;a href=&quot;http://docs.scala-lang.org/tutorials/FAQ/finding-implicits.html&quot;&gt;implicit type conversion&lt;/a&gt;. This is very handy for our use case and fits with &lt;a href=&quot;http://argonaut.io/doc/codec/&quot;&gt;argonaut codec&lt;/a&gt;. For our case, the following definition is appropriate: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-scala&quot;&gt;  &lt;span class=&quot;comment&quot;&gt;// implicit conversion with argonaut&lt;/span&gt;
+  implicit &lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; PersonAddressEncodeJson: EncodeJson[PersonWithAddress] =
+  EncodeJson((p: PersonWithAddress) =&amp;gt;
+    (&lt;span class=&quot;string&quot;&gt;&quot;id&quot;&lt;/span&gt; := p.person.id) -&amp;gt;:
+    (&lt;span class=&quot;string&quot;&gt;&quot;name&quot;&lt;/span&gt; := p.person.name) -&amp;gt;:
+    (&lt;span class=&quot;string&quot;&gt;&quot;age&quot;&lt;/span&gt; := p.person.age) -&amp;gt;:
+    (&lt;span class=&quot;string&quot;&gt;&quot;address&quot;&lt;/span&gt; := Json (
+      (&lt;span class=&quot;string&quot;&gt;&quot;id&quot;&lt;/span&gt; := p.address.id),
+      (&lt;span class=&quot;string&quot;&gt;&quot;street&quot;&lt;/span&gt; := p.address.street),
+      (&lt;span class=&quot;string&quot;&gt;&quot;city&quot;&lt;/span&gt; := p.address.city)
+    )
+  ) -&amp;gt;: jEmptyObject)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now we have all pieces together to convert Scala data types to JSON. The result looks as follows:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-json&quot;&gt;{
+  &quot;&lt;span class=&quot;attribute&quot;&gt;id&lt;/span&gt;&quot;: &lt;span class=&quot;value&quot;&gt;&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;&lt;/span&gt;,
+  &quot;&lt;span class=&quot;attribute&quot;&gt;name&lt;/span&gt;&quot;: &lt;span class=&quot;value&quot;&gt;&lt;span class=&quot;string&quot;&gt;&quot;John Rambo&quot;&lt;/span&gt;&lt;/span&gt;,
+  &quot;&lt;span class=&quot;attribute&quot;&gt;age&lt;/span&gt;&quot;: &lt;span class=&quot;value&quot;&gt;&lt;span class=&quot;number&quot;&gt;67&lt;/span&gt;&lt;/span&gt;,
+  &quot;&lt;span class=&quot;attribute&quot;&gt;address&lt;/span&gt;&quot;: &lt;span class=&quot;value&quot;&gt;{
+    &quot;&lt;span class=&quot;attribute&quot;&gt;id&lt;/span&gt;&quot;: &lt;span class=&quot;value&quot;&gt;&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;&lt;/span&gt;,
+    &quot;&lt;span class=&quot;attribute&quot;&gt;street&lt;/span&gt;&quot;: &lt;span class=&quot;value&quot;&gt;&lt;span class=&quot;string&quot;&gt;&quot;101 W Main St&quot;&lt;/span&gt;&lt;/span&gt;,
+    &quot;&lt;span class=&quot;attribute&quot;&gt;city&lt;/span&gt;&quot;: &lt;span class=&quot;value&quot;&gt;&lt;span class=&quot;string&quot;&gt;&quot;Madison, Kentucky&quot;&lt;/span&gt;
+  &lt;/span&gt;}
+&lt;/span&gt;}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;To consume JSON data we write a decoder:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-scala&quot;&gt;implicit &lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; PersonAddressDecodeJson: DecodeJson[PersonWithAddress] =
+  DecodeJson(c =&amp;gt; &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; {
+
+    id &amp;lt;- (c --\ &lt;span class=&quot;string&quot;&gt;&quot;id&quot;&lt;/span&gt;).as[Int]
+    name &amp;lt;- (c --\ &lt;span class=&quot;string&quot;&gt;&quot;name&quot;&lt;/span&gt;).as[String]
+    age &amp;lt;- (c --\ &lt;span class=&quot;string&quot;&gt;&quot;age&quot;&lt;/span&gt;).as[Int]
+    address &amp;lt;- (c --\ &lt;span class=&quot;string&quot;&gt;&quot;address&quot;&lt;/span&gt;).as[Json]
+
+    &lt;span class=&quot;comment&quot;&gt;// extract data from address&lt;/span&gt;
+    addressid &amp;lt;- (address.acursor --\ &lt;span class=&quot;string&quot;&gt;&quot;id&quot;&lt;/span&gt;).as[Int]
+    street &amp;lt;- (address.acursor --\ &lt;span class=&quot;string&quot;&gt;&quot;street&quot;&lt;/span&gt;).as[String]
+    city &amp;lt;- (address.acursor --\ &lt;span class=&quot;string&quot;&gt;&quot;city&quot;&lt;/span&gt;).as[String]
+
+  } &lt;span class=&quot;keyword&quot;&gt;yield&lt;/span&gt; PersonWithAddress(Person(id, name, age, addressid), Address(addressid, street, city)))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;As a result we get a valid Scala object with the expected data&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-code&quot;&gt;PersonWithAddress(Person(0,John Rambo,67,0),Address(0,101 W Main St,Madison, Kentucky))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Compared to Nodejs, this decode is also a type validation. The conversion will fail, if one parameter is missing. In case you would like to make parts optional, you need to adapt the case class and use &lt;code&gt;Option[Int]&lt;/code&gt; instead of &lt;code&gt;Int&lt;/code&gt;. Additionally you need to adapt the decode and parse to &lt;code&gt;Option[Int]&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-code&quot;&gt;  age &amp;lt;- (c --\ &amp;quot;age&amp;quot;).as[Option[Int]]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h1 id=&quot;the-complete-sample-&quot;&gt;The complete sample:&lt;/h1&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-scala&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; argonaut._, Argonaut._
+
+&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;object&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;ImplicitConversion&lt;/span&gt; {&lt;/span&gt;
+
+  &lt;span class=&quot;comment&quot;&gt;// data model based on http://slick.typesafe.com/doc/2.1.0/orm-to-slick.html&lt;/span&gt;
+  &lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;Person&lt;/span&gt; &lt;span class=&quot;params&quot;&gt;(id: Int,name: String,age: Int,addressId:Int)&lt;/span&gt;&lt;/span&gt;
+  &lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;Address&lt;/span&gt; &lt;span class=&quot;params&quot;&gt;(id: Int, street: String,city: String)&lt;/span&gt;&lt;/span&gt;
+
+  &lt;span class=&quot;comment&quot;&gt;// no direct reference, to fit with slick database models&lt;/span&gt;
+  &lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;PersonWithAddress&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(person: Person, address: Address)&lt;/span&gt;&lt;/span&gt;
+
+  &lt;span class=&quot;comment&quot;&gt;// implicit conversion with argonaut&lt;/span&gt;
+  implicit &lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; PersonAddressEncodeJson: EncodeJson[PersonWithAddress] =
+  EncodeJson((p: PersonWithAddress) =&amp;gt;
+    (&lt;span class=&quot;string&quot;&gt;&quot;id&quot;&lt;/span&gt; := p.person.id) -&amp;gt;:
+    (&lt;span class=&quot;string&quot;&gt;&quot;name&quot;&lt;/span&gt; := p.person.name) -&amp;gt;:
+    (&lt;span class=&quot;string&quot;&gt;&quot;age&quot;&lt;/span&gt; := p.person.age) -&amp;gt;:
+    (&lt;span class=&quot;string&quot;&gt;&quot;address&quot;&lt;/span&gt; := Json (
+      (&lt;span class=&quot;string&quot;&gt;&quot;id&quot;&lt;/span&gt; := p.address.id),
+      (&lt;span class=&quot;string&quot;&gt;&quot;street&quot;&lt;/span&gt; := p.address.street),
+      (&lt;span class=&quot;string&quot;&gt;&quot;city&quot;&lt;/span&gt; := p.address.city)
+    )
+  ) -&amp;gt;: jEmptyObject)
+
+  implicit &lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; PersonAddressDecodeJson: DecodeJson[PersonWithAddress] =
+  DecodeJson(c =&amp;gt; &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; {
+
+    id &amp;lt;- (c --\ &lt;span class=&quot;string&quot;&gt;&quot;id&quot;&lt;/span&gt;).as[Int]
+    name &amp;lt;- (c --\ &lt;span class=&quot;string&quot;&gt;&quot;name&quot;&lt;/span&gt;).as[String]
+    age &amp;lt;- (c --\ &lt;span class=&quot;string&quot;&gt;&quot;age&quot;&lt;/span&gt;).as[Int]
+    address &amp;lt;- (c --\ &lt;span class=&quot;string&quot;&gt;&quot;address&quot;&lt;/span&gt;).as[Json]
+
+    &lt;span class=&quot;comment&quot;&gt;// extract data from address&lt;/span&gt;
+    addressid &amp;lt;- (address.acursor --\ &lt;span class=&quot;string&quot;&gt;&quot;id&quot;&lt;/span&gt;).as[Int]
+    street &amp;lt;- (address.acursor --\ &lt;span class=&quot;string&quot;&gt;&quot;street&quot;&lt;/span&gt;).as[String]
+    city &amp;lt;- (address.acursor --\ &lt;span class=&quot;string&quot;&gt;&quot;city&quot;&lt;/span&gt;).as[String]
+
+  } &lt;span class=&quot;keyword&quot;&gt;yield&lt;/span&gt; PersonWithAddress(Person(id, name, age, addressid), Address(addressid, street, city)))
+
+  &lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; main(args: Array[String]) {
+    &lt;span class=&quot;comment&quot;&gt;// running a sample&lt;/span&gt;
+    &lt;span class=&quot;keyword&quot;&gt;val&lt;/span&gt; person = Person(&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&quot;John Rambo&quot;&lt;/span&gt; , &lt;span class=&quot;number&quot;&gt;67&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;)
+    &lt;span class=&quot;keyword&quot;&gt;val&lt;/span&gt; address = Address(&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&quot;101 W Main St&quot;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&quot;Madison, Kentucky&quot;&lt;/span&gt;)
+    &lt;span class=&quot;keyword&quot;&gt;val&lt;/span&gt; pa = PersonWithAddress(person, address)
+
+    &lt;span class=&quot;comment&quot;&gt;// convert the person to json&lt;/span&gt;
+    &lt;span class=&quot;keyword&quot;&gt;val&lt;/span&gt; json = pa.asJson
+    &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; content = json.toString()
+
+    println (content)
+
+    &lt;span class=&quot;comment&quot;&gt;// we should get a person instance here&lt;/span&gt;
+    &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; padecoded : PersonWithAddress = content.decodeOption[PersonWithAddress].get
+
+    println (padecoded)
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;With a few lines of code, we encapsulate the complete JSON encoding and decoding. Its amazing how easy it is. It may not be as intuitive as in Nodejs, but comes with additional type checks, which is generally more complex in Nodejs.&lt;/p&gt;
+</description>
+    </item>
     <item>
       <title>Encrypt files with GPG</title>
       <link>http://chris-rock.github.io/articles/encrypt-files-with-gpg/</link>
