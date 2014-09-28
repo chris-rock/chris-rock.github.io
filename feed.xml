@@ -5,9 +5,93 @@
     <atom:link href="http://chris-rock.github.io/feed.xml" rel="self" type="application/rss+xml"></atom:link>
     <link>http://chris-rock.github.io</link>
     <description>fun &amp; sun</description>
-    <pubDate>Sun, 21 Sep 2014 02:00:00 +0200</pubDate>
+    <pubDate>Sun, 28 Sep 2014 02:00:00 +0200</pubDate>
     <generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator>
     <language>en</language>
+    <item>
+      <title>Execute commands in a Docker sandbox</title>
+      <link>http://chris-rock.github.io/articles/execute-in-docker-sandbox/</link>
+      <pubDate>Sun, 28 Sep 2014 02:00:00 +0200</pubDate>
+      <guid isPermaLink="true">http://chris-rock.github.io/articles/execute-in-docker-sandbox/</guid>
+      <author></author>
+      <description>&lt;p&gt;If we deal a lot with data from an untrusted source, we want to operate on data in a sandbox. For example, every file we handle may includes a virus and tries to attack our machine. &lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://docker.io/&quot;&gt;Docker&lt;/a&gt; is an amazing tool to run arbitrary commands inside a sandbox. It is useful for testing applications or building complete application images as offered by &lt;a href=&quot;https://registry.hub.docker.com/&quot;&gt;Docker Hub&lt;/a&gt;. &lt;/p&gt;
+&lt;p&gt;To address the use case, it is required to build containers on demand and mix them with pre-known commands (which typically fit in a Dockerfile) and custom user defined commands.&lt;/p&gt;
+&lt;h2 id=&quot;problem&quot;&gt;Problem&lt;/h2&gt;
+&lt;p&gt;Currently, it is quite difficult to mix both approaches in Docker. Normally you have two possibilities:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Create a custom Dockerfile and build a new image&lt;/li&gt;
+&lt;li&gt;Start a base image like Ubuntu and use the shell with arbitrary commands&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The first approach has the advantage that everything is settled during build time. Docker is optimized for this approach. In Docker this would look like:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;docker build -t yourimage .
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The second approach is available in Docker, but optimized for human input. Quite often you do something like&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;docker run -i -t ubuntu /bin/bash
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Why not use the second approach via your applications, where you start executing commands in a special docker container. Docker offers a API with &lt;a href=&quot;https://docs.docker.com/reference/api/docker_remote_api_v1.9/#attach-to-a-container&quot;&gt;stdin, stdout and stderr streams&lt;/a&gt;. As mentioned earlier, an application may converts images via GraphicsMagic. It would be more secure to run those tasks in a sandbox. By using Docker, we can easily recover to an initial state. Even if an attacker would infect the system, we would recover it to a clean system. This helps to mitigate security risks. Additionally this does not leave trash behind on your host server.&lt;/p&gt;
+&lt;p&gt;By using the Docker Streams API, we are able to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;✓ run arbitrary commands&lt;/li&gt;
+&lt;li&gt;✓ run commands in sandbox&lt;/li&gt;
+&lt;li&gt;✓ run command automatically (via Streams API)&lt;/li&gt;
+&lt;li&gt;✗ know when the command finished (streams only offer text output)&lt;/li&gt;
+&lt;li&gt;✗ get command error code (is not displayed in text output)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;A use case, that combines both approaches:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;
+$ docker run -i -t ubuntu:trusty /bin/bash
+root@&lt;span class=&quot;number&quot;&gt;5&lt;/span&gt;ead76a77765:/&lt;span class=&quot;comment&quot;&gt;# apt-get update&lt;/span&gt;
+root@&lt;span class=&quot;number&quot;&gt;5&lt;/span&gt;ead76a77765:/&lt;span class=&quot;comment&quot;&gt;# apt-get install -y graphicsmagick wget&lt;/span&gt;
+root@&lt;span class=&quot;number&quot;&gt;5&lt;/span&gt;ead76a77765:/&lt;span class=&quot;comment&quot;&gt;# wget -q -O avatar.jpg https://avatars3.githubusercontent.com/u/1178413?v=2&amp;amp;s=460&lt;/span&gt;
+root@&lt;span class=&quot;number&quot;&gt;5&lt;/span&gt;ead76a77765:/&lt;span class=&quot;comment&quot;&gt;# gm convert -size 120x120 avatar.jpg -resize 120x120 +profile &quot;*&quot; thumbnail.jpg&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;How would you do the same in an automated fashion?&lt;/p&gt;
+&lt;h2 id=&quot;solution&quot;&gt;Solution&lt;/h2&gt;
+&lt;p&gt;Assume you want to convert various images with changing urls. We need to execute arbitrary commands and detect, when a command is finished. This is essential, because we may not know how long a download or conversion takes. &lt;/p&gt;
+&lt;p&gt;To detect a process exit, we need to invent something new. Since the input and the output stream are decoupled, we do not know what output corresponds to a specific input. We require a way to correlate input and output. Instead of sending the plain command via Streams API, we generate a unique id for each request. Additionally we add a specific command that outputs the completed task id and the exit code.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-javascript&quot;&gt;&lt;span class=&quot;comment&quot;&gt;// generate process id&lt;/span&gt;
+&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; id = uuid.v4();
+
+&lt;span class=&quot;comment&quot;&gt;// add exit code to command&lt;/span&gt;
+&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; cmd2 = command + &lt;span class=&quot;string&quot;&gt;';echo exit task '&lt;/span&gt; + id + &lt;span class=&quot;string&quot;&gt;' $?\n'&lt;/span&gt;;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I completed this approach with &lt;a href=&quot;https://github.com/chris-rock/docker-exec&quot;&gt;docker-exec&lt;/a&gt;. Now we are able to run the commands in docker. It also uses Javascript Promises instead of plain callbacks. This enables us to easily chain commands. The example introduced above can be written as follows:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-javascript&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; ds = &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; DockerRunner();
+ds.start().then(&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;params&quot;&gt;(stream)&lt;/span&gt; {&lt;/span&gt;
+    stream.pipe(process.stdout);
+    console.log(&lt;span class=&quot;string&quot;&gt;'---&amp;gt; run apt-get update\n'&lt;/span&gt;);
+    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; ds.run(&lt;span class=&quot;string&quot;&gt;'apt-get update'&lt;/span&gt;);
+}).then(&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;params&quot;&gt;()&lt;/span&gt; {&lt;/span&gt;
+    console.log(&lt;span class=&quot;string&quot;&gt;'---&amp;gt; install gm\n'&lt;/span&gt;);
+    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; ds.run(&lt;span class=&quot;string&quot;&gt;'apt-get install -y graphicsmagick wget'&lt;/span&gt;);
+}).then(&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;params&quot;&gt;()&lt;/span&gt; {&lt;/span&gt;
+    console.log(&lt;span class=&quot;string&quot;&gt;'---&amp;gt; convert image\n'&lt;/span&gt;);
+    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; ds.run(&lt;span class=&quot;string&quot;&gt;'gm convert -size 120x120 avatar.jpg -resize 120x120 +profile &quot;*&quot; thumbnail.jpg'&lt;/span&gt;);
+}).then(&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;params&quot;&gt;()&lt;/span&gt; {&lt;/span&gt;
+    console.log(&lt;span class=&quot;string&quot;&gt;'---&amp;gt; stop container\n'&lt;/span&gt;);
+    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; ds.stop();
+}).then(&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;params&quot;&gt;()&lt;/span&gt; {&lt;/span&gt;
+    console.log(&lt;span class=&quot;string&quot;&gt;'---&amp;gt; Done without error\n'&lt;/span&gt;);
+    done();
+}).catch(&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;params&quot;&gt;(err)&lt;/span&gt; {&lt;/span&gt;
+    console.log(&lt;span class=&quot;string&quot;&gt;'Done with error\n'&lt;/span&gt;);
+    console.log(err);
+});
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If you are using &lt;a href=&quot;https://github.com/boot2docker/boot2docker&quot;&gt;boot2docker&lt;/a&gt; on Mac, you need to change the initialization:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-javascript&quot;&gt;&lt;span class=&quot;comment&quot;&gt;// for mac use&lt;/span&gt;
+&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; ds = &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; DockerRunner({
+    host: &lt;span class=&quot;string&quot;&gt;'http://127.0.0.1'&lt;/span&gt;,
+    port: &lt;span class=&quot;number&quot;&gt;4243&lt;/span&gt;
+});
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
+&lt;p&gt;With the proposed solution, we are able to use predefined docker images and use custom commands. Now, we can automate every piece.&lt;/p&gt;
+&lt;p&gt;Happy hacking.
+Chris&lt;/p&gt;
+</description>
+    </item>
     <item>
       <title>Implicit JSON conversion with Scala</title>
       <link>http://chris-rock.github.io/articles/scala-implicit-conversion/</link>

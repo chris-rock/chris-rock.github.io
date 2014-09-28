@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <meta name="google-site-verification" content="iplyfI0Y6pOe8NsNYwwrKe-QfSYamSeEhQiDFh93NiU">
+    <title>Execute commands in a Docker sandbox - chris-rock
+    </title>
+    <link rel="alternate" href="http://chris-rock.github.io/feed.xml" type="application/rss+xml" title="fun &amp; sun">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic|Anonymous+Pro:400,700,400italic,700italic|Merriweather:400,700,300">
+    <link rel="stylesheet" href="/css/main.css">
+    <script type="text/javascript">
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-50992958-1', 'lollyrock.com');
+      ga('send', 'pageview');
+      
+    </script>
+  </head>
+  <body class="article-detail">
+    <header class="header">
+      <div class="content-wrap">
+        <h1>Execute commands in a Docker sandbox</h1>
+        <p class="author">Written by <span class="author"><a href="mailto:chris@lollyrock.com">chris-rock</a></span>
+        </p>
+      </div>
+    </header>
+    <div id="content">
+      <div class="content-wrap">
+        <article class="article">
+          <section class="content"><p>If we deal a lot with data from an untrusted source, we want to operate on data in a sandbox. For example, every file we handle may includes a virus and tries to attack our&nbsp;machine. </p>
+<p><a href="http://docker.io/">Docker</a> is an amazing tool to run arbitrary commands inside a sandbox. It is useful for testing applications or building complete application images as offered by <a href="https://registry.hub.docker.com/">Docker Hub</a>. </p>
+<p>To address the use case, it is required to build containers on demand and mix them with pre-known commands (which typically fit in a Dockerfile) and custom user defined&nbsp;commands.</p>
+<h2 id="problem">Problem</h2>
+<p>Currently, it is quite difficult to mix both approaches in Docker. Normally you have two&nbsp;possibilities:</p>
+<ol>
+<li>Create a custom Dockerfile and build a new&nbsp;image</li>
+<li>Start a base image like Ubuntu and use the shell with arbitrary&nbsp;commands</li>
+</ol>
+<p>The first approach has the advantage that everything is settled during build time. Docker is optimized for this approach. In Docker this would look&nbsp;like:</p>
+<pre><code class="lang-bash">docker build -t yourimage .
+</code></pre>
+<p>The second approach is available in Docker, but optimized for human input. Quite often you do something&nbsp;like</p>
+<pre><code class="lang-bash">docker run -i -t ubuntu /bin/bash
+</code></pre>
+<p>Why not use the second approach via your applications, where you start executing commands in a special docker container. Docker offers a <span class="caps">API</span> with <a href="https://docs.docker.com/reference/api/docker_remote_api_v1.9/#attach-to-a-container">stdin, stdout and stderr streams</a>. As mentioned earlier, an application may converts images via GraphicsMagic. It would be more secure to run those tasks in a sandbox. By using Docker, we can easily recover to an initial state. Even if an attacker would infect the system, we would recover it to a clean system. This helps to mitigate security risks. Additionally this does not leave trash behind on your host&nbsp;server.</p>
+<p>By using the Docker Streams <span class="caps">API</span>, we are able&nbsp;to:</p>
+<ul>
+<li>✓ run arbitrary&nbsp;commands</li>
+<li>✓ run commands in&nbsp;sandbox</li>
+<li>✓ run command automatically (via Streams&nbsp;<span class="caps">API</span>)</li>
+<li>✗ know when the command finished (streams only offer text&nbsp;output)</li>
+<li>✗ get command error code (is not displayed in text&nbsp;output)</li>
+</ul>
+<p>A use case, that combines both&nbsp;approaches:</p>
+<pre><code class="lang-bash">
+$ docker run -i -t ubuntu:trusty /bin/bash
+root@<span class="number">5</span>ead76a77765:/<span class="comment"># apt-get update</span>
+root@<span class="number">5</span>ead76a77765:/<span class="comment"># apt-get install -y graphicsmagick wget</span>
+root@<span class="number">5</span>ead76a77765:/<span class="comment"># wget -q -O avatar.jpg https://avatars3.githubusercontent.com/u/1178413?v=2&amp;s=460</span>
+root@<span class="number">5</span>ead76a77765:/<span class="comment"># gm convert -size 120x120 avatar.jpg -resize 120x120 +profile "*" thumbnail.jpg</span>
+</code></pre>
+<p>How would you do the same in an automated&nbsp;fashion?</p>
+<h2 id="solution">Solution</h2>
+<p>Assume you want to convert various images with changing urls. We need to execute arbitrary commands and detect, when a command is finished. This is essential, because we may not know how long a download or conversion&nbsp;takes. </p>
+<p>To detect a process exit, we need to invent something new. Since the input and the output stream are decoupled, we do not know what output corresponds to a specific input. We require a way to correlate input and output. Instead of sending the plain command via Streams <span class="caps">API</span>, we generate a unique id for each request. Additionally we add a specific command that outputs the completed task id and the exit&nbsp;code.</p>
+<pre><code class="lang-javascript"><span class="comment">// generate process id</span>
+<span class="keyword">var</span> id = uuid.v4();
+
+<span class="comment">// add exit code to command</span>
+<span class="keyword">var</span> cmd2 = command + <span class="string">';echo exit task '</span> + id + <span class="string">' $?\n'</span>;
+</code></pre>
+<p>I completed this approach with <a href="https://github.com/chris-rock/docker-exec">docker-exec</a>. Now we are able to run the commands in docker. It also uses Javascript Promises instead of plain callbacks. This enables us to easily chain commands. The example introduced above can be written as&nbsp;follows:</p>
+<pre><code class="lang-javascript"><span class="keyword">var</span> ds = <span class="keyword">new</span> DockerRunner();
+ds.start().then(<span class="function"><span class="keyword">function</span> <span class="params">(stream)</span> {</span>
+    stream.pipe(process.stdout);
+    console.log(<span class="string">'---&gt; run apt-get update\n'</span>);
+    <span class="keyword">return</span> ds.run(<span class="string">'apt-get update'</span>);
+}).then(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+    console.log(<span class="string">'---&gt; install gm\n'</span>);
+    <span class="keyword">return</span> ds.run(<span class="string">'apt-get install -y graphicsmagick wget'</span>);
+}).then(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+    console.log(<span class="string">'---&gt; convert image\n'</span>);
+    <span class="keyword">return</span> ds.run(<span class="string">'gm convert -size 120x120 avatar.jpg -resize 120x120 +profile "*" thumbnail.jpg'</span>);
+}).then(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+    console.log(<span class="string">'---&gt; stop container\n'</span>);
+    <span class="keyword">return</span> ds.stop();
+}).then(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+    console.log(<span class="string">'---&gt; Done without error\n'</span>);
+    done();
+}).catch(<span class="function"><span class="keyword">function</span> <span class="params">(err)</span> {</span>
+    console.log(<span class="string">'Done with error\n'</span>);
+    console.log(err);
+});
+</code></pre>
+<p>If you are using <a href="https://github.com/boot2docker/boot2docker">boot2docker</a> on Mac, you need to change the&nbsp;initialization:</p>
+<pre><code class="lang-javascript"><span class="comment">// for mac use</span>
+<span class="keyword">var</span> ds = <span class="keyword">new</span> DockerRunner({
+    host: <span class="string">'http://127.0.0.1'</span>,
+    port: <span class="number">4243</span>
+});
+</code></pre>
+<h2 id="summary">Summary</h2>
+<p>With the proposed solution, we are able to use predefined docker images and use custom commands. Now, we can automate every&nbsp;piece.</p>
+<p>Happy hacking.&nbsp;Chris</p>
+</section>
+        </article>
+      </div>
+    </div>
+    <footer>
+      <div class="content-wrap">
+        <div class="nav"><a href="/">« Full blog</a></div>
+        <section class="about">
+        </section>
+        <section class="copy">
+          <p>&copy; 2014 chris-rock &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
+          </p>
+        </section>
+      </div>
+    </footer>
+  </body>
+</html>
