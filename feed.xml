@@ -14,7 +14,9 @@
       <pubDate>Sat, 15 Nov 2014 01:00:00 +0100</pubDate>
       <guid isPermaLink="true">http://chris-rock.github.io/articles/express4-file-upload/</guid>
       <author></author>
-      <description>&lt;p&gt;&lt;a href=&quot;http://expressjs.com/&quot;&gt;Express&lt;/a&gt; is a great web framework for Javascript. Quite often you have to deal with file uploads. Although this may seems like a trivial point, it has its challenges, especially if everything is asynchronous. For some time, &lt;a href=&quot;https://github.com/mscdex/busboy&quot;&gt;Busboy&lt;/a&gt; was the best solution, because it uses the Javascript eventing properly. The downside is the complex setup as the sample from the github profile demonstrates:&lt;/p&gt;
+      <description>&lt;p&gt;&lt;a href=&quot;http://expressjs.com/&quot;&gt;Express&lt;/a&gt; is a great web framework for Javascript. Quite often you have to deal with file uploads. Although this may seems like a trivial point, it has its challenges, especially if everything is asynchronous. &lt;/p&gt;
+&lt;h1 id=&quot;using-busboy&quot;&gt;Using Busboy&lt;/h1&gt;
+&lt;p&gt;For some time, &lt;a href=&quot;https://github.com/mscdex/busboy&quot;&gt;Busboy&lt;/a&gt; was the best solution, because it uses the Javascript eventing properly. The downside is the complex setup as the sample from the github profile demonstrates:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;lang-javascript&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; http = &lt;span class=&quot;built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;'http'&lt;/span&gt;),
     inspect = &lt;span class=&quot;built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;'util'&lt;/span&gt;).inspect;
 
@@ -56,6 +58,7 @@ http.createServer(&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;ke
 });
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;This is not fun if you need to support this complex setup for multiple routes in express. Do not get me wrong, busboy is a great module and does the job well, but it is just not the abstraction you would like to have in your project. In normal cases you &lt;code&gt;just&lt;/code&gt; need a file upload.&lt;/p&gt;
+&lt;h1 id=&quot;use-multer&quot;&gt;Use multer&lt;/h1&gt;
 &lt;p&gt;Here comes &lt;a href=&quot;https://github.com/expressjs/multer&quot;&gt;multer&lt;/a&gt;. The final piece that fits between express and busboy. It takes all complex tasks behind the scenes and offers a configurable express middleware. Let’s try it out:&lt;/p&gt;
 &lt;p&gt;Set up a &lt;code&gt;package.json&lt;/code&gt;&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;lang-javascript&quot;&gt;{

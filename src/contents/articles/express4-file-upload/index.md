@@ -5,7 +5,11 @@ date: 2014-11-15
 template: article.jade
 ---
 
-[Express](http://expressjs.com/) is a great web framework for Javascript. Quite often you have to deal with file uploads. Although this may seems like a trivial point, it has its challenges, especially if everything is asynchronous. For some time, [Busboy](https://github.com/mscdex/busboy) was the best solution, because it uses the Javascript eventing properly. The downside is the complex setup as the sample from the github profile demonstrates:
+[Express](http://expressjs.com/) is a great web framework for Javascript. Quite often you have to deal with file uploads. Although this may seems like a trivial point, it has its challenges, especially if everything is asynchronous. 
+
+# Using Busboy
+
+For some time, [Busboy](https://github.com/mscdex/busboy) was the best solution, because it uses the Javascript eventing properly. The downside is the complex setup as the sample from the github profile demonstrates:
 
 ```javascript
 var http = require('http'),
@@ -50,6 +54,8 @@ http.createServer(function(req, res) {
 ```
 
 This is not fun if you need to support this complex setup for multiple routes in express. Do not get me wrong, busboy is a great module and does the job well, but it is just not the abstraction you would like to have in your project. In normal cases you `just` need a file upload.
+
+# Use multer
 
 Here comes [multer](https://github.com/expressjs/multer). The final piece that fits between express and busboy. It takes all complex tasks behind the scenes and offers a configurable express middleware. Let's try it out:
 

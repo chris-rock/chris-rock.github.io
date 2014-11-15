@@ -36,7 +36,9 @@
             <p class="date"><span>15. November 2014</span></p>
             <h2><a href="/articles/express4-file-upload/">Using Express 4 with file uploads</a></h2>
           </header>
-          <section class="content"><p><a href="http://expressjs.com/">Express</a> is a great web framework for Javascript. Quite often you have to deal with file uploads. Although this may seems like a trivial point, it has its challenges, especially if everything is asynchronous. For some time, <a href="https://github.com/mscdex/busboy">Busboy</a> was the best solution, because it uses the Javascript eventing properly. The downside is the complex setup as the sample from the github profile&nbsp;demonstrates:</p>
+          <section class="content"><p><a href="http://expressjs.com/">Express</a> is a great web framework for Javascript. Quite often you have to deal with file uploads. Although this may seems like a trivial point, it has its challenges, especially if everything is&nbsp;asynchronous. </p>
+<h1 id="using-busboy">Using&nbsp;Busboy</h1>
+<p>For some time, <a href="https://github.com/mscdex/busboy">Busboy</a> was the best solution, because it uses the Javascript eventing properly. The downside is the complex setup as the sample from the github profile&nbsp;demonstrates:</p>
 <pre><code class="lang-javascript"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>),
     inspect = <span class="built_in">require</span>(<span class="string">'util'</span>).inspect;
 
@@ -78,6 +80,7 @@ http.createServer(<span class="function"><span class="keyword">function</span><s
 });
 </code></pre>
 <p>This is not fun if you need to support this complex setup for multiple routes in express. Do not get me wrong, busboy is a great module and does the job well, but it is just not the abstraction you would like to have in your project. In normal cases you <code>just</code> need a file&nbsp;upload.</p>
+<h1 id="use-multer">Use&nbsp;multer</h1>
 <p>Here comes <a href="https://github.com/expressjs/multer">multer</a>. The final piece that fits between express and busboy. It takes all complex tasks behind the scenes and offers a configurable express middleware. Let’s try it&nbsp;out:</p>
 <p>Set up a <code>package.json</code></p>
 <pre><code class="lang-javascript">{
