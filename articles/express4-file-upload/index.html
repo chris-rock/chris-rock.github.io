@@ -32,7 +32,7 @@
       <div class="content-wrap">
         <article class="article">
           <section class="content"><p><a href="http://expressjs.com/">Express</a> is a great web framework for Javascript. Quite often you have to deal with file uploads. Although this may seems like a trivial point, it has its challenges, especially if everything is&nbsp;asynchronous. </p>
-<h1 id="using-busboy">Using&nbsp;Busboy</h1>
+<h2 id="using-busboy">Using&nbsp;Busboy</h2>
 <p>For some time, <a href="https://github.com/mscdex/busboy">Busboy</a> was the best solution, because it uses the Javascript eventing properly. The downside is the complex setup as the sample from the github profile&nbsp;demonstrates:</p>
 <pre><code class="lang-javascript"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>),
     inspect = <span class="built_in">require</span>(<span class="string">'util'</span>).inspect;
@@ -75,7 +75,7 @@ http.createServer(<span class="function"><span class="keyword">function</span><s
 });
 </code></pre>
 <p>This is not fun if you need to support this complex setup for multiple routes in express. Do not get me wrong, busboy is a great module and does the job well, but it is just not the abstraction you would like to have in your project. In normal cases you <code>just</code> need a file&nbsp;upload.</p>
-<h1 id="use-multer">Use&nbsp;multer</h1>
+<h2 id="use-multer">Use&nbsp;multer</h2>
 <p>Here comes <a href="https://github.com/expressjs/multer">multer</a>. The final piece that fits between express and busboy. It takes all complex tasks behind the scenes and offers a configurable express middleware. Let’s try it&nbsp;out:</p>
 <p>Set up a <code>package.json</code></p>
 <pre><code class="lang-javascript">{
@@ -138,7 +138,7 @@ content-type: application/json
     }
 }
 </code></pre>
-<h1 id="upload-per-route">Upload per&nbsp;route</h1>
+<h2 id="upload-per-route">Upload per&nbsp;route</h2>
 <p>The example above works well in most use cases. If you chain multiple middleware together, you will find out, that express uses streams, but this does not fully work with middleware. Events are not piped between middleware. If you use two express middlewares in a chain and each tries to catch all stream events and calls <code>next()</code> when all the eventing is done, the second middleware will not receive the required events&nbsp;anymore. </p>
 <p>In such a case you need to optimize the middleware per route. Therefore I do not recommend to use multer as a global middleware for express. Instead I would add multer to the routes that specifically require&nbsp;it. </p>
 <p>A working example would look&nbsp;like:</p>
