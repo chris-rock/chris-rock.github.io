@@ -9,7 +9,7 @@
     <generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator>
     <language>en</language>
     <item>
-      <title>Using Express 4 with file uploads</title>
+      <title>Simple file upload with Express 4</title>
       <link>http://chris-rock.github.io/articles/express4-file-upload/</link>
       <pubDate>Sat, 15 Nov 2014 01:00:00 +0100</pubDate>
       <guid isPermaLink="true">http://chris-rock.github.io/articles/express4-file-upload/</guid>

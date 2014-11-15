@@ -1,5 +1,5 @@
 ---
-title: Using Express 4 with file uploads
+title: Simple file upload with Express 4
 author: chris
 date: 2014-11-15
 template: article.jade
