@@ -5,9 +5,142 @@
     <atom:link href="http://chris-rock.github.io/feed.xml" rel="self" type="application/rss+xml"></atom:link>
     <link>http://chris-rock.github.io</link>
     <description>fun &amp; sun</description>
-    <pubDate>Sun, 28 Sep 2014 02:00:00 +0200</pubDate>
+    <pubDate>Sat, 15 Nov 2014 01:00:00 +0100</pubDate>
     <generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator>
     <language>en</language>
+    <item>
+      <title>Using Express 4 with file uploads</title>
+      <link>http://chris-rock.github.io/articles/express4-file-upload/</link>
+      <pubDate>Sat, 15 Nov 2014 01:00:00 +0100</pubDate>
+      <guid isPermaLink="true">http://chris-rock.github.io/articles/express4-file-upload/</guid>
+      <author></author>
+      <description>&lt;p&gt;&lt;a href=&quot;http://expressjs.com/&quot;&gt;Express&lt;/a&gt; is a great web framework for Javascript. Quite often you have to deal with file uploads. Although this may seems like a trivial point, it has its challenges, especially if everything is asynchronous. For some time, &lt;a href=&quot;https://github.com/mscdex/busboy&quot;&gt;Busboy&lt;/a&gt; was the best solution, because it uses the Javascript eventing properly. The downside is the complex setup as the sample from the github profile demonstrates:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-javascript&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; http = &lt;span class=&quot;built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;'http'&lt;/span&gt;),
+    inspect = &lt;span class=&quot;built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;'util'&lt;/span&gt;).inspect;
+
+&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; Busboy = &lt;span class=&quot;built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;'busboy'&lt;/span&gt;);
+
+http.createServer(&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(req, res)&lt;/span&gt; {&lt;/span&gt;
+  &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (req.method === &lt;span class=&quot;string&quot;&gt;'POST'&lt;/span&gt;) {
+    &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; busboy = &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; Busboy({ headers: req.headers });
+    busboy.on(&lt;span class=&quot;string&quot;&gt;'file'&lt;/span&gt;, &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(fieldname, file, filename, encoding, mimetype)&lt;/span&gt; {&lt;/span&gt;
+      console.log(&lt;span class=&quot;string&quot;&gt;'File ['&lt;/span&gt; + fieldname + &lt;span class=&quot;string&quot;&gt;']: filename: '&lt;/span&gt; + filename + &lt;span class=&quot;string&quot;&gt;', encoding: '&lt;/span&gt; + encoding + &lt;span class=&quot;string&quot;&gt;', mimetype: '&lt;/span&gt; + mimetype);
+      file.on(&lt;span class=&quot;string&quot;&gt;'data'&lt;/span&gt;, &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(data)&lt;/span&gt; {&lt;/span&gt;
+        console.log(&lt;span class=&quot;string&quot;&gt;'File ['&lt;/span&gt; + fieldname + &lt;span class=&quot;string&quot;&gt;'] got '&lt;/span&gt; + data.length + &lt;span class=&quot;string&quot;&gt;' bytes'&lt;/span&gt;);
+      });
+      file.on(&lt;span class=&quot;string&quot;&gt;'end'&lt;/span&gt;, &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt; {&lt;/span&gt;
+        console.log(&lt;span class=&quot;string&quot;&gt;'File ['&lt;/span&gt; + fieldname + &lt;span class=&quot;string&quot;&gt;'] Finished'&lt;/span&gt;);
+      });
+    });
+    busboy.on(&lt;span class=&quot;string&quot;&gt;'field'&lt;/span&gt;, &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(fieldname, val, fieldnameTruncated, valTruncated)&lt;/span&gt; {&lt;/span&gt;
+      console.log(&lt;span class=&quot;string&quot;&gt;'Field ['&lt;/span&gt; + fieldname + &lt;span class=&quot;string&quot;&gt;']: value: '&lt;/span&gt; + inspect(val));
+    });
+    busboy.on(&lt;span class=&quot;string&quot;&gt;'finish'&lt;/span&gt;, &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt; {&lt;/span&gt;
+      console.log(&lt;span class=&quot;string&quot;&gt;'Done parsing form!'&lt;/span&gt;);
+      res.writeHead(&lt;span class=&quot;number&quot;&gt;303&lt;/span&gt;, { Connection: &lt;span class=&quot;string&quot;&gt;'close'&lt;/span&gt;, Location: &lt;span class=&quot;string&quot;&gt;'/'&lt;/span&gt; });
+      res.end();
+    });
+    req.pipe(busboy);
+  } &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (req.method === &lt;span class=&quot;string&quot;&gt;'GET'&lt;/span&gt;) {
+    res.writeHead(&lt;span class=&quot;number&quot;&gt;200&lt;/span&gt;, { Connection: &lt;span class=&quot;string&quot;&gt;'close'&lt;/span&gt; });
+    res.end(&lt;span class=&quot;string&quot;&gt;'&amp;lt;html&amp;gt;&amp;lt;head&amp;gt;&amp;lt;/head&amp;gt;&amp;lt;body&amp;gt;\
+               &amp;lt;form method=&quot;POST&quot; enctype=&quot;multipart/form-data&quot;&amp;gt;\
+                &amp;lt;input type=&quot;text&quot; name=&quot;textfield&quot;&amp;gt;&amp;lt;br /&amp;gt;\
+                &amp;lt;input type=&quot;file&quot; name=&quot;filefield&quot;&amp;gt;&amp;lt;br /&amp;gt;\
+                &amp;lt;input type=&quot;submit&quot;&amp;gt;\
+              &amp;lt;/form&amp;gt;\
+            &amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;'&lt;/span&gt;);
+  }
+}).listen(&lt;span class=&quot;number&quot;&gt;8000&lt;/span&gt;, &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt; {&lt;/span&gt;
+  console.log(&lt;span class=&quot;string&quot;&gt;'Listening for requests'&lt;/span&gt;);
+});
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This is not fun if you need to support this complex setup for multiple routes in express. Do not get me wrong, busboy is a great module and does the job well, but it is just not the abstraction you would like to have in your project. In normal cases you &lt;code&gt;just&lt;/code&gt; need a file upload.&lt;/p&gt;
+&lt;p&gt;Here comes &lt;a href=&quot;https://github.com/expressjs/multer&quot;&gt;multer&lt;/a&gt;. The final piece that fits between express and busboy. It takes all complex tasks behind the scenes and offers a configurable express middleware. Let’s try it out:&lt;/p&gt;
+&lt;p&gt;Set up a &lt;code&gt;package.json&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-javascript&quot;&gt;{
+  &lt;span class=&quot;string&quot;&gt;&quot;name&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;expres-upload-test&quot;&lt;/span&gt;,
+  &lt;span class=&quot;string&quot;&gt;&quot;description&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;simple form upload test&quot;&lt;/span&gt;,
+  &lt;span class=&quot;string&quot;&gt;&quot;version&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;0.1.0&quot;&lt;/span&gt;,
+  &lt;span class=&quot;string&quot;&gt;&quot;dependencies&quot;&lt;/span&gt;: {
+    &lt;span class=&quot;string&quot;&gt;&quot;express&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;~4.0.0&quot;&lt;/span&gt;,
+    &lt;span class=&quot;string&quot;&gt;&quot;multer&quot;&lt;/span&gt; : &lt;span class=&quot;string&quot;&gt;&quot;0.1.6&quot;&lt;/span&gt;
+  },
+  &lt;span class=&quot;string&quot;&gt;&quot;devDependencies&quot;&lt;/span&gt;: {
+  },
+  &lt;span class=&quot;string&quot;&gt;&quot;scripts&quot;&lt;/span&gt;: {},
+  &lt;span class=&quot;string&quot;&gt;&quot;engines&quot;&lt;/span&gt;: {
+    &lt;span class=&quot;string&quot;&gt;&quot;node&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;0.10.x&quot;&lt;/span&gt;,
+    &lt;span class=&quot;string&quot;&gt;&quot;npm&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;&amp;gt;1.4.0&quot;&lt;/span&gt;
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;To implement the server, create a &lt;code&gt;server.js&lt;/code&gt; that combines express with multer. It is 17 lines including an extra hello world route.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-javascript&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; express = &lt;span class=&quot;built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;'express'&lt;/span&gt;),
+    multer  = &lt;span class=&quot;built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;'multer'&lt;/span&gt;)
+
+&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; app = express()
+app.use(multer({ dest: &lt;span class=&quot;string&quot;&gt;'./uploads/'&lt;/span&gt;}))
+
+app.get(&lt;span class=&quot;string&quot;&gt;'/'&lt;/span&gt;, &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(req, res)&lt;/span&gt;{&lt;/span&gt;
+  res.send(&lt;span class=&quot;string&quot;&gt;'hello world'&lt;/span&gt;);
+});
+
+app.post(&lt;span class=&quot;string&quot;&gt;'/'&lt;/span&gt;, &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(req, res)&lt;/span&gt;{&lt;/span&gt;
+    console.log(req.body) &lt;span class=&quot;comment&quot;&gt;// form fields&lt;/span&gt;
+    console.log(req.files) &lt;span class=&quot;comment&quot;&gt;// form files&lt;/span&gt;
+    res.status(&lt;span class=&quot;number&quot;&gt;204&lt;/span&gt;).end()
+});
+
+app.listen(&lt;span class=&quot;number&quot;&gt;3000&lt;/span&gt;);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Of course you can try this by using &lt;a href=&quot;https://github.com/jakubroztocil/httpie&quot;&gt;httpie&lt;/a&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;$ http &lt;span class=&quot;operator&quot;&gt;-f&lt;/span&gt; POST http://localhost:&lt;span class=&quot;number&quot;&gt;3000&lt;/span&gt;/ file@~/Downloads/test.pdf
+HTTP/&lt;span class=&quot;number&quot;&gt;1.1&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;200&lt;/span&gt; OK
+Connection: keep-alive
+Date: Sat, &lt;span class=&quot;number&quot;&gt;15&lt;/span&gt; Nov &lt;span class=&quot;number&quot;&gt;2014&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;11&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;15&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;21&lt;/span&gt; GMT
+X-Powered-By: Express
+content-length: &lt;span class=&quot;number&quot;&gt;278&lt;/span&gt;
+content-type: application/json
+
+{
+    &lt;span class=&quot;string&quot;&gt;&quot;file&quot;&lt;/span&gt;: {
+        &lt;span class=&quot;string&quot;&gt;&quot;buffer&quot;&lt;/span&gt;: null, 
+        &lt;span class=&quot;string&quot;&gt;&quot;encoding&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;7bit&quot;&lt;/span&gt;, 
+        &lt;span class=&quot;string&quot;&gt;&quot;extension&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;pdf&quot;&lt;/span&gt;, 
+        &lt;span class=&quot;string&quot;&gt;&quot;fieldname&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;file&quot;&lt;/span&gt;, 
+        &lt;span class=&quot;string&quot;&gt;&quot;mimetype&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;text/plain&quot;&lt;/span&gt;, 
+        &lt;span class=&quot;string&quot;&gt;&quot;name&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;f459076685288eed5b4b45f80a11b908.pdf&quot;&lt;/span&gt;, 
+        &lt;span class=&quot;string&quot;&gt;&quot;originalname&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;test.pdf&quot;&lt;/span&gt;, 
+        &lt;span class=&quot;string&quot;&gt;&quot;path&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;uploads/f459076685288eed5b4b45f80a11b908.pdf&quot;&lt;/span&gt;, 
+        &lt;span class=&quot;string&quot;&gt;&quot;size&quot;&lt;/span&gt;: &lt;span class=&quot;number&quot;&gt;59353&lt;/span&gt;, 
+        &lt;span class=&quot;string&quot;&gt;&quot;truncated&quot;&lt;/span&gt;: &lt;span class=&quot;literal&quot;&gt;false&lt;/span&gt;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h1 id=&quot;upload-per-route&quot;&gt;Upload per route&lt;/h1&gt;
+&lt;p&gt;The example above works well in most use cases. If you chain multiple middleware together, you will find out, that express uses streams, but this does not fully work with middleware. Events are not piped between middleware. If you use two express middlewares in a chain and each tries to catch all stream events and calls &lt;code&gt;next()&lt;/code&gt; when all the eventing is done, the second middleware will not receive the required events anymore. &lt;/p&gt;
+&lt;p&gt;In such a case you need to optimize the middleware per route. Therefore I do not recommend to use multer as a global middleware for express. Instead I would add multer to the routes that specifically require it. &lt;/p&gt;
+&lt;p&gt;A working example would look like:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-javascript&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; express = &lt;span class=&quot;built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;'express'&lt;/span&gt;),
+    multer  = &lt;span class=&quot;built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;'multer'&lt;/span&gt;)
+
+&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; app = express()
+
+app.get(&lt;span class=&quot;string&quot;&gt;'/'&lt;/span&gt;, &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(req, res)&lt;/span&gt;{&lt;/span&gt;
+  res.send(&lt;span class=&quot;string&quot;&gt;'hello world'&lt;/span&gt;);
+});
+
+app.post(&lt;span class=&quot;string&quot;&gt;'/'&lt;/span&gt;,[ multer({ dest: &lt;span class=&quot;string&quot;&gt;'./uploads/'&lt;/span&gt;}), &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(req, res)&lt;/span&gt;{&lt;/span&gt;
+    console.log(req.body) &lt;span class=&quot;comment&quot;&gt;// form fields&lt;/span&gt;
+    console.log(req.files) &lt;span class=&quot;comment&quot;&gt;// form files&lt;/span&gt;
+    res.status(&lt;span class=&quot;number&quot;&gt;204&lt;/span&gt;).end()
+}]);
+
+app.listen(&lt;span class=&quot;number&quot;&gt;3000&lt;/span&gt;);
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     <item>
       <title>Execute commands in a Docker sandbox</title>
       <link>http://chris-rock.github.io/articles/execute-in-docker-sandbox/</link>
