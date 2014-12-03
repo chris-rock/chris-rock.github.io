@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <meta name="google-site-verification" content="iplyfI0Y6pOe8NsNYwwrKe-QfSYamSeEhQiDFh93NiU">
+    <title>Chef loves AIX - Mainframe Automation - chris-rock
+    </title>
+    <link rel="alternate" href="http://chris-rock.github.io/feed.xml" type="application/rss+xml" title="fun &amp; sun">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic|Anonymous+Pro:400,700,400italic,700italic|Merriweather:400,700,300">
+    <link rel="stylesheet" href="/css/main.css">
+    <script type="text/javascript">
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-50992958-1', 'lollyrock.com');
+      ga('send', 'pageview');
+      
+    </script>
+  </head>
+  <body class="article-detail">
+    <header class="header">
+      <div class="content-wrap">
+        <h1>Chef loves AIX - Mainframe Automation</h1>
+        <p class="author">Written by <span class="author"><a href="mailto:chris@lollyrock.com">chris-rock</a></span>
+        </p>
+      </div>
+    </header>
+    <div id="content">
+      <div class="content-wrap">
+        <article class="article">
+          <section class="content"><p>I was very exited to play with <span class="caps">IBM</span> AIX and Chef 12. Coming from an Open Stack background with deep knowledge about automation and security with RedHat Linux and Windows Server, I was looking forward to gain insights about using the configuration management tool Chef with AIX. I have done some big deployments on cloud infrastructures and I am very pleased to see some technologies finding their way into core enterprise&nbsp;applications.</p>
+<h2 id="introduction">Introduction</h2>
+<p>With Chef, you can automate how you build, deploy, and manage your infrastructure. Your infrastructure becomes versionable, testable, and repeatable as application code which is especially relevant if you maintain a mission-critical system. Every deployment is required to go through a rigid approval process via staging environments to ensure that the customer will not notice any service&nbsp;interruptions.</p>
+<p><span class="caps">AIX</span> is a great platform for such mission critical systems, because it provides a high level of performance and reliability. Due to the fact, that it runs on <a href="http://www.ibm.com/systems/power/"><span class="caps">IBM</span> Power Systems</a>, it is also very&nbsp;scalable.</p>
+<p>Before I walk you through the details of Chef on <span class="caps">AIX</span>, I would like to thank <a href="https://twitter.com/julian_dunn">Julian from Chef Inc.</a> for his exceptional support over the last months. Additionally, I like to thank <span class="caps">IBM</span> for providing the amazing <a href="/articles/ibm-aix-chef/www.ibm.com/partnerworld/pdp"><span class="caps">IBM</span> Power Development Cloud</a>.</p>
+<h2 id="getting-started-with-chef-on-aix">Getting started with Chef on&nbsp;<span class="caps">AIX</span></h2>
+<p>The following tests are executed on vanilla <span class="caps">AIX</span> 7.1. I installed some GNU tools like vim, zsh and wget to get a nice console feeling. Finally, I was ready to download and install Chef 12. The AIX version of Chef is supported for AIX 6.1 and AIX 7.1 and you can read more about the announcement at <a href="http://lists.opscode.com/sympa/arc/chef/2014-11/msg00038.html">Chef Lists</a>.</p>
+<pre><code class="lang-bash">l5a1vp051_pub &gt; wget -r -nd http://opscode-omnibus-packages.s3.amazonaws.com/aix/<span class="number">6.1</span>/powerpc/chef-<span class="number">12.0</span>.<span class="number">0</span>-rc.<span class="number">0</span>-<span class="number">1</span>.powerpc.bff
+--<span class="number">10</span>:<span class="number">18</span>:<span class="number">05</span>--  http://opscode-omnibus-packages.s3.amazonaws.com/aix/<span class="number">6.1</span>/powerpc/chef-<span class="number">12.0</span>.<span class="number">0</span>-rc.<span class="number">0</span>-<span class="number">1</span>.powerpc.bff
+           =&gt; `chef-<span class="number">12.0</span>.<span class="number">0</span>-rc.<span class="number">0</span>-<span class="number">1</span>.powerpc.bff<span class="string">'
+Resolving opscode-omnibus-packages.s3.amazonaws.com... 54.231.64.169
+Connecting to opscode-omnibus-packages.s3.amazonaws.com[54.231.64.169]:80... connected.
+<span class="caps">HTTP</span> request sent, awaiting response... 200 OK
+Length: 86,565,376 [binary/octet-stream]
+
+100%[=========================================================================================&gt;] 86,565,376    23.55M/s    ETA 00:00
+
+10:18:09 (22.67 MB/s) - `chef-12.0.0-rc.0-1.powerpc.bff'</span> saved [<span class="number">86565376</span>/<span class="number">86565376</span>]
+
+
+<span class="caps">FINISHED</span> --<span class="number">10</span>:<span class="number">18</span>:<span class="number">09</span>--
+Downloaded: <span class="number">86</span>,<span class="number">565</span>,<span class="number">376</span> bytes <span class="keyword">in</span> <span class="number">1</span> files
+l5a1vp051_pub &gt;
+</code></pre>
+<p>Chef delivers in a <span class="caps">AIX</span> backup file format (similar to unix tar format). To install the content, we need to know the fileset name. We display the content with <code>installp -ld chef-12.0.0-rc.0-1.powerpc.bff</code></p>
+<pre><code class="lang-bash">l5a1vp051_pub &gt; installp -ld chef-<span class="number">12.0</span>.<span class="number">0</span>-rc.<span class="number">0</span>-<span class="number">1</span>.powerpc.bff
+  Fileset Name                Level                     I/U Q Content
+  ====================================================================
+  chef                        <span class="number">12.0</span>.<span class="number">0.1</span>                   I  N usr,root
+<span class="comment">#   The full stack of chef</span>
+l5a1vp051_pub &gt;
+</code></pre>
+<p>Now, we collected all required information to start the installation. We use <code>installp</code> with the preview flag, to verify that everything works as intended: <code>installp -apXY -d chef-12.0.0-rc.0-1.powerpc.bff chef</code>. In case you are not familliar with the flags: <code>a: apply</code>, <code>p: preview</code>, <code>X: extend fs</code> and <code>Y: accepts license agreements</code>.</p>
+<pre><code class="lang-bash">l5a1vp051_pub &gt; installp -apXY <span class="operator">-d</span> chef-<span class="number">12.0</span>.<span class="number">0</span>-rc.<span class="number">0</span>-<span class="number">1</span>.powerpc.bff chef
+*******************************************************************************
+installp <span class="caps">PREVIEW</span>:  installation will not actually occur.
+*******************************************************************************
+
++-----------------------------------------------------------------------------+
+                    Pre-installation Verification...
++-----------------------------------------------------------------------------+
+Verifying selections...done
+Verifying requisites...done
+Results...
+
+SUCCESSES
+---------
+  Filesets listed <span class="keyword">in</span> this section passed pre-installation verification
+  and will be installed.
+
+  Selected Filesets
+  -----------------
+  chef <span class="number">12.0</span>.<span class="number">0.1</span>                               <span class="comment"># The full stack of chef</span>
+
+  &lt;&lt; End of Success Section &gt;&gt;
+
++-----------------------------------------------------------------------------+
+                   <span class="caps">BUILDDATE</span> Verification ...
++-----------------------------------------------------------------------------+
+Verifying build dates...done
+FILESET STATISTICS
+------------------
+    <span class="number">1</span>  Selected to be installed, of which:
+        <span class="number">1</span>  Passed pre-installation verification
+  ----
+    <span class="number">1</span>  Total to be installed
+
+<span class="caps">RESOURCES</span>
+---------
+  Estimated system resource requirements <span class="keyword">for</span> filesets being installed:
+                (All sizes are <span class="keyword">in</span> <span class="number">512</span>-byte blocks)
+      Filesystem                     Needed Space             Free Space
+      /                                   <span class="number">15676</span>                 <span class="number">363384</span>
+      /usr                                <span class="number">37276</span>                 <span class="number">380312</span>
+      /opt                               <span class="number">291496</span>                 <span class="number">132640</span>
+      -----                            --------                 ------
+      <span class="caps">TOTAL</span>:                             <span class="number">344448</span>                 <span class="number">876336</span>
+
+  <span class="caps">NOTE</span>:  <span class="string">"Needed Space"</span> values are calculated from data available prior
+  to installation.  These are the estimated resources required <span class="keyword">for</span> the
+  entire operation.  Further resource checks will be made during
+  installation to verify that these initial estimates are sufficient.
+
+******************************************************************************
+End of installp <span class="caps">PREVIEW</span>.  No apply operation has actually occurred.
+******************************************************************************
+l5a1vp051_pub &gt;
+</code></pre>
+<p>Since we are sure now, that the installation works, we remove the preview flag and finalize the&nbsp;installation.</p>
+<pre><code>l5a1vp051_pub &gt; installp -aXY -d chef-12.0.0-rc.0-1.powerpc.bff chef
++-----------------------------------------------------------------------------+
+                    Pre-installation Verification...
++-----------------------------------------------------------------------------+
+Verifying selections...done
+Verifying requisites...done
+Results...
+
+SUCCESSES
+---------
+  Filesets listed in this section passed pre-installation verification
+  and will be installed.
+
+  Selected Filesets
+  -----------------
+  chef 12.0.0.1                               # The full stack of chef
+
+  &lt;&lt; End of Success Section &gt;&gt;
+
++-----------------------------------------------------------------------------+
+                   BUILDDATE Verification ...
++-----------------------------------------------------------------------------+
+Verifying build dates...done
+FILESET STATISTICS
+------------------
+    1  Selected to be installed, of which:
+        1  Passed pre-installation verification
+  ----
+    1  Total to be installed
+
+Filesystem size changed to 2097152
++-----------------------------------------------------------------------------+
+                         Installing Software...
++-----------------------------------------------------------------------------+
+
+installp:  APPLYING software for:
+        chef 12.0.0.1
+
+Restoring files, please wait.
+14485 files restored.
+Thank you for installing Chef!
+Finished processing all filesets.  (Total time:  2 mins 4 secs).
+
++-----------------------------------------------------------------------------+
+                                Summaries:
++-----------------------------------------------------------------------------+
+
+Installation Summary
+--------------------
+Name                        Level           Part        Event       Result
+-------------------------------------------------------------------------------
+chef                        12.0.0.1        USR         APPLY       SUCCESS
+chef                        12.0.0.1        ROOT        APPLY       SUCCESS
+
+l5a1vp051_pub &gt; chef-client -v
+Chef: 12.0.0.rc.0
+</code></pre><p>The chef-client is successfully installed&nbsp;now.</p>
+<h2 id="hello-world">Hello&nbsp;World</h2>
+<p>Now we want to ensure that the system works. Therefore we create a simple hello world cookbook that creates a file <code>x.txt</code> in the home directory and prints <code>HELLO WORLD AIX.</code></p>
+<pre><code class="lang-bash">$ mkdir -p  cookbooks/helloworld/recipes/
+$ <span class="built_in">cd</span> cookbooks
+$ cat &gt; helloworld/recipes/default.rb
+file <span class="string">"#{<span class="caps">ENV</span>['HOME']}/x.txt"</span> <span class="keyword">do</span>
+  content <span class="string">'<span class="caps">HELLO</span> WORLD AIX'</span>
+end
+</code></pre>
+<p>We use chef-zero to run the helloworld&nbsp;cookbook.</p>
+<pre><code class="lang-bash">$ chef-client -z -o helloworld
+[<span class="number">2014</span>-<span class="number">12</span>-<span class="number">03</span>T08:<span class="number">14</span>:<span class="number">41</span>-<span class="number">06</span>:<span class="number">00</span>] <span class="caps">WARN</span>: No config file found or specified on command line, using command line options.
+Starting Chef Client, version <span class="number">12.0</span>.<span class="number">0</span>.rc.<span class="number">0</span>
+[<span class="number">2014</span>-<span class="number">12</span>-<span class="number">03</span>T08:<span class="number">14</span>:<span class="number">46</span>-<span class="number">06</span>:<span class="number">00</span>] <span class="caps">WARN</span>: Run List override has been provided.
+[<span class="number">2014</span>-<span class="number">12</span>-<span class="number">03</span>T08:<span class="number">14</span>:<span class="number">46</span>-<span class="number">06</span>:<span class="number">00</span>] <span class="caps">WARN</span>: Original Run List: []
+[<span class="number">2014</span>-<span class="number">12</span>-<span class="number">03</span>T08:<span class="number">14</span>:<span class="number">46</span>-<span class="number">06</span>:<span class="number">00</span>] <span class="caps">WARN</span>: Overridden Run List: [recipe[helloworld]]
+resolving cookbooks <span class="keyword">for</span> run list: [<span class="string">"helloworld"</span>]
+Synchronizing Cookbooks:
+  - helloworld
+Compiling Cookbooks...
+Converging <span class="number">1</span> resources
+Recipe: helloworld::default
+  * file[/home/u0015844/x.txt] action create
+    - create new file /home/u0015844/x.txt
+    - update content <span class="keyword">in</span> file /home/u0015844/x.txt from none to <span class="number">787</span>ec7
+    --- /home/u0015844/x.txt        <span class="number">2014</span>-<span class="number">12</span>-<span class="number">03</span> <span class="number">08</span>:<span class="number">14</span>:<span class="number">46.000000000</span> -<span class="number">0600</span>
+    +++ /home/u0015844/.x.txt20141203-<span class="number">10027096</span>-<span class="number">1</span>qnz8tq      <span class="number">2014</span>-<span class="number">12</span>-<span class="number">03</span> <span class="number">08</span>:<span class="number">14</span>:<span class="number">46.000000000</span> -<span class="number">0600</span>
+    @@ -<span class="number">1</span> +<span class="number">1</span>,<span class="number">2</span> @@
+    +<span class="caps">HELLO</span> WORLD AIX
+[<span class="number">2014</span>-<span class="number">12</span>-<span class="number">03</span>T08:<span class="number">14</span>:<span class="number">46</span>-<span class="number">06</span>:<span class="number">00</span>] <span class="caps">WARN</span>: Skipping final node save because override_runlist was given
+
+Running handlers:
+Running handlers complete
+Chef Client finished, <span class="number">1</span>/<span class="number">1</span> resources updated <span class="keyword">in</span> <span class="number">3.754716</span> seconds
+l5a1vp051_pub &gt;
+</code></pre>
+<p>
+<center><img src="/articles/ibm-aix-chef/hellochef.png" alt="A Chef run on AIX 7.1" title="Chef on AIX" width="700px"></center></p>
+
+<p>Since we know that Chef works very well on <span class="caps">AIX</span>, let’s start deploying more&nbsp;applications.</p>
+<p>Follow my profile on <a href="https://twitter.com/chri_hartmann">Twitter</a> or <a href="https://github.com/chris-rock/followers">Github</a></p>
+</section>
+        </article>
+      </div>
+    </div>
+    <footer>
+      <div class="content-wrap">
+        <div class="nav"><a href="/">« Full blog</a></div>
+        <section class="about">
+        </section>
+        <section class="copy">
+          <p>&copy; 2014 chris-rock &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
+          </p>
+        </section>
+      </div>
+    </footer>
+  </body>
+</html>
