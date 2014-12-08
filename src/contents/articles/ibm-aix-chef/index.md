@@ -13,7 +13,7 @@ With Chef, you can automate how you build, deploy, and manage your infrastructur
 
 AIX is a great platform for such mission critical systems, because it provides a high level of performance and reliability. Due to the fact, that it runs on [IBM Power Systems](http://www.ibm.com/systems/power/), it is also very scalable.
 
-Before I walk you through the details of Chef on AIX, I would like to thank [Julian from Chef Inc.](https://twitter.com/julian_dunn) for his exceptional support over the last months. Additionally, I like to thank IBM for providing the amazing [IBM Power Development Cloud](www.ibm.com/partnerworld/pdp).
+Before I walk you through the details of Chef on AIX, I would like to thank [Julian from Chef Inc.](https://twitter.com/julian_dunn) for his exceptional support over the last months. Additionally, I like to thank IBM for providing the amazing [IBM Power Development Cloud](http://www.ibm.com/partnerworld/pdp).
 
 ## Getting started with Chef on AIX
 
