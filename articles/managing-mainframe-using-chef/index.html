@@ -44,7 +44,15 @@
 </ol>
 <p>After running the script, Chef is installed on your machine. Tip: For production use, you can host the Chef client binaries on your own server and change the script with the required download&nbsp;urls.</p>
 <p>The next step is to transfer the cookbooks on your machine. In production environment you could easily copy the cookbooks from a <span class="caps">NFS</span> volume for Chef-Solo or use a Chef Server (recommended&nbsp;way).</p>
-<p>On <span class="caps">IBM</span> PDC I download the required cookbooks via Chef. Just create a new file <code>download.rb</code> with the following&nbsp;content:</p>
+<p>I wrote a <a href="https://github.com/chris-rock/aix-base-setup"><span class="caps">AIX</span> setup cookbook</a> that offers chef recipes for installing wget, curl, vim, zip and tar. The <a href="https://github.com/chris-rock/aix-base-setup/blob/master/recipes/vim.rb">recipe for vim</a> looks&nbsp;like:</p>
+<pre><code class="lang-ruby"><span class="string">%w(vim-common vim-enhanced)</span>.each <span class="keyword">do</span> |pack|
+  aix_toolboxpackage pack <span class="keyword">do</span>
+    action <span class="symbol">:install</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+</code></pre>
+<p>You find all other recipes in my <a href="https://github.com/chris-rock/aix-base-setup/tree/master/recipes">Github repo</a>. </p>
+<p>On <span class="caps">IBM</span> PDC I download the required cookbooks via Chef. Since <code>aix-base-setup</code> depends on <code>aix</code> cookbook, we need to download multiple cookbooks for setup. I wrote a small Chef recipe to do just that. Create a new file <code>download.rb</code> with the following&nbsp;content:</p>
 <pre><code class="lang-ruby">
 <span class="string">%w(https://supermarket.chef.io/cookbooks/aix/download 
    https://supermarket.chef.io/cookbooks/aix-base-setup/download

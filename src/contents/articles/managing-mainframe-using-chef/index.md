@@ -24,7 +24,19 @@ After running the script, Chef is installed on your machine. Tip: For production
 
 The next step is to transfer the cookbooks on your machine. In production environment you could easily copy the cookbooks from a NFS volume for Chef-Solo or use a Chef Server (recommended way).
 
-On IBM PDC I download the required cookbooks via Chef. Just create a new file `download.rb` with the following content:
+I wrote a [AIX setup cookbook](https://github.com/chris-rock/aix-base-setup) that offers chef recipes for installing wget, curl, vim, zip and tar. The [recipe for vim](https://github.com/chris-rock/aix-base-setup/blob/master/recipes/vim.rb) looks like:
+
+```ruby
+%w(vim-common vim-enhanced).each do |pack|
+  aix_toolboxpackage pack do
+    action :install
+  end
+end
+```
+
+You find all other recipes in my [Github repo](https://github.com/chris-rock/aix-base-setup/tree/master/recipes). 
+
+On IBM PDC I download the required cookbooks via Chef. Since `aix-base-setup` depends on `aix` cookbook, we need to download multiple cookbooks for setup. I wrote a small Chef recipe to do just that. Create a new file `download.rb` with the following content:
 
 ```ruby
 
