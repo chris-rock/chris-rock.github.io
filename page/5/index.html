@@ -33,6 +33,149 @@
       <div class="content-wrap">
         <article class="article intro">
           <header>
+            <p class="date"><span>26. July 2014</span></p>
+            <h2><a href="/articles/scalatra-bearer-authentication/">Scalatra with Bearer Authentication</a></h2>
+          </header>
+          <section class="content"><h1 id="why-use-scala-over-java-">Why use Scala over&nbsp;Java?</h1>
+<p>After I experienced the beauty of Ruby and Node.js for web application development I thought there are not many use cases for developing a Java web application, because they&nbsp;provide:</p>
+<ul>
+<li>easy definition of new&nbsp;routes</li>
+<li>stick to <span class="caps">REST</span> API with&nbsp;JSON</li>
+<li>quick&nbsp;development</li>
+<li>easy&nbsp;deployment</li>
+</ul>
+<p>Everything can be solved in Java, but it does not necessarily feels right. Java Enterprise Edition 5 and Spring try to make it as easy as possible, but Java has some disadvantages at language level, not on framework&nbsp;level:</p>
+<ul>
+<li>combination of imperative and functional approaches are quite helpful for writing more readable code and getting things done in a shorter time&nbsp;frame</li>
+<li>flexible type system, that is type safe and not verbose (Node.js and Ruby are not type&nbsp;safe)</li>
+<li><a href="http://www.html5rocks.com/en/tutorials/es6/promises/">Promises for Javascript</a> replace the concept of callbacks, ease the asynchronous development and establish a clean way to handle&nbsp;errors</li>
+</ul>
+<p>Recently I worked on a project where I had the requirement to re-use an existing Java infrastructure. The nature of the existing infrastructure required the use of a <span class="caps">JVM</span>-based solution. It was the right time to try Scala and in particular <a href="http://www.scalatra.org">Scalatra</a> because it is similar to <a href="http://www.sinatrarb.com/">Sinatra</a> and <a href="http://expressjs.com/">Express</a>. To get started with Scalatra try out these <a href="https://github.com/scalatra/scalatra-website-examples">examples</a>.</p>
+<p>I use it with <a href="http://www.jetbrains.com/idea/">IntelliJ</a>, <a href="http://blog.jetbrains.com/scala/2013/11/18/built-in-sbt-support-in-intellij-idea-13/">IntelliJ Scala plugin</a> and <a href="https://github.com/mpeltonen/sbt-idea">sbt-idea</a>. If you are new to Scala you should also read the <a href="http://www.scala-sbt.org/0.13/tutorial/index.html">sbt&nbsp;guide</a></p>
+<h1 id="oauth-2-0-bearer-authentication-for-scalatra">OAuth 2.0 Bearer Authentication for&nbsp;Scalatra</h1>
+<p>Once you have a sample Scalatra application up and running, you may want to build your <span class="caps">REST</span> API&nbsp;like:</p>
+<pre><code class="lang-scala">get(<span class="string">"/hello/:name"</span>) {
+  <span class="comment">// Matches "<span class="caps">GET</span> /hello/foo" and "GET /hello/bar"</span>
+  <span class="comment">// params("name") is "foo" or "bar"</span>
+  &lt;p&gt;Hello, {params(<span class="string">"name"</span>)}&lt;/p&gt;
+}
+</code></pre>
+<p>For the command-line requests I am going to use <a href="/articles/scalatra-bearer-authentication/httpie%20http://httpie.org">httpie</a></p>
+<pre><code class="lang-code">http -v http://localhost:8080/hello/john
+
+GET /hello/john HTTP/1.1
+Accept: */*
+Accept-Encoding: gzip, deflate, compress
+Host: localhost:8080
+User-Agent: HTTPie/0.8.0
+
+
+
+HTTP/1.1 200 OK
+Content-Length: 18
+Content-Type: text/html;charset=UTF-8
+Server: Jetty(8.1.8.v20121106)
+
+&lt;p&gt;Hello, john&lt;/p&gt;
+</code></pre>
+<p>Assume you need to restrict the access to routes. In a corporate environment an OAuth server is used quiet often to verify requests. <a href="http://tools.ietf.org/html/rfc6750">Bearer tokens</a> are very useful for that task. The <span class="caps">HTTP</span> header for authentication is well established and used for basic authentication as well. Now the resource provider (our Scala server with routes) need to handle authentication header and verify the received&nbsp;token. </p>
+<p>Salesforce published <a href="https://developer.salesforce.com/page/Digging_Deeper_into_OAuth_2.0_on_Force.com">Digging Deeper into OAuth 2.0 on Force.com</a> that illustrates the&nbsp;setup:</p>
+<p><img alt="OAuthRoles.png" src="https://s3.amazonaws.com/dfc-wiki/en/images/6/6f/OAuthRoles.png" width="443" height="414"></p>
+<p>A client request to the resource provider looks&nbsp;like</p>
+<pre><code class="lang-code">http -v http://localhost:8080/hello/john &#39;Authorization:Bearer Ieg4ahthie&#39;
+
+GET /hello/john HTTP/1.1
+Accept: */*
+Accept-Encoding: gzip, deflate, compress
+Authorization: Bearer Ieg4ahthie
+Host: localhost:8080
+User-Agent: HTTPie/0.8.0
+
+
+
+HTTP/1.1 200 OK
+Content-Length: 18
+Content-Type: text/html;charset=UTF-8
+Server: Jetty(8.1.8.v20121106)
+
+&lt;p&gt;Hello, john&lt;/p&gt;
+</code></pre>
+<p>Now, the resource server needs to respect the authentication and only provide access to authenticated users. We need a way to implement a generic authentication strategy to authenticate users via Bearer token. Scalatra provides a way to <a href="http://www.scalatra.org/2.3/guides/http/authentication.html">hook your own authentication strategy</a> into the framework. The implementation of the <code>BasicAuthStrategy</code> is available at <a href="https://github.com/scalatra/scalatra/blob/2.3.x/auth/src/main/scala/org/scalatra/auth/strategy/BasicAuthStrategy.scala">Github</a></p>
+<p>Based on the BasicAuthStrategy, we are going to implement a <code>BearerAuthStragegy</code></p>
+<p><style type="text/css">
+.gist {
+  font-size: 12px;
+}
+</style></p>
+<script src="https://gist.github.com/chris-rock/9cc43202ecbd57ad1f4b.js"></script>
+
+<p>Now you need to wire it into your&nbsp;Servlet:</p>
+<pre><code class="lang-scala"><span class="class"><span class="keyword">trait</span> <span class="title">HelloAppStack</span></span>
+  <span class="keyword">extends</span> ScalatraServlet
+  <span class="keyword">with</span> ScalateSupport
+  <span class="keyword">with</span> CorsSupport
+  <span class="keyword">with</span> AuthenticationSupport {
+  ...
+  }
+</code></pre>
+<p>Now you are able to secure routes&nbsp;with:</p>
+<pre><code class="lang-scala">get(<span class="string">"/hello/:name"</span>) {
+
+    <span class="keyword">val</span> user: User = auth.get
+
+    <span class="comment">// Matches "<span class="caps">GET</span> /hello/foo" and "GET /hello/bar"</span>
+    <span class="comment">// params("name") is "foo" or "bar"</span>
+    &lt;p&gt;Hello, {params(<span class="string">"name"</span>)}&lt;/p&gt;
+}
+</code></pre>
+<p>Finally unauthenticated responses are&nbsp;rejected:</p>
+<pre><code class="lang-code">http -v http://localhost:8080/hello/john
+
+GET /hello/john HTTP/1.1
+Accept: */*
+Accept-Encoding: gzip, deflate, compress
+Host: localhost:8080
+User-Agent: HTTPie/0.8.0
+
+
+
+HTTP/1.1 401 Unauthorized
+Content-Length: 15
+Content-Type: text/plain;charset=UTF-8
+Server: Jetty(8.1.8.v20121106)
+
+Unauthenticated
+</code></pre>
+<p>Transmitting the access token allows you to access the route as&nbsp;before:</p>
+<pre><code class="lang-code">
+http -v http://localhost:8080/hello/john &#39;Authorization:Bearer Ieg4ahthie&#39;
+
+GET /hello/john HTTP/1.1
+Accept: */*
+Accept-Encoding: gzip, deflate, compress
+Authorization: Bearer Ieg4ahthie
+Host: localhost:8080
+User-Agent: HTTPie/0.8.0
+
+
+
+HTTP/1.1 200 OK
+Content-Length: 18
+Content-Type: text/html;charset=UTF-8
+Expires: Thu, 01 Jan 1970 00:00:00 GMT
+Server: Jetty(8.1.8.v20121106)
+Set-Cookie: JSESSIONID=1qxp4ot72v3lmr01n3vesosel;Path=/
+
+&lt;p&gt;Hello, john&lt;/p&gt;
+</code></pre>
+<p>The example above requires you to implement the <code>verify</code> method properly. The current state allows any request with any token access, as long as the token is&nbsp;provided. </p>
+<p>Cheers,</p>
+<p>Chris</p>
+
+          </section>
+        </article>
+        <article class="article intro">
+          <header>
             <p class="date"><span>14. May 2014</span></p>
             <h2><a href="/articles/how-to-harden-a-new-server/">How to harden a new server with Chef</a></h2>
           </header>
@@ -234,42 +377,6 @@ Chef Client finished, <span class="number">10</span>/<span class="number">45</sp
 
           </section>
         </article>
-        <article class="article intro">
-          <header>
-            <p class="date"><span>03. April 2014</span></p>
-            <h2><a href="/articles/glance-image-create/">Open Stack Glance Image Create</a></h2>
-          </header>
-          <section class="content"><p>The newest version of Ubuntu is out and we need to upload the latest version to Open Stack. Of course we try to save our bandwith. There we use <code>-copy-from</code> instead of <code>--file openstack_image.img</code>:</p>
-<pre><code>glance image-create --name &#39;Ubuntu 14.04 LTS&#39; \
-  --container-format bare \
-  --disk-format qcow2 \
-  --is-public true \
-  --copy-from http://uec-images.ubuntu.com/releases/14.04/release/ubuntu-14.04-server-cloudimg-amd64-disk1.img
-
-
-+------------------+--------------------------------------+
-| Property         | Value                                |
-+------------------+--------------------------------------+
-| checksum         | None                                 |
-| container_format | bare                                 |
-| created_at       | 2014-04-02T13:16:20                  |
-| deleted          | False                                |
-| deleted_at       | None                                 |
-| disk_format      | qcow2                                |
-| id               | aa5ab6de-e461-4330-136e-fb149802bdc0 |
-| is_public        | True                                 |
-| min_disk         | 0                                    |
-| min_ram          | 0                                    |
-| name             | Ubuntu 14.04 LTS Beta 1              |
-| owner            | 9ab2f1a7ca521eee9c8de5a14567d377     |
-| protected        | False                                |
-| size             | 261095936                            |
-| status           | queued                               |
-| updated_at       | 2014-04-02T13:16:20                  |
-+------------------+--------------------------------------+
-</code></pre>
-          </section>
-        </article>
       </div>
     </div>
     <footer>
@@ -279,7 +386,7 @@ Chef Client finished, <span class="number">10</span>/<span class="number">45</sp
         <section class="about">
         </section>
         <section class="copy">
-          <p>&copy; 2014 chris-rock &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
+          <p>&copy; 2015 chris-rock &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
           </p>
         </section>
       </div>
