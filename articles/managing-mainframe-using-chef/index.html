@@ -31,11 +31,11 @@
     <div id="content">
       <div class="content-wrap">
         <article class="article">
-          <section class="content"><p>This blog post will focus on running Chef cookbooks on <span class="caps">AIX</span> server. As an example we install various Linux tools via Chef and demonstrate, how a mainframe setup can be&nbsp;automated.</p>
+          <section class="content"><p>This blog post will focus on running Chef cookbooks on <span class="caps">AIX</span> server. As an example we will install various Linux tools via Chef and demonstrate, how a mainframe setup can be&nbsp;automated.</p>
 <h2 id="introduction">Introduction</h2>
-<p>Recently, I published an article about running <a href="http://lollyrock.com/articles/ibm-aix-chef/">Chef on <span class="caps">AIX</span></a>. I worked the last months with Chef and <span class="caps">AIX</span>. For my evaluations I used the <a href="http://www.ibm.com/partnerworld/pdp"><span class="caps">IBM</span> Power Development Cloud</a>. Using various <span class="caps">AIX</span> machines, I needed a setup, where I was able to turn a vanilla AIX system into an perfectly configured system. One part of this setup was the installation of Linux tools to work faster via command line. IBM provides pre-compiled <a href="http://www-03.ibm.com/systems/power/software/aix/linux/">Linux tools for <span class="caps">AIX</span></a>. Since <span class="caps">AIX</span> lacks a package manager for rpm packages, the standard method was to run bash scripts that include the dependency graph. Following, I am going to install basic packages like wget, curl and zip via Chef and&nbsp;manually. </p>
+<p>Recently, I published an article about running <a href="http://lollyrock.com/articles/ibm-aix-chef/">Chef on <span class="caps">AIX</span></a>. I worked the last months with Chef and <span class="caps">AIX</span>. For my evaluations I used the <a href="http://www.ibm.com/partnerworld/pdp"><span class="caps">IBM</span> Power Development Cloud</a>. Using various <span class="caps">AIX</span> machines, I needed a setup, where I was able to turn a vanilla AIX system into an perfectly configured system. One part of this setup was the installation of Linux tools to work faster via command line. IBM provides pre-compiled <a href="http://www-03.ibm.com/systems/power/software/aix/linux/">Linux tools for <span class="caps">AIX</span></a>. Since <span class="caps">AIX</span> lacks a package manager for rpm packages, the standard method was to run bash scripts that include the dependency graph. In the following sections, I’m going to install basic packages like wget, curl and zip via Chef and&nbsp;manually. </p>
 <h2 id="the-chef-way">The Chef&nbsp;way</h2>
-<p>As a first step we need to install the Chef client. The best way is via the standard install script provided at <code>https://www.chef.io/download-chef-client/</code>. The current fix by <a href="https://github.com/opscode/opscode-omnitruck/pull/72">Julian Dunn</a> for <span class="caps">AIX</span> is not live yet. I composed a working <a href="http://lollyrock.com/articles/managing-mainframe-using-chef/install.sh">script</a>. I do the following steps to run the script the first&nbsp;time: </p>
+<p>As a first step we need to install the Chef client. The best way is via the standard install script provided at <code>https://www.chef.io/download-chef-client/</code>. Since the current fix by <a href="https://github.com/opscode/opscode-omnitruck/pull/72">Julian Dunn</a> for <span class="caps">AIX</span> is not yet live, you can use this <a href="http://lollyrock.com/articles/managing-mainframe-using-chef/install.sh">script</a> instead. I do the following steps to run the script the first&nbsp;time: </p>
 <ol>
 <li>Open&nbsp;Terminal</li>
 <li>Copy content of install.sh into&nbsp;clipboard</li>
@@ -211,7 +211,7 @@ $ &gt;
 </code></pre>
 <p>We are ready to use the system with a basic&nbsp;setup.</p>
 <h2 id="the-classic-way">The classic&nbsp;way</h2>
-<p>For comparison, I will highlight the installation of the same tools with a manual installation. The first step we need to ensure is that we are able to install rpm packages. <span class="caps">RPM</span> can be downloaded the rpm package from <a href="ftp://public.dhe.ibm.com/aix/freeSoftware/aixtoolbox/INSTALLP/ppc/rpm.rte">ibm ftp server</a>.</p>
+<p>For comparison, I will highlight the installation of the same tools with a manual installation. First, we need to ensure that we are able to install rpm packages. <span class="caps">RPM</span> can be downloaded from <a href="ftp://public.dhe.ibm.com/aix/freeSoftware/aixtoolbox/INSTALLP/ppc/rpm.rte"><span class="caps">IBM</span>’s FTP server</a>.</p>
 <pre><code class="lang-bash">l5a1vp051_pub[/home/u0015844] &gt; ftp ftp.software.ibm.com
 Connected to dispsd-<span class="number">40</span>-www3.boulder.ibm.com.
 <span class="number">220</span> service.boulder.ibm.com <span class="caps">FTP</span> server (Version wu-<span class="number">2.6</span>.<span class="number">2.1</span>(<span class="number">5</span>) Custom Tue Aug <span class="number">17</span> <span class="number">13</span>:<span class="number">28</span>:<span class="number">23</span> <span class="caps">MDT</span> <span class="number">2010</span>) ready.
@@ -282,7 +282,7 @@ rpm.rte                   <span class="number">3.0</span>.<span class="number">5
 l5a1vp051_pub[/home/u0015844] &gt;
 ```bash
 
-The first step we need to take is the ftp download of wget to easy the installation of the following tools. 
+Once we have <span class="caps">FTP</span>, we are ready to download wget to easy the installation of the following tools. 
 
 ```bash
 l5a1vp051_pub[/home/u0015844] &gt; ftp ftp.software.ibm.com
@@ -338,7 +338,7 @@ su root -c rpm -hUv zip-<span class="number">2.3</span>-<span class="number">3</
 </code></pre>
 <p>Finally, we have reached the final&nbsp;setup.</p>
 <h2 id="conclusion">Conclusion</h2>
-<p>Both, the manual and Chef approach are valid ways to setup a machine. If you need to setup 5 packages, the effort is nearly the same. Chef will become more efficient if you go further and start changing system and application configuration as well as installing more packages. It will become very handy to manage the setup in Chef, because the manual steps required on the system keep the same, no matter how many steps are involved in your cookbooks. This improves the deployment time and decreases the time of reoccurring&nbsp;tasks.</p>
+<p>Both, the manual and Chef approach, are valid ways to setup a machine. If you need to setup 5 packages, the effort is nearly the same. Chef will become more efficient if you go further and start changing system and application configuration as well as installing more packages. It will become very handy to manage the setup in Chef, because the manual steps required on the system keep the same, no matter how many steps are involved in your cookbooks. This improves the deployment time and decreases the time of reoccurring&nbsp;tasks.</p>
 <p>Questions:</p>
 <ul>
 <li>Why not use knife&nbsp;bootstrap?</li>
