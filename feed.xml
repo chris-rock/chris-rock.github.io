@@ -534,7 +534,7 @@ l5a1vp051_pub &amp;gt;
 </description>
     </item>
     <item>
-      <title>Simple file upload with Express 4</title>
+      <title>Simple file uploads with Express 4</title>
       <link>http://chris-rock.github.io/articles/express4-file-upload/</link>
       <pubDate>Sat, 15 Nov 2014 01:00:00 +0100</pubDate>
       <guid isPermaLink="true">http://chris-rock.github.io/articles/express4-file-upload/</guid>
@@ -667,6 +667,14 @@ app.post(&lt;span class=&quot;string&quot;&gt;'/'&lt;/span&gt;,[ multer({ dest: 
 
 app.listen(&lt;span class=&quot;number&quot;&gt;3000&lt;/span&gt;);
 &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If you have any questions contact me via &lt;a href=&quot;https://twitter.com/chri_hartmann&quot;&gt;Twitter @chri_hartmann&lt;/a&gt; or &lt;a href=&quot;https://github.com/chris-rock&quot;&gt;Github&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;See also:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://lollyrock.com/articles/nodejs-encryption/&quot;&gt;Encrypt and decrypt content with Nodejs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://lollyrock.com/articles/nodejs-sha512/&quot;&gt;SHA 512 Hashs with nodejs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://lollyrock.com/articles/content-security-policy/&quot;&gt;Applied Content Security Policy for Nginx and Nodejs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://arlimus.github.io/articles/ready.for.es6/&quot;&gt;Ready for ES6?&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 </description>
     </item>
     <item>
@@ -751,6 +759,7 @@ ds.start().then(&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyw
 &lt;p&gt;With the proposed solution, we are able to use predefined docker images and use custom commands. Now, we can automate every piece.&lt;/p&gt;
 &lt;p&gt;Happy hacking.
 Chris&lt;/p&gt;
+&lt;p&gt;If you have any questions contact me via &lt;a href=&quot;https://twitter.com/chri_hartmann&quot;&gt;Twitter @chri_hartmann&lt;/a&gt; or &lt;a href=&quot;https://github.com/chris-rock&quot;&gt;Github&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -887,6 +896,7 @@ Chris&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
 &lt;p&gt;With a few lines of code, we encapsulate the complete JSON encoding and decoding. Its amazing how easy it is. It may not be as intuitive as in Nodejs, but comes with additional type checks, which is generally more complex in Nodejs.&lt;/p&gt;
+&lt;p&gt;If you have any questions contact me via &lt;a href=&quot;https://twitter.com/chri_hartmann&quot;&gt;Twitter @chri_hartmann&lt;/a&gt; or &lt;a href=&quot;https://github.com/chris-rock&quot;&gt;Github&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -929,6 +939,7 @@ gpg: Good signature from &amp;quot;Christoph Hartmann &amp;lt;chris@lollyrock.co
 &lt;p&gt;If you are not using GPG/PGP already for your email, please do.&lt;/p&gt;
 &lt;p&gt;Cheers
 Chris&lt;/p&gt;
+&lt;p&gt;If you have any questions contact me via &lt;a href=&quot;https://twitter.com/chri_hartmann&quot;&gt;Twitter @chri_hartmann&lt;/a&gt; or &lt;a href=&quot;https://github.com/chris-rock&quot;&gt;Github&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -1096,7 +1107,8 @@ $&amp;gt; s3cmd del s3://YOURBUCKET/test.txt
 File s3://YOURBUCKET/test.txt deleted
 $&amp;gt; cat test2.txt 
 samplecontent
-&lt;/code&gt;&lt;/pre&gt;</description>
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you have any questions contact me via &lt;a href=&quot;https://twitter.com/chri_hartmann&quot;&gt;Twitter @chri_hartmann&lt;/a&gt; or &lt;a href=&quot;https://github.com/chris-rock&quot;&gt;Github&lt;/a&gt;&lt;/p&gt;
+</description>
     </item>
     <item>
       <title>Encrypt and decrypt content with Nodejs</title>
@@ -1136,6 +1148,14 @@ n use 0.11.13 crypto-gcm.js
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Also take a look at the &lt;a href=&quot;https://github.com/joyent/node/blob/master/test/simple/test-crypto-authenticated.js#L44-L64&quot;&gt;nodejs tests&lt;/a&gt; for more tests with different setups.&lt;/p&gt;
 &lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
 &lt;p&gt;I hope the samples help you to get started with nodejs encryption.&lt;/p&gt;
+&lt;p&gt;If you have any questions contact me via &lt;a href=&quot;https://twitter.com/chri_hartmann&quot;&gt;Twitter @chri_hartmann&lt;/a&gt; or &lt;a href=&quot;https://github.com/chris-rock&quot;&gt;Github&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;See also:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://lollyrock.com/articles/nodejs-sha512/&quot;&gt;SHA 512 Hashs with nodejs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://lollyrock.com/articles/express4-file-upload/&quot;&gt;Simple file uploads with Express 4&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://lollyrock.com/articles/content-security-policy/&quot;&gt;Applied Content Security Policy for Nginx and Nodejs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://arlimus.github.io/articles/ready.for.es6/&quot;&gt;Ready for ES6?&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 </description>
     </item>
     <item>
@@ -1270,8 +1290,8 @@ un  chef                             &amp;lt;none&amp;gt;                       
 &lt;li&gt;&lt;p&gt;Chef binaries can be un-installed with a Chef run&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;The full demo is available at &lt;a href=&quot;https://github.com/chris-rock/chef-purge-demo/&quot;&gt;Github&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Do you have better approaches for running Chef runs without internet? &lt;a href=&quot;https://github.com/chris-rock&quot;&gt;Get in touch&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The full demo is available at &lt;a href=&quot;https://github.com/chris-rock/chef-purge-demo/&quot;&gt;Github&lt;/a&gt;. Do you have better approaches for running Chef runs without internet?&lt;/p&gt;
+&lt;p&gt;If you have any questions contact me via &lt;a href=&quot;https://twitter.com/chri_hartmann&quot;&gt;Twitter @chri_hartmann&lt;/a&gt; or &lt;a href=&quot;https://github.com/chris-rock&quot;&gt;Github&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -1410,7 +1430,14 @@ app.listen(&lt;span class=&quot;number&quot;&gt;3000&lt;/span&gt;);
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
 &lt;p&gt;As I described above, &lt;code&gt;Content Security Policy&lt;/code&gt; is a good way to increase the security level of your web page. In most cases, the addition of the header is a no-brainer. You will have a few issues to work out and extensive testing is required after you activated the header. If you experience  lot of issues by implementing the &lt;code&gt;Content Security Policy&lt;/code&gt; this may be an indication that you have to do some clean up work. CSP does not prevent you from fixing your XSS-Bugs, but it helps you to reduce the potential risk of a XSS Bug. Of course CSP is not the only security feature for your web application and you should really invest some time to secure your web page.&lt;/p&gt;
-&lt;p&gt;Do you need help to improve the security for your web application? &lt;a href=&quot;https://github.com/chris-rock&quot;&gt;Get in touch&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Do you need help to improve the security for your web application? Contact me via &lt;a href=&quot;https://twitter.com/chri_hartmann&quot;&gt;Twitter @chri_hartmann&lt;/a&gt; or &lt;a href=&quot;https://github.com/chris-rock&quot;&gt;Github&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;See also:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://lollyrock.com/articles/nodejs-encryption/&quot;&gt;Encrypt and decrypt content with Nodejs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://lollyrock.com/articles/nodejs-sha512/&quot;&gt;SHA 512 Hashs with nodejs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://lollyrock.com/articles/express4-file-upload/&quot;&gt;Simple file uploads with Express 4&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://arlimus.github.io/articles/ready.for.es6/&quot;&gt;Ready for ES6?&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;http://www.html5rocks.com/en/tutorials/security/content-security-policy/&quot;&gt;An Introduction to Content Security Policy - HTML5 Rocks&lt;/a&gt;&lt;/li&gt;
@@ -1571,6 +1598,7 @@ object UserParser {
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The combination of &lt;code&gt;Dispatch&lt;/code&gt; and &lt;code&gt;Argonout&lt;/code&gt; provides an efficient way to do HTTP calls and evaluate the response in Scala. Since we are using Futures, the environment can handle more requests at the same time and the code is easier to read than a complex threading system.&lt;/p&gt;
 &lt;p&gt;Cheers&lt;/p&gt;
 &lt;p&gt;Chris &lt;/p&gt;
+&lt;p&gt;If you have any questions contact me via &lt;a href=&quot;https://twitter.com/chri_hartmann&quot;&gt;Twitter @chri_hartmann&lt;/a&gt; or &lt;a href=&quot;https://github.com/chris-rock&quot;&gt;Github&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -1620,7 +1648,8 @@ curl --silent https://bootstrap.pypa.io/get-pip.py |sudo python2.7
 # Install Open Stack Tools
 pip install python-novaclient
 pip install python-glanceclient
-&lt;/code&gt;&lt;/pre&gt;</description>
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you have any questions contact me via &lt;a href=&quot;https://twitter.com/chri_hartmann&quot;&gt;Twitter @chri_hartmann&lt;/a&gt; or &lt;a href=&quot;https://github.com/chris-rock&quot;&gt;Github&lt;/a&gt;&lt;/p&gt;
+</description>
     </item>
     <item>
       <title>Scalatra with Bearer Authentication</title>
@@ -1763,6 +1792,7 @@ Set-Cookie: JSESSIONID=1qxp4ot72v3lmr01n3vesosel;Path=/
 &lt;p&gt;The example above requires you to implement the &lt;code&gt;verify&lt;/code&gt; method properly. The current state allows any request with any token access, as long as the token is provided. &lt;/p&gt;
 &lt;p&gt;Cheers,&lt;/p&gt;
 &lt;p&gt;Chris&lt;/p&gt;
+&lt;p&gt;If you have any questions contact me via &lt;a href=&quot;https://twitter.com/chri_hartmann&quot;&gt;Twitter @chri_hartmann&lt;/a&gt; or &lt;a href=&quot;https://github.com/chris-rock&quot;&gt;Github&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -1921,6 +1951,7 @@ Chef Client finished, &lt;span class=&quot;number&quot;&gt;10&lt;/span&gt;/&lt;s
 &lt;li&gt;&lt;a href=&quot;http://community.opscode.com/cookbooks/ssh-hardening&quot;&gt;http://community.opscode.com/cookbooks/ssh-hardening&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Happy Hardening!&lt;/p&gt;
+&lt;p&gt;If you have any questions contact me via &lt;a href=&quot;https://twitter.com/chri_hartmann&quot;&gt;Twitter @chri_hartmann&lt;/a&gt; or &lt;a href=&quot;https://github.com/chris-rock&quot;&gt;Github&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -1966,6 +1997,14 @@ Chef Client finished, &lt;span class=&quot;number&quot;&gt;10&lt;/span&gt;/&lt;s
     fstream.pipe(hash);
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Happy Hashing.&lt;/p&gt;
+&lt;p&gt;If you have any questions contact me via &lt;a href=&quot;https://twitter.com/chri_hartmann&quot;&gt;Twitter @chri_hartmann&lt;/a&gt; or &lt;a href=&quot;https://github.com/chris-rock&quot;&gt;Github&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;See also:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://lollyrock.com/articles/nodejs-encryption/&quot;&gt;Encrypt and decrypt content with Nodejs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://lollyrock.com/articles/express4-file-upload/&quot;&gt;Simple file uploads with Express 4&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://lollyrock.com/articles/content-security-policy/&quot;&gt;Applied Content Security Policy for Nginx and Nodejs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://arlimus.github.io/articles/ready.for.es6/&quot;&gt;Ready for ES6?&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 </description>
     </item>
     <item>
@@ -2002,7 +2041,8 @@ Chef Client finished, &lt;span class=&quot;number&quot;&gt;10&lt;/span&gt;/&lt;s
 | status           | queued                               |
 | updated_at       | 2014-04-02T13:16:20                  |
 +------------------+--------------------------------------+
-&lt;/code&gt;&lt;/pre&gt;</description>
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you have any questions contact me via &lt;a href=&quot;https://twitter.com/chri_hartmann&quot;&gt;Twitter @chri_hartmann&lt;/a&gt; or &lt;a href=&quot;https://github.com/chris-rock&quot;&gt;Github&lt;/a&gt;&lt;/p&gt;
+</description>
     </item>
     <item>
       <title>Open Stack VM Resizing</title>
@@ -2054,6 +2094,7 @@ KEYNAME=key
 nova boot $VMNAME --flavor=$FLAVOR --image=$IMAGE --security-groups=$SG --nic port-id=$POST --key_name=$KEYNAME
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In case you do not use the specific port, switch &lt;code&gt;port-id&lt;/code&gt; with &lt;code&gt;net-id&lt;/code&gt; and the network id gathered with &lt;code&gt;neutron net-list&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;Happy resizing.&lt;/p&gt;
+&lt;p&gt;If you have any questions contact me via &lt;a href=&quot;https://twitter.com/chri_hartmann&quot;&gt;Twitter @chri_hartmann&lt;/a&gt; or &lt;a href=&quot;https://github.com/chris-rock&quot;&gt;Github&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     <item>
@@ -2099,6 +2140,7 @@ This is your host ip: 192.168.50.10
 &lt;p&gt;&lt;img src=&quot;/articles/havana-box/06_openstack_runningmachine.png&quot; alt=&quot;Alt text&quot; title=&quot;Optional title&quot;&gt;&lt;/p&gt;
 &lt;p&gt;In case you find bugs, I am happy to merge &lt;a href=&quot;https://github.com/chris-rock/vagrant-devstack&quot;&gt;pull requests&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://github.com/chris-rock/vagrant-devstack&quot;&gt;&lt;img id=&quot;fork-me-ribbon&quot; src=&quot;https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png&quot; alt=&quot;Fork me on GitHub&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;If you have any questions contact me via &lt;a href=&quot;https://twitter.com/chri_hartmann&quot;&gt;Twitter @chri_hartmann&lt;/a&gt; or &lt;a href=&quot;https://github.com/chris-rock&quot;&gt;Github&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
   </channel>

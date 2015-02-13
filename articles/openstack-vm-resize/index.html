@@ -24,7 +24,7 @@
     <header class="header">
       <div class="content-wrap">
         <h1>Open Stack VM Resizing</h1>
-        <p class="author">Written by <span class="author"><a href="mailto:chris@lollyrock.com">chris-rock</a></span>
+        <p class="author">Written by <span class="author"><a href="mailto:chris@lollyrock.com">Christoph Hartmann</a></span>
         </p>
       </div>
     </header>
@@ -75,6 +75,7 @@ KEYNAME=key
 nova boot $VMNAME --flavor=$FLAVOR --image=$IMAGE --security-groups=$SG --nic port-id=$POST --key_name=$KEYNAME
 </code></pre><p>In case you do not use the specific port, switch <code>port-id</code> with <code>net-id</code> and the network id gathered with <code>neutron net-list</code></p>
 <p>Happy&nbsp;resizing.</p>
+<p>If you have any questions contact me via <a href="https://twitter.com/chri_hartmann">Twitter @chri_hartmann</a> or <a href="https://github.com/chris-rock">Github</a></p>
 </section>
         </article>
       </div>
@@ -85,7 +86,7 @@ nova boot $VMNAME --flavor=$FLAVOR --image=$IMAGE --security-groups=$SG --nic po
         <section class="about">
         </section>
         <section class="copy">
-          <p>&copy; 2015 chris-rock &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
+          <p>&copy; 2015 Christoph Hartmann &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
           </p>
         </section>
       </div>
