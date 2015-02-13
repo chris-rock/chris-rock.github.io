@@ -167,4 +167,4 @@ object ImplicitConversion {
 
 With a few lines of code, we encapsulate the complete JSON encoding and decoding. Its amazing how easy it is. It may not be as intuitive as in Nodejs, but comes with additional type checks, which is generally more complex in Nodejs.
 
-
+If you have any questions contact me via [Twitter @chri_hartmann](https://twitter.com/chri_hartmann) or [Github](https://github.com/chris-rock)

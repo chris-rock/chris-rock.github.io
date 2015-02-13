@@ -1,5 +1,5 @@
 ---
-title: Simple file upload with Express 4
+title: Simple file uploads with Express 4
 author: chris
 date: 2014-11-15
 template: article.jade
@@ -156,3 +156,11 @@ app.post('/',[ multer({ dest: './uploads/'}), function(req, res){
 app.listen(3000);
 ```
 
+If you have any questions contact me via [Twitter @chri_hartmann](https://twitter.com/chri_hartmann) or [Github](https://github.com/chris-rock)
+
+See also:
+
+ * [Encrypt and decrypt content with Nodejs](http://lollyrock.com/articles/nodejs-encryption/)
+ * [SHA 512 Hashs with nodejs](http://lollyrock.com/articles/nodejs-sha512/)
+ * [Applied Content Security Policy for Nginx and Nodejs](http://lollyrock.com/articles/content-security-policy/)
+ * [Ready for ES6?](http://arlimus.github.io/articles/ready.for.es6/)

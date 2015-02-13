@@ -55,7 +55,12 @@ Also take a look at the [nodejs tests](https://github.com/joyent/node/blob/maste
 
 I hope the samples help you to get started with nodejs encryption.
 
+If you have any questions contact me via [Twitter @chri_hartmann](https://twitter.com/chri_hartmann) or [Github](https://github.com/chris-rock)
 
+See also:
 
-
+ * [SHA 512 Hashs with nodejs](http://lollyrock.com/articles/nodejs-sha512/)
+ * [Simple file uploads with Express 4](http://lollyrock.com/articles/express4-file-upload/)
+ * [Applied Content Security Policy for Nginx and Nodejs](http://lollyrock.com/articles/content-security-policy/)
+ * [Ready for ES6?](http://arlimus.github.io/articles/ready.for.es6/)
 

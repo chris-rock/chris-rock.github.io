@@ -69,3 +69,5 @@ pip install python-novaclient
 pip install python-glanceclient
 ```
 
+If you have any questions contact me via [Twitter @chri_hartmann](https://twitter.com/chri_hartmann) or [Github](https://github.com/chris-rock)
+

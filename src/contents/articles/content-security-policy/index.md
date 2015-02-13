@@ -191,8 +191,14 @@ app.listen(3000);
 
 As I described above, `Content Security Policy` is a good way to increase the security level of your web page. In most cases, the addition of the header is a no-brainer. You will have a few issues to work out and extensive testing is required after you activated the header. If you experience  lot of issues by implementing the `Content Security Policy` this may be an indication that you have to do some clean up work. CSP does not prevent you from fixing your XSS-Bugs, but it helps you to reduce the potential risk of a XSS Bug. Of course CSP is not the only security feature for your web application and you should really invest some time to secure your web page.
 
-Do you need help to improve the security for your web application? [Get in touch](https://github.com/chris-rock).
+Do you need help to improve the security for your web application? Contact me via [Twitter @chri_hartmann](https://twitter.com/chri_hartmann) or [Github](https://github.com/chris-rock)
 
+See also:
+
+ * [Encrypt and decrypt content with Nodejs](http://lollyrock.com/articles/nodejs-encryption/)
+ * [SHA 512 Hashs with nodejs](http://lollyrock.com/articles/nodejs-sha512/)
+ * [Simple file uploads with Express 4](http://lollyrock.com/articles/express4-file-upload/)
+ * [Ready for ES6?](http://arlimus.github.io/articles/ready.for.es6/)
 
 ## References
 
@@ -202,3 +208,5 @@ Do you need help to improve the security for your web application? [Get in touch
  * [Content Security Policy 1.0](http://www.w3.org/TR/CSP/)
  * [Content Security Policy Level 2](http://www.w3.org/TR/CSP11/)
  * [Can I Use Content Security Policy](http://caniuse.com/#feat=contentsecuritypolicy)
+
+

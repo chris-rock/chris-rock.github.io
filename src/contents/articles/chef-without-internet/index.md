@@ -148,6 +148,6 @@ un  chef                             <none>                            (no descr
 
 2. Chef binaries can be un-installed with a Chef run
 
-The full demo is available at [Github](https://github.com/chris-rock/chef-purge-demo/)
+The full demo is available at [Github](https://github.com/chris-rock/chef-purge-demo/). Do you have better approaches for running Chef runs without internet?
 
-Do you have better approaches for running Chef runs without internet? [Get in touch](https://github.com/chris-rock).
+If you have any questions contact me via [Twitter @chri_hartmann](https://twitter.com/chri_hartmann) or [Github](https://github.com/chris-rock)

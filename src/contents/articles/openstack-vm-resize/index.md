@@ -70,3 +70,5 @@ Now we are ready to re-create the machine
 In case you do not use the specific port, switch `port-id` with `net-id` and the network id gathered with `neutron net-list`
 
 Happy resizing.
+
+If you have any questions contact me via [Twitter @chri_hartmann](https://twitter.com/chri_hartmann) or [Github](https://github.com/chris-rock)

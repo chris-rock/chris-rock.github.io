@@ -71,3 +71,5 @@ Finally log into the machine via the NoVNC client.
 In case you find bugs, I am happy to merge [pull requests](https://github.com/chris-rock/vagrant-devstack).
 
 <a href="https://github.com/chris-rock/vagrant-devstack"><img id="fork-me-ribbon" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
+If you have any questions contact me via [Twitter @chri_hartmann](https://twitter.com/chri_hartmann) or [Github](https://github.com/chris-rock)
