@@ -56,7 +56,7 @@ dpkg-query <span class="operator">-l</span> chef
 </code></pre>
 <p>This proofs that we are able to bootstrap a machine with a local chef binary. It would be amazing, if Chef Inc could provide apt and yum repositories. This would allow us to work with the standard operating system setup and we would be able to re-use existing package&nbsp;mirrors.</p>
 <h1 id="uninstall-chef-with-chef">Uninstall Chef with&nbsp;Chef</h1>
-<p>My customers often asked for a method to do a one-time install of <a href="http://telekomlabs.github.io/">hardening framework</a>. In such a case it would be great, if we could remove the chef installer after the machine&nbsp;bootstrap.</p>
+<p>My customers often asked for a method to do a one-time install of <a href="http://hardening.io/">hardening framework</a>. In such a case it would be great, if we could remove the chef installer after the machine&nbsp;bootstrap.</p>
 <p>Now fun begins and we proof, that we are able to uninstall the chef binary with a chef&nbsp;cookbook:</p>
 <pre><code class="lang-ruby">
 <span class="comment">## Uninstall chef</span>
