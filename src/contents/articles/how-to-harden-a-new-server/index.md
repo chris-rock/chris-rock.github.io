@@ -5,7 +5,7 @@ date: 2014-05-14
 template: article.jade
 ---
 
-Deutsche Telekom developed scripts in Chef and Puppet to harden servers according to well-known guidelines like bettercrypto and internal guidelines at Deutsche Telekom. More information is available at the project page of the [Hardening Framework](http://telekomlabs.github.io/). Disclosure: I am core developer at this project.
+Deutsche Telekom developed scripts in Chef and Puppet to harden servers according to well-known guidelines like bettercrypto and internal guidelines at Deutsche Telekom. More information is available at the project page of the [Hardening Framework](http://hardening.io/). Disclosure: I am core developer at this project.
 
 Today we cook with [knife-solo](http://matschaffer.github.io/knife-solo/) and harden a fresh copy of Ubuntu 14.04. The process of hardening a server is quite difficult and takes a lot of knowledge and experience. Even the most-experienced administrators rely on guidelines to meet the best practices.
 
@@ -165,10 +165,12 @@ In less than 5 minutes, a new server is hardened for the core system and ssh. Be
 
 More information is available at:
 
- * http://telekomlabs.github.io/
+ * http://hardening.io/
+ * http://vulcanosec.com/
  * https://github.com/TelekomLabs/example-chef-hardening
  * http://community.opscode.com/cookbooks/os-hardening
  * http://community.opscode.com/cookbooks/ssh-hardening
+
 
 Happy Hardening!
 
