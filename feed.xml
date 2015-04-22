@@ -5,9 +5,32 @@
     <atom:link href="http://chris-rock.github.io/feed.xml" rel="self" type="application/rss+xml"></atom:link>
     <link>http://chris-rock.github.io</link>
     <description>fun &amp; sun</description>
-    <pubDate>Thu, 22 Jan 2015 01:00:00 +0100</pubDate>
+    <pubDate>Wed, 22 Apr 2015 02:00:00 +0200</pubDate>
     <generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator>
     <language>en</language>
+    <item>
+      <title>OpenStack CLI in Docker</title>
+      <link>http://chris-rock.github.io/articles/openstack-cli-docker/</link>
+      <pubDate>Wed, 22 Apr 2015 02:00:00 +0200</pubDate>
+      <guid isPermaLink="true">http://chris-rock.github.io/articles/openstack-cli-docker/</guid>
+      <author></author>
+      <description>&lt;p&gt;Recently, I faced the issue, that I had some python modules for OpenStack had dependency issues with other python modules. In addition I use multiple machines with the OpenStack CLI and it is always a lot of effort to synchronize the software to the latest state. I could have used virtualenv, but I had issues with this setup, too. Therefore I decided to start implementing a Docker container.&lt;/p&gt;
+&lt;h2 id=&quot;setup&quot;&gt;Setup&lt;/h2&gt;
+&lt;p&gt;The container handles all of the pain. It uses Ubuntu Trusty as a basis and uses their pre-packaged version of the OpenStack CLI tools. To get the cli installed, you need only &lt;a href=&quot;https://docs.docker.com/installation/&quot;&gt;Docker&lt;/a&gt; as precondition. On Mac I recommend using &lt;a href=&quot;http://chris-rock.github.io/articles/openstack-cli-docker/&quot;&gt;Boot2Docker&lt;/a&gt;. Now, everything is in place:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;docker pull chrisrock/openstack-cli
+docker run -it -v $(&lt;span class=&quot;built_in&quot;&gt;pwd&lt;/span&gt;)/config:/config chrisrock/openstack-cli /bin/bash
+$ &lt;span class=&quot;built_in&quot;&gt;source&lt;/span&gt; /config/example.rc
+$ nova list
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I collect my &lt;code&gt;.rc&lt;/code&gt; files in a separate config folder. By using &lt;code&gt;$(pwd)/config&lt;/code&gt;, I have all my configs ready in my container. &lt;code&gt;source /config/example.rc&lt;/code&gt; loads the config file. Finally all OpenStack CLI tools are at your hand.&lt;/p&gt;
+&lt;p&gt;Have fun.&lt;/p&gt;
+&lt;p&gt;References:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/chris-rock/openstack-cli&quot;&gt;https://github.com/chris-rock/openstack-cli&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://registry.hub.docker.com/u/chrisrock/openstack-cli/&quot;&gt;https://registry.hub.docker.com/u/chrisrock/openstack-cli/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
     <item>
       <title>Managing your mainframe infrastructure using Chef</title>
       <link>http://chris-rock.github.io/articles/managing-mainframe-using-chef/</link>

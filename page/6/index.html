@@ -33,6 +33,59 @@
       <div class="content-wrap">
         <article class="article intro">
           <header>
+            <p class="date"><span>06. April 2014</span></p>
+            <h2><a href="/articles/nodejs-sha512/">SHA 512 Hashs with nodejs</a></h2>
+          </header>
+          <section class="content"><p>Quite often you need to encrypt files. Recently I updated an application from encryption to <a href="http://en.wikipedia.org/wiki/Authenticated_encryption">authenticated encryption</a> and used the encrypt-then-mac&nbsp;approach. </p>
+<p>To create a hash from strings you just need a few lines in&nbsp;nodejs:</p>
+<pre><code class="lang-javascript">    <span class="comment">// generate a hash from string</span>
+    <span class="keyword">var</span> crypto = <span class="built_in">require</span>(<span class="string">'crypto'</span>),
+        text = <span class="string">'hello bob'</span>,
+        key = <span class="string">'mysecret key'</span>
+
+    <span class="comment">// create hahs</span>
+    <span class="keyword">var</span> hash = crypto.createHmac(<span class="string">'sha512'</span>, key)
+    hash.update(text)
+    <span class="keyword">var</span> value = hash.digest(<span class="string">'hex'</span>)
+
+    <span class="comment">// print result</span>
+    console.log(value);
+</code></pre>
+<p>The great thing about the nodejs implementation of <code>Hash</code> is the possibility to stream data directly into the&nbsp;hash:</p>
+<pre><code class="lang-javascript">    <span class="comment">// generate a hash from file stream</span>
+    <span class="keyword">var</span> crypto = <span class="built_in">require</span>(<span class="string">'crypto'</span>),
+        fs = <span class="built_in">require</span>(<span class="string">'fs'</span>),
+        key = <span class="string">'mysecret key'</span>
+
+    <span class="comment">// open file stream</span>
+    <span class="keyword">var</span> fstream = fs.createReadStream(<span class="string">'./test/hmac.js'</span>);
+    <span class="keyword">var</span> hash = crypto.createHash(<span class="string">'sha512'</span>, key);
+    hash.setEncoding(<span class="string">'hex'</span>);
+
+    <span class="comment">// once the stream is done, we read the values</span>
+    fstream.on(<span class="string">'end'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+        hash.end();
+        <span class="comment">// print result</span>
+        console.log(hash.read());
+    });
+
+    <span class="comment">// pipe file to hash generator</span>
+    fstream.pipe(hash);
+</code></pre>
+<p>Happy&nbsp;Hashing.</p>
+<p>If you have any questions contact me via <a href="https://twitter.com/chri_hartmann">Twitter @chri_hartmann</a> or <a href="https://github.com/chris-rock">Github</a></p>
+<p>See&nbsp;also:</p>
+<ul>
+<li><a href="http://lollyrock.com/articles/nodejs-encryption/">Encrypt and decrypt content with&nbsp;Nodejs</a></li>
+<li><a href="http://lollyrock.com/articles/express4-file-upload/">Simple file uploads with Express&nbsp;4</a></li>
+<li><a href="http://lollyrock.com/articles/content-security-policy/">Applied Content Security Policy for Nginx and&nbsp;Nodejs</a></li>
+<li><a href="http://arlimus.github.io/articles/ready.for.es6/">Ready for&nbsp;<span class="caps">ES6</span>?</a></li>
+</ul>
+
+          </section>
+        </article>
+        <article class="article intro">
+          <header>
             <p class="date"><span>03. April 2014</span></p>
             <h2><a href="/articles/glance-image-create/">Open Stack Glance Image Create</a></h2>
           </header>
@@ -78,57 +131,11 @@
             <p class="more"><a href="/articles/openstack-vm-resize/">more</a></p>
           </section>
         </article>
-        <article class="article intro">
-          <header>
-            <p class="date"><span>28. October 2013</span></p>
-            <h2><a href="/articles/havana-box/">Havana Box</a></h2>
-          </header>
-          <section class="content"><center><a href="http://www.flickr.com/photos/fixedgear/2998411614/" title="Havana by fixedgear, on Flickr"><img src="http://farm4.staticflickr.com/3161/2998411614_787b7717b2_q.jpg" width="150px" height="150px" alt="Havana" style="margin:0px"></a></center>
-
-
-
-<p><a href="http://www.openstack.org/software/havana/">OpenStack Havana</a> has just been released. It offers a bunch of new features. Everything is well documented in their <a href="https://wiki.openstack.org/wiki/ReleaseNotes/Havana">Release Notes</a>. It is nice to read, but I need a test&nbsp;drive.</p>
-<p>We are using Open Stack heavily and test new releases via <a href="http://devstack.org/">DevStack</a> before we deploy new releases in our staging environment. What would be easier than trying Havana with a <a href="http://www.vagrantup.com/">vagrant box</a>. You find my vagrant setup at Github <a href="https://github.com/chris-rock/vagrant-devstack">https://github.com/chris-rock/vagrant-devstack</a>.</p>
-<pre><code>$ git clone https://github.com/chris-rock/vagrant-devstack.git
-Cloning into &#39;vagrant-devstack&#39;...
-remote: Counting objects: 34, done.
-remote: Compressing objects: 100% (19/19), done.
-remote: Total 34 (delta 11), reused 34 (delta 11)
-Unpacking objects: 100% (34/34), done.
-Checking connectivity...done
-$ cd vagrant-devstack
-$ vagrant up
-</code></pre><p>After a cup of tea you should have the&nbsp;following:</p>
-<pre><code>Horizon is now available at http://192.168.50.10/
-Keystone is serving at http://192.168.50.10:5000/v2.0/
-Examples on using novaclient command line is in exercise.sh
-The default users are: admin and demo
-The password: devstack
-This is your host ip: 192.168.50.10
-</code></pre><p>Now you type <a href="http://192.168.50.10">http://192.168.50.10</a> in your browser and log into the OpenStack environment with <code>admin</code> and <code>devstack</code>.</p>
-<p><img src="/articles/havana-box/01_openstack_login.png" alt="Alt text" title="Horizon Dashboard Login"></p>
-<p>Then click on the project <code>demo</code> or <code>admin</code> on the left&nbsp;hand.</p>
-<p><img src="/articles/havana-box/02_openstack_dashboard.png" alt="Alt text" title="Dashboard"></p>
-<p>Start creating your instance and select the Cirros <span class="caps">OS</span> as an image. Of course you could upload new images&nbsp;via</p>
-<pre><code> glance image-create --name YourImage --container-format ovf --disk-format qcow2 --file image_openstack_image.img --is-public True
-</code></pre><p><img src="/articles/havana-box/03_openstack_createinstance.png" alt="Alt text" title="Optional title"></p>
-<p>After your created the machine, the image will be&nbsp;spawned.</p>
-<p><img src="/articles/havana-box/04_openstack_machines.png" alt="Alt text" title="Optional title"></p>
-<p>Click on the machine details and the console log to see the progress of the&nbsp;machine.</p>
-<p><img src="/articles/havana-box/05_openstack_machinedetail.png" alt="Alt text" title="Optional title"></p>
-<p>Finally log into the machine via the NoVNC&nbsp;client.</p>
-<p><img src="/articles/havana-box/06_openstack_runningmachine.png" alt="Alt text" title="Optional title"></p>
-<p>In case you find bugs, I am happy to merge <a href="https://github.com/chris-rock/vagrant-devstack">pull requests</a>.</p>
-<p><a href="https://github.com/chris-rock/vagrant-devstack"><img id="fork-me-ribbon" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a></p>
-<p>If you have any questions contact me via <a href="https://twitter.com/chri_hartmann">Twitter @chri_hartmann</a> or <a href="https://github.com/chris-rock">Github</a></p>
-
-          </section>
-        </article>
       </div>
     </div>
     <footer>
       <div class="content-wrap">
-        <div class="nav"><a href="/page/5/">« Newer</a>
+        <div class="nav"><a href="/page/5/">« Newer</a><a href="/page/7/">Next page »</a>
         </div>
         <section class="about">
         </section>
