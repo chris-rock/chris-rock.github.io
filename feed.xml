@@ -5,9 +5,123 @@
     <atom:link href="http://chris-rock.github.io/feed.xml" rel="self" type="application/rss+xml"></atom:link>
     <link>http://chris-rock.github.io</link>
     <description>fun &amp; sun</description>
-    <pubDate>Wed, 22 Apr 2015 02:00:00 +0200</pubDate>
+    <pubDate>Tue, 28 Apr 2015 02:00:00 +0200</pubDate>
     <generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator>
     <language>en</language>
+    <item>
+      <title>Run CoreOS on OpenStack</title>
+      <link>http://chris-rock.github.io/articles/coreos-openstack/</link>
+      <pubDate>Tue, 28 Apr 2015 02:00:00 +0200</pubDate>
+      <guid isPermaLink="true">http://chris-rock.github.io/articles/coreos-openstack/</guid>
+      <author></author>
+      <description>&lt;p&gt;This guide will walk you through downloading CoreOS for OpenStack, importing in OpenStack  with &lt;code&gt;glance&lt;/code&gt; and start your first CoreOS cluster with the &lt;code&gt;nova&lt;/code&gt; tool.&lt;/p&gt;
+&lt;h2 id=&quot;upload-the-image&quot;&gt;Upload the Image&lt;/h2&gt;
+&lt;p&gt;Personally, I use the &lt;a href=&quot;https://github.com/chris-rock/openstack-cli&quot;&gt;OpenStack Docker CLI image&lt;/a&gt;, that provides the nova and glance tool. Once you are able to connect to OpenStack, you need to download the CoreOS image and bunzip.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# download stable channel&lt;/span&gt;
+$ wget http://stable.release.core-os.net/amd64-usr/current/coreos_production_openstack_image.img.bz2
+&lt;span class=&quot;comment&quot;&gt;# extract image&lt;/span&gt;
+$ bunzip2 coreos_production_openstack_image.img.bz2
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now, upload the CoreOS image via glance:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;$ glance image-create --name CoreOS \
+  --container-format bare \
+  --disk-format qcow2 \
+  --progress \
+  --file coreos_production_openstack_image.img \
+  --is-public True
++------------------+--------------------------------------+
+| Property         | Value                                |
++------------------+--------------------------------------+
+| checksum         | ed8eef431a77f11c3bea501574c590fe     |
+| container_format | bare                                 |
+| created_at       | &lt;span class=&quot;number&quot;&gt;2015&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;04&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;22&lt;/span&gt;T13:&lt;span class=&quot;number&quot;&gt;24&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;42&lt;/span&gt;                  |
+| deleted          | False                                |
+| deleted_at       | None                                 |
+| disk_format      | qcow2                                |
+| id               | &lt;span class=&quot;number&quot;&gt;5&lt;/span&gt;f6add97-&lt;span class=&quot;number&quot;&gt;7&lt;/span&gt;f21-&lt;span class=&quot;number&quot;&gt;407&lt;/span&gt;b-&lt;span class=&quot;number&quot;&gt;8&lt;/span&gt;f17-c887603efacb |
+| is_public        | True                                 |
+| min_disk         | &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;                                    |
+| min_ram          | &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;                                    |
+| name             | CoreOS                               |
+| owner            | eef34004eb0f4f5ca722a29efd292d70     |
+| protected        | False                                |
+| size             | &lt;span class=&quot;number&quot;&gt;420413440&lt;/span&gt;                            |
+| status           | active                               |
+| updated_at       | &lt;span class=&quot;number&quot;&gt;2015&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;04&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;22&lt;/span&gt;T13:&lt;span class=&quot;number&quot;&gt;31&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;49&lt;/span&gt;                  |
+| virtual_size     | None                                 |
++------------------+--------------------------------------+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;verify-your-image&quot;&gt;Verify your image&lt;/h2&gt;
+&lt;p&gt;Verify that your newly uploaded image is available in glance.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ glance image-list
++--------------------------------------+---------------------------------+-------------+------------------+-------------+--------+
+| ID                                   | Name                            | Disk Format | Container Format | Size        | Status |
++--------------------------------------+---------------------------------+-------------+------------------+-------------+--------+
+| 5f6add97-7f21-407b-8f17-c887603efacb | CoreOS                          | qcow2       | bare             | 420413440   | active |
++--------------------------------------+---------------------------------+-------------+------------------+-------------+--------+
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;retrieve-a-new-discovery-token-for-the-coreos-cluster&quot;&gt;Retrieve a new discovery token for the CoreOS cluster&lt;/h2&gt;
+&lt;p&gt;This guide used the etcd instance provided by CoreOS to mange the cluster. This eases the quickstart of a CoreOS cluster. Request a new cluster token via:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ curl -w &amp;quot;\n&amp;quot; &amp;#39;https://discovery.etcd.io/new?size=3&amp;#39;
+https://discovery.etcd.io/24a9bafd557e8c45f89f547de6564ae5
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;create-a-cloud-config-file&quot;&gt;Create a cloud config file&lt;/h2&gt;
+&lt;p&gt;Create a local &lt;code&gt;cloud-config.yaml&lt;/code&gt; and replace the &lt;code&gt;https://discovery.etcd.io/&amp;lt;token&amp;gt;&lt;/code&gt; with your discovery url like ‘&lt;a href=&quot;https://discovery.etcd.io/24a9bafd557e8c45f89f547de6564ae5&quot;&gt;https://discovery.etcd.io/24a9bafd557e8c45f89f547de6564ae5&lt;/a&gt;‘&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-yaml&quot;&gt;#cloud-config
+
+coreos:
+  etcd:
+    # generate a new token for each unique cluster from https://discovery.etcd.io/new?size=3
+    # specify the intial size of your cluster with ?size=X
+    discovery: https://discovery.etcd.io/&amp;lt;token&amp;gt;
+    # multi-region and multi-cloud deployments need to use $public_ipv4
+    addr: $private_ipv4:4001
+    peer-addr: $private_ipv4:7001
+  units:
+    - name: etcd.service
+      command: start
+    - name: fleet.service
+      command: start
+ssh_authorized_keys:
+  # include one or more SSH public keys
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0g+ZTxC7weoIJLUafOgrm+h...
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;More detailed configuration options are available at &lt;a href=&quot;https://coreos.com/docs/cluster-management/setup/cloudinit-cloud-config/&quot;&gt;CoreOS Docs&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;create-a-new-coreos-cluster&quot;&gt;Create a new CoreOS cluster&lt;/h2&gt;
+&lt;p&gt;With the cloud-init file ready, we start a 3-instance cluster via &lt;code&gt;nova&lt;/code&gt;. You may need to adapt the the flavor or security group names for your setup.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;nova boot \
+--user-data ./cloud-config.yaml \
+--image CoreOS \
+--key-name coreos \
+--flavor m1.medium \
+--num-instances 3 \
+--security-groups default coreos
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;After a successful run, all three instances are ready in OpenStack.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ nova list
++--------------------------------------+---------------------------------------------+--------+------------+-------------+-------------------------------------+
+| ID                                   | Name                                        | Status | Task State | Power State | Networks                            |
++--------------------------------------+---------------------------------------------+--------+------------+-------------+-------------------------------------+
+| 2ed7d9ac-0449-4841-a780-cf9131740475 | coreos-2ed7d9ac-0449-4841-a780-cf9131740475 | ACTIVE | -          | Running     | default=192.168.0.12                |
+| b919702e-be2f-4fcb-96c2-88fe9d14d320 | coreos-b919702e-be2f-4fcb-96c2-88fe9d14d320 | ACTIVE | -          | Running     | default=192.168.0.11                |
+| c65cf227-05e3-46e6-9f11-a16ee6f13f4d | coreos-c65cf227-05e3-46e6-9f11-a16ee6f13f4d | ACTIVE | -          | Running     | default=192.168.0.13, 185.27.183.99 |
++--------------------------------------+---------------------------------------------+--------+------------+-------------+-------------------------------------+
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;verify-coreos-cluster-is-registered-in-fleet&quot;&gt;Verify CoreOS cluster is registered in fleet&lt;/h2&gt;
+&lt;p&gt;SSH into CoreOS&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ssh core@185.27.183.99
+Last login: Wed Apr 22 14:03:50 2015 from 217.247.74.212
+CoreOS stable (633.1.0)
+core@coreos-c65cf227-05e3-46e6-9f11-a16ee6f13f4d ~ $
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;and verify all nodes are registered in fleet.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;core@coreos-c65cf227-05e3-46e6-9f11-a16ee6f13f4d ~ $ fleetctl list-machines
+MACHINE     IP      METADATA
+2ed7d9ac... 192.168.0.12    -
+b919702e... 192.168.0.11    -
+c65cf227... 192.168.0.13    -
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Now you have a running CoreOS Cluster on OpenStack.&lt;/p&gt;
+&lt;p&gt;References:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://coreos.com/docs/running-coreos/platforms/openstack/&quot;&gt;https://coreos.com/docs/running-coreos/platforms/openstack/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
     <item>
       <title>OpenStack CLI in Docker</title>
       <link>http://chris-rock.github.io/articles/openstack-cli-docker/</link>
