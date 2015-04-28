@@ -9,7 +9,7 @@ This guide will walk you through downloading CoreOS for OpenStack, importing in 
 
 ## Upload the Image
 
-Personally, I use the [OpenStack Docker CLI image](https://github.com/chris-rock/openstack-cli), that provides the nova and glance tool. Once you are able to connect to OpenStack, you need to download the CoreOS image and bunzip.
+Personally, I use the [OpenStack Docker CLI image](https://github.com/chris-rock/openstack-cli), that provides the nova and glance tool and is [described here](http://lollyrock.com/articles/openstack-cli-docker/). Once you are able to connect to OpenStack, you need to download the CoreOS image and bunzip it.
 
 ```bash
 # download stable channel
@@ -65,7 +65,7 @@ $ glance image-list
 
 ## Retrieve a new discovery token for the CoreOS cluster
 
-This guide used the etcd instance provided by CoreOS to mange the cluster. This eases the quickstart of a CoreOS cluster. Request a new cluster token via:
+This guide used the etcd instance provided by CoreOS to manage the cluster. This eases the quickstart of a CoreOS cluster. Request a new cluster token via:
 
 ```
 $ curl -w "\n" 'https://discovery.etcd.io/new?size=3'
@@ -126,9 +126,9 @@ $ nova list
 +--------------------------------------+---------------------------------------------+--------+------------+-------------+-------------------------------------+
 ```
 
-## Verify CoreOS cluster is registered in fleet
+## Verify the CoreOS cluster is registered in fleet
 
-SSH into CoreOS
+SSH into CoreOS:
 
 ```
 ssh core@185.27.183.99
@@ -137,7 +137,7 @@ CoreOS stable (633.1.0)
 core@coreos-c65cf227-05e3-46e6-9f11-a16ee6f13f4d ~ $
 ```
 
-and verify all nodes are registered in fleet.
+and verify that all nodes are registered properly in fleet:
 
 ```
 core@coreos-c65cf227-05e3-46e6-9f11-a16ee6f13f4d ~ $ fleetctl list-machines

@@ -16,7 +16,7 @@
       <author></author>
       <description>&lt;p&gt;This guide will walk you through downloading CoreOS for OpenStack, importing in OpenStack  with &lt;code&gt;glance&lt;/code&gt; and start your first CoreOS cluster with the &lt;code&gt;nova&lt;/code&gt; tool.&lt;/p&gt;
 &lt;h2 id=&quot;upload-the-image&quot;&gt;Upload the Image&lt;/h2&gt;
-&lt;p&gt;Personally, I use the &lt;a href=&quot;https://github.com/chris-rock/openstack-cli&quot;&gt;OpenStack Docker CLI image&lt;/a&gt;, that provides the nova and glance tool. Once you are able to connect to OpenStack, you need to download the CoreOS image and bunzip.&lt;/p&gt;
+&lt;p&gt;Personally, I use the &lt;a href=&quot;https://github.com/chris-rock/openstack-cli&quot;&gt;OpenStack Docker CLI image&lt;/a&gt;, that provides the nova and glance tool and is &lt;a href=&quot;http://lollyrock.com/articles/openstack-cli-docker/&quot;&gt;described here&lt;/a&gt;. Once you are able to connect to OpenStack, you need to download the CoreOS image and bunzip it.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# download stable channel&lt;/span&gt;
 $ wget http://stable.release.core-os.net/amd64-usr/current/coreos_production_openstack_image.img.bz2
 &lt;span class=&quot;comment&quot;&gt;# extract image&lt;/span&gt;
@@ -60,7 +60,7 @@ $ bunzip2 coreos_production_openstack_image.img.bz2
 | 5f6add97-7f21-407b-8f17-c887603efacb | CoreOS                          | qcow2       | bare             | 420413440   | active |
 +--------------------------------------+---------------------------------+-------------+------------------+-------------+--------+
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;retrieve-a-new-discovery-token-for-the-coreos-cluster&quot;&gt;Retrieve a new discovery token for the CoreOS cluster&lt;/h2&gt;
-&lt;p&gt;This guide used the etcd instance provided by CoreOS to mange the cluster. This eases the quickstart of a CoreOS cluster. Request a new cluster token via:&lt;/p&gt;
+&lt;p&gt;This guide used the etcd instance provided by CoreOS to manage the cluster. This eases the quickstart of a CoreOS cluster. Request a new cluster token via:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ curl -w &amp;quot;\n&amp;quot; &amp;#39;https://discovery.etcd.io/new?size=3&amp;#39;
 https://discovery.etcd.io/24a9bafd557e8c45f89f547de6564ae5
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;create-a-cloud-config-file&quot;&gt;Create a cloud config file&lt;/h2&gt;
@@ -103,13 +103,13 @@ ssh_authorized_keys:
 | b919702e-be2f-4fcb-96c2-88fe9d14d320 | coreos-b919702e-be2f-4fcb-96c2-88fe9d14d320 | ACTIVE | -          | Running     | default=192.168.0.11                |
 | c65cf227-05e3-46e6-9f11-a16ee6f13f4d | coreos-c65cf227-05e3-46e6-9f11-a16ee6f13f4d | ACTIVE | -          | Running     | default=192.168.0.13, 185.27.183.99 |
 +--------------------------------------+---------------------------------------------+--------+------------+-------------+-------------------------------------+
-&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;verify-coreos-cluster-is-registered-in-fleet&quot;&gt;Verify CoreOS cluster is registered in fleet&lt;/h2&gt;
-&lt;p&gt;SSH into CoreOS&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;verify-the-coreos-cluster-is-registered-in-fleet&quot;&gt;Verify the CoreOS cluster is registered in fleet&lt;/h2&gt;
+&lt;p&gt;SSH into CoreOS:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;ssh core@185.27.183.99
 Last login: Wed Apr 22 14:03:50 2015 from 217.247.74.212
 CoreOS stable (633.1.0)
 core@coreos-c65cf227-05e3-46e6-9f11-a16ee6f13f4d ~ $
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;and verify all nodes are registered in fleet.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;and verify that all nodes are registered properly in fleet:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;core@coreos-c65cf227-05e3-46e6-9f11-a16ee6f13f4d ~ $ fleetctl list-machines
 MACHINE     IP      METADATA
 2ed7d9ac... 192.168.0.12    -
