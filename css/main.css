@@ -373,6 +373,27 @@ code.lang-markdown .bullet {
   color: #8959a8;
 }
 
+.social .network {
+  padding-right: 10px;
+  display: inline;
+}
+
+.social .twitter {
+  top: 5px;
+  position: relative;
+}
+
+.social.center {
+  text-align: center;
+}
+
+.hn-link {
+    display: inline-block;
+    padding: 0px 0px 0px 21px;
+    background: url("/images/social/yc-favicon.png") no-repeat scroll left center transparent;
+}
+
+
 /* media queries */
 
 @media (min-width: 1600px) {
