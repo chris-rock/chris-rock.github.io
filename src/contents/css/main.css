@@ -383,7 +383,8 @@ code.lang-markdown .bullet {
   position: relative;
 }
 
-.social.center {
+.social.center,
+.text-center {
   text-align: center;
 }
 

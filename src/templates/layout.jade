@@ -31,11 +31,15 @@ html(lang='en')
           div.logo
             h1
               a(href=locals.url)= locals.name
-            p.description= locals.description
+            p.description.text-center
+              | Christoph Hartmann |  
+              a(href="https://twitter.com/chri_hartmann") @chri_hartmann 
+              | | 
+              a(href="https://github.com/chris-rock") chris-rock
+
     div#content
       div.content-wrap
         block content
-          h2 Welcome to zombocom!
     footer
       div.content-wrap
         block footer
