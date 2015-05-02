@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>chris-rock</title>
-    <atom:link href="http://chris-rock.github.io/feed.xml" rel="self" type="application/rss+xml"></atom:link>
-    <link>http://chris-rock.github.io</link>
+    <atom:link href="http://lollyrock.com/feed.xml" rel="self" type="application/rss+xml"></atom:link>
+    <link>http://lollyrock.com</link>
     <description>fun &amp; sun</description>
     <pubDate>Tue, 28 Apr 2015 02:00:00 +0200</pubDate>
     <generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator>
     <language>en</language>
     <item>
       <title>Run CoreOS on OpenStack</title>
-      <link>http://chris-rock.github.io/articles/coreos-openstack/</link>
+      <link>http://lollyrock.com/articles/coreos-openstack/</link>
       <pubDate>Tue, 28 Apr 2015 02:00:00 +0200</pubDate>
-      <guid isPermaLink="true">http://chris-rock.github.io/articles/coreos-openstack/</guid>
+      <guid isPermaLink="true">http://lollyrock.com/articles/coreos-openstack/</guid>
       <author></author>
       <description>&lt;p&gt;This guide will walk you through downloading CoreOS for OpenStack, importing in OpenStack  with &lt;code&gt;glance&lt;/code&gt; and start your first CoreOS cluster with the &lt;code&gt;nova&lt;/code&gt; tool.&lt;/p&gt;
 &lt;h2 id=&quot;upload-the-image&quot;&gt;Upload the Image&lt;/h2&gt;
@@ -124,13 +124,13 @@ c65cf227... 192.168.0.13    -
     </item>
     <item>
       <title>OpenStack CLI in Docker</title>
-      <link>http://chris-rock.github.io/articles/openstack-cli-docker/</link>
+      <link>http://lollyrock.com/articles/openstack-cli-docker/</link>
       <pubDate>Wed, 22 Apr 2015 02:00:00 +0200</pubDate>
-      <guid isPermaLink="true">http://chris-rock.github.io/articles/openstack-cli-docker/</guid>
+      <guid isPermaLink="true">http://lollyrock.com/articles/openstack-cli-docker/</guid>
       <author></author>
       <description>&lt;p&gt;Recently, I faced the issue, that I had some python modules for OpenStack had dependency issues with other python modules. In addition I use multiple machines with the OpenStack CLI and it is always a lot of effort to synchronize the software to the latest state. I could have used virtualenv, but I had issues with this setup, too. Therefore I decided to start implementing a Docker container.&lt;/p&gt;
 &lt;h2 id=&quot;setup&quot;&gt;Setup&lt;/h2&gt;
-&lt;p&gt;The container handles all of the pain. It uses Ubuntu Trusty as a basis and uses their pre-packaged version of the OpenStack CLI tools. To get the cli installed, you need only &lt;a href=&quot;https://docs.docker.com/installation/&quot;&gt;Docker&lt;/a&gt; as precondition. On Mac I recommend using &lt;a href=&quot;http://chris-rock.github.io/articles/openstack-cli-docker/&quot;&gt;Boot2Docker&lt;/a&gt;. Now, everything is in place:&lt;/p&gt;
+&lt;p&gt;The container handles all of the pain. It uses Ubuntu Trusty as a basis and uses their pre-packaged version of the OpenStack CLI tools. To get the cli installed, you need only &lt;a href=&quot;https://docs.docker.com/installation/&quot;&gt;Docker&lt;/a&gt; as precondition. On Mac I recommend using &lt;a href=&quot;http://lollyrock.com/articles/openstack-cli-docker/&quot;&gt;Boot2Docker&lt;/a&gt;. Now, everything is in place:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;docker pull chrisrock/openstack-cli
 docker run -it -v $(&lt;span class=&quot;built_in&quot;&gt;pwd&lt;/span&gt;)/config:/config chrisrock/openstack-cli /bin/bash
 $ &lt;span class=&quot;built_in&quot;&gt;source&lt;/span&gt; /config/example.rc
@@ -147,9 +147,9 @@ $ nova list
     </item>
     <item>
       <title>Managing your mainframe infrastructure using Chef</title>
-      <link>http://chris-rock.github.io/articles/managing-mainframe-using-chef/</link>
+      <link>http://lollyrock.com/articles/managing-mainframe-using-chef/</link>
       <pubDate>Thu, 22 Jan 2015 01:00:00 +0100</pubDate>
-      <guid isPermaLink="true">http://chris-rock.github.io/articles/managing-mainframe-using-chef/</guid>
+      <guid isPermaLink="true">http://lollyrock.com/articles/managing-mainframe-using-chef/</guid>
       <author></author>
       <description>&lt;p&gt;This blog post will focus on running Chef cookbooks on AIX server. As an example we will install various Linux tools via Chef and demonstrate, how a mainframe setup can be automated.&lt;/p&gt;
 &lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
@@ -477,9 +477,9 @@ su root -c rpm -hUv zip-&lt;span class=&quot;number&quot;&gt;2.3&lt;/span&gt;-&l
     </item>
     <item>
       <title>Chef loves AIX - Mainframe Automation</title>
-      <link>http://chris-rock.github.io/articles/ibm-aix-chef/</link>
+      <link>http://lollyrock.com/articles/ibm-aix-chef/</link>
       <pubDate>Wed, 03 Dec 2014 01:00:00 +0100</pubDate>
-      <guid isPermaLink="true">http://chris-rock.github.io/articles/ibm-aix-chef/</guid>
+      <guid isPermaLink="true">http://lollyrock.com/articles/ibm-aix-chef/</guid>
       <author></author>
       <description>&lt;p&gt;I was very exited to play with IBM AIX and Chef 12. Coming from an Open Stack background with deep knowledge about automation and security with RedHat Linux and Windows Server, I was looking forward to gain insights about using the configuration management tool Chef with AIX. I have done some big deployments on cloud infrastructures and I am very pleased to see some technologies finding their way into core enterprise applications.&lt;/p&gt;
 &lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
@@ -672,9 +672,9 @@ l5a1vp051_pub &amp;gt;
     </item>
     <item>
       <title>Simple file uploads with Express 4</title>
-      <link>http://chris-rock.github.io/articles/express4-file-upload/</link>
+      <link>http://lollyrock.com/articles/express4-file-upload/</link>
       <pubDate>Sat, 15 Nov 2014 01:00:00 +0100</pubDate>
-      <guid isPermaLink="true">http://chris-rock.github.io/articles/express4-file-upload/</guid>
+      <guid isPermaLink="true">http://lollyrock.com/articles/express4-file-upload/</guid>
       <author></author>
       <description>&lt;p&gt;&lt;a href=&quot;http://expressjs.com/&quot;&gt;Express&lt;/a&gt; is a great web framework for Javascript. Quite often you have to deal with file uploads. Although this may seems like a trivial point, it has its challenges, especially if everything is asynchronous. &lt;/p&gt;
 &lt;h2 id=&quot;using-busboy&quot;&gt;Using Busboy&lt;/h2&gt;
@@ -816,9 +816,9 @@ app.listen(&lt;span class=&quot;number&quot;&gt;3000&lt;/span&gt;);
     </item>
     <item>
       <title>Execute commands in a Docker sandbox</title>
-      <link>http://chris-rock.github.io/articles/execute-in-docker-sandbox/</link>
+      <link>http://lollyrock.com/articles/execute-in-docker-sandbox/</link>
       <pubDate>Sun, 28 Sep 2014 02:00:00 +0200</pubDate>
-      <guid isPermaLink="true">http://chris-rock.github.io/articles/execute-in-docker-sandbox/</guid>
+      <guid isPermaLink="true">http://lollyrock.com/articles/execute-in-docker-sandbox/</guid>
       <author></author>
       <description>&lt;p&gt;If we deal a lot with data from an untrusted source, we want to operate on data in a sandbox. For example, every file we handle may includes a virus and tries to attack our machine. &lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;http://docker.io/&quot;&gt;Docker&lt;/a&gt; is an amazing tool to run arbitrary commands inside a sandbox. It is useful for testing applications or building complete application images as offered by &lt;a href=&quot;https://registry.hub.docker.com/&quot;&gt;Docker Hub&lt;/a&gt;. &lt;/p&gt;
@@ -901,9 +901,9 @@ Chris&lt;/p&gt;
     </item>
     <item>
       <title>Implicit JSON conversion with Scala</title>
-      <link>http://chris-rock.github.io/articles/scala-implicit-conversion/</link>
+      <link>http://lollyrock.com/articles/scala-implicit-conversion/</link>
       <pubDate>Sun, 21 Sep 2014 02:00:00 +0200</pubDate>
-      <guid isPermaLink="true">http://chris-rock.github.io/articles/scala-implicit-conversion/</guid>
+      <guid isPermaLink="true">http://lollyrock.com/articles/scala-implicit-conversion/</guid>
       <author></author>
       <description>&lt;p&gt;In my last blog posts about Scala, I explained &lt;a href=&quot;http://lollyrock.com/articles/scalatra-bearer-authentication/&quot;&gt;Scalatra with Bearer Authentication&lt;/a&gt; and &lt;a href=&quot;http://lollyrock.com/articles/scala-http-requests/&quot;&gt;Asynchronous HTTP requests with Scala and Dispatch&lt;/a&gt;. Today I am going to focus on JSON. We will encode data types to JSON and decode JSON into existing data structures.&lt;/p&gt;
 &lt;h2 id=&quot;json-library&quot;&gt;JSON Library&lt;/h2&gt;
@@ -1038,9 +1038,9 @@ Chris&lt;/p&gt;
     </item>
     <item>
       <title>Encrypt files with GPG</title>
-      <link>http://chris-rock.github.io/articles/encrypt-files-with-gpg/</link>
+      <link>http://lollyrock.com/articles/encrypt-files-with-gpg/</link>
       <pubDate>Sun, 14 Sep 2014 02:00:00 +0200</pubDate>
-      <guid isPermaLink="true">http://chris-rock.github.io/articles/encrypt-files-with-gpg/</guid>
+      <guid isPermaLink="true">http://lollyrock.com/articles/encrypt-files-with-gpg/</guid>
       <author></author>
       <description>&lt;p&gt;Although &lt;a href=&quot;https://www.gnupg.org/&quot;&gt;GPG&lt;/a&gt; and &lt;a href=&quot;https://gpgtools.org/&quot;&gt;GPG Tools&lt;/a&gt; are well known for Email encryption, the same tool-chain can be used to encrypt files. We deep dive into the command line, but everything should work with any other UI client as well.&lt;/p&gt;
 &lt;h2 id=&quot;password-encryption-with-aes&quot;&gt;Password encryption with AES&lt;/h2&gt;
@@ -1081,9 +1081,9 @@ Chris&lt;/p&gt;
     </item>
     <item>
       <title>s3cmd with radosgw</title>
-      <link>http://chris-rock.github.io/articles/s3cmd-with-radosgw/</link>
+      <link>http://lollyrock.com/articles/s3cmd-with-radosgw/</link>
       <pubDate>Sun, 07 Sep 2014 02:00:00 +0200</pubDate>
-      <guid isPermaLink="true">http://chris-rock.github.io/articles/s3cmd-with-radosgw/</guid>
+      <guid isPermaLink="true">http://lollyrock.com/articles/s3cmd-with-radosgw/</guid>
       <author></author>
       <description>&lt;p&gt;Amazon introduced the concept of &lt;a href=&quot;http://en.wikipedia.org/wiki/Amazon_S3&quot;&gt;S3&lt;/a&gt; object storage to a wide-range of users. Their interface is the defacto-standard to store files in web applications. Nowadays, it is used by other vendors as well. &lt;a href=&quot;http://ceph.com/&quot;&gt;Ceph&lt;/a&gt; and &lt;a href=&quot;http://basho.com/riak-cloud-storage/&quot;&gt;RiakCS&lt;/a&gt; are some examples, where the same interface is available. This blog post will setup s3cmd with Ceph radosgw.&lt;/p&gt;
 &lt;h2 id=&quot;about-s3&quot;&gt;About S3&lt;/h2&gt;
@@ -1249,9 +1249,9 @@ samplecontent
     </item>
     <item>
       <title>Encrypt and decrypt content with Nodejs</title>
-      <link>http://chris-rock.github.io/articles/nodejs-encryption/</link>
+      <link>http://lollyrock.com/articles/nodejs-encryption/</link>
       <pubDate>Tue, 02 Sep 2014 02:00:00 +0200</pubDate>
-      <guid isPermaLink="true">http://chris-rock.github.io/articles/nodejs-encryption/</guid>
+      <guid isPermaLink="true">http://lollyrock.com/articles/nodejs-encryption/</guid>
       <author></author>
       <description>&lt;style type=&quot;text/css&quot;&gt;
 .gist {
@@ -1297,9 +1297,9 @@ n use 0.11.13 crypto-gcm.js
     </item>
     <item>
       <title>Chef without an internet connection / Uninstall Chef with Chef</title>
-      <link>http://chris-rock.github.io/articles/chef-without-internet/</link>
+      <link>http://lollyrock.com/articles/chef-without-internet/</link>
       <pubDate>Sun, 24  Aug 2014 02:00:00 +0200</pubDate>
-      <guid isPermaLink="true">http://chris-rock.github.io/articles/chef-without-internet/</guid>
+      <guid isPermaLink="true">http://lollyrock.com/articles/chef-without-internet/</guid>
       <author></author>
       <description>&lt;p&gt;Recently I had a discussion with a DevOps team about an installation of Chef without an internet connection. A normal chef bootstrap fetches the chef binaries via “curl -L &lt;a href=&quot;https://www.opscode.com/chef/install.sh&quot;&gt;https://www.opscode.com/chef/install.sh&lt;/a&gt; | sudo bash”. This will happen, even if you use a Chef Server. Therefore you would require a connection to download the Chef client binaries. &lt;/p&gt;
 &lt;p&gt;This blog post demonstrates a chef run without an internet connection. Be aware, that we proof the basic setup only. Cookbooks may depend on external urls, but most of them allow attribute overrides to set custom urls.&lt;/p&gt;
@@ -1433,9 +1433,9 @@ un  chef                             &amp;lt;none&amp;gt;                       
     </item>
     <item>
       <title>Applied Content Security Policy for Nginx and Nodejs</title>
-      <link>http://chris-rock.github.io/articles/content-security-policy/</link>
+      <link>http://lollyrock.com/articles/content-security-policy/</link>
       <pubDate>Mon, 18  Aug 2014 02:00:00 +0200</pubDate>
-      <guid isPermaLink="true">http://chris-rock.github.io/articles/content-security-policy/</guid>
+      <guid isPermaLink="true">http://lollyrock.com/articles/content-security-policy/</guid>
       <author></author>
       <description>&lt;p&gt;Some years ago it was common that users deactivated JavaScript to reduce the security risk of their browser. Nowadays HTML5 (JavaScript, CSS in combination with AJAX) is required to provide superior user experience. Users have no chance to deactivate JavaScript and expect the same kind of quality. Web Developers (and I am for sure part of it) on the other hand just add a simple &lt;code&gt;noscript&lt;/code&gt; and think they are done. In most cases Web Developers live with the credo: “JavaScript is essential. There is no web without.”&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;lang-html&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;title&quot;&gt;noscript&lt;/span&gt;&amp;gt;&lt;/span&gt;
@@ -1588,9 +1588,9 @@ app.listen(&lt;span class=&quot;number&quot;&gt;3000&lt;/span&gt;);
     </item>
     <item>
       <title>Asynchronous HTTP requests with Scala and Dispatch</title>
-      <link>http://chris-rock.github.io/articles/scala-http-requests/</link>
+      <link>http://lollyrock.com/articles/scala-http-requests/</link>
       <pubDate>Mon, 11  Aug 2014 02:00:00 +0200</pubDate>
-      <guid isPermaLink="true">http://chris-rock.github.io/articles/scala-http-requests/</guid>
+      <guid isPermaLink="true">http://lollyrock.com/articles/scala-http-requests/</guid>
       <author></author>
       <description>&lt;p&gt;Today, we use REST APIs everywhere. Quite often this requires the implementation of SDKs for specific languages. If you are going to write a SDK or you need to call a REST backend without the availability of a SDK, you need a framework to send HTTP requests. The cool thing about Scala is the fact that it has native support for &lt;a href=&quot;http://docs.scala-lang.org/overviews/core/futures.html&quot;&gt;Futures (aka Promises)&lt;/a&gt;. By using futures, you simplify your life:&lt;/p&gt;
 &lt;ul&gt;
@@ -1740,9 +1740,9 @@ object UserParser {
     </item>
     <item>
       <title>Install OpenStack CLI on Ubuntu</title>
-      <link>http://chris-rock.github.io/articles/install-openstack-cli/</link>
+      <link>http://lollyrock.com/articles/install-openstack-cli/</link>
       <pubDate>Sun, 03  Aug 2014 02:00:00 +0200</pubDate>
-      <guid isPermaLink="true">http://chris-rock.github.io/articles/install-openstack-cli/</guid>
+      <guid isPermaLink="true">http://lollyrock.com/articles/install-openstack-cli/</guid>
       <author></author>
       <description>&lt;p&gt;To setup the Open Stack Cli on a new server, you need to install Python 2.7 and the xml libraries. Once everything is prepared, the cli can be installed with:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;pip install OPENSTACKTOOL-novaclient
@@ -1790,9 +1790,9 @@ pip install python-glanceclient
     </item>
     <item>
       <title>Scalatra with Bearer Authentication</title>
-      <link>http://chris-rock.github.io/articles/scalatra-bearer-authentication/</link>
+      <link>http://lollyrock.com/articles/scalatra-bearer-authentication/</link>
       <pubDate>Sat, 26 Jul 2014 02:00:00 +0200</pubDate>
-      <guid isPermaLink="true">http://chris-rock.github.io/articles/scalatra-bearer-authentication/</guid>
+      <guid isPermaLink="true">http://lollyrock.com/articles/scalatra-bearer-authentication/</guid>
       <author></author>
       <description>&lt;h1 id=&quot;why-use-scala-over-java-&quot;&gt;Why use Scala over Java?&lt;/h1&gt;
 &lt;p&gt;After I experienced the beauty of Ruby and Node.js for web application development I thought there are not many use cases for developing a Java web application, because they provide:&lt;/p&gt;
@@ -1818,7 +1818,7 @@ pip install python-glanceclient
   &amp;lt;p&amp;gt;Hello, {params(&lt;span class=&quot;string&quot;&gt;&quot;name&quot;&lt;/span&gt;)}&amp;lt;/p&amp;gt;
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;For the command-line requests I am going to use &lt;a href=&quot;http://chris-rock.github.io/articles/scalatra-bearer-authentication/httpie%20http://httpie.org&quot;&gt;httpie&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;For the command-line requests I am going to use &lt;a href=&quot;http://lollyrock.com/articles/scalatra-bearer-authentication/httpie%20http://httpie.org&quot;&gt;httpie&lt;/a&gt;&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;lang-code&quot;&gt;http -v http://localhost:8080/hello/john
 
 GET /hello/john HTTP/1.1
@@ -1934,9 +1934,9 @@ Set-Cookie: JSESSIONID=1qxp4ot72v3lmr01n3vesosel;Path=/
     </item>
     <item>
       <title>How to harden a new server with Chef</title>
-      <link>http://chris-rock.github.io/articles/how-to-harden-a-new-server/</link>
+      <link>http://lollyrock.com/articles/how-to-harden-a-new-server/</link>
       <pubDate>Wed, 14 May 2014 02:00:00 +0200</pubDate>
-      <guid isPermaLink="true">http://chris-rock.github.io/articles/how-to-harden-a-new-server/</guid>
+      <guid isPermaLink="true">http://lollyrock.com/articles/how-to-harden-a-new-server/</guid>
       <author></author>
       <description>&lt;p&gt;Deutsche Telekom developed scripts in Chef and Puppet to harden servers according to well-known guidelines like bettercrypto and internal guidelines at Deutsche Telekom. More information is available at the project page of the &lt;a href=&quot;http://hardening.io/&quot;&gt;Hardening Framework&lt;/a&gt;. Disclosure: I am core developer at this project.&lt;/p&gt;
 &lt;p&gt;Today we cook with &lt;a href=&quot;http://matschaffer.github.io/knife-solo/&quot;&gt;knife-solo&lt;/a&gt; and harden a fresh copy of Ubuntu 14.04. The process of hardening a server is quite difficult and takes a lot of knowledge and experience. Even the most-experienced administrators rely on guidelines to meet the best practices.&lt;/p&gt;
@@ -2095,9 +2095,9 @@ Chef Client finished, &lt;span class=&quot;number&quot;&gt;10&lt;/span&gt;/&lt;s
     </item>
     <item>
       <title>SHA 512 Hashs with nodejs</title>
-      <link>http://chris-rock.github.io/articles/nodejs-sha512/</link>
+      <link>http://lollyrock.com/articles/nodejs-sha512/</link>
       <pubDate>Sun, 06 Apr 2014 02:00:00 +0200</pubDate>
-      <guid isPermaLink="true">http://chris-rock.github.io/articles/nodejs-sha512/</guid>
+      <guid isPermaLink="true">http://lollyrock.com/articles/nodejs-sha512/</guid>
       <author></author>
       <description>&lt;p&gt;Quite often you need to encrypt files. Recently I updated an application from encryption to &lt;a href=&quot;http://en.wikipedia.org/wiki/Authenticated_encryption&quot;&gt;authenticated encryption&lt;/a&gt; and used the encrypt-then-mac approach. &lt;/p&gt;
 &lt;p&gt;To create a hash from strings you just need a few lines in nodejs:&lt;/p&gt;
@@ -2148,9 +2148,9 @@ Chef Client finished, &lt;span class=&quot;number&quot;&gt;10&lt;/span&gt;/&lt;s
     </item>
     <item>
       <title>Open Stack Glance Image Create</title>
-      <link>http://chris-rock.github.io/articles/glance-image-create/</link>
+      <link>http://lollyrock.com/articles/glance-image-create/</link>
       <pubDate>Thu, 03 Apr 2014 02:00:00 +0200</pubDate>
-      <guid isPermaLink="true">http://chris-rock.github.io/articles/glance-image-create/</guid>
+      <guid isPermaLink="true">http://lollyrock.com/articles/glance-image-create/</guid>
       <author></author>
       <description>&lt;p&gt;The newest version of Ubuntu is out and we need to upload the latest version to Open Stack. Of course we try to save our bandwith. There we use &lt;code&gt;-copy-from&lt;/code&gt; instead of &lt;code&gt;--file openstack_image.img&lt;/code&gt;:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;glance image-create --name &amp;#39;Ubuntu 14.04 LTS&amp;#39; \
@@ -2185,9 +2185,9 @@ Chef Client finished, &lt;span class=&quot;number&quot;&gt;10&lt;/span&gt;/&lt;s
     </item>
     <item>
       <title>Open Stack VM Resizing</title>
-      <link>http://chris-rock.github.io/articles/openstack-vm-resize/</link>
+      <link>http://lollyrock.com/articles/openstack-vm-resize/</link>
       <pubDate>Wed, 02 Apr 2014 02:00:00 +0200</pubDate>
-      <guid isPermaLink="true">http://chris-rock.github.io/articles/openstack-vm-resize/</guid>
+      <guid isPermaLink="true">http://lollyrock.com/articles/openstack-vm-resize/</guid>
       <author></author>
       <description>&lt;p&gt;Once in a while you need to upgrade a VM with more CPU or storage.&lt;/p&gt;
 &lt;h2 id=&quot;step-1-vm-preparation&quot;&gt;Step 1: VM preparation&lt;/h2&gt;
@@ -2238,9 +2238,9 @@ nova boot $VMNAME --flavor=$FLAVOR --image=$IMAGE --security-groups=$SG --nic po
     </item>
     <item>
       <title>Havana Box</title>
-      <link>http://chris-rock.github.io/articles/havana-box/</link>
+      <link>http://lollyrock.com/articles/havana-box/</link>
       <pubDate>Mon, 28 Oct 2013 01:00:00 +0100</pubDate>
-      <guid isPermaLink="true">http://chris-rock.github.io/articles/havana-box/</guid>
+      <guid isPermaLink="true">http://lollyrock.com/articles/havana-box/</guid>
       <author></author>
       <description>&lt;center&gt;&lt;a href=&quot;http://www.flickr.com/photos/fixedgear/2998411614/&quot; title=&quot;Havana by fixedgear, on Flickr&quot;&gt;&lt;img src=&quot;http://farm4.staticflickr.com/3161/2998411614_787b7717b2_q.jpg&quot; width=&quot;150px&quot; height=&quot;150px&quot; alt=&quot;Havana&quot; style=&quot;margin:0px&quot;&gt;&lt;/a&gt;&lt;/center&gt;
 
