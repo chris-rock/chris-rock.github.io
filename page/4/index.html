@@ -36,6 +36,16 @@
       <div class="content-wrap">
         <article class="article intro">
           <header>
+            <p class="date"><span>07. September 2014</span></p>
+            <h2><a href="/articles/s3cmd-with-radosgw/">s3cmd with radosgw</a></h2>
+          </header>
+          <section class="content"><p>Amazon introduced the concept of <a href="http://en.wikipedia.org/wiki/Amazon_S3">S3</a> object storage to a wide-range of users. Their interface is the defacto-standard to store files in web applications. Nowadays, it is used by other vendors as well. <a href="http://ceph.com/">Ceph</a> and <a href="http://basho.com/riak-cloud-storage/">RiakCS</a> are some examples, where the same interface is available. This blog post will setup s3cmd with Ceph&nbsp;radosgw.</p>
+
+            <p class="more"><a href="/articles/s3cmd-with-radosgw/">more</a></p>
+          </section>
+        </article>
+        <article class="article intro">
+          <header>
             <p class="date"><span>02. September 2014</span></p>
             <h2><a href="/articles/nodejs-encryption/">Encrypt and decrypt content with Nodejs</a></h2>
           </header>
@@ -59,33 +69,6 @@
 <p>This blog post demonstrates a chef run without an internet connection. Be aware, that we proof the basic setup only. Cookbooks may depend on external urls, but most of them allow attribute overrides to set custom&nbsp;urls.</p>
 
             <p class="more"><a href="/articles/chef-without-internet/">more</a></p>
-          </section>
-        </article>
-        <article class="article intro">
-          <header>
-            <p class="date"><span>18. August 2014</span></p>
-            <h2><a href="/articles/content-security-policy/">Applied Content Security Policy for Nginx and Nodejs</a></h2>
-          </header>
-          <section class="content"><p>Some years ago it was common that users deactivated JavaScript to reduce the security risk of their browser. Nowadays <span class="caps">HTML5</span> (JavaScript, CSS in combination with AJAX) is required to provide superior user experience. Users have no chance to deactivate JavaScript and expect the same kind of quality. Web Developers (and I am for sure part of it) on the other hand just add a simple <code>noscript</code> and think they are done. In most cases Web Developers live with the credo: “JavaScript is essential. There is no web&nbsp;without.”</p>
-<pre><code class="lang-html"><span class="tag">&lt;<span class="title">noscript</span>&gt;</span>
-    My Website does not support browsers without JavaScript disabled. 
-    We promise we'll behave.
-<span class="tag">&lt;/<span class="title">noscript</span>&gt;</span>
-</code></pre>
-<p>Do not get me wrong. I love JavaScript, but I care about security, too. This simple requirement defined by the web developer changes one&nbsp;fact: </p>
-<p><em>Now, the web developer is responsible for the security of his&nbsp;JavaScript.</em></p>
-<p>Yes, he may behave. But what happens if the users do not behave? Just take a look at <a href="https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet"><span class="caps">XSS</span> Filter Evasion Cheat Sheet</a>. In most cases some inline script is enough to try cross-site scripting&nbsp;attacks:</p>
-<pre><code class="lang-html"><span class="tag">&lt;<span class="title"><span class="caps">SCRIPT</span></span>&gt;</span><span class="javascript">alert(<span class="string">"<span class="caps">XSS</span>"</span>);</span><span class="tag">&lt;/<span class="title"><span class="caps">SCRIPT</span></span>&gt;</span>
-</code></pre>
-<p>The web developer is responsible to ensure, that all data is parsed and hardened against scripting attacks. Are you doing this? In most cases this sounds easier than thought. Do you check every input field? Even on client-side web apps? Are you&nbsp;sure?</p>
-<p>To sum it&nbsp;up:</p>
-<ul>
-<li>We need JavaScript&nbsp;activated</li>
-<li>User needs to trust the web&nbsp;developers</li>
-<li>Web Developer is responsible to ensure the security for his&nbsp;users</li>
-</ul>
-
-            <p class="more"><a href="/articles/content-security-policy/">more</a></p>
           </section>
         </article>
       </div>
