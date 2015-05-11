@@ -5,9 +5,90 @@
     <atom:link href="http://lollyrock.com/feed.xml" rel="self" type="application/rss+xml"></atom:link>
     <link>http://lollyrock.com</link>
     <description>fun &amp; sun</description>
-    <pubDate>Sat, 09 May 2015 02:00:00 +0200</pubDate>
+    <pubDate>Sun, 10 May 2015 02:00:00 +0200</pubDate>
     <generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator>
     <language>en</language>
+    <item>
+      <title>Install Windows IoT on Raspberry Pi 2</title>
+      <link>http://lollyrock.com/articles/windows-iot-raspberry/</link>
+      <pubDate>Sun, 10 May 2015 02:00:00 +0200</pubDate>
+      <guid isPermaLink="true">http://lollyrock.com/articles/windows-iot-raspberry/</guid>
+      <author></author>
+      <description>&lt;p&gt;Recently, Microsoft announced its &lt;a href=&quot;http://ms-iot.github.io/content/GetStarted.htm&quot;&gt;Windows 10 IoT Core Insider Preview&lt;/a&gt; and it is very exiting to get an ARM version of Windows running on a small device. Microsoft did a great job to bring the operating system to smaller devices and I am looking forward to play more with their IoT solutions. Now, lets install Windows on Raspberry 2.&lt;/p&gt;
+&lt;h2 id=&quot;download-windows-10-iot&quot;&gt;Download Windows 10 IoT&lt;/h2&gt;
+&lt;p&gt;Create an account at &lt;a href=&quot;https://connect.microsoft.com/windowsembeddediot/SelfNomination.aspx?ProgramID=8558&quot;&gt;Microsoft Connect&lt;/a&gt; and download the image &lt;a href=&quot;http://connect.microsoft.com/windowsembeddedIoT/Downloads/&quot;&gt;Windows_IoT_Core_RPI2_BUILD.zip&lt;/a&gt;. You need to sign their &lt;code&gt;Windows Developer Program For IoT EULA&lt;/code&gt; and &lt;code&gt;Windows 10 IoT Core Insider Preview EULA&lt;/code&gt; located in their &lt;a href=&quot;https://connect.microsoft.com/windowsembeddedIoT/Surveys&quot;&gt;survey&lt;/a&gt; section.&lt;/p&gt;
+&lt;p&gt;The downloaded &lt;code&gt;Windows_IoT_Core_RPI2_BUILD.zip&lt;/code&gt; contains the required &lt;code&gt;Flash.ffu&lt;/code&gt;. Extract the zip file and you are ready for SD card preparation.&lt;/p&gt;
+&lt;h2 id=&quot;prepare-sd-card&quot;&gt;Prepare SD Card&lt;/h2&gt;
+&lt;p&gt;We will use Windows 10 for SD card preparation. Currently, I found no easy way to build an image (eg. with &lt;code&gt;dd&lt;/code&gt;) on Linux or Mac. I recommend to use Windows 10 as a host operating system. I just deployed it on a new machine to play around with Windows 10 and Windows 10 IoT.&lt;/p&gt;
+&lt;p&gt;Now, insert a blank 8GB Class 10 SD card into your computer and find your SD card with &lt;code&gt;diskpart&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;Windows PowerShell
+Copyright (C) &lt;span class=&quot;number&quot;&gt;2015&lt;/span&gt; Microsoft Corporation. All rights reserved.
+
+PS C:\Windows\system32&amp;gt; diskpart
+
+Microsoft DiskPart version &lt;span class=&quot;number&quot;&gt;10.0&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;10074&lt;/span&gt;
+
+Copyright (C) &lt;span class=&quot;number&quot;&gt;1999&lt;/span&gt;-&lt;span class=&quot;number&quot;&gt;2013&lt;/span&gt; Microsoft Corporation.
+On computer: WIN-&lt;span class=&quot;number&quot;&gt;7&lt;/span&gt;ECOKTDG4QV
+
+DISKPART&amp;gt; list disk
+
+  Disk &lt;span class=&quot;comment&quot;&gt;###  Status         Size     Free     Dyn  Gpt&lt;/span&gt;
+  --------  -------------  -------  -------  ---  ---
+  Disk &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;    Online          &lt;span class=&quot;number&quot;&gt;232&lt;/span&gt; GB      &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt; B
+  Disk &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;    Online           &lt;span class=&quot;number&quot;&gt;59&lt;/span&gt; GB      &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt; B        *
+
+DISKPART&amp;gt; &lt;span class=&quot;keyword&quot;&gt;exit&lt;/span&gt;
+
+Leaving DiskPart...
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In case you do not like to command line, you could also use the graphical &lt;code&gt;Disk Management&lt;/code&gt; tool. &lt;/p&gt;
+&lt;p&gt;With help of &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/windows/desktop/dd371719%28v=vs.85%29.aspx&quot;&gt;Microsofts Dsim&lt;/a&gt; tool, we create the image for our Raspberry 2. Be aware that you need to replace &lt;code&gt;PhysicalDriveN&lt;/code&gt; with your local disk id like &lt;code&gt;PhysicalDrive1&lt;/code&gt;: &lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;PS C:\Users\chris\Downloads\Windows_IoT_Core_RPI2_BUILD&amp;gt; dism.exe /Apply-Image 
+/ImageFile:Flash.ffu /ApplyDrive:\\.\PhysicalDriveN /SkipPlatformCheck
+
+Deployment Image Servicing and Management tool
+Version: 10.0.10074.0
+
+Applying image
+[==========================100.0%==========================]
+The operation completed successfully.
+PS C:\Users\chris\Downloads\Windows_IoT_Core_RPI2_BUILD&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In case you receive an IO error, you may need to switch the physical knob to active writing for your SD card.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;PS C:\Windows\system32&amp;gt; &lt;span class=&quot;built_in&quot;&gt;cd&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;'C:\Users\chris\Downloads\Windows_IoT_Core_RPI2_BUILD\'&lt;/span&gt;
+PS C:\Users\chris\Downloads\Windows_IoT_Core_RPI2_BUILD&amp;gt; dism.exe /Apply-Image 
+/ImageFile:Flash.ffu /ApplyDrive:\\.\PhysicalDriveN /SkipPlatformCheck
+
+Deployment Image Servicing and Management tool
+Version: &lt;span class=&quot;number&quot;&gt;10.0&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;10074.0&lt;/span&gt;
+
+Applying image
+[==========================&lt;span class=&quot;number&quot;&gt;100.0&lt;/span&gt;%==========================]
+
+Error: &lt;span class=&quot;number&quot;&gt;1117&lt;/span&gt;
+
+The request could not be performed because of an I/O device error.
+
+The DISM log file can be found at C:\Windows\Logs\DISM\dism.log
+PS C:\Users\chris\Downloads\Windows_IoT_Core_RPI2_BUILD&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Finally, remove your SD card from your computer.&lt;/p&gt;
+&lt;h2 id=&quot;boot-in-your-raspberry-pi-2&quot;&gt;Boot in Your Raspberry Pi 2&lt;/h2&gt;
+&lt;p&gt;Once everything is ready, boot your Raspberry Pi 2 and wait some minutes. Windows will boot and display a overview screen that displays all required information to connect to the device.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/windows-iot-raspberry/boot_01.png&quot; alt=&quot;Windows IoT Raspberry 2 Boot&quot; title=&quot;Windows IoT Raspberry 2 Boot&quot;&gt;
+&lt;img src=&quot;/articles/windows-iot-raspberry/boot_02.png&quot; alt=&quot;Windows IoT Raspberry 2 Boot&quot; title=&quot;Windows IoT Raspberry 2 Boot&quot;&gt;
+&lt;img src=&quot;/articles/windows-iot-raspberry/boot_03.png&quot; alt=&quot;Windows IoT Raspberry 2 Boot&quot; title=&quot;Windows IoT Raspberry 2 Boot&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;web-administration&quot;&gt;Web Administration&lt;/h2&gt;
+&lt;p&gt;By default, Windows IoT ships with an Web Administration interface that is available by entering the ip address of the Raspberry Pi. It displays the installed apps, running processes, current performence and debugging information.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/windows-iot-raspberry/04.png&quot; alt=&quot;Windows IoT Web Administration    &quot; title=&quot;Windows IoT Web Administration&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;install-visual-studio&quot;&gt;Install Visual Studio&lt;/h2&gt;
+&lt;p&gt;To start developing for Windows IoT, &lt;a href=&quot;https://www.visualstudio.com/en-us/downloads/visual-studio-2015-downloads-vs.aspx&quot;&gt;download the Visual Studio Community Edition&lt;/a&gt; and installa the &lt;code&gt;Windows Developer Program for IoT Installation&lt;/code&gt; that is included in &lt;code&gt;Windows_IoT_Core_RPI2_BUILD.zip&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/windows-iot-raspberry/03.png&quot; alt=&quot;Download Visual Studio 2015&quot; title=&quot;Visual Studio 2015 download&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/windows-iot-raspberry/01.png&quot; alt=&quot;Install Visual Studio 2015&quot; title=&quot;Visual Studio 2015 Installation&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/windows-iot-raspberry/02.png&quot; alt=&quot;Install Windows Developer Program for IoT&quot; title=&quot;Windows Developer Program for IoT Installation&quot;&gt;&lt;/p&gt;
+&lt;p&gt;I am looking forward to play more with Windows IoT and start deploying universal apps.&lt;/p&gt;
+</description>
+    </item>
     <item>
       <title>npm install - could be dangerous</title>
       <link>http://lollyrock.com/articles/npm-dependency-could-be-dangerous/</link>
@@ -1300,7 +1381,8 @@ samplecontent
 }
 &lt;/style&gt;
 
-&lt;p&gt;Nodejs offers great support for cryptography. Under the hood it uses openssl and ships with a &lt;a href=&quot;http://nodejs.org/api/crypto.html&quot;&gt;Javascript api&lt;/a&gt;. Unfortunately the api is not always as intuitive as it should be, especially when you have to deal with error codes. To make you life easier, I collected various approaches for encryption with AES 256. &lt;/p&gt;
+&lt;p&gt;Nodejs offers great support for cryptography. Under the hood it uses openssl and ships with a &lt;a href=&quot;http://nodejs.org/api/crypto.html&quot;&gt;Javascript api&lt;/a&gt;. Unfortunately the api is not always as intuitive as it should be, especially when you have to deal with error codes. To make you life easier, I collected various approaches for encryption with AES 256.&lt;/p&gt;
+&lt;p&gt;Update: All examples are available on Github &lt;a href=&quot;https://github.com/chris-rock/node-crypto-examples&quot;&gt;node-crypto-examples&lt;/a&gt;, too.&lt;/p&gt;
 &lt;h2 id=&quot;encryption-mode&quot;&gt;Encryption mode&lt;/h2&gt;
 &lt;p&gt;The first decision is the AES encryption mode. Currently I recommend the &lt;a href=&quot;http://nodejs.org/api/crypto.html&quot;&gt;CTR mode&lt;/a&gt;. You may want to read &lt;a href=&quot;http://www.cs.ucdavis.edu/~rogaway/papers/modes.pdf&quot;&gt;Evaluation of Some Blockcipher Modes of Operation&lt;/a&gt; or &lt;a href=&quot;http://csrc.nist.gov/groups/ST/toolkit/BCM/documents/ccm-ad1.pdf&quot;&gt;On the Security of CTR + CBC-MAC&lt;/a&gt;. The next nodejs version comes with support for &lt;a href=&quot;http://en.wikipedia.org/wiki/Galois/Counter_Mode&quot;&gt;GCM&lt;/a&gt; to do &lt;a href=&quot;http://en.wikipedia.org/wiki/Authenticated_encryption&quot;&gt;authenticated encryption&lt;/a&gt;. Until then you have to use approaches like Encrypt-then-MAC and combine the encryption with the generation of &lt;a href=&quot;/articles/nodejs-sha512/&quot;&gt;SHA hashs&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&quot;examples&quot;&gt;Examples&lt;/h2&gt;
@@ -2140,7 +2222,8 @@ Chef Client finished, &lt;span class=&quot;number&quot;&gt;10&lt;/span&gt;/&lt;s
       <pubDate>Sun, 06 Apr 2014 02:00:00 +0200</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/nodejs-sha512/</guid>
       <author></author>
-      <description>&lt;p&gt;Quite often you need to encrypt files. Recently I updated an application from encryption to &lt;a href=&quot;http://en.wikipedia.org/wiki/Authenticated_encryption&quot;&gt;authenticated encryption&lt;/a&gt; and used the encrypt-then-mac approach. &lt;/p&gt;
+      <description>&lt;p&gt;Quite often you need to encrypt files. Recently I updated an application from encryption to &lt;a href=&quot;http://en.wikipedia.org/wiki/Authenticated_encryption&quot;&gt;authenticated encryption&lt;/a&gt; and used the encrypt-then-mac approach.&lt;/p&gt;
+&lt;p&gt;Update: I created a node module that simplifies the process for you: &lt;a href=&quot;https://github.com/chris-rock/password-hasher&quot;&gt;password-hasher&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;To create a hash from strings you just need a few lines in nodejs:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;lang-javascript&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// generate a hash from string&lt;/span&gt;
     &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; crypto = &lt;span class=&quot;built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;'crypto'&lt;/span&gt;),

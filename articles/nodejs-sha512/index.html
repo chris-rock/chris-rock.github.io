@@ -34,7 +34,8 @@
     <div id="content">
       <div class="content-wrap">
         <article class="article">
-          <section class="content"><p>Quite often you need to encrypt files. Recently I updated an application from encryption to <a href="http://en.wikipedia.org/wiki/Authenticated_encryption">authenticated encryption</a> and used the encrypt-then-mac&nbsp;approach. </p>
+          <section class="content"><p>Quite often you need to encrypt files. Recently I updated an application from encryption to <a href="http://en.wikipedia.org/wiki/Authenticated_encryption">authenticated encryption</a> and used the encrypt-then-mac&nbsp;approach.</p>
+<p>Update: I created a node module that simplifies the process for you: <a href="https://github.com/chris-rock/password-hasher">password-hasher</a></p>
 <p>To create a hash from strings you just need a few lines in&nbsp;nodejs:</p>
 <pre><code class="lang-javascript">    <span class="comment">// generate a hash from string</span>
     <span class="keyword">var</span> crypto = <span class="built_in">require</span>(<span class="string">'crypto'</span>),

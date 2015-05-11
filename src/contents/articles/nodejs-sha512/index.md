@@ -5,7 +5,9 @@ date: 2014-04-06
 template: article.jade
 ---
 
-Quite often you need to encrypt files. Recently I updated an application from encryption to [authenticated encryption](http://en.wikipedia.org/wiki/Authenticated_encryption) and used the encrypt-then-mac approach. 
+Quite often you need to encrypt files. Recently I updated an application from encryption to [authenticated encryption](http://en.wikipedia.org/wiki/Authenticated_encryption) and used the encrypt-then-mac approach.
+
+Update: I created a node module that simplifies the process for you: [password-hasher](https://github.com/chris-rock/password-hasher)
 
 To create a hash from strings you just need a few lines in nodejs:
 

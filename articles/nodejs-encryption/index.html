@@ -40,7 +40,8 @@
 }
 </style>
 
-<p>Nodejs offers great support for cryptography. Under the hood it uses openssl and ships with a <a href="http://nodejs.org/api/crypto.html">Javascript api</a>. Unfortunately the api is not always as intuitive as it should be, especially when you have to deal with error codes. To make you life easier, I collected various approaches for encryption with <span class="caps">AES</span>&nbsp;256. </p>
+<p>Nodejs offers great support for cryptography. Under the hood it uses openssl and ships with a <a href="http://nodejs.org/api/crypto.html">Javascript api</a>. Unfortunately the api is not always as intuitive as it should be, especially when you have to deal with error codes. To make you life easier, I collected various approaches for encryption with <span class="caps">AES</span>&nbsp;256.</p>
+<p>Update: All examples are available on Github <a href="https://github.com/chris-rock/node-crypto-examples">node-crypto-examples</a>,&nbsp;too.</p>
 <h2 id="encryption-mode">Encryption&nbsp;mode</h2>
 <p>The first decision is the <span class="caps">AES</span> encryption mode. Currently I recommend the <a href="http://nodejs.org/api/crypto.html"><span class="caps">CTR</span> mode</a>. You may want to read <a href="http://www.cs.ucdavis.edu/~rogaway/papers/modes.pdf">Evaluation of Some Blockcipher Modes of Operation</a> or <a href="http://csrc.nist.gov/groups/ST/toolkit/BCM/documents/ccm-ad1.pdf">On the Security of <span class="caps">CTR</span> + CBC-MAC</a>. The next nodejs version comes with support for <a href="http://en.wikipedia.org/wiki/Galois/Counter_Mode"><span class="caps">GCM</span></a> to do <a href="http://en.wikipedia.org/wiki/Authenticated_encryption">authenticated encryption</a>. Until then you have to use approaches like Encrypt-then-<span class="caps">MAC</span> and combine the encryption with the generation of <a href="/articles/nodejs-sha512/"><span class="caps">SHA</span> hashs</a>.</p>
 <h2 id="examples">Examples</h2>

@@ -11,7 +11,9 @@ template: article.jade
 }
 </style>
 
-Nodejs offers great support for cryptography. Under the hood it uses openssl and ships with a [Javascript api](http://nodejs.org/api/crypto.html). Unfortunately the api is not always as intuitive as it should be, especially when you have to deal with error codes. To make you life easier, I collected various approaches for encryption with AES 256. 
+Nodejs offers great support for cryptography. Under the hood it uses openssl and ships with a [Javascript api](http://nodejs.org/api/crypto.html). Unfortunately the api is not always as intuitive as it should be, especially when you have to deal with error codes. To make you life easier, I collected various approaches for encryption with AES 256.
+
+Update: All examples are available on Github [node-crypto-examples](https://github.com/chris-rock/node-crypto-examples), too.
 
 ## Encryption mode
 
