@@ -36,6 +36,311 @@
       <div class="content-wrap">
         <article class="article intro">
           <header>
+            <p class="date"><span>26. July 2014</span></p>
+            <h2><a href="/articles/scalatra-bearer-authentication/">Scalatra with Bearer Authentication</a></h2>
+          </header>
+          <section class="content"><h1 id="why-use-scala-over-java-">Why use Scala over&nbsp;Java?</h1>
+<p>After I experienced the beauty of Ruby and Node.js for web application development I thought there are not many use cases for developing a Java web application, because they&nbsp;provide:</p>
+<ul>
+<li>easy definition of new&nbsp;routes</li>
+<li>stick to <span class="caps">REST</span> API with&nbsp;JSON</li>
+<li>quick&nbsp;development</li>
+<li>easy&nbsp;deployment</li>
+</ul>
+<p>Everything can be solved in Java, but it does not necessarily feels right. Java Enterprise Edition 5 and Spring try to make it as easy as possible, but Java has some disadvantages at language level, not on framework&nbsp;level:</p>
+<ul>
+<li>combination of imperative and functional approaches are quite helpful for writing more readable code and getting things done in a shorter time&nbsp;frame</li>
+<li>flexible type system, that is type safe and not verbose (Node.js and Ruby are not type&nbsp;safe)</li>
+<li><a href="http://www.html5rocks.com/en/tutorials/es6/promises/">Promises for Javascript</a> replace the concept of callbacks, ease the asynchronous development and establish a clean way to handle&nbsp;errors</li>
+</ul>
+<p>Recently I worked on a project where I had the requirement to re-use an existing Java infrastructure. The nature of the existing infrastructure required the use of a <span class="caps">JVM</span>-based solution. It was the right time to try Scala and in particular <a href="http://www.scalatra.org">Scalatra</a> because it is similar to <a href="http://www.sinatrarb.com/">Sinatra</a> and <a href="http://expressjs.com/">Express</a>. To get started with Scalatra try out these <a href="https://github.com/scalatra/scalatra-website-examples">examples</a>.</p>
+<p>I use it with <a href="http://www.jetbrains.com/idea/">IntelliJ</a>, <a href="http://blog.jetbrains.com/scala/2013/11/18/built-in-sbt-support-in-intellij-idea-13/">IntelliJ Scala plugin</a> and <a href="https://github.com/mpeltonen/sbt-idea">sbt-idea</a>. If you are new to Scala you should also read the <a href="http://www.scala-sbt.org/0.13/tutorial/index.html">sbt&nbsp;guide</a></p>
+<h1 id="oauth-2-0-bearer-authentication-for-scalatra">OAuth 2.0 Bearer Authentication for&nbsp;Scalatra</h1>
+<p>Once you have a sample Scalatra application up and running, you may want to build your <span class="caps">REST</span> API&nbsp;like:</p>
+<pre><code class="lang-scala">get(<span class="string">"/hello/:name"</span>) {
+  <span class="comment">// Matches "<span class="caps">GET</span> /hello/foo" and "GET /hello/bar"</span>
+  <span class="comment">// params("name") is "foo" or "bar"</span>
+  &lt;p&gt;Hello, {params(<span class="string">"name"</span>)}&lt;/p&gt;
+}
+</code></pre>
+<p>For the command-line requests I am going to use <a href="/articles/scalatra-bearer-authentication/httpie%20http://httpie.org">httpie</a></p>
+<pre><code class="lang-code">http -v http://localhost:8080/hello/john
+
+GET /hello/john HTTP/1.1
+Accept: */*
+Accept-Encoding: gzip, deflate, compress
+Host: localhost:8080
+User-Agent: HTTPie/0.8.0
+
+
+
+HTTP/1.1 200 OK
+Content-Length: 18
+Content-Type: text/html;charset=UTF-8
+Server: Jetty(8.1.8.v20121106)
+
+&lt;p&gt;Hello, john&lt;/p&gt;
+</code></pre>
+<p>Assume you need to restrict the access to routes. In a corporate environment an OAuth server is used quiet often to verify requests. <a href="http://tools.ietf.org/html/rfc6750">Bearer tokens</a> are very useful for that task. The <span class="caps">HTTP</span> header for authentication is well established and used for basic authentication as well. Now the resource provider (our Scala server with routes) need to handle authentication header and verify the received&nbsp;token. </p>
+<p>Salesforce published <a href="https://developer.salesforce.com/page/Digging_Deeper_into_OAuth_2.0_on_Force.com">Digging Deeper into OAuth 2.0 on Force.com</a> that illustrates the&nbsp;setup:</p>
+<p><img alt="OAuthRoles.png" src="https://s3.amazonaws.com/dfc-wiki/en/images/6/6f/OAuthRoles.png" width="443" height="414"></p>
+<p>A client request to the resource provider looks&nbsp;like</p>
+<pre><code class="lang-code">http -v http://localhost:8080/hello/john &#39;Authorization:Bearer Ieg4ahthie&#39;
+
+GET /hello/john HTTP/1.1
+Accept: */*
+Accept-Encoding: gzip, deflate, compress
+Authorization: Bearer Ieg4ahthie
+Host: localhost:8080
+User-Agent: HTTPie/0.8.0
+
+
+
+HTTP/1.1 200 OK
+Content-Length: 18
+Content-Type: text/html;charset=UTF-8
+Server: Jetty(8.1.8.v20121106)
+
+&lt;p&gt;Hello, john&lt;/p&gt;
+</code></pre>
+<p>Now, the resource server needs to respect the authentication and only provide access to authenticated users. We need a way to implement a generic authentication strategy to authenticate users via Bearer token. Scalatra provides a way to <a href="http://www.scalatra.org/2.3/guides/http/authentication.html">hook your own authentication strategy</a> into the framework. The implementation of the <code>BasicAuthStrategy</code> is available at <a href="https://github.com/scalatra/scalatra/blob/2.3.x/auth/src/main/scala/org/scalatra/auth/strategy/BasicAuthStrategy.scala">Github</a></p>
+<p>Based on the BasicAuthStrategy, we are going to implement a <code>BearerAuthStragegy</code></p>
+<p><style type="text/css">
+.gist {
+  font-size: 12px;
+}
+</style></p>
+<script src="https://gist.github.com/chris-rock/9cc43202ecbd57ad1f4b.js"></script>
+
+<p>Now you need to wire it into your&nbsp;Servlet:</p>
+<pre><code class="lang-scala"><span class="class"><span class="keyword">trait</span> <span class="title">HelloAppStack</span></span>
+  <span class="keyword">extends</span> ScalatraServlet
+  <span class="keyword">with</span> ScalateSupport
+  <span class="keyword">with</span> CorsSupport
+  <span class="keyword">with</span> AuthenticationSupport {
+  ...
+  }
+</code></pre>
+<p>Now you are able to secure routes&nbsp;with:</p>
+<pre><code class="lang-scala">get(<span class="string">"/hello/:name"</span>) {
+
+    <span class="keyword">val</span> user: User = auth.get
+
+    <span class="comment">// Matches "<span class="caps">GET</span> /hello/foo" and "GET /hello/bar"</span>
+    <span class="comment">// params("name") is "foo" or "bar"</span>
+    &lt;p&gt;Hello, {params(<span class="string">"name"</span>)}&lt;/p&gt;
+}
+</code></pre>
+<p>Finally unauthenticated responses are&nbsp;rejected:</p>
+<pre><code class="lang-code">http -v http://localhost:8080/hello/john
+
+GET /hello/john HTTP/1.1
+Accept: */*
+Accept-Encoding: gzip, deflate, compress
+Host: localhost:8080
+User-Agent: HTTPie/0.8.0
+
+
+
+HTTP/1.1 401 Unauthorized
+Content-Length: 15
+Content-Type: text/plain;charset=UTF-8
+Server: Jetty(8.1.8.v20121106)
+
+Unauthenticated
+</code></pre>
+<p>Transmitting the access token allows you to access the route as&nbsp;before:</p>
+<pre><code class="lang-code">
+http -v http://localhost:8080/hello/john &#39;Authorization:Bearer Ieg4ahthie&#39;
+
+GET /hello/john HTTP/1.1
+Accept: */*
+Accept-Encoding: gzip, deflate, compress
+Authorization: Bearer Ieg4ahthie
+Host: localhost:8080
+User-Agent: HTTPie/0.8.0
+
+
+
+HTTP/1.1 200 OK
+Content-Length: 18
+Content-Type: text/html;charset=UTF-8
+Expires: Thu, 01 Jan 1970 00:00:00 GMT
+Server: Jetty(8.1.8.v20121106)
+Set-Cookie: JSESSIONID=1qxp4ot72v3lmr01n3vesosel;Path=/
+
+&lt;p&gt;Hello, john&lt;/p&gt;
+</code></pre>
+<p>The example above requires you to implement the <code>verify</code> method properly. The current state allows any request with any token access, as long as the token is&nbsp;provided. </p>
+<p>Cheers,</p>
+<p>Chris</p>
+<p>If you have any questions contact me via <a href="https://twitter.com/chri_hartmann">Twitter @chri_hartmann</a> or <a href="https://github.com/chris-rock">Github</a></p>
+
+          </section>
+        </article>
+        <article class="article intro">
+          <header>
+            <p class="date"><span>14. May 2014</span></p>
+            <h2><a href="/articles/how-to-harden-a-new-server/">How to harden a new server with Chef</a></h2>
+          </header>
+          <section class="content"><p>Deutsche Telekom developed scripts in Chef and Puppet to harden servers according to well-known guidelines like bettercrypto and internal guidelines at Deutsche Telekom. More information is available at the project page of the <a href="http://hardening.io/">Hardening Framework</a>. Disclosure: I am core developer at this&nbsp;project.</p>
+<p>Today we cook with <a href="http://matschaffer.github.io/knife-solo/">knife-solo</a> and harden a fresh copy of Ubuntu 14.04. The process of hardening a server is quite difficult and takes a lot of knowledge and experience. Even the most-experienced administrators rely on guidelines to meet the best&nbsp;practices.</p>
+<p>Since we live in a cloud world by now, <a href="http://arlimus.github.io/">Dominik Richter</a>, Patrick Meier and myself invented the <code>Hardening Framework</code>. It is a set of cookbooks that help you to secure your server with well-known&nbsp;rules. </p>
+<p>The following steps illustrate the hardening process of a fresh server with nothing than a base Linux&nbsp;system.</p>
+<p>I assume you have <a href="http://www.getchef.com/downloads/chef-dk/mac/">Chef Development Kit</a> or <a href="http://www.getchef.com/chef/install/">Chef</a> and <a href="http://berkshelf.com/">Berkshelf</a> on your&nbsp;machine.</p>
+<p>At first of all we need to install <code>knife-solo</code> via <code>gem</code> on your&nbsp;workstation.</p>
+<pre><code class="lang-bash">∅&gt; <span class="built_in">sudo</span> gem install knife-solo
+Fetching: method_<span class="built_in">source</span>-<span class="number">0.8</span>.<span class="number">2</span>.gem (<span class="number">100</span>%)
+Successfully installed method_<span class="built_in">source</span>-<span class="number">0.8</span>.<span class="number">2</span>
+Fetching: slop-<span class="number">3.5</span>.<span class="number">0</span>.gem (<span class="number">100</span>%)
+Successfully installed slop-<span class="number">3.5</span>.<span class="number">0</span>
+Fetching: coderay-<span class="number">1.1</span>.<span class="number">0</span>.gem (<span class="number">100</span>%)
+Successfully installed coderay-<span class="number">1.1</span>.<span class="number">0</span>
+Fetching: pry-<span class="number">0.10</span>.<span class="number">0</span>.pre2.gem (<span class="number">100</span>%)
+Successfully installed pry-<span class="number">0.10</span>.<span class="number">0</span>.pre2
+Fetching: chef-zero-<span class="number">2.0</span>.<span class="number">2</span>.gem (<span class="number">100</span>%)
+Successfully installed chef-zero-<span class="number">2.0</span>.<span class="number">2</span>
+Fetching: diff-lcs-<span class="number">1.2</span>.<span class="number">5</span>.gem (<span class="number">100</span>%)
+Successfully installed diff-lcs-<span class="number">1.2</span>.<span class="number">5</span>
+Fetching: highline-<span class="number">1.6</span>.<span class="number">21</span>.gem (<span class="number">100</span>%)
+Successfully installed highline-<span class="number">1.6</span>.<span class="number">21</span>
+Fetching: net-ssh-gateway-<span class="number">1.2</span>.<span class="number">0</span>.gem (<span class="number">100</span>%)
+Successfully installed net-ssh-gateway-<span class="number">1.2</span>.<span class="number">0</span>
+Fetching: net-ssh-multi-<span class="number">1.2</span>.<span class="number">0</span>.gem (<span class="number">100</span>%)
+Successfully installed net-ssh-multi-<span class="number">1.2</span>.<span class="number">0</span>
+Fetching: mime-types-<span class="number">1.25</span>.<span class="number">1</span>.gem (<span class="number">100</span>%)
+Successfully installed mime-types-<span class="number">1.25</span>.<span class="number">1</span>
+Fetching: rest-client-<span class="number">1.6</span>.<span class="number">8</span>.rc1.gem (<span class="number">100</span>%)
+Successfully installed rest-client-<span class="number">1.6</span>.<span class="number">8</span>.rc1
+Fetching: ipaddress-<span class="number">0.8</span>.<span class="number">0</span>.gem (<span class="number">100</span>%)
+Successfully installed ipaddress-<span class="number">0.8</span>.<span class="number">0</span>
+Fetching: mixlib-shellout-<span class="number">1.4</span>.<span class="number">0</span>.gem (<span class="number">100</span>%)
+Successfully installed mixlib-shellout-<span class="number">1.4</span>.<span class="number">0</span>
+Fetching: mixlib-config-<span class="number">2.1</span>.<span class="number">0</span>.gem (<span class="number">100</span>%)
+Successfully installed mixlib-config-<span class="number">2.1</span>.<span class="number">0</span>
+Fetching: mixlib-cli-<span class="number">1.5</span>.<span class="number">0</span>.gem (<span class="number">100</span>%)
+Successfully installed mixlib-cli-<span class="number">1.5</span>.<span class="number">0</span>
+Fetching: systemu-<span class="number">2.5</span>.<span class="number">2</span>.gem (<span class="number">100</span>%)
+Successfully installed systemu-<span class="number">2.5</span>.<span class="number">2</span>
+Fetching: ohai-<span class="number">7.0</span>.<span class="number">4</span>.gem (<span class="number">100</span>%)
+Successfully installed ohai-<span class="number">7.0</span>.<span class="number">4</span>
+Fetching: chef-<span class="number">11.14</span>.<span class="number">0</span>.alpha.<span class="number">2</span>.gem (<span class="number">100</span>%)
+Successfully installed chef-<span class="number">11.14</span>.<span class="number">0</span>.alpha.<span class="number">2</span>
+Fetching: knife-solo-<span class="number">0.4</span>.<span class="number">1</span>.gem (<span class="number">100</span>%)
+Thanks <span class="keyword">for</span> installing knife-solo!
+
+If you run into any issues please <span class="built_in">let</span> us know at:
+  https://github.com/matschaffer/knife-solo/issues
+
+If you are upgrading knife-solo please uninstall any old versions by
+running `gem clean knife-solo` to avoid any errors.
+
+See http://bit.ly/<span class="caps">CHEF</span>-<span class="number">3255</span> <span class="keyword">for</span> more information on the knife bug
+that causes this.
+Successfully installed knife-solo-<span class="number">0.4</span>.<span class="number">1</span>
+Installing ri documentation <span class="keyword">for</span> chef-<span class="number">11.14</span>.<span class="number">0</span>.alpha.<span class="number">2</span>
+Installing ri documentation <span class="keyword">for</span> chef-zero-<span class="number">2.0</span>.<span class="number">2</span>
+invalid options: -SNw2
+(invalid options are ignored)
+Installing ri documentation <span class="keyword">for</span> coderay-<span class="number">1.1</span>.<span class="number">0</span>
+Installing ri documentation <span class="keyword">for</span> diff-lcs-<span class="number">1.2</span>.<span class="number">5</span>
+Installing ri documentation <span class="keyword">for</span> highline-<span class="number">1.6</span>.<span class="number">21</span>
+Installing ri documentation <span class="keyword">for</span> ipaddress-<span class="number">0.8</span>.<span class="number">0</span>
+Installing ri documentation <span class="keyword">for</span> knife-solo-<span class="number">0.4</span>.<span class="number">1</span>
+Installing ri documentation <span class="keyword">for</span> method_<span class="built_in">source</span>-<span class="number">0.8</span>.<span class="number">2</span>
+Installing ri documentation <span class="keyword">for</span> mime-types-<span class="number">1.25</span>.<span class="number">1</span>
+Installing ri documentation <span class="keyword">for</span> mixlib-cli-<span class="number">1.5</span>.<span class="number">0</span>
+Installing ri documentation <span class="keyword">for</span> mixlib-config-<span class="number">2.1</span>.<span class="number">0</span>
+Installing ri documentation <span class="keyword">for</span> mixlib-shellout-<span class="number">1.4</span>.<span class="number">0</span>
+Installing ri documentation <span class="keyword">for</span> net-ssh-gateway-<span class="number">1.2</span>.<span class="number">0</span>
+Installing ri documentation <span class="keyword">for</span> net-ssh-multi-<span class="number">1.2</span>.<span class="number">0</span>
+Installing ri documentation <span class="keyword">for</span> ohai-<span class="number">7.0</span>.<span class="number">4</span>
+Installing ri documentation <span class="keyword">for</span> pry-<span class="number">0.10</span>.<span class="number">0</span>.pre2
+Installing ri documentation <span class="keyword">for</span> rest-client-<span class="number">1.6</span>.<span class="number">8</span>.rc1
+Installing ri documentation <span class="keyword">for</span> slop-<span class="number">3.5</span>.<span class="number">0</span>
+Installing ri documentation <span class="keyword">for</span> systemu-<span class="number">2.5</span>.<span class="number">2</span>
+<span class="number">19</span> gems installed
+∅&gt;
+</code></pre>
+<p>As a next step we need to download the <code>hardening-kitchen</code>. This comes with a set of hardening cookbooks and works out of the box. You’re free to extend the kitchen with your own&nbsp;cookbooks.</p>
+<pre><code class="lang-bash">git clone https://github.com/TelekomLabs/example-chef-hardening.git
+<span class="built_in">cd</span> example-chef-hardening
+</code></pre>
+<p>By now, the workstation is ready and we are able to bootstrap our server with Chef and our hardening&nbsp;cookbooks.</p>
+<pre><code class="lang-bash">knife solo bootstrap ubuntu@hardening.tlabscloud.com nodes/default.json 
+Bootstrapping Chef...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+<span class="number">100</span> <span class="number">15934</span>  <span class="number">100</span> <span class="number">15934</span>    <span class="number">0</span>     <span class="number">0</span>  <span class="number">21847</span>      <span class="number">0</span> --:--:-- --:--:-- --:--:-- <span class="number">21857</span>
+Downloading Chef <span class="number">11.10</span>.<span class="number">4</span> <span class="keyword">for</span> ubuntu...
+downloading https://www.opscode.com/chef/metadata?v=<span class="number">11.10</span>.<span class="number">4</span>&amp;prerelease=<span class="literal">false</span>&amp;nightlies=<span class="literal">false</span>&amp;p=ubuntu&amp;pv=<span class="number">14.04</span>&amp;m=x86_64
+  to file /tmp/install.sh.<span class="number">30630</span>/metadata.txt
+trying wget...
+url https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/<span class="number">13.04</span>/x86_64/chef_11.<span class="number">10.4</span>-<span class="number">1</span>.ubuntu.<span class="number">13.04</span>_amd64.deb
+md5 <span class="number">25</span>e27eeaff3304df354e735a56005f04
+sha256  <span class="number">98</span>fc3ef27419ec45281306b160e5f1e736a9846ad9060a151046d5a29c49af6b
+yolo    <span class="literal">true</span>
+downloaded metadata file looks valid...
+downloading https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/<span class="number">13.04</span>/x86_64/chef_11.<span class="number">10.4</span>-<span class="number">1</span>.ubuntu.<span class="number">13.04</span>_amd64.deb
+  to file /tmp/install.sh.<span class="number">30630</span>/chef_11.<span class="number">10.4</span>-<span class="number">1</span>.ubuntu.<span class="number">13.04</span>_amd64.deb
+trying wget...
+Comparing checksum with sha256sum...
+
+<span class="caps">WARNING</span>: Chef-Client has not been regression tested on this O/S Distribution
+WARNING: Do not use this configuration <span class="keyword">for</span> Production Applications.  Use at your own risk.
+
+Installing Chef <span class="number">11.10</span>.<span class="number">4</span>
+installing with dpkg...
+dpkg: warning: downgrading chef from <span class="number">11.12</span>.<span class="number">4</span>-<span class="number">1</span> to <span class="number">11.10</span>.<span class="number">4</span>-<span class="number">1</span>.ubuntu.<span class="number">13.04</span>
+(Reading database ... <span class="number">62386</span> files and directories currently installed.)
+Preparing to unpack .../chef_11.<span class="number">10.4</span>-<span class="number">1</span>.ubuntu.<span class="number">13.04</span>_amd64.deb ...
+Unpacking chef (<span class="number">11.10</span>.<span class="number">4</span>-<span class="number">1</span>.ubuntu.<span class="number">13.04</span>) over (<span class="number">11.12</span>.<span class="number">4</span>-<span class="number">1</span>) ...
+Setting up chef (<span class="number">11.10</span>.<span class="number">4</span>-<span class="number">1</span>.ubuntu.<span class="number">13.04</span>) ...
+Thank you <span class="keyword">for</span> installing Chef!
+Running Chef on hardening.tlabscloud.com...
+Installing Berkshelf cookbooks to <span class="string">'cookbooks'</span>...
+Installing os-hardening (<span class="number">1.0</span>.<span class="number">1</span>) from site: <span class="string">'http://cookbooks.opscode.com/api/v1/cookbooks'</span>
+Installing ssh-hardening (<span class="number">1.0</span>.<span class="number">0</span>) from site: <span class="string">'http://cookbooks.opscode.com/api/v1/cookbooks'</span>
+Using sysctl (<span class="number">0.3</span>.<span class="number">4</span>)
+Using ntp (<span class="number">1.6</span>.<span class="number">2</span>)
+Using apt (<span class="number">2.3</span>.<span class="number">8</span>)
+Using yum (<span class="number">2.4</span>.<span class="number">4</span>)
+Uploading the kitchen...
+Generating solo config...
+Running Chef...
+Starting Chef Client, version <span class="number">11.10</span>.<span class="number">4</span>
+[<span class="number">2014</span>-<span class="number">05</span>-<span class="number">14</span>T14:<span class="number">53</span>:<span class="number">23</span>+<span class="number">00</span>:<span class="number">00</span>] <span class="caps">WARN</span>: unable to detect ip6address
+Compiling Cookbooks...
+[<span class="number">2014</span>-<span class="number">05</span>-<span class="number">14</span>T14:<span class="number">53</span>:<span class="number">23</span>+<span class="number">00</span>:<span class="number">00</span>] <span class="caps">WARN</span>: encrypted_data_bag_Secret is <span class="keyword">set</span> but file does not exist. Unsetting
+/home/ubuntu/chef-solo/cookbooks-<span class="number">2</span>/chef-solo-search/libraries/search.rb:<span class="number">57</span>: warning: already initialized constant PARSER_LOADED
+
+...
+
+Chef Client finished, <span class="number">10</span>/<span class="number">45</span> resources updated <span class="keyword">in</span> <span class="number">4.206405118</span> seconds
+</code></pre>
+<p>In less than 5 minutes, a new server is hardened for the core system and ssh. Be aware that your server still needs some configuration in order to be production ready. For that I recommend&nbsp;to:</p>
+<ul>
+<li>Configure  your firewall&nbsp;properly</li>
+<li>Install  critical&nbsp;patches</li>
+<li>Use patch&nbsp;management</li>
+<li>Use system&nbsp;monitoring</li>
+</ul>
+<p>More information is available&nbsp;at:</p>
+<ul>
+<li><a href="http://hardening.io/">http://hardening.io/</a></li>
+<li><a href="http://vulcanosec.com/">http://vulcanosec.com/</a></li>
+<li><a href="https://github.com/TelekomLabs/example-chef-hardening">https://github.com/TelekomLabs/example-chef-hardening</a></li>
+<li><a href="http://community.opscode.com/cookbooks/os-hardening">http://community.opscode.com/cookbooks/os-hardening</a></li>
+<li><a href="http://community.opscode.com/cookbooks/ssh-hardening">http://community.opscode.com/cookbooks/ssh-hardening</a></li>
+</ul>
+<p>Happy&nbsp;Hardening!</p>
+<p>If you have any questions contact me via <a href="https://twitter.com/chri_hartmann">Twitter @chri_hartmann</a> or <a href="https://github.com/chris-rock">Github</a></p>
+<p>Commercial support for all hardening cookbooks is available via <a href="http://vulcanosec.com/">Vulcano&nbsp;Security</a></p>
+
+          </section>
+        </article>
+        <article class="article intro">
+          <header>
             <p class="date"><span>06. April 2014</span></p>
             <h2><a href="/articles/nodejs-sha512/">SHA 512 Hashs with nodejs</a></h2>
           </header>
@@ -86,53 +391,6 @@
 <li><a href="http://arlimus.github.io/articles/ready.for.es6/">Ready for&nbsp;<span class="caps">ES6</span>?</a></li>
 </ul>
 
-          </section>
-        </article>
-        <article class="article intro">
-          <header>
-            <p class="date"><span>03. April 2014</span></p>
-            <h2><a href="/articles/glance-image-create/">Open Stack Glance Image Create</a></h2>
-          </header>
-          <section class="content"><p>The newest version of Ubuntu is out and we need to upload the latest version to Open Stack. Of course we try to save our bandwith. There we use <code>-copy-from</code> instead of <code>--file openstack_image.img</code>:</p>
-<pre><code>glance image-create --name &#39;Ubuntu 14.04 LTS&#39; \
-  --container-format bare \
-  --disk-format qcow2 \
-  --is-public true \
-  --copy-from http://uec-images.ubuntu.com/releases/14.04/release/ubuntu-14.04-server-cloudimg-amd64-disk1.img
-
-
-+------------------+--------------------------------------+
-| Property         | Value                                |
-+------------------+--------------------------------------+
-| checksum         | None                                 |
-| container_format | bare                                 |
-| created_at       | 2014-04-02T13:16:20                  |
-| deleted          | False                                |
-| deleted_at       | None                                 |
-| disk_format      | qcow2                                |
-| id               | aa5ab6de-e461-4330-136e-fb149802bdc0 |
-| is_public        | True                                 |
-| min_disk         | 0                                    |
-| min_ram          | 0                                    |
-| name             | Ubuntu 14.04 LTS Beta 1              |
-| owner            | 9ab2f1a7ca521eee9c8de5a14567d377     |
-| protected        | False                                |
-| size             | 261095936                            |
-| status           | queued                               |
-| updated_at       | 2014-04-02T13:16:20                  |
-+------------------+--------------------------------------+
-</code></pre><p>If you have any questions contact me via <a href="https://twitter.com/chri_hartmann">Twitter @chri_hartmann</a> or <a href="https://github.com/chris-rock">Github</a></p>
-
-          </section>
-        </article>
-        <article class="article intro">
-          <header>
-            <p class="date"><span>02. April 2014</span></p>
-            <h2><a href="/articles/openstack-vm-resize/">Open Stack VM Resizing</a></h2>
-          </header>
-          <section class="content"><p>Once in a while you need to upgrade a <span class="caps">VM</span> with more CPU or&nbsp;storage.</p>
-
-            <p class="more"><a href="/articles/openstack-vm-resize/">more</a></p>
           </section>
         </article>
       </div>

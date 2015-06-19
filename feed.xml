@@ -5,9 +5,341 @@
     <atom:link href="http://lollyrock.com/feed.xml" rel="self" type="application/rss+xml"></atom:link>
     <link>http://lollyrock.com</link>
     <description>fun &amp; sun</description>
-    <pubDate>Sun, 10 May 2015 02:00:00 +0200</pubDate>
+    <pubDate>Fri, 19 Jun 2015 02:00:00 +0200</pubDate>
     <generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator>
     <language>en</language>
+    <item>
+      <title>DevOps and Security</title>
+      <link>http://lollyrock.com/articles/devops-security/</link>
+      <pubDate>Fri, 19 Jun 2015 02:00:00 +0200</pubDate>
+      <guid isPermaLink="true">http://lollyrock.com/articles/devops-security/</guid>
+      <author></author>
+      <description>&lt;p&gt;To ensure the security of your IT services, different disciplines need to come together. Development, operations and security departments need to work hand in hand in order to ship a secure product. Every department has its core competencies and it is a challenge to create a common view on the security implementation for a product.&lt;/p&gt;
+&lt;h2 id=&quot;the-challenge&quot;&gt;The challenge&lt;/h2&gt;
+&lt;p&gt;The separation of knowledge between departments has its advantages but comes with some disadvantages. Quite often, the separation leads to an environment where different departments have different goals:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;dev teams are under pressure to ship the product&lt;/li&gt;
+&lt;li&gt;ops teams need to ensure everything runs smoothly&lt;/li&gt;
+&lt;li&gt;security teams have to ensure that the new product is secure&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Since extensive technical know-how is required to ship a product (and even more is required to ship a successful product), every party needs to understand and breath the whole product delivery process and every aspect of the implementation need to be well known. On top of that, each department has to deal with different artifacts:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;source code (developers)&lt;/li&gt;
+&lt;li&gt;packages &amp;amp; runtime (ops)&lt;/li&gt;
+&lt;li&gt;regularities, pen-tests (security)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In a static world, this would not be an issue, but since the velocity of technology increases, the shipment of each artifacts need to synchronized in order to ship a product in time. The question is, how departments are able deliver a product together by focusing on their core competency?&lt;/p&gt;
+&lt;h2 id=&quot;find-the-same-language&quot;&gt;Find the same language&lt;/h2&gt;
+&lt;p&gt;About two years ago, we faced the challenge mentioned above and it got us thinking? From our perspective, the current delivery process was broken. Would there be a better approach? Could we use new technologies to speed up the development and time-to-market, as well as help departments to work more effectively together?&lt;/p&gt;
+&lt;p&gt;We identified a few patterns:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Security teams need a way to describe their rules without the need of extensive programming skills&lt;/li&gt;
+&lt;li&gt;Developers need an automated way to deal with security configuration&lt;/li&gt;
+&lt;li&gt;Operations need a deterministic and manageable software&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In a small team of four (&lt;a href=&quot;http://arlimus.github.io/&quot;&gt;Dominik&lt;/a&gt;, Patrick, &lt;a href=&quot;http://ehaselwanter.com/&quot;&gt;Edmund&lt;/a&gt; and I) worked in an interdisciplinary team with know-how in each area for product delivery and security. We started prototyping, developing, deploying. Eventually, we created a project called &lt;a href=&quot;http://hardening.io/&quot;&gt;Hardening Framework&lt;/a&gt; with Deutsche Telekom. What is special about the Hardening Framework?&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Security configuration is documented as code which is great for developers, because they are able to focus on product implementation&lt;/li&gt;
+&lt;li&gt;Instead of abstract regularities, we used Serverspec to define tests. This allowed use the tests as a verification mechanism&lt;/li&gt;
+&lt;li&gt;All security requirements are automated via a configuration management tool&lt;/li&gt;
+&lt;li&gt;The implementation is completely deterministic which is essential for operations&lt;/li&gt;
+&lt;li&gt;Security is implemented by design&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In practice, we developed the security test rules first (like):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/hardening-io/tests-os-hardening&quot;&gt;https://github.com/hardening-io/tests-os-hardening&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;From now on, security teams started developing tests instead of static documents, because those can be re-used across the whole company. E.g. those can be integrated in CI environments or used on local test machines. &lt;/p&gt;
+&lt;p&gt;Next, development and operations needed an implementation that automatically remedies failed tests. We implemented the security configuration in Chef, Puppet and Ansible:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/hardening-io/chef-os-hardening&quot;&gt;https://github.com/hardening-io/chef-os-hardening&lt;/a&gt; &lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/hardening-io/puppet-os-hardening&quot;&gt;https://github.com/hardening-io/puppet-os-hardening&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/hardening-io/ansible-os-hardening&quot;&gt;https://github.com/hardening-io/ansible-os-hardening&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;All implementations of the os-hardening module use the same tests. By writing all security requirements as tests rules, we are able to automate tests and increase the velocity of the product delivery. Think of a manufacturing line that has security built-in.&lt;/p&gt;
+&lt;h2 id=&quot;take-away&quot;&gt;Take-Away&lt;/h2&gt;
+&lt;p&gt;It is essential to address the need of each department to ship a successful product. DevOps tools help companies to align development and operations teams. By defining the common set as regulatory rules, all departments find a way to collaborate more efficiently together and are able integrate security tests into the normal product development workflow.&lt;/p&gt;
+&lt;p&gt;If you have any questions contact me via &lt;a href=&quot;https://twitter.com/chri_hartmann&quot;&gt;Twitter @chri_hartmann&lt;/a&gt; or &lt;a href=&quot;https://github.com/chris-rock&quot;&gt;Github&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://vulcanosec.com/&quot;&gt;Vulcano Security&lt;/a&gt; provides support for security automation, compliance scanning and patch management.&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>Try Kubernetes with Vagrant</title>
+      <link>http://lollyrock.com/articles/kubernetes-vagrant/</link>
+      <pubDate>Mon, 01 Jun 2015 02:00:00 +0200</pubDate>
+      <guid isPermaLink="true">http://lollyrock.com/articles/kubernetes-vagrant/</guid>
+      <author></author>
+      <description>&lt;p&gt;To get familiar with kubernetes, it is always good to start with an example. This blog post will setup nginx running on kubernetes.&lt;/p&gt;
+&lt;h2 id=&quot;prerequisites-aka-setup-the-cluster&quot;&gt;Prerequisites aka setup the cluster&lt;/h2&gt;
+&lt;p&gt;Before we are able to start, we need to download kubernetes and install the command line. To prepare the setup:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;install &lt;a href=&quot;http://www.vagrantup.com/downloads.html&quot;&gt;Vagrant&lt;/a&gt; (&amp;gt;1.6.2)&lt;/li&gt;
+&lt;li&gt;install &lt;a href=&quot;https://www.virtualbox.org/wiki/Downloads&quot;&gt;VirtualBox&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Then clone the git repository and set the provider for kubernetes setup scripts &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;git clone https://github.com/GoogleCloudPlatform/kubernetes.git
+&lt;span class=&quot;keyword&quot;&gt;export&lt;/span&gt; KUBERNETES_PROVIDER=vagrant
+&lt;span class=&quot;built_in&quot;&gt;cd&lt;/span&gt; kubernetes
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now, we are ready to start the Vagrant cluster. With &lt;code&gt;kube-up.sh&lt;/code&gt; vagrant will provision each machine in the cluster. All necessary components to run kubernetes are installed automatically. By default, each VM is running Fedora as base OS.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;$ ./cluster/kube-up.sh
+Starting cluster using provider: vagrant
+... calling verify-prereqs
+... calling kube-up
+
+...
+
+Wrote config &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; vagrant to /Users/chris/.kube/config
+Each machine instance has been created/updated.
+  Now waiting &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; the Salt provisioning process to complete on each machine.
+  This can take some time based on your network, disk, and cpu speed.
+  It is possible &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; an error to occur during Salt provision of cluster and this could loop forever.
+Validating master
+Validating minion-&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;
+.....
+Waiting &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; each minion to be registered with cloud provider
+
+...
+
+Kubernetes cluster is running.  The master is running at:
+
+  https://&lt;span class=&quot;number&quot;&gt;10.245&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;1.2&lt;/span&gt;
+
+The user name and password to use is located &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; ~/.kubernetes_vagrant_auth.
+
+... calling validate-cluster
+Found &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt; nodes.
+     &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;  NAME         LABELS    STATUS
+     &lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;  &lt;span class=&quot;number&quot;&gt;10.245&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;1.3&lt;/span&gt;   &amp;lt;none&amp;gt;    Ready
+Validate output:
+NAME                 STATUS    MESSAGE   ERROR
+controller-manager   Healthy   ok        nil
+scheduler            Healthy   ok        nil
+etcd-&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;               Healthy   {&lt;span class=&quot;string&quot;&gt;&quot;action&quot;&lt;/span&gt;:&lt;span class=&quot;string&quot;&gt;&quot;get&quot;&lt;/span&gt;,&lt;span class=&quot;string&quot;&gt;&quot;node&quot;&lt;/span&gt;:{&lt;span class=&quot;string&quot;&gt;&quot;dir&quot;&lt;/span&gt;:&lt;span class=&quot;literal&quot;&gt;true&lt;/span&gt;,&lt;span class=&quot;string&quot;&gt;&quot;nodes&quot;&lt;/span&gt;:[{&lt;span class=&quot;string&quot;&gt;&quot;key&quot;&lt;/span&gt;:&lt;span class=&quot;string&quot;&gt;&quot;/registry&quot;&lt;/span&gt;,&lt;span class=&quot;string&quot;&gt;&quot;dir&quot;&lt;/span&gt;:&lt;span class=&quot;literal&quot;&gt;true&lt;/span&gt;,&lt;span class=&quot;string&quot;&gt;&quot;modifiedIndex&quot;&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;3&lt;/span&gt;,&lt;span class=&quot;string&quot;&gt;&quot;createdIndex&quot;&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;3&lt;/span&gt;}]}}
+                     nil
+Cluster validation succeeded
+Done, listing cluster services:
+
+Kubernetes master is running at https://&lt;span class=&quot;number&quot;&gt;10.245&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;1.2&lt;/span&gt;
+kube-dns is running at https://&lt;span class=&quot;number&quot;&gt;10.245&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;1.2&lt;/span&gt;/api/v1beta3/proxy/namespaces/default/services/kube-dns
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Verify that kubernetes is running:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;$ curl --user vagrant:vagrant --insecure https://&lt;span class=&quot;number&quot;&gt;10.245&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;1.2&lt;/span&gt;/ 
+{
+  &lt;span class=&quot;string&quot;&gt;&quot;paths&quot;&lt;/span&gt;: [
+    &lt;span class=&quot;string&quot;&gt;&quot;/api&quot;&lt;/span&gt;,
+    &lt;span class=&quot;string&quot;&gt;&quot;/api/v1beta1&quot;&lt;/span&gt;,
+    &lt;span class=&quot;string&quot;&gt;&quot;/api/v1beta2&quot;&lt;/span&gt;,
+    &lt;span class=&quot;string&quot;&gt;&quot;/api/v1beta3&quot;&lt;/span&gt;,
+    &lt;span class=&quot;string&quot;&gt;&quot;/healthz&quot;&lt;/span&gt;,
+    &lt;span class=&quot;string&quot;&gt;&quot;/healthz/ping&quot;&lt;/span&gt;,
+    &lt;span class=&quot;string&quot;&gt;&quot;/logs/&quot;&lt;/span&gt;,
+    &lt;span class=&quot;string&quot;&gt;&quot;/metrics&quot;&lt;/span&gt;,
+    &lt;span class=&quot;string&quot;&gt;&quot;/static/&quot;&lt;/span&gt;,
+    &lt;span class=&quot;string&quot;&gt;&quot;/swagger-ui/&quot;&lt;/span&gt;,
+    &lt;span class=&quot;string&quot;&gt;&quot;/swaggerapi/&quot;&lt;/span&gt;,
+    &lt;span class=&quot;string&quot;&gt;&quot;/validate&quot;&lt;/span&gt;,
+    &lt;span class=&quot;string&quot;&gt;&quot;/version&quot;&lt;/span&gt;
+  ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You could also be able to ssh into master and minion:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;$ vagrant ssh master
+$ vagrant ssh minion-&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Further details are available at &lt;a href=&quot;https://github.com/GoogleCloudPlatform/kubernetes/blob/master/docs/getting-started-guides/vagrant.md&quot;&gt;Kubernetes Vagrant Documentation&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;do-some-magic-with-kubernetes-cli&quot;&gt;Do some magic with Kubernetes CLI&lt;/h2&gt;
+&lt;p&gt;You could use the &lt;code&gt;cluster/kubectl.sh&lt;/code&gt;, but I find it much easier to install the &lt;code&gt;kubectl&lt;/code&gt; binary. This can be easily done via:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# use mac binary&lt;/span&gt;
+$ wget https://storage.googleapis.com/kubernetes-release/release/v0.&lt;span class=&quot;number&quot;&gt;17.0&lt;/span&gt;/bin/darwin/amd64/kubectl -O /usr/local/bin/kubectl
+$ chmod +x /usr/local/bin/kubectl
+$ kubectl version
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now, we have the &lt;code&gt;kubectl&lt;/code&gt; command ready for use.&lt;/p&gt;
+&lt;h2 id=&quot;start-nginx-cluster-without-pod-definition&quot;&gt;Start Nginx cluster without pod definition&lt;/h2&gt;
+&lt;p&gt;This first example uses the docker nginx image and runs it as a cluster. It uses a replica of 3 during bootstrap. Afterwards we change the replica to 2 containers. Finally we destroy all running containers.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# Create new nginx cluster&lt;/span&gt;
+$ kubectl run-container webserver --image=nginx --replicas=&lt;span class=&quot;number&quot;&gt;3&lt;/span&gt; --port=&lt;span class=&quot;number&quot;&gt;80&lt;/span&gt;
+CONTROLLER   CONTAINER(S)   IMAGE(S)   SELECTOR                  REPLICAS
+webserver    webserver      nginx      run-container=webserver   &lt;span class=&quot;number&quot;&gt;3&lt;/span&gt;
+
+&lt;span class=&quot;comment&quot;&gt;# Show all running pods&lt;/span&gt;
+$ kubectl get pods &lt;span class=&quot;operator&quot;&gt;-l&lt;/span&gt; run-container=webserver
+POD               IP            CONTAINER(S)   IMAGE(S)   HOST                    LABELS                    STATUS    CREATED      MESSAGE
+webserver-&lt;span class=&quot;number&quot;&gt;6&lt;/span&gt;de4a   &lt;span class=&quot;number&quot;&gt;10.246&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;1.17&lt;/span&gt;                             &lt;span class=&quot;number&quot;&gt;10.245&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;1.3&lt;/span&gt;/&lt;span class=&quot;number&quot;&gt;10.245&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;1.3&lt;/span&gt;   run-container=webserver   Running   &lt;span class=&quot;number&quot;&gt;27&lt;/span&gt; seconds   
+                                webserver      nginx                                                        Running   &lt;span class=&quot;number&quot;&gt;25&lt;/span&gt; seconds   
+webserver-koxmk   &lt;span class=&quot;number&quot;&gt;10.246&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;1.19&lt;/span&gt;                             &lt;span class=&quot;number&quot;&gt;10.245&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;1.3&lt;/span&gt;/&lt;span class=&quot;number&quot;&gt;10.245&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;1.3&lt;/span&gt;   run-container=webserver   Running   &lt;span class=&quot;number&quot;&gt;27&lt;/span&gt; seconds   
+                                webserver      nginx                                                        Running   &lt;span class=&quot;number&quot;&gt;24&lt;/span&gt; seconds   
+webserver&lt;span class=&quot;operator&quot;&gt;-lt&lt;/span&gt;0e9   &lt;span class=&quot;number&quot;&gt;10.246&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;1.18&lt;/span&gt;                             &lt;span class=&quot;number&quot;&gt;10.245&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;1.3&lt;/span&gt;/&lt;span class=&quot;number&quot;&gt;10.245&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;1.3&lt;/span&gt;   run-container=webserver   Running   &lt;span class=&quot;number&quot;&gt;27&lt;/span&gt; seconds   
+                                webserver      nginx                                                        Running   &lt;span class=&quot;number&quot;&gt;24&lt;/span&gt; seconds   
+
+$ kubectl get replicationControllers &lt;span class=&quot;operator&quot;&gt;-l&lt;/span&gt; run-container=webserver
+CONTROLLER   CONTAINER(S)   IMAGE(S)   SELECTOR                  REPLICAS
+webserver    webserver      nginx      run-container=webserver   &lt;span class=&quot;number&quot;&gt;3&lt;/span&gt;
+
+&lt;span class=&quot;comment&quot;&gt;# Resize the replica:&lt;/span&gt;
+$ kubectl resize rc webserver --replicas=&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;
+resized
+
+$ kubectl get replicationControllers &lt;span class=&quot;operator&quot;&gt;-l&lt;/span&gt; run-container=webserver
+CONTROLLER   CONTAINER(S)   IMAGE(S)   SELECTOR                  REPLICAS
+webserver    webserver      nginx      run-container=webserver   &lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;
+
+&lt;span class=&quot;comment&quot;&gt;# Show all kube nodes, previously `kubectl get minions`&lt;/span&gt;
+$ kubectl get nodes
+NAME         LABELS    STATUS
+&lt;span class=&quot;number&quot;&gt;10.245&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;1.3&lt;/span&gt;   &amp;lt;none&amp;gt;    Ready
+
+&lt;span class=&quot;comment&quot;&gt;# Delete running nginx pod with all replicas and services&lt;/span&gt;
+$ kubectl stop pods,services &lt;span class=&quot;operator&quot;&gt;-l&lt;/span&gt; run-container=webserver
+$ kubectl delete pods,services &lt;span class=&quot;operator&quot;&gt;-l&lt;/span&gt; run-container=webserver
+$ kubectl resize rc webserver --replicas=&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;
+pods/webserver-&lt;span class=&quot;number&quot;&gt;6&lt;/span&gt;de4a
+pods/webserver-koxmk
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;start-nginx-cluster-with-pods-definition&quot;&gt;Start Nginx cluster with pods definition&lt;/h2&gt;
+&lt;p&gt;We define a pod definition &lt;code&gt;01-nginx.yaml&lt;/code&gt; to get nginx up and running. The meta data describes the name and labels of the container. This is required to define selectors for replicas, as we use it later. The &lt;code&gt;containers&lt;/code&gt; define the used docker image. Create the following file:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-yaml&quot;&gt;# 01-nginx.yaml
+apiVersion: v1beta3
+kind: Pod
+metadata:
+  name: www
+  labels: 
+    name: www-nginx
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+      ports:
+        - containerPort: 80
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Load the pod into kubernetes.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# Start nginx pod/container&lt;/span&gt;
+$ kubectl create &lt;span class=&quot;operator&quot;&gt;-f&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;01&lt;/span&gt;-nginx.yaml 
+pods/www
+
+&lt;span class=&quot;comment&quot;&gt;# Check that nginx is running&lt;/span&gt;
+$ kubectl get pods &lt;span class=&quot;operator&quot;&gt;-l&lt;/span&gt; name=www-nginx
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now, we adapt the replica by creating a new &lt;code&gt;ReplicationController&lt;/code&gt; definition:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-yaml&quot;&gt;# 01-nginx-replica.yaml
+apiVersion: v1beta3
+kind: ReplicationController
+metadata:
+  name: nginx-controller
+spec:
+  replicas: 2
+  # selector identifies the set of Pods that this
+  # replication controller is responsible for managing
+  selector:
+    name: www-nginx
+  # podTemplate defines the &amp;#39;cookie cutter&amp;#39; used for creating
+  # new pods when necessary
+  template:
+    metadata:
+      name: www
+      labels:
+        # Important: these labels need to match the selector above
+        # The api server enforces this constraint.
+        name: www-nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          ports:
+            - containerPort: 80
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Load the new definition into kubernetes:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# Increase replica of the current nginx instances&lt;/span&gt;
+$ kubectl create &lt;span class=&quot;operator&quot;&gt;-f&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;01&lt;/span&gt;-nginx-replica.yaml
+replicationcontrollers/nginx-controller
+
+&lt;span class=&quot;comment&quot;&gt;# Check the replica&lt;/span&gt;
+$ kubectl get replicationControllers &lt;span class=&quot;operator&quot;&gt;-l&lt;/span&gt; name=www-nginx         
+CONTROLLER         CONTAINER(S)   IMAGE(S)   SELECTOR         REPLICAS
+nginx-controller   nginx          nginx      name=www-nginx   &lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;
+
+&lt;span class=&quot;comment&quot;&gt;# Verify the connection to the pods&lt;/span&gt;
+$ kubectl get pods &lt;span class=&quot;operator&quot;&gt;-l&lt;/span&gt; name=www-nginx                                                                                ✘&lt;span class=&quot;number&quot;&gt;130&lt;/span&gt; 
+POD                      IP            CONTAINER(S)   IMAGE(S)   HOST                    LABELS           STATUS    CREATED      MESSAGE
+nginx-controller-lfeo7   &lt;span class=&quot;number&quot;&gt;10.246&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;1.15&lt;/span&gt;                             &lt;span class=&quot;number&quot;&gt;10.245&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;1.3&lt;/span&gt;/&lt;span class=&quot;number&quot;&gt;10.245&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;1.3&lt;/span&gt;   name=www-nginx   Running   &lt;span class=&quot;number&quot;&gt;21&lt;/span&gt; minutes   
+                                       nginx          nginx                                               Running   &lt;span class=&quot;number&quot;&gt;21&lt;/span&gt; minutes   
+www                      &lt;span class=&quot;number&quot;&gt;10.246&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;1.11&lt;/span&gt;                             &lt;span class=&quot;number&quot;&gt;10.245&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;1.3&lt;/span&gt;/&lt;span class=&quot;number&quot;&gt;10.245&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;1.3&lt;/span&gt;   name=www-nginx   Running   &lt;span class=&quot;number&quot;&gt;28&lt;/span&gt; minutes   
+                                       nginx          nginx
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You could easily verify that multiple nginx instances are running:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;$ vagrant ssh minion-&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;
+[vagrant@kubernetes-minion-&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt; ~]$ curl http://&lt;span class=&quot;number&quot;&gt;10.246&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;1.15&lt;/span&gt;
+[vagrant@kubernetes-minion-&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt; ~]$ curl http://&lt;span class=&quot;number&quot;&gt;10.246&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;1.11&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The different containers are not useful by itself. We would like to abstract all instances by a service. Create and load the service definition into kubernetes.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-yaml&quot;&gt;# 01-nginx-service.yaml
+apiVersion: v1beta3
+kind: Service
+metadata:
+  name: nginx-endpoint
+  labels: 
+    name: www-nginx
+spec:
+  ports:
+    - port: 8000 # the port that this service should serve on
+      # the container on each pod to connect to, can be a name
+      # (e.g. &amp;#39;www&amp;#39;) or a number (e.g. 80)
+      targetPort: 80
+      protocol: TCP
+  # public ip of minion, only required for vagrant
+  # just like the selector in the replication controller,
+  # but this time it identifies the set of pods to load balance
+  # traffic to.
+  selector:
+    name: nginx
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# Add public endpoint&lt;/span&gt;
+$ kubectl create &lt;span class=&quot;operator&quot;&gt;-f&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;01&lt;/span&gt;-nginx-service.yaml
+services/nginx-endpoint
+
+&lt;span class=&quot;comment&quot;&gt;# Show all running endpoints&lt;/span&gt;
+$ kubectl get services &lt;span class=&quot;operator&quot;&gt;-l&lt;/span&gt; name=www-nginx 
+NAME             LABELS           SELECTOR     IP(S)           PORT(S)
+nginx-endpoint   name=www-nginx   name=nginx   &lt;span class=&quot;number&quot;&gt;10.247&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;212.62&lt;/span&gt;   &lt;span class=&quot;number&quot;&gt;8000&lt;/span&gt;/TCP
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now we set up a HTTP Health Checks that will restart a the nginx container in case the application crashes.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-yaml&quot;&gt;apiVersion: v1beta3
+kind: Pod
+metadata:
+  name: nginx-healthcheck
+  labels: 
+    name: www-nginx
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+      # defines the health checking
+      livenessProbe:
+        # an http probe
+        httpGet:
+          path: /_status/healthz
+          port: 80
+        # length of time to wait for a pod to initialize
+        # after pod startup, before applying health checking
+        initialDelaySeconds: 30
+        timeoutSeconds: 1
+      ports:
+        - containerPort: 80
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Add the health check to your cluster&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# add a health check&lt;/span&gt;
+kubectl create &lt;span class=&quot;operator&quot;&gt;-f&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;01&lt;/span&gt;-nginx-health-check.yaml
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Everything is setup properly. To destory the cluster, delete all definitions from kubernetes:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# Delete all added parts
+$ kubectl delete -f 01-nginx-service.yaml 
+$ kubectl delete -f 01-nginx.yaml
+$ kubectl delete -f 01-nginx-health-check.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Have fun with containers!&lt;/p&gt;
+&lt;p&gt;If you have any questions contact me via &lt;a href=&quot;https://twitter.com/chri_hartmann&quot;&gt;Twitter @chri_hartmann&lt;/a&gt; or &lt;a href=&quot;https://github.com/chris-rock&quot;&gt;Github&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
     <item>
       <title>Install Windows IoT on Raspberry Pi 2</title>
       <link>http://lollyrock.com/articles/windows-iot-raspberry/</link>
