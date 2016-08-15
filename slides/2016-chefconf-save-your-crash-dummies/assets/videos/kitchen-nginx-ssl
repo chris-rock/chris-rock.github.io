@@ -1,0 +1,1734 @@
+{
+  "version": 1,
+  "width": 78,
+  "height": 26,
+  "duration": 39.410282,
+  "command": "/bin/zsh",
+  "title": "",
+  "env": {
+    "TERM": "xterm-256color",
+    "SHELL": "/bin/zsh"
+  },
+  "stdout": [
+    [
+      0.078469,
+      "\u001b]7;file://remchartmann01/Users/chartmann/Development/ChefConf/demos/04-ssl-remediation\u0007"
+    ],
+    [
+      0.186650,
+      "\r\nWarning: PATH set to RVM ruby but GEM_HOME and/or GEM_PATH not set, see:\r\n    https://github.com/rvm/rvm/issues/3212\r\n\r\n"
+    ],
+    [
+      0.024284,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                             \r \r"
+    ],
+    [
+      0.000051,
+      "\u001b]2;chartmann@remchartmann01\u0007"
+    ],
+    [
+      0.000016,
+      "\u001b]1;..l-remediation\u0007"
+    ],
+    [
+      0.003437,
+      "\u001b]7;file://remchartmann01/Users/chartmann/Development/ChefConf/demos/04-ssl-remediation\u0007"
+    ],
+    [
+      0.019671,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[01;32m➜  \u001b[36m04-ssl-remediation\u001b[00m "
+    ],
+    [
+      0.000005,
+      "\u001b[K"
+    ],
+    [
+      0.000075,
+      "\u001b[?1h\u001b="
+    ],
+    [
+      0.086061,
+      "c"
+    ],
+    [
+      0.000098,
+      "\u0008ch"
+    ],
+    [
+      0.000129,
+      "e"
+    ],
+    [
+      0.000072,
+      "f"
+    ],
+    [
+      0.000123,
+      " "
+    ],
+    [
+      0.000060,
+      "e"
+    ],
+    [
+      0.000055,
+      "x"
+    ],
+    [
+      0.000059,
+      "e"
+    ],
+    [
+      0.000043,
+      "c"
+    ],
+    [
+      0.000012,
+      " "
+    ],
+    [
+      0.000059,
+      "k"
+    ],
+    [
+      0.000045,
+      "i"
+    ],
+    [
+      0.000050,
+      "t"
+    ],
+    [
+      0.000054,
+      "c"
+    ],
+    [
+      0.000055,
+      "h"
+    ],
+    [
+      0.000045,
+      "e"
+    ],
+    [
+      0.000048,
+      "n"
+    ],
+    [
+      0.000013,
+      " "
+    ],
+    [
+      0.000142,
+      "l"
+    ],
+    [
+      0.000068,
+      "i"
+    ],
+    [
+      0.000070,
+      "s"
+    ],
+    [
+      0.000108,
+      "t"
+    ],
+    [
+      1.219597,
+      "\u001b[?1l\u001b\u003e"
+    ],
+    [
+      0.000054,
+      "\r\r\n"
+    ],
+    [
+      0.001086,
+      "\u001b]2;chef exec kitchen list\u0007\u001b]1;chef\u0007"
+    ],
+    [
+      3.250739,
+      "\u001b[32mInstance\u001b[0m                 \u001b[32mDriver\u001b[0m   \u001b[32mProvisioner\u001b[0m  \u001b[32mVerifier\u001b[0m  \u001b[32mTransport\u001b[0m  \u001b[32mLast Action\u001b[0m\r\ndefault-ubuntu-trusty64\u001b[37m\u001b[0m  Vagrant\u001b[37m\u001b[0m  ChefSolo\u001b[37m\u001b[0m     Inspec\u001b[37m\u001b[0m    Ssh\u001b[37m\u001b[0m        \u001b[36mCreated\u001b[0m\r\n"
+    ],
+    [
+      0.041969,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                             \r \r"
+    ],
+    [
+      0.000073,
+      "\u001b]2;chartmann@remchartmann01\u0007"
+    ],
+    [
+      0.000026,
+      "\u001b]1;..l-remediation\u0007"
+    ],
+    [
+      0.002239,
+      "\u001b]7;file://remchartmann01/Users/chartmann/Development/ChefConf/demos/04-ssl-remediation\u0007"
+    ],
+    [
+      0.014905,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[01;32m➜  \u001b[36m04-ssl-remediation\u001b[00m \u001b[K"
+    ],
+    [
+      0.000125,
+      "\u001b[?1h\u001b="
+    ],
+    [
+      0.754356,
+      "c"
+    ],
+    [
+      0.000041,
+      "\u0008ch"
+    ],
+    [
+      0.000060,
+      "e"
+    ],
+    [
+      0.000050,
+      "f"
+    ],
+    [
+      0.000024,
+      " "
+    ],
+    [
+      0.000055,
+      "e"
+    ],
+    [
+      0.000048,
+      "x"
+    ],
+    [
+      0.000062,
+      "e"
+    ],
+    [
+      0.000046,
+      "c "
+    ],
+    [
+      0.000040,
+      "k"
+    ],
+    [
+      0.000040,
+      "i"
+    ],
+    [
+      0.000039,
+      "t"
+    ],
+    [
+      0.000039,
+      "c"
+    ],
+    [
+      0.000039,
+      "h"
+    ],
+    [
+      0.000040,
+      "e"
+    ],
+    [
+      0.000038,
+      "n"
+    ],
+    [
+      0.000010,
+      " "
+    ],
+    [
+      0.000042,
+      "c"
+    ],
+    [
+      0.000043,
+      "o"
+    ],
+    [
+      0.000040,
+      "n"
+    ],
+    [
+      0.000039,
+      "v"
+    ],
+    [
+      0.000040,
+      "e"
+    ],
+    [
+      0.000039,
+      "r"
+    ],
+    [
+      0.000050,
+      "g"
+    ],
+    [
+      0.000040,
+      "e"
+    ],
+    [
+      0.000018,
+      " "
+    ],
+    [
+      0.000052,
+      "d"
+    ],
+    [
+      0.000024,
+      "e"
+    ],
+    [
+      0.000039,
+      "f"
+    ],
+    [
+      0.000039,
+      "a"
+    ],
+    [
+      0.000040,
+      "u"
+    ],
+    [
+      0.000040,
+      "l"
+    ],
+    [
+      0.000040,
+      "t"
+    ],
+    [
+      0.000039,
+      "-"
+    ],
+    [
+      0.000040,
+      "u"
+    ],
+    [
+      0.000039,
+      "b"
+    ],
+    [
+      0.000040,
+      "u"
+    ],
+    [
+      0.000039,
+      "n"
+    ],
+    [
+      0.000040,
+      "t"
+    ],
+    [
+      0.000054,
+      "u"
+    ],
+    [
+      0.000041,
+      "-"
+    ],
+    [
+      0.000034,
+      "t"
+    ],
+    [
+      0.000035,
+      "r"
+    ],
+    [
+      0.000036,
+      "u"
+    ],
+    [
+      0.000041,
+      "s"
+    ],
+    [
+      0.000031,
+      "t"
+    ],
+    [
+      0.000034,
+      "y"
+    ],
+    [
+      0.000035,
+      "6"
+    ],
+    [
+      0.000035,
+      "4"
+    ],
+    [
+      0.836655,
+      "\u001b[?1l\u001b\u003e"
+    ],
+    [
+      0.000032,
+      "\r\r\n"
+    ],
+    [
+      0.001041,
+      "\u001b]2;chef exec kitchen converge default-ubuntu-trusty64\u0007\u001b]1;chef\u0007"
+    ],
+    [
+      0.679609,
+      "-----\u003e Starting Kitchen (v1.10.0)\r\n"
+    ],
+    [
+      1.969553,
+      "\u001b[36m-----\u003e Converging \u003cdefault-ubuntu-trusty64\u003e...\u001b[0m\r\n"
+    ],
+    [
+      0.000367,
+      "\u001b[36m       Preparing files for transfer\u001b[0m\r\n"
+    ],
+    [
+      0.000090,
+      "\u001b[36m       Preparing dna.json\u001b[0m\r\n"
+    ],
+    [
+      0.000414,
+      "\u001b[36m       Resolving cookbook dependencies with Berkshelf 4.3.5...\u001b[0m\r\n"
+    ],
+    [
+      1.158008,
+      "\u001b[36m       Removing non-cookbook files before transfer\u001b[0m\r\n"
+    ],
+    [
+      0.033767,
+      "\u001b[36m       Preparing roles\u001b[0m\r\n"
+    ],
+    [
+      0.000752,
+      "\u001b[36m       Preparing solo.rb\u001b[0m\r\n"
+    ],
+    [
+      0.056031,
+      "\u001b[36m-----\u003e Chef Omnibus installation detected (install only if missing)\u001b[0m\r\n"
+    ],
+    [
+      0.020346,
+      "\u001b[36m       Transferring files to \u003cdefault-ubuntu-trusty64\u003e\u001b[0m\r\n"
+    ],
+    [
+      2.128546,
+      "\u001b[36m       Starting Chef Client, version 12.12.15\u001b[0m\r\n"
+    ],
+    [
+      1.326509,
+      "\u001b[36m       resolving cookbooks for run list: [\"apt\", \"os-hardening\", \"ssh-hardening\", \"nginx\", \"nginx-ssl-app\", \"nginx-hardening\"]\u001b[0m\r\n"
+    ],
+    [
+      2.964038,
+      "\u001b[36m       Synchronizing Cookbooks:\u001b[0m\r\n"
+    ],
+    [
+      0.006627,
+      "\u001b[36m         - ssh-hardening (1.2.0)\u001b[0m\r\n"
+    ],
+    [
+      0.005618,
+      "\u001b[36m         - nginx-ssl-app (1.0.0)\u001b[0m\r\n"
+    ],
+    [
+      0.000439,
+      "\u001b[36m         - apt (2.9.2)\u001b[0m\r\n"
+    ],
+    [
+      0.002110,
+      "\u001b[36m         - sysctl (0.7.0)\u001b[0m\r\n"
+    ],
+    [
+      0.002557,
+      "\u001b[36m         - bluepill (2.4.3)\u001b[0m\r\n"
+    ],
+    [
+      0.002344,
+      "\u001b[36m         - ohai (2.1.0)\u001b[0m\r\n"
+    ],
+    [
+      0.001887,
+      "\u001b[36m         - runit (1.7.8)\u001b[0m\r\n"
+    ],
+    [
+      0.001449,
+      "\u001b[36m         - os-hardening (2.0.0-beta)\u001b[0m\r\n"
+    ],
+    [
+      0.001222,
+      "\u001b[36m         - letsencrypt (1.0.1)\u001b[0m\r\n"
+    ],
+    [
+      0.000881,
+      "\u001b[36m         - chef_hostname (0.4.1)\u001b[0m\r\n"
+    ],
+    [
+      0.003119,
+      "\u001b[36m         - 7-zip (1.0.2)\u001b[0m\r\n"
+    ],
+    [
+      0.002620,
+      "\u001b[36m         - nginx-hardening (1.0.0)\u001b[0m\r\n"
+    ],
+    [
+      0.006881,
+      "\u001b[36m         - build-essential (2.4.0)\u001b[0m\r\n"
+    ],
+    [
+      0.002707,
+      "\u001b[36m         - chef-sugar (3.3.0)\u001b[0m\r\n"
+    ],
+    [
+      0.000573,
+      "\u001b[36m         - yum (3.11.0)\u001b[0m\r\n"
+    ],
+    [
+      0.007862,
+      "\u001b[36m         - yum-epel (0.7.0)\u001b[0m\r\n"
+    ],
+    [
+      0.003001,
+      "\u001b[36m         - chef_handler (1.4.0)\u001b[0m\r\n"
+    ],
+    [
+      0.000376,
+      "\u001b[36m         - rsyslog (4.0.0)\u001b[0m\r\n"
+    ],
+    [
+      0.000508,
+      "\u001b[36m         - nginx (2.7.6)\u001b[0m\r\n"
+    ],
+    [
+      0.000387,
+      "\u001b[36m         - openssl (4.4.0)\u001b[0m\r\n"
+    ],
+    [
+      0.000545,
+      "\u001b[36m         - packagecloud (0.2.4)\u001b[0m\r\n"
+    ],
+    [
+      0.000443,
+      "\u001b[36m         - compat_resource (12.10.6)\u001b[0m\r\n"
+    ],
+    [
+      0.000539,
+      "\u001b[36m         - windows (1.44.1)\u001b[0m\r\n"
+    ],
+    [
+      0.001070,
+      "\u001b[36m       Installing Cookbook Gems:\u001b[0m\r\n"
+    ],
+    [
+      0.000893,
+      "\u001b[36m       Compiling Cookbooks...\u001b[0m\r\n"
+    ],
+    [
+      0.280513,
+      "\u001b[36m       [2016-07-11T16:42:50+00:00] WARN: Chef::Provider::AptRepository already exists!  Cannot create deprecation class for LWRP provider apt_repository from cookbook apt\u001b[0m\r\n"
+    ],
+    [
+      0.005267,
+      "\u001b[36m       [2016-07-11T16:42:50+00:00] WARN: AptRepository already exists!  Deprecation class overwrites Custom resource apt_repository from cookbook apt\u001b[0m\r\n"
+    ],
+    [
+      0.201560,
+      "\u001b[36m       [2016-07-11T16:42:50+00:00] WARN: There are no providing packages for virtual package inetd.\u001b[0m\r\n"
+    ],
+    [
+      0.102363,
+      "\u001b[36m       [2016-07-11T16:42:51+00:00] WARN: There are no providing packages for virtual package ypserv.\u001b[0m\r\n"
+    ],
+    [
+      0.160736,
+      "\u001b[36m       Recipe: ohai::default\u001b[0m\r\n"
+    ],
+    [
+      0.003176,
+      "\u001b[36m         * remote_directory[/etc/chef/ohai_plugins for cookbook ohai] action create\u001b[0m\r\n"
+    ],
+    [
+      0.000266,
+      "\u001b[36m         Recipe: \u003cDynamically Defined Resource\u003e\u001b[0m\r\n"
+    ],
+    [
+      0.003217,
+      "\u001b[36m           * cookbook_file[/etc/chef/ohai_plugins/README] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000544,
+      "\u001b[36m            (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000699,
+      "\u001b[36m       Recipe: ohai::default\u001b[0m\r\n"
+    ],
+    [
+      0.001095,
+      "\u001b[36m         * ohai[custom_plugins] action reload[2016-07-11T16:42:51+00:00] WARN: Ohai::Config[:plugin_path] is set. Ohai::Config[:plugin_path] is deprecated and will be removed in future releases of ohai. Use ohai.plugin_path in your configuration file to configure :plugin_path for ohai.\u001b[0m\r\n"
+    ],
+    [
+      0.001021,
+      "\u001b[36m       [2016-07-11T16:42:51+00:00] WARN: Ohai::Config[:plugin_path] is set. Ohai::Config[:plugin_path] is deprecated and will be removed in future releases of ohai. Use ohai.plugin_path in your configuration file to configure :plugin_path for ohai.\u001b[0m\r\n"
+    ],
+    [
+      0.001024,
+      "\u001b[36m       [2016-07-11T16:42:51+00:00] WARN: [DEPRECATION] Plugin at /etc/chef/ohai_plugins/nginx.rb is a version 6 plugin. Version 6 plugins will not be supported in future releases of Ohai. Please upgrade your plugin to version 7 plugin syntax. For more information visit here: docs.chef.io/ohai_custom.html\u001b[0m\r\n"
+    ],
+    [
+      0.040557,
+      "\u001b[36m       [2016-07-11T16:42:51+00:00] WARN: Ohai::Mixin::Command run_command is deprecated and will be removed in Ohai 9.0.0\u001b[0m\r\n"
+    ],
+    [
+      0.000243,
+      "\u001b[36m       [2016-07-11T16:42:51+00:00] WARN: Ohai::Mixin::Command popen4 is deprecated and will be removed in Ohai 9.0.0\u001b[0m\r\n"
+    ],
+    [
+      6.297800,
+      "\u001b[36m       \u001b[0m\r\n"
+    ],
+    [
+      0.000312,
+      "\u001b[36m           - re-run ohai and merge results into node attributes\u001b[0m\r\n"
+    ],
+    [
+      0.011654,
+      "\u001b[36m       Recipe: nginx-ssl-app::default\u001b[0m\r\n"
+    ],
+    [
+      0.008283,
+      "\u001b[36m         * hostname[example.com] action set\u001b[0m\r\n"
+    ],
+    [
+      0.000460,
+      "\u001b[36m           * ohai[reload hostname] action nothing (skipped due to action :nothing)\u001b[0m\r\n"
+    ],
+    [
+      0.015260,
+      "\u001b[36m           * execute[set hostname to example.com] action run (skipped due to not_if)\u001b[0m\r\n"
+    ],
+    [
+      0.001365,
+      "\u001b[36m           * file[/etc/hosts] action create (skipped due to not_if)\u001b[0m\r\n"
+    ],
+    [
+      0.019746,
+      "\u001b[36m           * execute[hostnamectl set-hostname example.com] action run (skipped due to not_if)\u001b[0m\r\n"
+    ],
+    [
+      0.000512,
+      "\u001b[36m            (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.001276,
+      "\u001b[36m       Recipe: letsencrypt::default\u001b[0m\r\n"
+    ],
+    [
+      0.115393,
+      "\u001b[36m         * chef_gem[activesupport] action install (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.002495,
+      "\u001b[36m         * chef_gem[json-jwt] action install (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.001999,
+      "\u001b[36m         * chef_gem[acme-client] action install (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.007275,
+      "\u001b[36m         Converging 85 resources\u001b[0m\r\n"
+    ],
+    [
+      0.001299,
+      "\u001b[36m       Recipe: apt::default\u001b[0m\r\n"
+    ],
+    [
+      0.000827,
+      "\u001b[36m         * file[/var/lib/apt/periodic/update-success-stamp] action nothing (skipped due to action :nothing)\u001b[0m\r\n"
+    ],
+    [
+      0.001798,
+      "\u001b[36m         * directory[/etc/apt/apt.conf.d] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.002665,
+      "\u001b[36m         * cookbook_file[/etc/apt/apt.conf.d/15update-stamp] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000539,
+      "\u001b[36m         * execute[apt-get update] action nothing (skipped due to action :nothing)\u001b[0m\r\n"
+    ],
+    [
+      0.000751,
+      "\u001b[36m         * execute[apt-get autoremove] action nothing (skipped due to action :nothing)\u001b[0m\r\n"
+    ],
+    [
+      0.000552,
+      "\u001b[36m         * execute[apt-get autoclean] action nothing (skipped due to action :nothing)\u001b[0m\r\n"
+    ],
+    [
+      0.000931,
+      "\u001b[36m         * execute[apt-get-update-periodic] action run (skipped due to not_if)\u001b[0m\r\n"
+    ],
+    [
+      0.002569,
+      "\u001b[36m         * directory[/var/cache/local] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.002028,
+      "\u001b[36m         * directory[/var/cache/local/preseeding] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.012851,
+      "\u001b[36m         * template[/etc/apt/apt.conf.d/10recommends] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.033445,
+      "\u001b[36m         * apt_package[apt-transport-https] action install (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000277,
+      "\u001b[36m       Recipe: os-hardening::apt\u001b[0m\r\n"
+    ],
+    [
+      0.035166,
+      "\u001b[36m         * apt_package[xinetd] action purge (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.036359,
+      "\u001b[36m         * apt_package[heimdal-servers] action purge (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.035278,
+      "\u001b[36m         * apt_package[telnetd-ssl] action purge (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.035517,
+      "\u001b[36m         * apt_package[telnetd] action purge (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.034995,
+      "\u001b[36m         * apt_package[inetutils-telnetd] action purge (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.038679,
+      "\u001b[36m         * apt_package[rsh-server] action purge (up to date)\u001b[0m\r\n\u001b[36m       Recipe: os-hardening::limits\u001b[0m\r\n"
+    ],
+    [
+      0.000519,
+      "\u001b[36m         * directory[/etc/security/limits.d] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.005524,
+      "\u001b[36m         * template[/etc/security/limits.d/10.hardcore.conf] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000232,
+      "\u001b[36m       Recipe: os-hardening::login_defs\u001b[0m\r\n"
+    ],
+    [
+      0.005565,
+      "\u001b[36m         * template[/etc/login.defs] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000193,
+      "\u001b[36m       Recipe: os-hardening::minimize_access\u001b[0m\r\n"
+    ],
+    [
+      0.017794,
+      "\u001b[36m         * execute[remove write permission from /usr/local/sbin] action run (skipped due to not_if)\u001b[0m\r\n"
+    ],
+    [
+      0.033974,
+      "\u001b[36m         * execute[remove write permission from /usr/local/bin] action run (skipped due to not_if)\u001b[0m\r\n"
+    ],
+    [
+      0.032095,
+      "\u001b[36m         * execute[remove write permission from /usr/sbin] action run (skipped due to not_if)\u001b[0m\r\n"
+    ],
+    [
+      0.032390,
+      "\u001b[36m         * execute[remove write permission from /usr/bin] action run (skipped due to not_if)\u001b[0m\r\n"
+    ],
+    [
+      0.019240,
+      "\u001b[36m         * execute[remove write permission from /sbin] action run (skipped due to not_if)\u001b[0m\r\n"
+    ],
+    [
+      0.030688,
+      "\u001b[36m         * execute[remove write permission from /bin] action run (skipped due to not_if)\u001b[0m\r\n"
+    ],
+    [
+      0.003649,
+      "\u001b[36m         * file[/etc/shadow] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.002854,
+      "\u001b[36m         * file[/bin/su] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000203,
+      "\u001b[36m       Recipe: os-hardening::pam\u001b[0m\r\n"
+    ],
+    [
+      0.033955,
+      "\u001b[36m         * apt_package[pam-ccreds] action remove (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.001498,
+      "\u001b[36m         * file[/usr/share/pam-configs/passwdqc] action delete (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.034967,
+      "\u001b[36m         * apt_package[pam-passwdqc] action remove (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.035803,
+      "\u001b[36m         * apt_package[libpam-modules] action install (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.004797,
+      "\u001b[36m         * template[/usr/share/pam-configs/tally2] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.168355,
+      "\u001b[36m         * execute[update-pam] action run\u001b[0m\r\n"
+    ],
+    [
+      0.000007,
+      "\u001b[36m           - execute pam-auth-update --package\u001b[0m\r\n"
+    ],
+    [
+      0.000054,
+      "\u001b[36m       Recipe: os-hardening::profile\u001b[0m\r\n"
+    ],
+    [
+      0.004215,
+      "\u001b[36m         * template[/etc/profile.d/pinerolo_profile.sh] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000526,
+      "\u001b[36m       Recipe: os-hardening::securetty\u001b[0m\r\n"
+    ],
+    [
+      0.005082,
+      "\u001b[36m         * template[/etc/securetty] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000250,
+      "\u001b[36m       Recipe: os-hardening::suid_sgid\u001b[0m\r\n"
+    ],
+    [
+      0.215304,
+      "\u001b[36m         * ruby_block[remove_suid_from_blacklists] action run\u001b[0m\r\n"
+    ],
+    [
+      0.000347,
+      "\u001b[36m           - execute the ruby block remove_suid_from_blacklists\u001b[0m\r\n"
+    ],
+    [
+      0.000571,
+      "\u001b[36m       Recipe: sysctl::service\u001b[0m\r\n"
+    ],
+    [
+      0.000898,
+      "\u001b[36m         * template[/etc/rc.d/init.d/procps] action create (skipped due to only_if)\u001b[0m\r\n"
+    ],
+    [
+      0.028610,
+      "\u001b[36m         * service[procps] action enable (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000971,
+      "\u001b[36m       Recipe: sysctl::default\u001b[0m\r\n"
+    ],
+    [
+      0.002824,
+      "\u001b[36m         * directory[/etc/sysctl.d] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.001006,
+      "\u001b[36m         * ruby_block[save-sysctl-params] action nothing (skipped due to action :nothing)\u001b[0m\r\n"
+    ],
+    [
+      0.000565,
+      "\u001b[36m         * ruby_block[apply-sysctl-params] action nothing (skipped due to action :nothing)\u001b[0m\r\n"
+    ],
+    [
+      0.000896,
+      "\u001b[36m         * template[/etc/sysctl.d/99-chef-attributes.conf] action nothing (skipped due to action :nothing)\u001b[0m\r\n"
+    ],
+    [
+      0.000243,
+      "\u001b[36m       Recipe: sysctl::apply\u001b[0m\r\n"
+    ],
+    [
+      0.000769,
+      "\u001b[36m         * ruby_block[notify-apply-sysctl-params] action run\u001b[0m\r\n"
+    ],
+    [
+      0.000463,
+      "\u001b[36m           - execute the ruby block notify-apply-sysctl-params\u001b[0m\r\n"
+    ],
+    [
+      0.000410,
+      "\u001b[36m       Recipe: sysctl::default\u001b[0m\r\n"
+    ],
+    [
+      0.000817,
+      "\u001b[36m         * ruby_block[apply-sysctl-params] action run\u001b[0m\r\n"
+    ],
+    [
+      0.000334,
+      "\u001b[36m           - execute the ruby block apply-sysctl-params\u001b[0m\r\n"
+    ],
+    [
+      0.003734,
+      "\u001b[36m         * template[/etc/sysctl.d/99-chef-attributes.conf] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000262,
+      "\u001b[36m       Recipe: os-hardening::sysctl\u001b[0m\r\n"
+    ],
+    [
+      0.002786,
+      "\u001b[36m         * file[/etc/sysctl.conf] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000476,
+      "\u001b[36m       Recipe: ssh-hardening::server\u001b[0m\r\n"
+    ],
+    [
+      0.035590,
+      "\u001b[36m         * apt_package[openssh-server] action install (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.009010,
+      "\u001b[36m         * service[sshd] action enable (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.005757,
+      "\u001b[36m         * service[sshd] action start (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.003814,
+      "\u001b[36m         * directory[/etc/ssh] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.006255,
+      "\u001b[36m         * template[/etc/ssh/sshd_config] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.002562,
+      "\u001b[36m         * directory[/root/.ssh] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000685,
+      "\u001b[36m         * execute[unlock root account if it is locked] action run (skipped due to only_if)\u001b[0m\r\n"
+    ],
+    [
+      0.000260,
+      "\u001b[36m       Recipe: ssh-hardening::client\u001b[0m\r\n"
+    ],
+    [
+      0.036405,
+      "\u001b[36m         * apt_package[openssh-client] action install (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.004323,
+      "\u001b[36m         * directory[/etc/ssh] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.004786,
+      "\u001b[36m         * template[/etc/ssh/ssh_config] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000425,
+      "\u001b[36m       Recipe: nginx::ohai_plugin\u001b[0m\r\n"
+    ],
+    [
+      0.000949,
+      "\u001b[36m         * ohai[reload_nginx] action nothing (skipped due to action :nothing)\u001b[0m\r\n"
+    ],
+    [
+      0.003496,
+      "\u001b[36m         * template[/etc/chef/ohai_plugins/nginx.rb] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000230,
+      "\u001b[36m       Recipe: ohai::default\u001b[0m\r\n"
+    ],
+    [
+      0.000775,
+      "\u001b[36m         * remote_directory[/etc/chef/ohai_plugins for cookbook ohai] action nothing (skipped due to action :nothing)\u001b[0m\r\n"
+    ],
+    [
+      0.000619,
+      "\u001b[36m         * ohai[custom_plugins] action nothing (skipped due to action :nothing)\u001b[0m\r\n"
+    ],
+    [
+      0.000348,
+      "\u001b[36m       Recipe: nginx::repo\u001b[0m\r\n"
+    ],
+    [
+      0.049448,
+      "\u001b[36m         * apt_repository[nginx] action add\u001b[0m\r\n"
+    ],
+    [
+      1.022745,
+      "\u001b[36m           * remote_file[/tmp/kitchen/cache/nginx_signing.key] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.158302,
+      "\u001b[36m           * execute[apt-key add /tmp/kitchen/cache/nginx_signing.key] action run (skipped due to not_if)\u001b[0m\r\n"
+    ],
+    [
+      0.001608,
+      "\u001b[36m           * execute[apt-cache gencaches] action nothing (skipped due to action :nothing)\u001b[0m\r\n"
+    ],
+    [
+      0.001031,
+      "\u001b[36m           * apt_update[nginx] action nothing (skipped due to action :nothing)\u001b[0m\r\n"
+    ],
+    [
+      0.004559,
+      "\u001b[36m           * file[/etc/apt/sources.list.d/nginx.list] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000411,
+      "\u001b[36m            (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000406,
+      "\u001b[36m       Recipe: nginx::package\u001b[0m\r\n"
+    ],
+    [
+      0.016755,
+      "\u001b[36m         * apt_package[nginx] action install (skipped due to not_if)\u001b[0m\r\n"
+    ],
+    [
+      0.042273,
+      "\u001b[36m         * service[nginx] action enable (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000171,
+      "\u001b[36m       Recipe: nginx::commons_dir\u001b[0m\r\n"
+    ],
+    [
+      0.002610,
+      "\u001b[36m         * directory[/etc/nginx] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.002088,
+      "\u001b[36m         * directory[/var/log/nginx] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.002314,
+      "\u001b[36m         * directory[/run] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.002313,
+      "\u001b[36m         * directory[/etc/nginx/sites-available] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.002412,
+      "\u001b[36m         * directory[/etc/nginx/sites-enabled] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.002275,
+      "\u001b[36m         * directory[/etc/nginx/conf.d] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000351,
+      "\u001b[36m       Recipe: nginx::commons_script\u001b[0m\r\n"
+    ],
+    [
+      0.003861,
+      "\u001b[36m         * template[/usr/sbin/nxensite] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.003276,
+      "\u001b[36m         * template[/usr/sbin/nxdissite] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000387,
+      "\u001b[36m       Recipe: nginx::commons_conf\u001b[0m\r\n"
+    ],
+    [
+      0.004807,
+      "\u001b[36m         * template[nginx.conf] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.003384,
+      "\u001b[36m         * template[/etc/nginx/sites-available/default] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000700,
+      "\u001b[36m         * execute[nxdissite default] action run (skipped due to only_if)\u001b[0m\r\n"
+    ],
+    [
+      0.000371,
+      "\u001b[36m       Recipe: nginx::default\u001b[0m\r\n"
+    ],
+    [
+      0.042487,
+      "\u001b[36m         * service[nginx] action start (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000159,
+      "\u001b[36m       Recipe: nginx-ssl-app::default\u001b[0m\r\n"
+    ],
+    [
+      0.002513,
+      "\u001b[36m         * hostname[example.com] action set\u001b[0m\r\n"
+    ],
+    [
+      0.000883,
+      "\u001b[36m           * ohai[reload hostname] action nothing (skipped due to action :nothing)\u001b[0m\r\n"
+    ],
+    [
+      0.014791,
+      "\u001b[36m           * execute[set hostname to example.com] action run (skipped due to not_if)\u001b[0m\r\n"
+    ],
+    [
+      0.001532,
+      "\u001b[36m           * file[/etc/hosts] action create (skipped due to not_if)\u001b[0m\r\n"
+    ],
+    [
+      0.017005,
+      "\u001b[36m           * execute[hostnamectl set-hostname example.com] action run (skipped due to not_if)\u001b[0m\r\n"
+    ],
+    [
+      0.000545,
+      "\u001b[36m            (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000508,
+      "\u001b[36m       Recipe: letsencrypt::default\u001b[0m\r\n"
+    ],
+    [
+      0.002369,
+      "\u001b[36m         * chef_gem[activesupport] action install (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.001808,
+      "\u001b[36m         * chef_gem[json-jwt] action install (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.001755,
+      "\u001b[36m         * chef_gem[acme-client] action install (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000205,
+      "\u001b[36m       Recipe: nginx-ssl-app::default\u001b[0m\r\n"
+    ],
+    [
+      0.147979,
+      "\u001b[36m         * letsencrypt_selfsigned[example.com] action create\u001b[0m\r\n"
+    ],
+    [
+      0.001525,
+      "\u001b[36m           * file[example.com SSL selfsigned key] action create_if_missing (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.003685,
+      "\u001b[36m           * file[example.com SSL selfsigned crt] action create_if_missing (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000783,
+      "\u001b[36m           * file[example.com SSL selfsigned chain] action create_if_missing (skipped due to not_if)\u001b[0m\r\n"
+    ],
+    [
+      0.000373,
+      "\u001b[36m            (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.002691,
+      "\u001b[36m         * cookbook_file[/etc/nginx/sites-available/nginx-ssl] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.002314,
+      "\u001b[36m         * directory[/var/www/nginx-default] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000876,
+      "\u001b[36m         * execute[nxensite nginx-ssl] action run (skipped due to not_if)\u001b[0m\r\n"
+    ],
+    [
+      0.000387,
+      "\u001b[36m       Recipe: nginx-hardening::minimize_access\u001b[0m\r\n"
+    ],
+    [
+      0.029597,
+      "\u001b[36m         * execute[remove world readable files] action run (skipped due to not_if)\u001b[0m\r\n"
+    ],
+    [
+      0.000413,
+      "\u001b[36m       Recipe: nginx-hardening::default\u001b[0m\r\n"
+    ],
+    [
+      0.004015,
+      "\u001b[36m         * template[/etc/nginx/conf.d/90.hardening.conf] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.001241,
+      "\u001b[36m         * file[/etc/nginx/conf.d/default.conf] action delete (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000609,
+      "\u001b[36m         * execute[generate_dh_group] action run (skipped due to not_if)\u001b[0m\r\n"
+    ],
+    [
+      0.094131,
+      "\u001b[36m       \u001b[0m\r\n"
+    ],
+    [
+      0.000355,
+      "\u001b[36m       Running handlers:\u001b[0m\r\n"
+    ],
+    [
+      0.000223,
+      "\u001b[36m       Running handlers complete\u001b[0m\r\n"
+    ],
+    [
+      0.000127,
+      "\u001b[36m       \u001b[0m\r\n"
+    ],
+    [
+      0.000258,
+      "\u001b[36m       Deprecated features used!\u001b[0m\r\n"
+    ],
+    [
+      0.000414,
+      "\u001b[36m         \"method access to node attributes (node.foo.bar) is deprecated and will be removed in Chef 13, please use bracket syntax (node[\"foo\"][\"bar\"]) at 5 locations:\u001b[0m\r\n"
+    ],
+    [
+      0.000348,
+      "\u001b[36m           - /tmp/kitchen/cache/cookbooks/os-hardening/attributes/default.rb:22:in `from_file'\u001b[0m\r\n"
+    ],
+    [
+      0.000284,
+      "\u001b[36m           - /tmp/kitchen/cache/cookbooks/os-hardening/attributes/sysctl.rb:182:in `from_file'\u001b[0m\r\n"
+    ],
+    [
+      0.000287,
+      "\u001b[36m           - /tmp/kitchen/cache/cookbooks/ssh-hardening/attributes/default.rb:22:in `from_file'\u001b[0m\r\n"
+    ],
+    [
+      0.000289,
+      "\u001b[36m           - /tmp/kitchen/cache/cookbooks/7-zip/attributes/default.rb:21:in `from_file'\u001b[0m\r\n"
+    ],
+    [
+      0.000238,
+      "\u001b[36m           - /tmp/kitchen/cache/cookbooks/nginx/attributes/default.rb:43:in `from_file'\u001b[0m\r\n"
+    ],
+    [
+      0.000309,
+      "\u001b[36m         Cloning resource attributes for directory[/etc/ssh] from prior resource (CHEF-3694)\u001b[0m\r\n"
+    ],
+    [
+      0.000260,
+      "\u001b[36m       Previous directory[/etc/ssh]: /tmp/kitchen/cache/cookbooks/ssh-hardening/recipes/server.rb:56:in `from_file'\u001b[0m\r\n"
+    ],
+    [
+      0.000301,
+      "\u001b[36m       Current  directory[/etc/ssh]: /tmp/kitchen/cache/cookbooks/ssh-hardening/recipes/client.rb:26:in `from_file' at 1 location:\u001b[0m\r\n"
+    ],
+    [
+      0.000276,
+      "\u001b[36m           - /tmp/kitchen/cache/cookbooks/ssh-hardening/recipes/client.rb:26:in `from_file'\u001b[0m\r\n"
+    ],
+    [
+      0.000294,
+      "\u001b[36m         Cloning resource attributes for service[nginx] from prior resource (CHEF-3694)\u001b[0m\r\n"
+    ],
+    [
+      0.000222,
+      "\u001b[36m       Previous service[nginx]: /tmp/kitchen/cache/cookbooks/nginx/recipes/package.rb:47:in `from_file'\u001b[0m\r\n"
+    ],
+    [
+      0.000338,
+      "\u001b[36m       Current  service[nginx]: /tmp/kitchen/cache/cookbooks/nginx/recipes/default.rb:24:in `from_file' at 1 location:\u001b[0m\r\n"
+    ],
+    [
+      0.000231,
+      "\u001b[36m           - /tmp/kitchen/cache/cookbooks/nginx/recipes/default.rb:24:in `from_file'\u001b[0m\r\n"
+    ],
+    [
+      0.000340,
+      "\u001b[36m         nil is an invalid value for path of resource file. In Chef 13, this warning will change to an error. Error: Property path must be one of: String!  You passed nil. at 1 location:\u001b[0m\r\n"
+    ],
+    [
+      0.000238,
+      "\u001b[36m           - /tmp/kitchen/cache/cookbooks/letsencrypt/providers/selfsigned.rb:44:in `block (2 levels) in class_from_file'\u001b[0m\r\n"
+    ],
+    [
+      0.000109,
+      "\u001b[36m       \u001b[0m\r\n"
+    ],
+    [
+      0.000365,
+      "\u001b[36m       Chef Client finished, 5/111 resources updated in 14 seconds\u001b[0m\r\n"
+    ],
+    [
+      1.618755,
+      "\u001b[36m       Finished converging \u003cdefault-ubuntu-trusty64\u003e (0m19.49s).\u001b[0m\r\n"
+    ],
+    [
+      0.000218,
+      "-----\u003e Kitchen is finished. (0m21.46s)\r\n"
+    ],
+    [
+      0.055065,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                             \r \r"
+    ],
+    [
+      0.000041,
+      "\u001b]2;chartmann@remchartmann01\u0007"
+    ],
+    [
+      0.000018,
+      "\u001b]1;..l-remediation\u0007"
+    ],
+    [
+      0.002685,
+      "\u001b]7;file://remchartmann01/Users/chartmann/Development/ChefConf/demos/04-ssl-remediation\u0007"
+    ],
+    [
+      0.035119,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[01;32m➜  \u001b[36m04-ssl-remediation\u001b[00m "
+    ],
+    [
+      0.000005,
+      "\u001b[K"
+    ],
+    [
+      0.000249,
+      "\u001b[?1h\u001b="
+    ],
+    [
+      1.292695,
+      "c"
+    ],
+    [
+      0.000041,
+      "\u0008ch"
+    ],
+    [
+      0.000046,
+      "e"
+    ],
+    [
+      0.000071,
+      "f"
+    ],
+    [
+      0.000008,
+      " "
+    ],
+    [
+      0.000049,
+      "e"
+    ],
+    [
+      0.000048,
+      "x"
+    ],
+    [
+      0.000038,
+      "e"
+    ],
+    [
+      0.000043,
+      "c"
+    ],
+    [
+      0.000013,
+      " "
+    ],
+    [
+      0.000048,
+      "k"
+    ],
+    [
+      0.000049,
+      "i"
+    ],
+    [
+      0.000042,
+      "t"
+    ],
+    [
+      0.000041,
+      "c"
+    ],
+    [
+      0.000045,
+      "h"
+    ],
+    [
+      0.000041,
+      "e"
+    ],
+    [
+      0.000041,
+      "n"
+    ],
+    [
+      0.000012,
+      " "
+    ],
+    [
+      0.000045,
+      "v"
+    ],
+    [
+      0.000047,
+      "e"
+    ],
+    [
+      0.000040,
+      "r"
+    ],
+    [
+      0.000044,
+      "i"
+    ],
+    [
+      0.000080,
+      "f"
+    ],
+    [
+      0.000037,
+      "y"
+    ],
+    [
+      0.000010,
+      " "
+    ],
+    [
+      0.000045,
+      "d"
+    ],
+    [
+      0.000039,
+      "e"
+    ],
+    [
+      0.000045,
+      "f"
+    ],
+    [
+      0.000035,
+      "a"
+    ],
+    [
+      0.000041,
+      "u"
+    ],
+    [
+      0.000039,
+      "l"
+    ],
+    [
+      0.000038,
+      "t"
+    ],
+    [
+      0.000040,
+      "-"
+    ],
+    [
+      0.000037,
+      "u"
+    ],
+    [
+      0.000039,
+      "b"
+    ],
+    [
+      0.000038,
+      "u"
+    ],
+    [
+      0.000041,
+      "n"
+    ],
+    [
+      0.000039,
+      "t"
+    ],
+    [
+      0.000036,
+      "u"
+    ],
+    [
+      0.000038,
+      "-"
+    ],
+    [
+      0.000039,
+      "t"
+    ],
+    [
+      0.000037,
+      "r"
+    ],
+    [
+      0.000038,
+      "u"
+    ],
+    [
+      0.000040,
+      "s"
+    ],
+    [
+      0.000056,
+      "t"
+    ],
+    [
+      0.000035,
+      "y"
+    ],
+    [
+      0.000022,
+      "6"
+    ],
+    [
+      0.000038,
+      "4"
+    ],
+    [
+      0.533315,
+      "\u001b[?1l\u001b\u003e"
+    ],
+    [
+      0.000040,
+      "\r\r\n"
+    ],
+    [
+      0.002946,
+      "\u001b]2;chef exec kitchen verify default-ubuntu-trusty64\u0007"
+    ],
+    [
+      0.000008,
+      "\u001b]1;chef\u0007"
+    ],
+    [
+      0.837739,
+      "-----\u003e Starting Kitchen (v1.10.0)\r\n"
+    ],
+    [
+      1.885053,
+      "\u001b[36m-----\u003e Setting up \u003cdefault-ubuntu-trusty64\u003e...\u001b[0m\r\n"
+    ],
+    [
+      0.001085,
+      "\u001b[36m       Finished setting up \u003cdefault-ubuntu-trusty64\u003e (0m0.00s).\u001b[0m\r\n"
+    ],
+    [
+      0.000047,
+      "\u001b[36m-----\u003e Verifying \u003cdefault-ubuntu-trusty64\u003e...\u001b[0m\r\n"
+    ],
+    [
+      0.627239,
+      "\u001b[36m       Use `/Users/chartmann/Development/ChefConf/demos/04-ssl-remediation/test/integration/default` for testing\u001b[0m\r\n"
+    ],
+    [
+      0.811684,
+      "/opt/chefdk/embedded/lib/ruby/gems/2.1.0/gems/inspec-0.26.0/lib/inspec/plugins/resource.rb:57: warning: already initialized constant Inspec::Resource::Registry::NginxLib\r\n/opt/chefdk/embedded/lib/ruby/gems/2.1.0/gems/inspec-0.26.0/lib/inspec/plugins/resource.rb:57: warning: previous definition of NginxLib was here\r\n"
+    ],
+    [
+      0.020588,
+      "libraries/sslshake.rb:66: warning: already initialized constant SSLShake::CIPHERS_LIST\r\nlibraries/sslshake.rb:66: warning: previous definition of CIPHERS_LIST was here\r\n"
+    ],
+    [
+      0.000013,
+      "libraries/sslshake.rb:426: warning: already initialized constant SSLShake::SSLv2::VERSIONS\r\nlibraries/sslshake.rb:426: warning: previous definition of VERSIONS was here\r\n"
+    ],
+    [
+      0.000107,
+      "libraries/sslshake.rb:430: warning: already initialized constant SSLShake::SSLv2::CIPHERS\r\nlibraries/sslshake.rb:430: warning: previous definition of CIPHERS was here\r\nlibraries/sslshake.rb:432: warning: already initialized constant SSLShake::SSLv2::MESSAGE_TYPES\r\n"
+    ],
+    [
+      0.000004,
+      "libraries/sslshake.rb:432: warning: previous definition of MESSAGE_TYPES was here\r\nlibraries/sslshake.rb:514: warning: already initialized constant SSLShake::TLS::VERSIONS\r\nlibraries/sslshake.rb:514: warning: previous definition of VERSIONS was here\r\nlibraries/sslshake.rb:521: warning: already initialized constant SSLShake::TLS::CONTENT_TYPES\r\nlibraries/sslshake.rb:521: warning: previous definition of CONTENT_TYPES was here\r\n"
+    ],
+    [
+      0.000007,
+      "libraries/sslshake.rb:529: warning: already initialized constant SSLShake::TLS::HANDSHAKE_TYPES\r\nlibraries/sslshake.rb:529: warning: previous definition of HANDSHAKE_TYPES was here\r\n"
+    ],
+    [
+      0.000143,
+      "libraries/sslshake.rb:544: warning: already initialized constant SSLShake::TLS::SSL3_CIPHERS\r\nlibraries/sslshake.rb:544: warning: previous definition of SSL3_CIPHERS was here\r\n"
+    ],
+    [
+      0.000219,
+      "libraries/sslshake.rb:545: warning: already initialized constant SSLShake::TLS::TLS_CIPHERS\r\nlibraries/sslshake.rb:545: warning: previous definition of TLS_CIPHERS was here\r\n"
+    ],
+    [
+      0.000228,
+      "libraries/sslshake.rb:546: warning: already initialized constant SSLShake::TLS::TLS10_CIPHERS\r\nlibraries/sslshake.rb:546: warning: previous definition of TLS10_CIPHERS was here\r\nlibraries/sslshake.rb:549: warning: already initialized constant SSLShake::TLS::OPENSSL_1_0_2_TLS10_CIPHERS\r\nlibraries/sslshake.rb:549: warning: previous definition of OPENSSL_1_0_2_TLS10_CIPHERS was here\r\n"
+    ],
+    [
+      0.000006,
+      "libraries/sslshake.rb:550: warning: already initialized constant SSLShake::TLS::OPENSSL_1_0_2_TLS11_CIPHERS\r\nlibraries/sslshake.rb:550: warning: previous definition of OPENSSL_1_0_2_TLS11_CIPHERS was here\r\nlibraries/sslshake.rb:551: warning: already initialized constant SSLShake::TLS::OPENSSL_1_0_2_TLS12_CIPHERS\r\nlibraries/sslshake.rb:551: warning: previous definition of OPENSSL_1_0_2_TLS12_CIPHERS was here\r\n"
+    ],
+    [
+      0.000764,
+      "/opt/chefdk/embedded/lib/ruby/gems/2.1.0/gems/inspec-0.26.0/lib/inspec/plugins/resource.rb:57: warning: already initialized constant Inspec::Resource::Registry::Ssl\r\n/opt/chefdk/embedded/lib/ruby/gems/2.1.0/gems/inspec-0.26.0/lib/inspec/plugins/resource.rb:57: warning: previous definition of Ssl was here\r\n"
+    ],
+    [
+      0.109807,
+      "\u001b[32m  ✔  nginx-01: User www-data should exist\u001b[0m\r\n"
+    ],
+    [
+      0.000045,
+      "\u001b[32m  ✔  nginx-02: File /etc/nginx/nginx.conf should be owned by \"root\"\u001b[0m\r\n"
+    ],
+    [
+      0.000045,
+      "\u001b[32m  ✔  nginx-03: File /etc/nginx/conf.d/default.conf should not be file\u001b[0m\r\n"
+    ],
+    [
+      0.000018,
+      "\u001b[32m  ✔  nginx-04: Command ps aux | egrep \"nginx: master\" | egrep -v \"grep\" | wc -l stdout should match /^1$/\u001b[0m\r\n"
+    ],
+    [
+      0.000017,
+      "\u001b[32m  ✔  nginx-05: Parse Config File /etc/nginx/nginx.conf server_tokens should eq \"off\"\u001b[0m\r\n"
+    ],
+    [
+      0.000051,
+      "\u001b[32m  ✔  nginx-06: Parse Config File /etc/nginx/nginx.conf client_body_buffer_size should eq \"1k\"\u001b[0m\r\n"
+    ],
+    [
+      0.000027,
+      "\u001b[32m  ✔  nginx-07: Parse Config File /etc/nginx/conf.d/90.hardening.conf limit_conn_zone should eq \"$binary_remote_addr zone=default:10m\"\u001b[0m\r\n"
+    ],
+    [
+      0.000026,
+      "\u001b[32m  ✔  nginx-08: Parse Config File /etc/nginx/conf.d/90.hardening.conf add_header should include \"X-Frame-Options SAMEORIGIN\"\u001b[0m\r\n"
+    ],
+    [
+      0.000027,
+      "\u001b[32m  ✔  nginx-09: Parse Config File /etc/nginx/conf.d/90.hardening.conf add_header should include \"X-XSS-Protection \\\"1; mode=block\\\"\"\u001b[0m\r\n"
+    ],
+    [
+      0.000021,
+      "\u001b[32m  ✔  nginx-10: Parse Config File /etc/nginx/conf.d/90.hardening.conf add_header should include \"X-Content-Type-Options nosniff\"\u001b[0m\r\n"
+    ],
+    [
+      0.000019,
+      "\u001b[32m  ✔  tls1.2: SSL/TLS on 127.0.0.1:8443 with protocol == \"tls1.2\" should be enabled\u001b[0m\r\n"
+    ],
+    [
+      0.000030,
+      "\u001b[32m  ✔  ssl2: SSL/TLS on 127.0.0.1:8443 with protocol == \"ssl2\" should not be enabled\u001b[0m\r\n"
+    ],
+    [
+      0.000020,
+      "\u001b[32m  ✔  ssl3: SSL/TLS on 127.0.0.1:8443 with protocol == \"ssl3\" should not be enabled\u001b[0m\r\n"
+    ],
+    [
+      0.000019,
+      "\u001b[32m  ✔  tls1.0: SSL/TLS on 127.0.0.1:8443 with protocol == \"tls1.0\" should not be enabled\u001b[0m\r\n"
+    ],
+    [
+      0.000030,
+      "\u001b[32m  ✔  tls1.1: SSL/TLS on 127.0.0.1:8443 with protocol == \"tls1.1\" should not be enabled\u001b[0m\r\n"
+    ],
+    [
+      0.000208,
+      "\u001b[32m  ✔  rc4: SSL/TLS on 127.0.0.1:8443 with cipher == /rc4/i should not be enabled\u001b[0m\r\n\r\n\r\n"
+    ],
+    [
+      0.000002,
+      "Profile: Hardening Framework NGINX Hardening Test Suite (nginx-hardening)\r\nVersion: 0.9.0\r\n"
+    ],
+    [
+      0.000028,
+      "Target:  ssh://vagrant@127.0.0.1:2200\r\n\r\n\r\n\r\n"
+    ],
+    [
+      0.000002,
+      "Profile: SSL resource pack (ssl)\r\n"
+    ],
+    [
+      0.000002,
+      "Version: 1.0.10"
+    ],
+    [
+      0.000002,
+      "\r\n"
+    ],
+    [
+      0.000005,
+      "Target:  ssh://vagrant@127.0.0.1:2200\r\n"
+    ],
+    [
+      0.000002,
+      "\r\n"
+    ],
+    [
+      0.000002,
+      "\r\n"
+    ],
+    [
+      0.000008,
+      "Summary:  29 successful    0 failures    0 skipped\r\n"
+    ],
+    [
+      0.000689,
+      "\u001b[36m       Finished verifying \u003cdefault-ubuntu-trusty64\u003e (0m1.57s).\u001b[0m\r\n"
+    ],
+    [
+      0.000160,
+      "-----\u003e Kitchen is finished. (0m3.46s)\r\n"
+    ],
+    [
+      0.056782,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                             \r \r"
+    ],
+    [
+      0.000064,
+      "\u001b]2;chartmann@remchartmann01\u0007"
+    ],
+    [
+      0.000019,
+      "\u001b]1;..l-remediation\u0007"
+    ],
+    [
+      0.002583,
+      "\u001b]7;file://remchartmann01/Users/chartmann/Development/ChefConf/demos/04-ssl-remediation\u0007"
+    ],
+    [
+      0.014468,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[01;32m➜  \u001b[36m04-ssl-remediation\u001b[00m "
+    ],
+    [
+      0.000005,
+      "\u001b[K"
+    ],
+    [
+      0.000143,
+      "\u001b[?1h\u001b="
+    ],
+    [
+      4.399845,
+      "\r\r\n"
+    ]
+  ]
+}

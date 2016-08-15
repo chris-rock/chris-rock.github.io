@@ -1,0 +1,2642 @@
+{
+  "version": 1,
+  "width": 80,
+  "height": 24,
+  "duration": 104.342792,
+  "command": "/bin/zsh",
+  "title": "",
+  "env": {
+    "TERM": "xterm-256color",
+    "SHELL": "/bin/zsh"
+  },
+  "stdout": [
+    [
+      0.067803,
+      "\u001b]7;file://remchartmann01/Users/chartmann/Development/ChefConf/demos/01\u0007"
+    ],
+    [
+      0.189626,
+      "\r\nWarning: PATH set to RVM ruby but GEM_HOME and/or GEM_PATH not set, see:\r\n    https://github.com/rvm/rvm/issues/3212\r\n\r\n"
+    ],
+    [
+      0.022687,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                               \r \r"
+    ],
+    [
+      0.000045,
+      "\u001b]2;chartmann@remchartmann01\u0007"
+    ],
+    [
+      0.000004,
+      "\u001b]1;..Conf/demos/01\u0007"
+    ],
+    [
+      0.002367,
+      "\u001b]7;file://remchartmann01/Users/chartmann/Development/ChefConf/demos/01\u0007"
+    ],
+    [
+      0.018579,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[01;32m➜  \u001b[36m01\u001b[00m "
+    ],
+    [
+      0.000005,
+      "\u001b[K"
+    ],
+    [
+      0.000186,
+      "\u001b[?1h\u001b="
+    ],
+    [
+      1.169413,
+      "c"
+    ],
+    [
+      0.000043,
+      "\u0008ch"
+    ],
+    [
+      0.000064,
+      "e"
+    ],
+    [
+      0.000048,
+      "f"
+    ],
+    [
+      0.000089,
+      " "
+    ],
+    [
+      0.000046,
+      "e"
+    ],
+    [
+      0.000054,
+      "x"
+    ],
+    [
+      0.000042,
+      "e"
+    ],
+    [
+      0.000039,
+      "c"
+    ],
+    [
+      0.000013,
+      " "
+    ],
+    [
+      0.000044,
+      "v"
+    ],
+    [
+      0.000040,
+      "a"
+    ],
+    [
+      0.000040,
+      "g"
+    ],
+    [
+      0.000039,
+      "r"
+    ],
+    [
+      0.000039,
+      "a"
+    ],
+    [
+      0.000039,
+      "n"
+    ],
+    [
+      0.000039,
+      "t"
+    ],
+    [
+      0.000010,
+      " "
+    ],
+    [
+      0.000056,
+      "p"
+    ],
+    [
+      0.000036,
+      "r"
+    ],
+    [
+      0.000037,
+      "o"
+    ],
+    [
+      0.000040,
+      "v"
+    ],
+    [
+      0.000041,
+      "i"
+    ],
+    [
+      0.000039,
+      "s"
+    ],
+    [
+      0.000040,
+      "i"
+    ],
+    [
+      0.000057,
+      "o"
+    ],
+    [
+      0.000023,
+      "n"
+    ],
+    [
+      1.393434,
+      "\u001b[?1l\u001b\u003e"
+    ],
+    [
+      0.000085,
+      "\r\r\n"
+    ],
+    [
+      0.001228,
+      "\u001b]2;chef exec vagrant provision\u0007\u001b]1;chef\u0007"
+    ],
+    [
+      3.830567,
+      "\u001b[1m==\u003e default: Loading Berkshelf datafile...\u001b[0m\r\n"
+    ],
+    [
+      0.000701,
+      "\u001b[1m==\u003e default: Sharing cookbooks with VM\u001b[0m\r\n"
+    ],
+    [
+      0.274294,
+      "\u001b[1m==\u003e default: Updating Vagrant's Berkshelf...\u001b[0m\r\n"
+    ],
+    [
+      0.978161,
+      "\u001b[1m==\u003e default: Resolving cookbook dependencies...\r\n==\u003e default: Using line (0.6.3)\r\n==\u003e default: Using cis-el7-l1-hardening (0.6.2)\r\n==\u003e default: Vendoring cis-el7-l1-hardening (0.6.2) to /Users/chartmann/.berkshelf/vagrant-berkshelf/shelves/berkshelf20160710-89088-5jdk76-default/cis-el7-l1-hardening\r\n==\u003e default: Vendoring line (0.6.3) to /Users/chartmann/.berkshelf/vagrant-berkshelf/shelves/berkshelf20160710-89088-5jdk76-default/line\u001b[0m\r\n"
+    ],
+    [
+      0.794318,
+      "\u001b[1m==\u003e default: Running provisioner: chef_solo...\u001b[0m\r\n"
+    ],
+    [
+      0.642502,
+      "\u001b[1m==\u003e default: Detected Chef (latest) is already installed\u001b[0m\r\n"
+    ],
+    [
+      0.648926,
+      "\u001b[1m==\u003e default: Generating chef JSON and uploading...\u001b[0m\r\n"
+    ],
+    [
+      0.163878,
+      "\u001b[1m==\u003e default: Running chef-solo...\u001b[0m\r\n"
+    ],
+    [
+      0.917561,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:22-04:00] INFO: Started chef-zero at chefzero://localhost:8889 with repository at /tmp/vagrant-chef/ba4d1be41d51c69af0b9db531eb7f341\r\n==\u003e default:   One version per cookbook\r\n==\u003e default: \r\n==\u003e default: [2016-07-10T19:49:22-04:00] INFO: Forking chef instance to converge...\u001b[0m\r\n"
+    ],
+    [
+      0.016215,
+      "\u001b[1;32m==\u003e default: Starting Chef Client, version 12.12.15\u001b[0m\r\n==\u003e default: [2016-07-10T19:49:22-04:00] INFO: *** Chef 12.12.15 ***\r\n==\u003e default: [2016-07-10T19:49:22-04:00] INFO: Platform: x86_64-linux\r\n==\u003e default: [2016-07-10T19:49:22-04:00] INFO: Chef-client pid: 12971\u001b[0m\r\n"
+    ],
+    [
+      1.419704,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Setting the run_list to [\"recipe[cis-el7-l1-hardening]\"] from CLI options\u001b[0m\r\n"
+    ],
+    [
+      0.004811,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Run List is [recipe[cis-el7-l1-hardening]]\r\n==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Run List expands to [cis-el7-l1-hardening]\r\n==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Starting Chef Run for vagrant-586c048a\r\n==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Running start handlers\r\n==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Start handlers complete.\r\n==\u003e default: [2016-07-10T19:49:24-04:00] INFO: HTTP Request Returned 404 Not Found: Object not found: \r\n==\u003e default: resolving cookbooks for run list: [\"cis-el7-l1-hardening\"]\u001b[0m\u001b[0m\r\n"
+    ],
+    [
+      0.294542,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Loading cookbooks [cis-el7-l1-hardening@0.6.2, line@0.6.3]\r\n==\u003e default: Synchronizing Cookbooks:\u001b[0m\u001b[0m\r\n"
+    ],
+    [
+      0.012318,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Storing updated cookbooks/cis-el7-l1-hardening/recipes/login_banners.rb in the cache.\u001b[0m\r\n"
+    ],
+    [
+      0.001911,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Storing updated cookbooks/cis-el7-l1-hardening/recipes/enable_sudo_no_tty.rb in the cache.\u001b[0m\r\n"
+    ],
+    [
+      0.002759,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Storing updated cookbooks/cis-el7-l1-hardening/recipes/default.rb in the cache.\u001b[0m\r\n"
+    ],
+    [
+      0.001985,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Storing updated cookbooks/cis-el7-l1-hardening/recipes/network-packet-remediation.rb in the cache.\u001b[0m\r\n"
+    ],
+    [
+      0.002221,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Storing updated cookbooks/cis-el7-l1-hardening/recipes/passwords.rb in the cache.\u001b[0m\r\n"
+    ],
+    [
+      0.002641,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Storing updated cookbooks/cis-el7-l1-hardening/recipes/cron.rb in the cache.\u001b[0m\r\n"
+    ],
+    [
+      0.001819,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Storing updated cookbooks/cis-el7-l1-hardening/recipes/core_dumps.rb in the cache.\u001b[0m\r\n"
+    ],
+    [
+      0.001633,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Storing updated cookbooks/cis-el7-l1-hardening/recipes/avahi.rb in the cache.\u001b[0m\r\n"
+    ],
+    [
+      0.001845,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Storing updated cookbooks/cis-el7-l1-hardening/recipes/ntp.rb in the cache.\u001b[0m\r\n"
+    ],
+    [
+      0.004170,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Storing updated cookbooks/cis-el7-l1-hardening/recipes/at_daemon.rb in the cache.\u001b[0m\r\n"
+    ],
+    [
+      0.001475,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Storing updated cookbooks/cis-el7-l1-hardening/recipes/ssh.rb in the cache.\u001b[0m\r\n"
+    ],
+    [
+      0.001897,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Storing updated cookbooks/cis-el7-l1-hardening/recipes/user-mgmt.rb in the cache.\u001b[0m\r\n"
+    ],
+    [
+      0.001438,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Storing updated cookbooks/cis-el7-l1-hardening/recipes/rsyslog.rb in the cache.\u001b[0m\r\n"
+    ],
+    [
+      0.001460,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Storing updated cookbooks/cis-el7-l1-hardening/chefignore in the cache.\u001b[0m\r\n"
+    ],
+    [
+      0.003140,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Storing updated cookbooks/cis-el7-l1-hardening/metadata.json in the cache.\u001b[0m\r\n"
+    ],
+    [
+      0.001817,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Storing updated cookbooks/line/libraries/default.rb in the cache.\u001b[0m\r\n"
+    ],
+    [
+      0.001727,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Storing updated cookbooks/cis-el7-l1-hardening/README.md in the cache.\r\n==\u003e default:   - cis-el7-l1-hardening (0.6.2)\u001b[0m\u001b[0m\r\n"
+    ],
+    [
+      0.001278,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Storing updated cookbooks/line/recipes/default.rb in the cache.\u001b[0m\r\n"
+    ],
+    [
+      0.001388,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Storing updated cookbooks/line/libraries/provider_append_if_no_line.rb in the cache.\u001b[0m\r\n"
+    ],
+    [
+      0.001299,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Storing updated cookbooks/line/libraries/provider_replace_or_add.rb in the cache.\u001b[0m\r\n"
+    ],
+    [
+      0.002310,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Storing updated cookbooks/line/libraries/matchers.rb in the cache.\u001b[0m\r\n"
+    ],
+    [
+      0.001966,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Storing updated cookbooks/line/libraries/provider_add_to_list.rb in the cache.\u001b[0m\r\n"
+    ],
+    [
+      0.001213,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Storing updated cookbooks/line/libraries/provider_delete_from_list.rb in the cache.\u001b[0m\r\n"
+    ],
+    [
+      0.002986,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Storing updated cookbooks/line/libraries/resource_delete_from_list.rb in the cache.\u001b[0m\r\n"
+    ],
+    [
+      0.001580,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Storing updated cookbooks/line/libraries/resource_append_if_no_line.rb in the cache.\u001b[0m\r\n"
+    ],
+    [
+      0.002096,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Storing updated cookbooks/line/libraries/resource_delete_lines.rb in the cache.\u001b[0m"
+    ],
+    [
+      0.000004,
+      "\r\n"
+    ],
+    [
+      0.000968,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Storing updated cookbooks/line/files/default/serial.conf in the cache.\u001b[0m"
+    ],
+    [
+      0.000007,
+      "\r\n"
+    ],
+    [
+      0.000674,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Storing updated cookbooks/line/files/default/tests/minitest/support/helpers.rb in the cache.\u001b[0m"
+    ],
+    [
+      0.000004,
+      "\r\n"
+    ],
+    [
+      0.000553,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Storing updated cookbooks/line/files/default/tests/minitest/default_test.rb in the cache.\u001b[0m\r\n"
+    ],
+    [
+      0.000656,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Storing updated cookbooks/line/libraries/provider_delete_lines.rb in the cache.\u001b[0m\r\n"
+    ],
+    [
+      0.000433,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Storing updated cookbooks/line/README.md in the cache.\u001b[0m\r\n"
+    ],
+    [
+      0.000609,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Storing updated cookbooks/line/libraries/resource_replace_or_add.rb in the cache.\u001b[0m\r\n"
+    ],
+    [
+      0.000506,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Storing updated cookbooks/line/libraries/resource_add_to_list.rb in the cache.\u001b[0m"
+    ],
+    [
+      0.000004,
+      "\r\n"
+    ],
+    [
+      0.000688,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Storing updated cookbooks/line/metadata.json in the cache.\u001b[0m"
+    ],
+    [
+      0.000004,
+      "\r\n"
+    ],
+    [
+      0.006053,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:24-04:00] INFO: Storing updated cookbooks/line/CHANGELOG.md in the cache.\r\n==\u003e default:   - line (0.6.3)\u001b[0m\r\n==\u003e default: Installing Cookbook Gems:\u001b[0m\r\n==\u003e default: Compiling Cookbooks...\u001b[0m\u001b[0m\r\n"
+    ],
+    [
+      0.029148,
+      "\u001b[1;32m==\u003e default: Converging 109 resources\u001b[0m\r\n==\u003e default: Recipe: cis-el7-l1-hardening::default\u001b[0m\r\n==\u003e default:   * yum_package[firewalld] action install\u001b[0m\r\n"
+    ],
+    [
+      1.455419,
+      "\u001b[1;32m==\u003e default:  (up to date)\r\n==\u003e default:   * service[firewalld] action enable\u001b[0m\r\n"
+    ],
+    [
+      0.278315,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:26-04:00] INFO: service[firewalld] enabled\r\n==\u003e default: \r\n==\u003e default:     \u001b[32m- enable service service[firewalld]\u001b[0m\r\n==\u003e default: \u001b[0m  * service[firewalld] action start\u001b[0m\r\n"
+    ],
+    [
+      0.461134,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:26-04:00] INFO: service[firewalld] started\r\n==\u003e default: \r\n==\u003e default:     \u001b[32m- start service service[firewalld]\u001b[0m\r\n==\u003e default: \u001b[0m  * yum_package[Install grub2] action install (up to date)\r\n==\u003e default:   * file[/boot/grub2/grub.cfg] action create\u001b[0m\r\n"
+    ],
+    [
+      0.003255,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:26-04:00] INFO: file[/boot/grub2/grub.cfg] mode changed to 600\r\n==\u003e default: \r\n==\u003e default:     \u001b[32m- change mode from '0644' to '0600'\u001b[0m\u001b[0m\r\n"
+    ],
+    [
+      0.063448,
+      "\u001b[1;32m==\u003e default: \r\n==\u003e default:     \u001b[32m- restore selinux security context\u001b[0m\r\n==\u003e default: \u001b[0m  * yum_package[Install initscripts] action install (up to date)\r\n==\u003e default:   * replace_or_add[Set Daemon umask] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.004880,
+      "\u001b[1;32m==\u003e default: \r\n==\u003e default:   \r\n==\u003e default: \u001b[0mRecipe: cis-el7-l1-hardening::ssh\u001b[0m\r\n==\u003e default:   * yum_package[Install OpenSSH Server] action install (up to date)\r\n==\u003e default:   * service[sshd.service] action enable\u001b[0m\r\n"
+    ],
+    [
+      0.077664,
+      "\u001b[1;32m==\u003e default:  (up to date)\r\n==\u003e default:   * service[sshd.service] action start\u001b[0m\r\n"
+    ],
+    [
+      0.070122,
+      "\u001b[1;32m==\u003e default:  (up to date)\r\n==\u003e default:   * file[sshd.changed] action nothing (skipped due to action :nothing)\r\n==\u003e default:   * file[/etc/ssh/sshd_config] action create (up to date)\r\n==\u003e default:   * replace_or_add[SSH Protocol] action edit\r\n==\u003e default:   \r\n==\u003e default: \u001b[0m[2016-07-10T19:49:26-04:00] INFO: replace_or_add[SSH Protocol] sending create action to file[sshd.changed] (immediate)\r\n==\u003e default:   * file[sshd.changed] action create[2016-07-10T19:49:26-04:00] INFO: file[sshd.changed] created file /tmp/.sshd-changed\r\n==\u003e default: \r\n==\u003e default:     \u001b[32m- create new file /tmp/.sshd-changed\u001b[0m[2016-07-10T19:49:26-04:00] INFO: file[sshd.changed] owner changed to 0\r\n==\u003e default: [2016-07-10T19:49:26-04:00] INFO: file[sshd.changed] group changed to 0\r\n==\u003e default: [2016-07-10T19:49:26-04:00] INFO: file[sshd.changed] mode changed to 600\r\n==\u003e default: \r\n==\u003e default:     \u001b[32m- change mode from '' to '0600'\u001b[0m\r\n==\u003e default:     \u001b[32m- change owner from '' to 'root'\u001b[0m\r\n==\u003e default:     \u001b[32m- cha"
+    ],
+    [
+      0.000046,
+      "nge group from '' to 'root'\u001b[0m\u001b[0m\r\n"
+    ],
+    [
+      0.055003,
+      "\u001b[1;32m==\u003e default: \r\n==\u003e default:     \u001b[32m- restore selinux security context\u001b[0m\r\n==\u003e default: \u001b[0m  * replace_or_add[SSH MaxAuthTries] action edit\r\n==\u003e default:   \r\n==\u003e default: \u001b[0m[2016-07-10T19:49:26-04:00] INFO: replace_or_add[SSH MaxAuthTries] sending create action to file[sshd.changed] (immediate)\r\n==\u003e default:   * file[sshd.changed] action create (up to date)\r\n==\u003e default:   * replace_or_add[Disable SSH X11 Forwarding] action edit\r\n==\u003e default:   \r\n==\u003e default: \u001b[0m[2016-07-10T19:49:26-04:00] INFO: replace_or_add[Disable SSH X11 Forwarding] sending create action to file[sshd.changed] (immediate)\r\n==\u003e default:   * file[sshd.changed] action create (up to date)\r\n==\u003e default:   * replace_or_add[Set SSH IgnoreRhosts to Yes] action edit\r\n==\u003e default:   \r\n==\u003e default: \u001b[0m[2016-07-10T19:49:26-04:00] INFO: replace_or_add[Set SSH IgnoreRhosts to Yes] sending create action to file[sshd.changed] (immediate)\r\n==\u003e default:   * file[sshd.changed] action create (up to date)\r\n==\u003e default:   * replace_or_add[Set SSH"
+    ],
+    [
+      0.000031,
+      " Banner] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.007887,
+      "\u001b[1;32m==\u003e default: \r\n==\u003e default:   \r\n==\u003e default: \u001b[0m[2016-07-10T19:49:26-04:00] INFO: replace_or_add[Set SSH Banner] sending create action to file[sshd.changed] (immediate)\r\n==\u003e default:   * file[sshd.changed] action create (up to date)\r\n==\u003e default:   * delete_lines[Remove no default banner comment] action edit\r\n==\u003e default:   \r\n==\u003e default: \u001b[0m[2016-07-10T19:49:26-04:00] INFO: delete_lines[Remove no default banner comment] sending create action to file[sshd.changed] (immediate)\r\n==\u003e default:   * file[sshd.changed] action create (up to date)\r\n==\u003e default:   * replace_or_add[Set SSH PermitEmptyPasswords to No] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.007730,
+      "\u001b[1;32m==\u003e default: \r\n==\u003e default:   \r\n==\u003e default: \u001b[0m[2016-07-10T19:49:26-04:00] INFO: replace_or_add[Set SSH PermitEmptyPasswords to No] sending create action to file[sshd.changed] (immediate)\r\n==\u003e default:   * file[sshd.changed] action create (up to date)\r\n==\u003e default:   * replace_or_add[Disable SSH Root Login] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.000710,
+      "\u001b[1;32m==\u003e default:   \u001b[0m\r\n"
+    ],
+    [
+      0.000564,
+      "\u001b[1;32m==\u003e default: \r\n==\u003e default: \u001b[0m\u001b[0m\r\n"
+    ],
+    [
+      0.000521,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:26-04:00] INFO: replace_or_add[Disable SSH Root Login] sending create action to file[sshd.changed] (immediate)\u001b[0m\r\n"
+    ],
+    [
+      0.000407,
+      "\u001b[1;32m==\u003e default:   \u001b[0m\r\n"
+    ],
+    [
+      0.000455,
+      "\u001b[1;32m==\u003e default: * file[sshd.changed] action create\u001b[0m\r\n"
+    ],
+    [
+      0.012075,
+      "\u001b[1;32m==\u003e default:  (up to date)\r\n==\u003e default:   * replace_or_add[Set SSH HostbasedAuthentication to No] action edit\r\n==\u003e default:   \r\n==\u003e default: \u001b[0m[2016-07-10T19:49:26-04:00] INFO: replace_or_add[Set SSH HostbasedAuthentication to No] sending create action to file[sshd.changed] (immediate)\r\n==\u003e default:   * file[sshd.changed] action create (up to date)\r\n==\u003e default:   * replace_or_add[Set LogLevel to INFO] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.009977,
+      "\u001b[1;32m==\u003e default: \r\n==\u003e default:   \r\n==\u003e default: \u001b[0m[2016-07-10T19:49:26-04:00] INFO: replace_or_add[Set LogLevel to INFO] sending create action to file[sshd.changed] (immediate)\r\n==\u003e default:   * file[sshd.changed] action create (up to date)\r\n==\u003e default:   * replace_or_add[Set Idle Timeout Interval for User Login - ClientAliveInterval] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.009685,
+      "\u001b[1;32m==\u003e default: \r\n==\u003e default:   \r\n==\u003e default: \u001b[0m[2016-07-10T19:49:26-04:00] INFO: replace_or_add[Set Idle Timeout Interval for User Login - ClientAliveInterval] sending create action to file[sshd.changed] (immediate)\r\n==\u003e default:   * file[sshd.changed] action create (up to date)\r\n==\u003e default:   * replace_or_add[Set Idle Timeout Interval for User Login - ClientAliveCountMax] action edit\r\n==\u003e default:   \r\n==\u003e default: \u001b[0m[2016-07-10T19:49:26-04:00] INFO: replace_or_add[Set Idle Timeout Interval for User Login - ClientAliveCountMax] sending create action to file[sshd.changed] (immediate)\r\n==\u003e default:   * file[sshd.changed] action create\u001b[0m\r\n"
+    ],
+    [
+      0.000559,
+      "\u001b[1;32m==\u003e default:  (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000624,
+      "\u001b[1;32m==\u003e default:   \u001b[0m\r\n"
+    ],
+    [
+      0.000370,
+      "\u001b[1;32m==\u003e default: * replace_or_add[Do Not Allow Users to Set Environment Options] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.025677,
+      "\u001b[1;32m==\u003e default: \r\n==\u003e default:   \r\n==\u003e default: \u001b[0m[2016-07-10T19:49:26-04:00] INFO: replace_or_add[Do Not Allow Users to Set Environment Options] sending create action to file[sshd.changed] (immediate)\r\n==\u003e default:   * file[sshd.changed] action create (up to date)\r\n==\u003e default:   * replace_or_add[Set a DenyUsers config up] action edit\r\n==\u003e default:   \r\n==\u003e default: \u001b[0m[2016-07-10T19:49:26-04:00] INFO: replace_or_add[Set a DenyUsers config up] sending create action to file[sshd.changed] (immediate)\r\n==\u003e default:   * file[sshd.changed] action create (up to date)\r\n==\u003e default:   * replace_or_add[Set a DenyGroups config up] action edit\r\n==\u003e default:   \r\n==\u003e default: \u001b[0m[2016-07-10T19:49:26-04:00] INFO: replace_or_add[Set a DenyGroups config up] sending create action to file[sshd.changed] (immediate)\r\n==\u003e default:   * file[sshd.changed] action create (up to date)\r\n==\u003e default:   * replace_or_add[Use Only Approved Cipher in Counter Mode] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.007456,
+      "\u001b[1;32m==\u003e default: \r\n==\u003e default:   \r\n==\u003e default: \u001b[0m[2016-07-10T19:49:26-04:00] INFO: replace_or_add[Use Only Approved Cipher in Counter Mode] sending create action to file[sshd.changed] (immediate)\r\n==\u003e default:   * file[sshd.changed] action create (up to date)\r\n==\u003e default:   * execute[Restart sshd only if config has changed] action run\u001b[0m\r\n"
+    ],
+    [
+      0.026198,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:27-04:00] INFO: execute[Guard resource] ran successfully\u001b[0m\r\n"
+    ],
+    [
+      0.024254,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:27-04:00] INFO: execute[Restart sshd only if config has changed] ran successfully\r\n==\u003e default: \r\n==\u003e default:     \u001b[32m- execute rm -rf /tmp/.sshd-changed\u001b[0m\r\n==\u003e default: \u001b[0m[2016-07-10T19:49:27-04:00] INFO: execute[Restart sshd only if config has changed] sending restart action to service[sshd.service] (immediate)\r\n==\u003e default:   * service[sshd.service] action restart\u001b[0m\r\n"
+    ],
+    [
+      0.109327,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:27-04:00] INFO: service[sshd.service] restarted\r\n==\u003e default: \r\n==\u003e default:     \u001b[32m- restart service service[sshd.service]\u001b[0m\r\n==\u003e default: \u001b[0mRecipe: cis-el7-l1-hardening::avahi\u001b[0m\r\n==\u003e default:   * yum_package[Install Avahi Libs] action install (up to date)\r\n==\u003e default:   * yum_package[Install Avahi Autoipd] action install (up to date)\r\n==\u003e default:   * yum_package[Install Avahi] action install[2016-07-10T19:49:27-04:00] INFO: yum_package[Install Avahi] installing avahi-0.6.31-15.el7_2.1 from updates repository\u001b[0m\r\n"
+    ],
+    [
+      4.165644,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:31-04:00] INFO: yum_package[Install Avahi] installed avahi at 0.6.31-15.el7_2.1\r\n==\u003e default: \r\n==\u003e default:     \u001b[32m- install version 0.6.31-15.el7_2.1 of package avahi\u001b[0m\r\n==\u003e default: \u001b[0m  * service[avahi-daemon.socket] action disable\u001b[0m\r\n"
+    ],
+    [
+      0.147551,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:31-04:00] INFO: service[avahi-daemon.socket] disabled\r\n==\u003e default: \r\n==\u003e default:     \u001b[32m- disable service service[avahi-daemon.socket]\u001b[0m\r\n==\u003e default: \u001b[0m  * service[avahi-daemon.socket] action stop\u001b[0m\r\n"
+    ],
+    [
+      0.058694,
+      "\u001b[1;32m==\u003e default:  (up to date)\r\n==\u003e default:   * service[avahi-daemon.service] action disable\u001b[0m\r\n"
+    ],
+    [
+      0.126234,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:31-04:00] INFO: service[avahi-daemon.service] disabled\r\n==\u003e default: \r\n==\u003e default:     \u001b[32m- disable service service[avahi-daemon.service]\u001b[0m\r\n==\u003e default: \u001b[0m  * service[avahi-daemon.service] action stop\u001b[0m\r\n"
+    ],
+    [
+      0.057087,
+      "\u001b[1;32m==\u003e default:  (up to date)\r\n==\u003e default: Recipe: cis-el7-l1-hardening::cron\u001b[0m\r\n==\u003e default:   * yum_package[Install cronie] action install\u001b[0m\r\n"
+    ],
+    [
+      0.270070,
+      "\u001b[1;32m==\u003e default:  (up to date)\r\n==\u003e default:   * service[crond] action enable\u001b[0m\r\n"
+    ],
+    [
+      0.058952,
+      "\u001b[1;32m==\u003e default:  (up to date)\r\n==\u003e default:   * service[crond] action start\u001b[0m\r\n"
+    ],
+    [
+      0.059995,
+      "\u001b[1;32m==\u003e default:  (up to date)\r\n==\u003e default:   * yum_package[Install cronie-anacron] action install (up to date)\r\n==\u003e default:   * yum_package[Install crontabs] action install (up to date)\r\n==\u003e default:   * directory[/etc/cron.d] action create[2016-07-10T19:49:32-04:00] INFO: directory[/etc/cron.d] mode changed to 700\r\n==\u003e default: \r\n==\u003e default:     \u001b[32m- change mode from '0755' to '0700'\u001b[0m\u001b[0m\r\n"
+    ],
+    [
+      0.028803,
+      "\u001b[1;32m==\u003e default: \r\n==\u003e default:     \u001b[32m- restore selinux security context\u001b[0m\r\n==\u003e default: \u001b[0m  * directory[/etc/cron.monthly] action create[2016-07-10T19:49:32-04:00] INFO: directory[/etc/cron.monthly] mode changed to 700\r\n==\u003e default: \r\n==\u003e default:     \u001b[32m- change mode from '0755' to '0700'\u001b[0m\u001b[0m\r\n"
+    ],
+    [
+      0.027977,
+      "\u001b[1;32m==\u003e default: \r\n==\u003e default:     \u001b[32m- restore selinux security context\u001b[0m\r\n==\u003e default: \u001b[0m  * directory[/etc/cron.weekly] action create[2016-07-10T19:49:32-04:00] INFO: directory[/etc/cron.weekly] mode changed to 700\r\n==\u003e default: \r\n==\u003e default:     \u001b[32m- change mode from '0755' to '0700'\u001b[0m\u001b[0m\r\n"
+    ],
+    [
+      0.031833,
+      "\u001b[1;32m==\u003e default: \r\n==\u003e default:     \u001b[32m- restore selinux security context\u001b[0m\r\n==\u003e default: \u001b[0m  * directory[/etc/cron.daily] action create[2016-07-10T19:49:32-04:00] INFO: directory[/etc/cron.daily] mode changed to 700\r\n==\u003e default: \r\n==\u003e default:     \u001b[32m- change mode from '0755' to '0700'\u001b[0m\u001b[0m\r\n"
+    ],
+    [
+      0.032131,
+      "\u001b[1;32m==\u003e default: \r\n==\u003e default:     \u001b[32m- restore selinux security context\u001b[0m\r\n==\u003e default: \u001b[0m  * directory[/etc/cron.hourly] action create[2016-07-10T19:49:32-04:00] INFO: directory[/etc/cron.hourly] mode changed to 700\r\n==\u003e default: \r\n==\u003e default:     \u001b[32m- change mode from '0755' to '0700'\u001b[0m\u001b[0m\r\n"
+    ],
+    [
+      0.029061,
+      "\u001b[1;32m==\u003e default: \r\n==\u003e default:     \u001b[32m- restore selinux security context\u001b[0m\r\n==\u003e default: \u001b[0m  * file[/etc/crontab] action create[2016-07-10T19:49:32-04:00] INFO: file[/etc/crontab] mode changed to 700\r\n==\u003e default: \r\n==\u003e default:     \u001b[32m- change mode from '0644' to '0700'\u001b[0m\u001b[0m\r\n"
+    ],
+    [
+      0.029145,
+      "\u001b[1;32m==\u003e default: \r\n==\u003e default:     \u001b[32m- restore selinux security context\u001b[0m\r\n==\u003e default: \u001b[0m  * file[/etc/anacrontab] action create[2016-07-10T19:49:32-04:00] INFO: file[/etc/anacrontab] mode changed to 700\r\n==\u003e default: \r\n==\u003e default:     \u001b[32m- change mode from '0600' to '0700'\u001b[0m\u001b[0m\r\n"
+    ],
+    [
+      0.027446,
+      "\u001b[1;32m==\u003e default: \r\n==\u003e default:     \u001b[32m- restore selinux security context\u001b[0m\r\n==\u003e default: \u001b[0m  * file[/etc/cron.deny] action delete\u001b[0m\r\n"
+    ],
+    [
+      0.007118,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:32-04:00] INFO: file[/etc/cron.deny] backed up to /var/chef/backup/etc/cron.deny.chef-20160710194932.300104\r\n==\u003e default: [2016-07-10T19:49:32-04:00] INFO: file[/etc/cron.deny] deleted file at /etc/cron.deny\r\n==\u003e default: \r\n==\u003e default:     \u001b[32m- delete file /etc/cron.deny\u001b[0m\r\n==\u003e default: \u001b[0m  * file[/etc/cron.allow] action create[2016-07-10T19:49:32-04:00] INFO: file[/etc/cron.allow] created file /etc/cron.allow\r\n==\u003e default: \r\n==\u003e default:     \u001b[32m- create new file /etc/cron.allow\u001b[0m[2016-07-10T19:49:32-04:00] INFO: file[/etc/cron.allow] owner changed to 0\r\n==\u003e default: [2016-07-10T19:49:32-04:00] INFO: file[/etc/cron.allow] group changed to 0\r\n==\u003e default: [2016-07-10T19:49:32-04:00] INFO: file[/etc/cron.allow] mode changed to 700\r\n==\u003e default: \r\n==\u003e default:     \u001b[32m- change mode from '' to '0700'\u001b[0m\r\n==\u003e default:     \u001b[32m- change owner from '' to 'root'\u001b[0m\r\n==\u003e default:     \u001b[32m- change group from '' to 'root'\u001b[0m\u001b[0m\r\n"
+    ],
+    [
+      0.029401,
+      "\u001b[1;32m==\u003e default: \r\n==\u003e default:     \u001b[32m- restore selinux security context\u001b[0m\r\n==\u003e default: \u001b[0mRecipe: cis-el7-l1-hardening::at_daemon\u001b[0m\r\n==\u003e default:   * file[/etc/at.deny] action delete (up to date)\r\n==\u003e default:   * file[/etc/at.allow] action create[2016-07-10T19:49:32-04:00] INFO: file[/etc/at.allow] created file /etc/at.allow\r\n==\u003e default: \r\n==\u003e default:     \u001b[32m- create new file /etc/at.allow\u001b[0m[2016-07-10T19:49:32-04:00] INFO: file[/etc/at.allow] owner changed to 0\r\n==\u003e default: [2016-07-10T19:49:32-04:00] INFO: file[/etc/at.allow] group changed to 0\r\n==\u003e default: [2016-07-10T19:49:32-04:00] INFO: file[/etc/at.allow] mode changed to 700\r\n==\u003e default: \r\n==\u003e default:     \u001b[32m- change mode from '' to '0700'\u001b[0m\r\n==\u003e default:     \u001b[32m- change owner from '' to 'root'\u001b[0m\r\n==\u003e default:     \u001b[32m- change group from '' to 'root'\u001b[0m\u001b[0m\r\n"
+    ],
+    [
+      0.031985,
+      "\u001b[1;32m==\u003e default: \r\n==\u003e default:     \u001b[32m- restore selinux security context\u001b[0m\r\n==\u003e default: \u001b[0mRecipe: cis-el7-l1-hardening::network-packet-remediation\u001b[0m\r\n==\u003e default:   * yum_package[Install initscripts] action install (up to date)\r\n==\u003e default:   * yum_package[Install procps-ng] action install (up to date)\r\n==\u003e default:   * file[/etc/sysctl.conf] action create (up to date)\r\n==\u003e default:   * replace_or_add[enable_update_net.ipv4.conf.all.log_martians=1] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.001195,
+      "\u001b[1;32m==\u003e default: \r\n==\u003e default:   \r\n==\u003e default: \u001b[0m  * replace_or_add[enable_net.ipv4.conf.default.log_martians=1] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.008551,
+      "\u001b[1;32m==\u003e default: \r\n==\u003e default:   \r\n==\u003e default: \u001b[0m  * execute[update_net.ipv4.conf.all.log_martians=1] action run\u001b[0m\r\n"
+    ],
+    [
+      0.036390,
+      "\u001b[1;32m==\u003e default: \r\n==\u003e default:     [execute] net.ipv4.conf.all.log_martians = 1\u001b[0m\r\n"
+    ],
+    [
+      0.008110,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:32-04:00] INFO: execute[update_net.ipv4.conf.all.log_martians=1] ran successfully\r\n==\u003e default:     \u001b[32m- execute /sbin/sysctl -w net.ipv4.conf.all.log_martians=1\u001b[0m\r\n==\u003e default: \u001b[0m  * execute[update_net.ipv4.conf.default.log_martians=1] action run\u001b[0m\r\n"
+    ],
+    [
+      0.027557,
+      "\u001b[1;32m==\u003e default: \r\n==\u003e default:     [execute] net.ipv4.conf.default.log_martians = 1\u001b[0m\r\n"
+    ],
+    [
+      0.015590,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:32-04:00] INFO: execute[update_net.ipv4.conf.default.log_martians=1] ran successfully\r\n==\u003e default:     \u001b[32m- execute /sbin/sysctl -w net.ipv4.conf.default.log_martians=1\u001b[0m\r\n==\u003e default: \u001b[0m  * replace_or_add[enable_net.ipv4.conf.all.send_redirects=0] action edit\r\n==\u003e default:   \r\n==\u003e default: \u001b[0m  * replace_or_add[enable_net.ipv4.conf.default.send_redirects=0] action edit\r\n==\u003e default:   \r\n==\u003e default: \u001b[0m  * execute[update_net.ipv4.conf.all.send_redirects=0] action run\u001b[0m"
+    ],
+    [
+      0.000018,
+      "\r\n"
+    ],
+    [
+      0.030228,
+      "\u001b[1;32m==\u003e default: \r\n==\u003e default:     [execute] net.ipv4.conf.all.send_redirects = 0\u001b[0m\r\n"
+    ],
+    [
+      0.008367,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:32-04:00] INFO: execute[update_net.ipv4.conf.all.send_redirects=0] ran successfully\r\n==\u003e default:     \u001b[32m- execute /sbin/sysctl -w net.ipv4.conf.all.send_redirects=0\u001b[0m\r\n==\u003e default: \u001b[0m  * execute[update_net.ipv4.conf.default.send_redirects=0] action run\u001b[0m\r\n"
+    ],
+    [
+      0.026396,
+      "\u001b[1;32m==\u003e default: \r\n==\u003e default:     [execute] net.ipv4.conf.default.send_redirects = 0\u001b[0m\r\n"
+    ],
+    [
+      0.016221,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:32-04:00] INFO: execute[update_net.ipv4.conf.default.send_redirects=0] ran successfully\r\n==\u003e default:     \u001b[32m- execute /sbin/sysctl -w net.ipv4.conf.default.send_redirects=0\u001b[0m\r\n==\u003e default: \u001b[0m  * replace_or_add[enable_net.ipv4.conf.all.accept_redirects=0] action edit\r\n==\u003e default:   \r\n==\u003e default: \u001b[0m  * replace_or_add[enable_net.ipv4.conf.default.accept_redirects=0] action edit\r\n==\u003e default:   \r\n==\u003e default: \u001b[0m  * execute[update_net.ipv4.conf.all.accept_redirects=0] action run\u001b[0m\r\n"
+    ],
+    [
+      0.028511,
+      "\u001b[1;32m==\u003e default: \r\n==\u003e default:     [execute] net.ipv4.conf.all.accept_redirects = 0\u001b[0m\r\n"
+    ],
+    [
+      0.013984,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:32-04:00] INFO: execute[update_net.ipv4.conf.all.accept_redirects=0] ran successfully\r\n==\u003e default:     \u001b[32m- execute /sbin/sysctl -w net.ipv4.conf.all.accept_redirects=0\u001b[0m\r\n==\u003e default: \u001b[0m  * execute[update_net.ipv4.conf.default.accept_redirects=0] action run\u001b[0m\r\n"
+    ],
+    [
+      0.027553,
+      "\u001b[1;32m==\u003e default: \r\n==\u003e default:     [execute] net.ipv4.conf.default.accept_redirects = 0\u001b[0m\r\n"
+    ],
+    [
+      0.016073,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:32-04:00] INFO: execute[update_net.ipv4.conf.default.accept_redirects=0] ran successfully\r\n==\u003e default:     \u001b[32m- execute /sbin/sysctl -w net.ipv4.conf.default.accept_redirects=0\u001b[0m\r\n==\u003e default: \u001b[0mRecipe: cis-el7-l1-hardening::login_banners\u001b[0m\r\n==\u003e default:   * file[/etc/motd] action create (up to date)\r\n==\u003e default:   * execute[Delete OS Version from /etc/motd] action run\u001b[0m\r\n"
+    ],
+    [
+      0.018978,
+      "\u001b[1;32m==\u003e default:  (skipped due to only_if)\r\n==\u003e default:   * execute[Delete Kernel Version from /etc/motd] action run\u001b[0m\r\n"
+    ],
+    [
+      0.020077,
+      "\u001b[1;32m==\u003e default:  (skipped due to only_if)\r\n==\u003e default:   * execute[Delete Machine Architecture from /etc/motd] action run\u001b[0m\r\n"
+    ],
+    [
+      0.020256,
+      "\u001b[1;32m==\u003e default:  (skipped due to only_if)\r\n==\u003e default:   * execute[Delete OS used from /etc/motd] action run\u001b[0m\r\n"
+    ],
+    [
+      0.022034,
+      "\u001b[1;32m==\u003e default:  (skipped due to only_if)\r\n==\u003e default:   * file[/etc/issue] action create (up to date)\r\n==\u003e default:   * execute[Delete OS Version from /etc/issue] action run\u001b[0m\r\n"
+    ],
+    [
+      0.021172,
+      "\u001b[1;32m==\u003e default:  (skipped due to only_if)\r\n==\u003e default:   * execute[Delete Kernel Version from /etc/issue] action run\u001b[0m\r\n"
+    ],
+    [
+      0.017878,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:32-04:00] INFO: execute[Guard resource] ran successfully\u001b[0m\r\n"
+    ],
+    [
+      0.042073,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:32-04:00] INFO: execute[Delete Kernel Version from /etc/issue] ran successfully\r\n==\u003e default: \r\n==\u003e default:     \u001b[32m- execute /usr/bin/sed -i 's:\\\\r:REDACTED_KERNELVER:g' /etc/issue\u001b[0m\r\n==\u003e default: \u001b[0m  * execute[Delete Machine Architecture from /etc/issue] action run\u001b[0m\r\n"
+    ],
+    [
+      0.019122,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:32-04:00] INFO: execute[Guard resource] ran successfully\u001b[0m\r\n"
+    ],
+    [
+      0.037493,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:32-04:00] INFO: execute[Delete Machine Architecture from /etc/issue] ran successfully\r\n==\u003e default: \r\n==\u003e default:     \u001b[32m- execute /usr/bin/sed -i 's/\\\\m/REDACTED_ARCH/g' /etc/issue\u001b[0m\r\n==\u003e default: \u001b[0m  * execute[Delete OS used from /etc/issue] action run\u001b[0m\r\n"
+    ],
+    [
+      0.022744,
+      "\u001b[1;32m==\u003e default:  (skipped due to only_if)\r\n==\u003e default:   * file[/etc/issue.net] action create (up to date)\r\n==\u003e default:   * execute[Delete OS Version from /etc/issue.net] action run\u001b[0m\r\n"
+    ],
+    [
+      0.020783,
+      "\u001b[1;32m==\u003e default:  (skipped due to only_if)\r\n==\u003e default:   * execute[Delete Kernel Version from /etc/issue.net] action run\u001b[0m\r\n"
+    ],
+    [
+      0.018741,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:32-04:00] INFO: execute[Guard resource] ran successfully\u001b[0m\r\n"
+    ],
+    [
+      0.034490,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:32-04:00] INFO: execute[Delete Kernel Version from /etc/issue.net] ran successfully\r\n==\u003e default: \r\n==\u003e default:     \u001b[32m- execute /usr/bin/sed -i 's:\\\\r:REDACTED_KERNELVER:g' /etc/issue.net\u001b[0m\r\n==\u003e default: \u001b[0m  * execute[Delete Machine Architecture from /etc/issue.net] action run\u001b[0m\r\n"
+    ],
+    [
+      0.017364,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:32-04:00] INFO: execute[Guard resource] ran successfully\u001b[0m\r\n"
+    ],
+    [
+      0.036615,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:33-04:00] INFO: execute[Delete Machine Architecture from /etc/issue.net] ran successfully\r\n==\u003e default: \r\n==\u003e default:     \u001b[32m- execute /usr/bin/sed -i 's/\\\\m/REDACTED_ARCH/g' /etc/issue.net\u001b[0m\r\n==\u003e default: \u001b[0m  * execute[Delete OS used from /etc/issue.net] action run\u001b[0m\r\n"
+    ],
+    [
+      0.020834,
+      "\u001b[1;32m==\u003e default:  (skipped due to only_if)\r\n==\u003e default: Recipe: cis-el7-l1-hardening::core_dumps\u001b[0m\r\n==\u003e default:   * yum_package[Install pam] action install (up to date)\r\n==\u003e default:   * replace_or_add[Restrict Core Dumps] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.004098,
+      "\u001b[1;32m==\u003e default: \r\n==\u003e default:   \r\n==\u003e default: \u001b[0mRecipe: cis-el7-l1-hardening::rsyslog\u001b[0m\r\n==\u003e default:   * yum_package[Install rsyslog] action install (up to date)\r\n==\u003e default:   * service[rsyslog.service] action enable\u001b[0m\r\n"
+    ],
+    [
+      0.059113,
+      "\u001b[1;32m==\u003e default:  (up to date)\r\n==\u003e default:   * service[rsyslog.service] action start\u001b[0m\r\n"
+    ],
+    [
+      0.058354,
+      "\u001b[1;32m==\u003e default:  (up to date)\r\n==\u003e default:   * replace_or_add[Configure rsyslog to send logs to remote host] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.003055,
+      "\u001b[1;32m==\u003e default: \r\n==\u003e default:   \r\n==\u003e default: \u001b[0m[2016-07-10T19:49:33-04:00] INFO: replace_or_add[Configure rsyslog to send logs to remote host] sending restart action to service[rsyslog.service] (immediate)\r\n==\u003e default:   * service[rsyslog.service] action restart\u001b[0m\r\n"
+    ],
+    [
+      0.119920,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:33-04:00] INFO: service[rsyslog.service] restarted\r\n==\u003e default: \r\n==\u003e default:     \u001b[32m- restart service service[rsyslog.service]\u001b[0m\r\n==\u003e default: \u001b[0mRecipe: cis-el7-l1-hardening::ntp\u001b[0m\r\n==\u003e default:   * yum_package[ntp] action install[2016-07-10T19:49:33-04:00] INFO: yum_package[ntp] installing ntp-4.2.6p5-22.el7.centos.2 from updates repository\u001b[0m\r\n"
+    ],
+    [
+      5.204717,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:38-04:00] INFO: yum_package[ntp] installed ntp at 4.2.6p5-22.el7.centos.2\r\n==\u003e default: \r\n==\u003e default:     \u001b[32m- install version 4.2.6p5-22.el7.centos.2 of package ntp\u001b[0m\r\n==\u003e default: \u001b[0m  * file[/etc/ntp.conf] action create (up to date)\r\n==\u003e default:   * replace_or_add[Add kod to default restrict list in ntp.conf for IP V4] action edit\r\n==\u003e default:   \r\n==\u003e default: \u001b[0m  * replace_or_add[Add default restrict list in ntp.conf with a -6 for IP V6 activity] action edit\r\n==\u003e default:   \r\n==\u003e default: \u001b[0m  * file[/etc/sysconfig/ntpd] action create (up to date)\r\n==\u003e default:   * replace_or_add[ntpd] action edit\r\n==\u003e default:   \r\n==\u003e default: \u001b[0mRecipe: cis-el7-l1-hardening::user-mgmt\u001b[0m\r\n==\u003e default:   * file[/etc/default/useradd] action create (up to date)\r\n==\u003e default:   * replace_or_add[User Inactive Enforcement] action edit\r\n==\u003e default:   \r\n==\u003e default: \u001b[0m  * file[/etc/passwd] action create (up to date)\r\n==\u003e default:   * file[/etc/pam.d/su] action create\u001b[0m\r\n"
+    ],
+    [
+      0.004375,
+      "\u001b[1;32m==\u003e default:  (up to date)\r\n==\u003e default:   * replace_or_add[Restrict su Command] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.012072,
+      "\u001b[1;32m==\u003e default: \r\n==\u003e default:   \r\n==\u003e default: \u001b[0m  * file[/etc/bashrc] action create (up to date)\r\n==\u003e default:   * replace_or_add[default umask for /etc/bashrc] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.004848,
+      "\u001b[1;32m==\u003e default: \r\n==\u003e default:   \r\n==\u003e default: \u001b[0m  * file[/etc/pam.d/system-auth] action create[2016-07-10T19:49:38-04:00] WARN: File /etc/pam.d/system-auth managed by file[/etc/pam.d/system-auth] is really a symlink. Managing the source file instead.\r\n==\u003e default: [2016-07-10T19:49:38-04:00] WARN: Disable this warning by setting `manage_symlink_source true` on the resource\r\n==\u003e default: [2016-07-10T19:49:38-04:00] WARN: In a future Chef release, 'manage_symlink_source' will not be enabled by default\r\n==\u003e default:  (up to date)\r\n==\u003e default:   * replace_or_add[Limit Password Reusd] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.004345,
+      "\u001b[1;32m==\u003e default: \r\n==\u003e default:   \r\n==\u003e default: \u001b[0mRecipe: cis-el7-l1-hardening::passwords\u001b[0m\r\n==\u003e default:   * yum_package[Install libpwquality] action install\u001b[0m\r\n"
+    ],
+    [
+      0.202550,
+      "\u001b[1;32m==\u003e default:  (up to date)\r\n==\u003e default:   * file[/etc/security/pwquality.conf] action create\u001b[0m\r\n"
+    ],
+    [
+      0.003543,
+      "\u001b[1;32m==\u003e default:  (up to date)\r\n==\u003e default:   * replace_or_add[Set Password mimimum length] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.002916,
+      "\u001b[1;32m==\u003e default: \r\n==\u003e default:   \r\n==\u003e default: \u001b[0m  * replace_or_add[Set password dcredit] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.011354,
+      "\u001b[1;32m==\u003e default: \r\n==\u003e default:   \r\n==\u003e default: \u001b[0m  * replace_or_add[Set password ocredit] action edit\r\n==\u003e default:   \r\n==\u003e default: \u001b[0m  * replace_or_add[Set password lcredit] action edit\r\n==\u003e default:   \r\n==\u003e default: \u001b[0m  * replace_or_add[Set password ucredit] action edit\r\n==\u003e default:   \r\n==\u003e default: \u001b[0m  * execute[Set Password Expiring Warning Days in /etc/shadow] action run\u001b[0m\r\n"
+    ],
+    [
+      0.018052,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:38-04:00] INFO: execute[Guard resource] ran successfully\u001b[0m\r\n"
+    ],
+    [
+      0.023074,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:38-04:00] INFO: execute[Set Password Expiring Warning Days in /etc/shadow] ran successfully\r\n==\u003e default: \r\n==\u003e default:     \u001b[32m- execute /usr/bin/sed -i 's/::\\([^:]*:[^:]*:\\)$/:7:\\1/g' /etc/shadow\u001b[0m\r\n==\u003e default: \u001b[0m  * replace_or_add[Set Password Expiration Days in login.defs] action edit\r\n==\u003e default:   \r\n==\u003e default: \u001b[0m  * execute[Set Password Expiration Days in /etc/shadow] action run\u001b[0m\r\n"
+    ],
+    [
+      0.019047,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:38-04:00] INFO: execute[Guard resource] ran successfully\u001b[0m\r\n"
+    ],
+    [
+      0.023316,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:38-04:00] INFO: execute[Set Password Expiration Days in /etc/shadow] ran successfully\r\n==\u003e default: \r\n==\u003e default:     \u001b[32m- execute /usr/bin/sed -i 's/:\\(9[1-9]\\|[1-9][0-9]\\{2,\\}\\)\\?:\\([^:]*:[^:]*:[^:]*:$\\)/:90:\\2/g' /etc/shadow\u001b[0m\r\n==\u003e default: \u001b[0m  * replace_or_add[Set Password Change Minimum Number of Days in login.defs] action edit\r\n==\u003e default:   \r\n==\u003e default: \u001b[0m  * execute[Set Password Change Minimum Number of Days in /etc/shadow] action run\u001b[0m\r\n"
+    ],
+    [
+      0.017858,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:38-04:00] INFO: execute[Guard resource] ran successfully\u001b[0m\r\n"
+    ],
+    [
+      0.019779,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:38-04:00] INFO: execute[Set Password Change Minimum Number of Days in /etc/shadow] ran successfully\r\n==\u003e default: \r\n==\u003e default:     \u001b[32m- execute /usr/bin/sed -i 's/:[0-6]\\?:\\([^:]*:[^:]*:[^:]*:[^:]*:$\\)/:7:\\1/g' /etc/shadow\u001b[0m\r\n==\u003e default: \u001b[0m\u001b[0m\r\n"
+    ],
+    [
+      0.047450,
+      "\u001b[1;32m==\u003e default: [2016-07-10T19:49:38-04:00] INFO: Chef Run complete in 14.858583744 seconds\u001b[0m\r\n"
+    ],
+    [
+      0.015838,
+      "\u001b[1;32m==\u003e default: \u001b[0m\r\n==\u003e default: Running handlers:\u001b[0m\r\n==\u003e default: [2016-07-10T19:49:38-04:00] INFO: Running report handlers\r\n==\u003e default: Running handlers complete\r\n==\u003e default: \u001b[0m[2016-07-10T19:49:38-04:00] INFO: Report handlers complete\r\n==\u003e default: \u001b[0m\r\n==\u003e default: Deprecated features used!\u001b[0m\r\n==\u003e default:   Cloning resource attributes for yum_package[Install initscripts] from prior resource (CHEF-3694)\r\n==\u003e default: \u001b[0mPrevious yum_package[Install initscripts]: /var/chef/cache/cookbooks/cis-el7-l1-hardening/recipes/default.rb:34:in `from_file'\r\n==\u003e default: \u001b[0mCurrent  yum_package[Install initscripts]: /var/chef/cache/cookbooks/cis-el7-l1-hardening/recipes/network-packet-remediation.rb:10:in `from_file' at 1 location:\u001b[0m\r\n==\u003e default:     - /var/chef/cache/cookbooks/cis-el7-l1-hardening/recipes/network-packet-remediation.rb:10:in `from_file'\u001b[0m\r\n==\u003e default: \u001b[0m\r\n==\u003e default: Chef Client finished, 73/133 resources updated in 16 seconds\u001b[0m\u001b[0m\r\n"
+    ],
+    [
+      1.892412,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                               \r \r"
+    ],
+    [
+      0.000081,
+      "\u001b]2;chartmann@remchartmann01\u0007"
+    ],
+    [
+      0.000015,
+      "\u001b]1;..Conf/demos/01\u0007"
+    ],
+    [
+      0.002351,
+      "\u001b]7;file://remchartmann01/Users/chartmann/Development/ChefConf/demos/01\u0007"
+    ],
+    [
+      0.014903,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[01;32m➜  \u001b[36m01\u001b[00m \u001b[K"
+    ],
+    [
+      0.000043,
+      "\u001b[?1h\u001b="
+    ],
+    [
+      1.213170,
+      "i"
+    ],
+    [
+      0.000055,
+      "\u0008in"
+    ],
+    [
+      0.000064,
+      "s"
+    ],
+    [
+      0.000070,
+      "p"
+    ],
+    [
+      0.000044,
+      "e"
+    ],
+    [
+      0.000052,
+      "c"
+    ],
+    [
+      0.000047,
+      " "
+    ],
+    [
+      0.000037,
+      "e"
+    ],
+    [
+      0.000070,
+      "x"
+    ],
+    [
+      0.000030,
+      "e"
+    ],
+    [
+      0.000059,
+      "c"
+    ],
+    [
+      0.000005,
+      " "
+    ],
+    [
+      0.000055,
+      "c"
+    ],
+    [
+      0.000052,
+      "o"
+    ],
+    [
+      0.000046,
+      "m"
+    ],
+    [
+      0.000044,
+      "p"
+    ],
+    [
+      0.000048,
+      "l"
+    ],
+    [
+      0.000054,
+      "i"
+    ],
+    [
+      0.000047,
+      "a"
+    ],
+    [
+      0.000049,
+      "n"
+    ],
+    [
+      0.000045,
+      "c"
+    ],
+    [
+      0.000056,
+      "e"
+    ],
+    [
+      0.000037,
+      ":"
+    ],
+    [
+      0.000047,
+      "/"
+    ],
+    [
+      0.000056,
+      "/"
+    ],
+    [
+      0.000037,
+      "c"
+    ],
+    [
+      0.000046,
+      "i"
+    ],
+    [
+      0.000048,
+      "s"
+    ],
+    [
+      0.000055,
+      "/"
+    ],
+    [
+      0.000063,
+      "c"
+    ],
+    [
+      0.000036,
+      "i"
+    ],
+    [
+      0.000049,
+      "s"
+    ],
+    [
+      0.000037,
+      "-"
+    ],
+    [
+      0.000048,
+      "c"
+    ],
+    [
+      0.000050,
+      "e"
+    ],
+    [
+      0.000046,
+      "n"
+    ],
+    [
+      0.000048,
+      "t"
+    ],
+    [
+      0.000049,
+      "o"
+    ],
+    [
+      0.000047,
+      "s"
+    ],
+    [
+      0.000047,
+      "7"
+    ],
+    [
+      0.000049,
+      "-"
+    ],
+    [
+      0.000045,
+      "l"
+    ],
+    [
+      0.000047,
+      "e"
+    ],
+    [
+      0.000047,
+      "v"
+    ],
+    [
+      0.000047,
+      "e"
+    ],
+    [
+      0.000046,
+      "l"
+    ],
+    [
+      0.000048,
+      "1"
+    ],
+    [
+      0.000017,
+      " "
+    ],
+    [
+      0.000056,
+      "-"
+    ],
+    [
+      0.000051,
+      "t"
+    ],
+    [
+      0.000015,
+      " "
+    ],
+    [
+      0.000050,
+      "s"
+    ],
+    [
+      0.000049,
+      "s"
+    ],
+    [
+      0.000051,
+      "h"
+    ],
+    [
+      0.000046,
+      ":"
+    ],
+    [
+      0.000060,
+      "/"
+    ],
+    [
+      0.000043,
+      "/"
+    ],
+    [
+      0.000043,
+      "v"
+    ],
+    [
+      0.000043,
+      "a"
+    ],
+    [
+      0.000042,
+      "g"
+    ],
+    [
+      0.000042,
+      "r"
+    ],
+    [
+      0.000042,
+      "a"
+    ],
+    [
+      0.000041,
+      "n"
+    ],
+    [
+      0.000042,
+      "t"
+    ],
+    [
+      0.000042,
+      "@"
+    ],
+    [
+      0.000042,
+      "1"
+    ],
+    [
+      0.000041,
+      "9"
+    ],
+    [
+      0.000042,
+      "2"
+    ],
+    [
+      0.000042,
+      "."
+    ],
+    [
+      0.000042,
+      "1"
+    ],
+    [
+      0.000042,
+      "6"
+    ],
+    [
+      0.000042,
+      "8"
+    ],
+    [
+      0.000042,
+      "."
+    ],
+    [
+      0.000044,
+      "3 \r\u001b[K"
+    ],
+    [
+      0.000043,
+      "4"
+    ],
+    [
+      0.000044,
+      "\r4."
+    ],
+    [
+      0.000043,
+      "1"
+    ],
+    [
+      0.000047,
+      "0"
+    ],
+    [
+      0.000045,
+      "1"
+    ],
+    [
+      0.000017,
+      " "
+    ],
+    [
+      0.000046,
+      "-"
+    ],
+    [
+      0.000045,
+      "i"
+    ],
+    [
+      0.000019,
+      " "
+    ],
+    [
+      0.000048,
+      "."
+    ],
+    [
+      0.000042,
+      "v"
+    ],
+    [
+      0.000044,
+      "a"
+    ],
+    [
+      0.000045,
+      "g"
+    ],
+    [
+      0.000042,
+      "r"
+    ],
+    [
+      0.000043,
+      "a"
+    ],
+    [
+      0.000043,
+      "n"
+    ],
+    [
+      0.000044,
+      "t"
+    ],
+    [
+      0.000043,
+      "/"
+    ],
+    [
+      0.000043,
+      "m"
+    ],
+    [
+      0.000043,
+      "a"
+    ],
+    [
+      0.000044,
+      "c"
+    ],
+    [
+      0.000043,
+      "h"
+    ],
+    [
+      0.000046,
+      "i"
+    ],
+    [
+      0.000041,
+      "n"
+    ],
+    [
+      0.000045,
+      "e"
+    ],
+    [
+      0.000041,
+      "s"
+    ],
+    [
+      0.000045,
+      "/"
+    ],
+    [
+      0.000041,
+      "d"
+    ],
+    [
+      0.000046,
+      "e"
+    ],
+    [
+      0.000040,
+      "f"
+    ],
+    [
+      0.000043,
+      "a"
+    ],
+    [
+      0.000043,
+      "u"
+    ],
+    [
+      0.000043,
+      "l"
+    ],
+    [
+      0.000043,
+      "t"
+    ],
+    [
+      0.000043,
+      "/"
+    ],
+    [
+      0.000043,
+      "v"
+    ],
+    [
+      0.000043,
+      "i"
+    ],
+    [
+      0.000043,
+      "r"
+    ],
+    [
+      0.000043,
+      "t"
+    ],
+    [
+      0.000044,
+      "u"
+    ],
+    [
+      0.000043,
+      "a"
+    ],
+    [
+      0.000045,
+      "l"
+    ],
+    [
+      0.000041,
+      "b"
+    ],
+    [
+      0.000046,
+      "o"
+    ],
+    [
+      0.000041,
+      "x"
+    ],
+    [
+      0.000046,
+      "/"
+    ],
+    [
+      0.000044,
+      "p"
+    ],
+    [
+      0.000043,
+      "r"
+    ],
+    [
+      0.000044,
+      "i"
+    ],
+    [
+      0.000043,
+      "v"
+    ],
+    [
+      0.000043,
+      "a"
+    ],
+    [
+      0.000046,
+      "t"
+    ],
+    [
+      0.000051,
+      "e"
+    ],
+    [
+      0.000038,
+      "_"
+    ],
+    [
+      0.000044,
+      "k"
+    ],
+    [
+      0.000037,
+      "e"
+    ],
+    [
+      0.000039,
+      "y"
+    ],
+    [
+      2.784709,
+      "\u001b[?1l\u001b\u003e"
+    ],
+    [
+      0.000042,
+      "\r\r\n"
+    ],
+    [
+      0.001293,
+      "\u001b]2;inspec exec compliance://cis/cis-centos7-level1 -t  -i \u0007\u001b]1;inspec\u0007"
+    ],
+    [
+      2.103439,
+      "This OS/platform () is not supported by this profile.\r\n"
+    ],
+    [
+      0.040177,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                               \r \r"
+    ],
+    [
+      0.000040,
+      "\u001b]2;chartmann@remchartmann01\u0007"
+    ],
+    [
+      0.000015,
+      "\u001b]1;..Conf/demos/01\u0007"
+    ],
+    [
+      0.002120,
+      "\u001b]7;file://remchartmann01/Users/chartmann/Development/ChefConf/demos/01\u0007"
+    ],
+    [
+      0.015324,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[01;31m➜  \u001b[36m01\u001b[00m "
+    ],
+    [
+      0.000005,
+      "\u001b[K"
+    ],
+    [
+      0.000060,
+      "\u001b[?1h\u001b="
+    ],
+    [
+      4.508989,
+      "v"
+    ],
+    [
+      0.127670,
+      "\u0008va"
+    ],
+    [
+      0.183656,
+      "g"
+    ],
+    [
+      0.200074,
+      "r"
+    ],
+    [
+      0.079955,
+      "a"
+    ],
+    [
+      0.088467,
+      "n"
+    ],
+    [
+      0.079885,
+      "t"
+    ],
+    [
+      0.087878,
+      " "
+    ],
+    [
+      0.144388,
+      "s"
+    ],
+    [
+      0.135724,
+      "s"
+    ],
+    [
+      0.055871,
+      "h"
+    ],
+    [
+      0.143967,
+      " "
+    ],
+    [
+      1.487601,
+      "\u001b[?1l\u001b\u003e"
+    ],
+    [
+      0.000019,
+      "\r\r\n"
+    ],
+    [
+      0.002137,
+      "\u001b]2;vagrant ssh\u0007\u001b]1;vagrant\u0007"
+    ],
+    [
+      2.317737,
+      "You are required to change your password immediately (password aged)\r\nLast login: Sun Jul 10 19:38:38 2016 from 192.168.34.1\r\r\nWARNING: Your password has expired.\r\nYou must change your password now and login again!\r\n"
+    ],
+    [
+      0.010897,
+      "Changing password for user vagrant.\r\n"
+    ],
+    [
+      0.004288,
+      "Changing password for vagrant.\r\n(current) UNIX password: "
+    ],
+    [
+      5.289906,
+      "\r\n"
+    ],
+    [
+      0.004152,
+      "New password: "
+    ],
+    [
+      4.884238,
+      "\r\n"
+    ],
+    [
+      0.016932,
+      "Retype new password: "
+    ],
+    [
+      4.096142,
+      "\r\nSorry, passwords do not match.\r\nNew password: "
+    ],
+    [
+      7.342823,
+      "\r\nRetype new password: "
+    ],
+    [
+      4.359387,
+      "\r\n"
+    ],
+    [
+      0.008481,
+      "passwd: all authentication tokens updated successfully.\r\n"
+    ],
+    [
+      0.000334,
+      "Connection to 127.0.0.1 closed.\r\r\n"
+    ],
+    [
+      0.001873,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                               \r \r"
+    ],
+    [
+      0.000079,
+      "\u001b]2;chartmann@remchartmann01\u0007"
+    ],
+    [
+      0.000026,
+      "\u001b]1;..Conf/demos/01\u0007"
+    ],
+    [
+      0.002354,
+      "\u001b]7;file://remchartmann01/Users/chartmann/Development/ChefConf/demos/01\u0007"
+    ],
+    [
+      0.014214,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[01;32m➜  \u001b[36m01\u001b[00m \u001b[K"
+    ],
+    [
+      0.000066,
+      "\u001b[?1h\u001b="
+    ],
+    [
+      0.899925,
+      "vagrant ssh "
+    ],
+    [
+      0.231426,
+      "\u001b[12Dinspec exec compliance://cis/cis-centos7-level1 -t ssh://vagrant@192.168.34.101 -i .vagrant/machines/default/virtualbox/private_key\u001b[K"
+    ],
+    [
+      0.408261,
+      "\u001b[A\u001b[51Dvagrant ssh\u001b[K\u001b[1B\r\u001b[K\u001b[A\u001b[18C"
+    ],
+    [
+      0.263679,
+      "\u001b[?1l\u001b\u003e"
+    ],
+    [
+      0.000062,
+      "\u001b[1B\r"
+    ],
+    [
+      0.001696,
+      "\u001b]2;vagrant ssh\u0007\u001b]1;vagrant\u0007"
+    ],
+    [
+      2.273138,
+      "Last login: Sun Jul 10 19:49:56 2016 from 10.0.2.2\r\r\n"
+    ],
+    [
+      0.084314,
+      "\u001b]0;vagrant@localhost:~\u0007"
+    ],
+    [
+      0.000259,
+      "\u001b[?1034h[vagrant@localhost ~]$ "
+    ],
+    [
+      1.793765,
+      "e"
+    ],
+    [
+      0.223209,
+      "x"
+    ],
+    [
+      0.136399,
+      "i"
+    ],
+    [
+      0.120073,
+      "t"
+    ],
+    [
+      1.121423,
+      "\r\nlogout\r\n"
+    ],
+    [
+      0.003448,
+      "Connection to 127.0.0.1 closed.\r\r\n"
+    ],
+    [
+      0.002103,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                               \r \r"
+    ],
+    [
+      0.000151,
+      "\u001b]2;chartmann@remchartmann01\u0007"
+    ],
+    [
+      0.000008,
+      "\u001b]1;..Conf/demos/01\u0007"
+    ],
+    [
+      0.002914,
+      "\u001b]7;file://remchartmann01/Users/chartmann/Development/ChefConf/demos/01\u0007"
+    ],
+    [
+      0.014512,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[01;32m➜  \u001b[36m01\u001b[00m \u001b[K"
+    ],
+    [
+      0.000145,
+      "\u001b[?1h\u001b="
+    ],
+    [
+      0.574319,
+      "vagrant ssh "
+    ],
+    [
+      0.247979,
+      "\u001b[12Dinspec exec compliance://cis/cis-centos7-level1 -t ssh://vagrant@192.168.34.101 -i .vagrant/machines/default/virtualbox/private_key\u001b[K"
+    ],
+    [
+      0.655824,
+      "\u001b[?1l\u001b\u003e"
+    ],
+    [
+      0.000032,
+      "\r\r\n"
+    ],
+    [
+      0.000792,
+      "\u001b]2;inspec exec compliance://cis/cis-centos7-level1 -t  -i \u0007\u001b]1;inspec\u0007"
+    ],
+    [
+      20.407824,
+      "\r\nProfile: CIS CentOS Linux 7 Benchmark Level 1 (cis-centos7-level1)\r\nVersion: 1.1.0\r\n"
+    ],
+    [
+      0.000008,
+      "Target:  ssh://vagrant@192.168.34.101:22\r\n\r\n"
+    ],
+    [
+      0.000073,
+      "\u001b[31;1m  ✖  xccdf_org.cisecurity.benchmarks_rule_1.1.1_Create_Separate_Partition_for_tmp: Create Separate Partition for /tmp (1 failed)\u001b[0m\r\n"
+    ],
+    [
+      0.000039,
+      "\u001b[31;1m     \r\n     Mount /tmp is not mounted\r\n     \u001b[0m\r\n"
+    ],
+    [
+      0.000053,
+      "\u001b[31;1m  ✖  xccdf_org.cisecurity.benchmarks_rule_1.1.2_Set_nodev_option_for_tmp_Partition: Set nodev option for /tmp Partition (2 failed)\u001b[0m\r\n"
+    ],
+    [
+      0.000008,
+      "\u001b[31;1m     fail: \r\n     Mount /tmp is not mounted\r\n     \u001b[0m\r\n"
+    ],
+    [
+      0.000140,
+      "\u001b[31;1m     fail: expected nil to include \"nodev\", but it does not respond to `include?`\u001b[0m\r\n"
+    ],
+    [
+      0.000040,
+      "\u001b[31;1m  ✖  xccdf_org.cisecurity.benchmarks_rule_1.1.3_Set_nosuid_option_for_tmp_Partition: Set nosuid option for /tmp Partition (2 failed)\u001b[0m\r\n"
+    ],
+    [
+      0.000024,
+      "\u001b[31;1m     fail: \r\n     Mount /tmp is not mounted\r\n     \u001b[0m\r\n"
+    ],
+    [
+      0.000003,
+      "\u001b[31;1m     fail: expected nil to include \"nosuid\", but it does not respond to `include?`\u001b[0m\r\n"
+    ],
+    [
+      0.000047,
+      "\u001b[31;1m  ✖  xccdf_org.cisecurity.benchmarks_rule_1.1.4_Set_noexec_option_for_tmp_Partition: Set noexec option for /tmp Partition (2 failed)\u001b[0m\r\n"
+    ],
+    [
+      0.000009,
+      "\u001b[31;1m     fail: \r\n     Mount /tmp is not mounted\r\n     \u001b[0m\r\n"
+    ],
+    [
+      0.000015,
+      "\u001b[31;1m     fail: expected nil to include \"noexec\", but it does not respond to `include?`\u001b[0m\r\n"
+    ],
+    [
+      0.000073,
+      "\u001b[31;1m  ✖  xccdf_org.cisecurity.benchmarks_rule_1.1.5_Create_Separate_Partition_for_var: Create Separate Partition for /var (1 failed)\u001b[0m\r\n\u001b[31;1m     \r\n     Mount /var is not mounted\r\n     \u001b[0m\r\n"
+    ],
+    [
+      0.000032,
+      "\u001b[31;1m  ✖  xccdf_org.cisecurity.benchmarks_rule_1.1.6_Bind_Mount_the_vartmp_directory_to_tmp: Bind Mount the /var/tmp directory to /tmp (1 failed)\u001b[0m\r\n"
+    ],
+    [
+      0.000162,
+      "\u001b[31;1m     expected \"\\n#\\n# /etc/fstab\\n# Created by anaconda on Fri Feb 26 22:49:53 2016\\n#\\n# Accessible filesystems, b...s        1 2\\n/dev/mapper/VolGroup00-LogVol01 swap                    swap    defaults        0 0\\n\" to match /$\\s*\\/tmp\\s+\\/var\\/tmp\\s+none\\s+bind\\s+0\\s+0\\s*$/\r\n     Diff:\u001b[0m\r\n     \u001b[0m\u001b[34m@@ -1,2 +1,12 @@\r\n     \u001b[0m\u001b[31m-/$\\s*\\/tmp\\s+\\/var\\/tmp\\s+none\\s+bind\\s+0\\s+0\\s*$/\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+#\r\n     \u001b[0m\u001b[32m+# /etc/fstab\r\n     \u001b[0m\u001b[32m+# Created by anaconda on Fri Feb 26 22:49:53 2016\r\n     \u001b[0m\u001b[32m+#\r\n     \u001b[0m\u001b[32m+# Accessible filesystems, by reference, are maintained under '/dev/disk'\r\n     \u001b[0m\u001b[32m+# See man pages fstab(5), findfs(8), mount(8) and/or blkid(8) for more info\r\n     \u001b[0m\u001b[32m+#\r\n     \u001b[0m\u001b[32m+/dev/mapper/VolGroup00-LogVol00 /                       ext4    defaults        1 1\r\n     \u001b[0m\u001b[32m+UUID=aba49bf4-08fe-48b3-b691-2d1da45f4c2f /boot                   ext4    defaults        1 2\r\n     \u001b[0m\u001b[32m+/dev/mapper/VolGroup00-LogVol01 swap              "
+    ],
+    [
+      0.000029,
+      "      swap    defaults        0 0\r\n     \u001b[0m\u001b[0m\r\n\u001b[31;1m  ✖  xccdf_org.cisecurity.benchmarks_rule_1.1.7_Create_Separate_Partition_for_varlog: Create Separate Partition for /var/log (1 failed)\u001b[0m\r\n"
+    ],
+    [
+      0.000012,
+      "\u001b[31;1m     \r\n     Mount /var/log is not mounted\r\n     \u001b[0m\r\n"
+    ],
+    [
+      0.000038,
+      "\u001b[31;1m  ✖  xccdf_org.cisecurity.benchmarks_rule_1.1.8_Create_Separate_Partition_for_varlogaudit: Create Separate Partition for /var/log/audit (1 failed)\u001b[0m"
+    ],
+    [
+      0.000002,
+      "\r\n"
+    ],
+    [
+      0.000040,
+      "\u001b[31;1m     \r\n     Mount /var/log/audit is not mounted\r\n     \u001b[0m\r\n"
+    ],
+    [
+      0.000031,
+      "\u001b[31;1m  ✖  xccdf_org.cisecurity.benchmarks_rule_1.1.9_Create_Separate_Partition_for_home: Create Separate Partition for /home (1 failed)\u001b[0m\r\n"
+    ],
+    [
+      0.000004,
+      "\u001b[31;1m     \r\n     Mount /home is not mounted\r\n     \u001b[0m\r\n"
+    ],
+    [
+      0.000040,
+      "\u001b[31;1m  ✖  xccdf_org.cisecurity.benchmarks_rule_1.1.10_Add_nodev_Option_to_home: Add nodev Option to /home (2 failed)\u001b[0m"
+    ],
+    [
+      0.000002,
+      "\r\n"
+    ],
+    [
+      0.000022,
+      "\u001b[31;1m     fail: \r\n     Mount /home is not mounted\r\n     \u001b[0m\r\n"
+    ],
+    [
+      0.000013,
+      "\u001b[31;1m     fail: expected nil to include \"nodev\", but it does not respond to `include?`\u001b[0m\r\n"
+    ],
+    [
+      0.000045,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_1.1.14_Add_nodev_Option_to_devshm_Partition: Add nodev Option to /dev/shm Partition\u001b[0m\r\n"
+    ],
+    [
+      0.000060,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_1.1.15_Add_nosuid_Option_to_devshm_Partition: Add nosuid Option to /dev/shm Partition\u001b[0m\r\n"
+    ],
+    [
+      0.000078,
+      "\u001b[31;1m  ✖  xccdf_org.cisecurity.benchmarks_rule_1.1.16_Add_noexec_Option_to_devshm_Partition: Add noexec Option to /dev/shm Partition (1 failed)\u001b[0m"
+    ],
+    [
+      0.000002,
+      "\r\n"
+    ],
+    [
+      0.000027,
+      "\u001b[31;1m     expected [\"rw\", \"nosuid\", \"nodev\", \"seclabel\"] to include \"noexec\"\u001b[0m\r\n"
+    ],
+    [
+      0.000038,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_1.1.17_Set_Sticky_Bit_on_All_World-Writable_Directories: Set Sticky Bit on All World-Writable Directories\u001b[0m\r\n"
+    ],
+    [
+      0.000034,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_1.2.1_Verify_CentOS_GPG_Key_is_Installed: Verify CentOS GPG Key is Installed\u001b[0m\r\n"
+    ],
+    [
+      0.000023,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_1.2.2_Verify_that_gpgcheck_is_Globally_Activated: Verify that gpgcheck is Globally Activated\u001b[0m\r\n"
+    ],
+    [
+      0.000047,
+      "\u001b[31;1m  ✖  xccdf_org.cisecurity.benchmarks_rule_1.5.1_Set_UserGroup_Owner_on_bootgrub2grub.cfg: Set User/Group Owner on /boot/grub2/grub.cfg (3 failed)\u001b[0m\r\n"
+    ],
+    [
+      0.000014,
+      "\u001b[31;1m     fail: expected File /boot/grub2/grub.cfg to exist\u001b[0m\r\n"
+    ],
+    [
+      0.000028,
+      "\u001b[31;1m     fail: \r\n     expected: 0\r\n          got: \r\n     \r\n     (compared using `cmp` matcher)\r\n     \u001b[0m\r\n"
+    ],
+    [
+      0.000003,
+      "\u001b[31;1m     fail: \r\n     expected: 0\r\n          got: \r\n     \r\n     (compared using `cmp` matcher)\r\n     \u001b[0m\r\n"
+    ],
+    [
+      0.000077,
+      "\u001b[31;1m  ✖  xccdf_org.cisecurity.benchmarks_rule_1.5.2_Set_Permissions_on_bootgrub2grub.cfg: Set Permissions on /boot/grub2/grub.cfg (1 failed)\u001b[0m\r\n"
+    ],
+    [
+      0.000014,
+      "\u001b[31;1m     expected File /boot/grub2/grub.cfg to exist\u001b[0m\r\n"
+    ],
+    [
+      0.000121,
+      "\u001b[31;1m  ✖  xccdf_org.cisecurity.benchmarks_rule_1.5.3_Set_Boot_Loader_Password: Set Boot Loader Password (2 failed)\u001b[0m\r\n\u001b[31;1m     fail: expected nil to match /^set superusers=\".*\"\\s*(?:#.*)?$/\u001b[0m\r\n"
+    ],
+    [
+      0.000003,
+      "\u001b[31;1m     fail: expected nil to match /^password/\u001b[0m\r\n"
+    ],
+    [
+      0.000053,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_1.6.1_Restrict_Core_Dumps: Restrict Core Dumps\u001b[0m\r\n"
+    ],
+    [
+      0.000024,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_1.6.2_Enable_Randomized_Virtual_Memory_Region_Placement: Enable Randomized Virtual Memory Region Placement\u001b[0m\r\n"
+    ],
+    [
+      0.000024,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_2.1.1_Remove_telnet-server: Remove telnet-server\u001b[0m\r\n"
+    ],
+    [
+      0.000029,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_2.1.2_Remove_telnet_Clients: Remove telnet Clients\u001b[0m\r\n"
+    ],
+    [
+      0.000014,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_2.1.3_Remove_rsh-server: Remove rsh-server\u001b[0m\r\n"
+    ],
+    [
+      0.000034,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_2.1.4_Remove_rsh: Remove rsh\u001b[0m\r\n"
+    ],
+    [
+      0.000022,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_2.1.5_Remove_NIS_Client: Remove NIS Client\u001b[0m\r\n"
+    ],
+    [
+      0.000023,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_2.1.6_Remove_NIS_Server: Remove NIS Server\u001b[0m\r\n"
+    ],
+    [
+      0.000086,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_2.1.7_Remove_tftp: Remove tftp\u001b[0m\r\n"
+    ],
+    [
+      0.000035,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_2.1.8_Remove_tftp-server: Remove tftp-server\u001b[0m\r\n"
+    ],
+    [
+      0.000019,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_2.1.9_Remove_talk: Remove talk\u001b[0m\r\n"
+    ],
+    [
+      0.000023,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_2.1.10_Remove_talk-server: Remove talk-server\u001b[0m\r\n"
+    ],
+    [
+      0.000037,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_2.1.12_Disable_chargen-dgram: Disable chargen-dgram\u001b[0m\r\n"
+    ],
+    [
+      0.000033,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_2.1.13_Disable_chargen-stream: Disable chargen-stream\u001b[0m\r\n"
+    ],
+    [
+      0.000022,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_2.1.14_Disable_daytime-dgram: Disable daytime-dgram\u001b[0m\r\n"
+    ],
+    [
+      0.000019,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_2.1.15_Disable_daytime-stream: Disable daytime-stream\u001b[0m\r\n"
+    ],
+    [
+      0.000031,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_2.1.16_Disable_echo-dgram: Disable echo-dgram\u001b[0m\r\n"
+    ],
+    [
+      0.000019,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_2.1.17_Disable_echo-stream: Disable echo-stream\u001b[0m\r\n"
+    ],
+    [
+      0.000021,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_2.1.18_Disable_tcpmux-server: Disable tcpmux-server\u001b[0m\r\n"
+    ],
+    [
+      0.000064,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_3.1_Set_Daemon_umask: Set Daemon umask\u001b[0m\r\n"
+    ],
+    [
+      0.000076,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_3.2_Remove_the_X_Window_System: Remove the X Window System\u001b[0m\r\n"
+    ],
+    [
+      0.000019,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_3.3_Disable_Avahi_Server: Disable Avahi Server\u001b[0m\r\n"
+    ],
+    [
+      0.000027,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_3.4_Disable_Print_Server_-_CUPS: Disable Print Server - CUPS\u001b[0m\r\n"
+    ],
+    [
+      0.000019,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_3.5_Remove_DHCP_Server: Remove DHCP Server\u001b[0m\r\n"
+    ],
+    [
+      0.000051,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_3.6_Configure_Network_Time_Protocol_NTP: Configure Network Time Protocol (NTP)\u001b[0m\r\n"
+    ],
+    [
+      0.000031,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_3.7_Remove_LDAP: Remove LDAP\u001b[0m\r\n"
+    ],
+    [
+      0.000071,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_3.8_Disable_NFS_and_RPC: Disable NFS and RPC\u001b[0m\r\n"
+    ],
+    [
+      0.000004,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_3.9_Remove_DNS_Server: Remove DNS Server\u001b[0m"
+    ],
+    [
+      0.000001,
+      "\r\n"
+    ],
+    [
+      0.000112,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_3.10_Remove_FTP_Server: Remove FTP Server\u001b[0m\r\n"
+    ],
+    [
+      0.000015,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_3.11_Remove_HTTP_Server: Remove HTTP Server\u001b[0m\r\n"
+    ],
+    [
+      0.000034,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_3.12_Remove_Dovecot_IMAP_and_POP3_services: Remove Dovecot (IMAP and POP3 services)\u001b[0m\r\n"
+    ],
+    [
+      0.000013,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_3.13_Remove_Samba: Remove Samba\u001b[0m\r\n"
+    ],
+    [
+      0.000022,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_3.14_Remove_HTTP_Proxy_Server: Remove HTTP Proxy Server\u001b[0m\r\n"
+    ],
+    [
+      0.000020,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_3.15_Remove_SNMP_Server: Remove SNMP Server\u001b[0m\r\n"
+    ],
+    [
+      0.000033,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_4.1.1_Disable_IP_Forwarding: Disable IP Forwarding\u001b[0m\r\n"
+    ],
+    [
+      0.000047,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_4.1.2_Disable_Send_Packet_Redirects: Disable Send Packet Redirects\u001b[0m\r\n"
+    ],
+    [
+      0.000042,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_4.2.1_Disable_Source_Routed_Packet_Acceptance: Disable Source Routed Packet Acceptance\u001b[0m\r\n"
+    ],
+    [
+      0.000101,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_4.2.2_Disable_ICMP_Redirect_Acceptance: Disable ICMP Redirect Acceptance\u001b[0m\r\n"
+    ],
+    [
+      0.000045,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_4.2.4_Log_Suspicious_Packets: Log Suspicious Packets\u001b[0m\r\n"
+    ],
+    [
+      0.000033,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_4.2.5_Enable_Ignore_Broadcast_Requests: Enable Ignore Broadcast Requests\u001b[0m\r\n"
+    ],
+    [
+      0.000027,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_4.2.6_Enable_Bad_Error_Message_Protection: Enable Bad Error Message Protection\u001b[0m\r\n"
+    ],
+    [
+      0.000031,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_4.2.8_Enable_TCP_SYN_Cookies: Enable TCP SYN Cookies\u001b[0m\r\n"
+    ],
+    [
+      0.000095,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_4.5.3_Verify_Permissions_on_etchosts.allow: Verify Permissions on /etc/hosts.allow\u001b[0m\r\n"
+    ],
+    [
+      0.000083,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_4.5.5_Verify_Permissions_on_etchosts.deny: Verify Permissions on /etc/hosts.deny\u001b[0m\r\n"
+    ],
+    [
+      0.000092,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_4.7_Enable_firewalld: Enable firewalld\u001b[0m\r\n"
+    ],
+    [
+      0.000021,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_5.1.1_Install_the_rsyslog_package: Install the rsyslog package\u001b[0m"
+    ],
+    [
+      0.000002,
+      "\r\n"
+    ],
+    [
+      0.000020,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_5.1.2_Activate_the_rsyslog_Service: Activate the rsyslog Service\u001b[0m\r\n"
+    ],
+    [
+      0.000438,
+      "\u001b[31;1m  ✖  xccdf_org.cisecurity.benchmarks_rule_5.1.4_Create_and_Set_Permissions_on_rsyslog_Log_Files: Create and Set Permissions on rsyslog Log Files (6 failed)\u001b[0m\r\n"
+    ],
+    [
+      0.000015,
+      "\u001b[31;1m     fail: expected File /usr/share/doc/rsyslog-*/rsyslog_conf.html to exist\u001b[0m\r\n"
+    ],
+    [
+      0.000011,
+      "\u001b[31;1m     fail: expected File /etc/rsyslog.d/ not to be executable by group\u001b[0m\r\n"
+    ],
+    [
+      0.000011,
+      "\u001b[31;1m     fail: expected File /etc/rsyslog.d/ not to be executable by other\u001b[0m\r\n"
+    ],
+    [
+      0.000011,
+      "\u001b[31;1m     fail: expected File /etc/rsyslog.d/ not to be readable by other\u001b[0m\r\n"
+    ],
+    [
+      0.000011,
+      "\u001b[31;1m     fail: expected File /etc/rsyslog.d/*.conf to exist\u001b[0m\r\n"
+    ],
+    [
+      0.000011,
+      "\u001b[31;1m     fail: expected File /var/log/boot.log not to be readable by other\u001b[0m\r\n"
+    ],
+    [
+      0.000028,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_5.1.5_Configure_rsyslog_to_Send_Logs_to_a_Remote_Log_Host: Configure rsyslog to Send Logs to a Remote Log Host\u001b[0m"
+    ],
+    [
+      0.000002,
+      "\r\n"
+    ],
+    [
+      0.000022,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.1.1_Enable_anacron_Daemon: Enable anacron Daemon\u001b[0m\r\n"
+    ],
+    [
+      0.000024,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.1.2_Enable_crond_Daemon: Enable crond Daemon\u001b[0m\r\n"
+    ],
+    [
+      0.000133,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.1.3_Set_UserGroup_Owner_and_Permission_on_etcanacrontab: Set User/Group Owner and Permission on /etc/anacrontab\u001b[0m\r\n"
+    ],
+    [
+      0.000083,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.1.4_Set_UserGroup_Owner_and_Permission_on_etccrontab: Set User/Group Owner and Permission on /etc/crontab\u001b[0m\r\n"
+    ],
+    [
+      0.000083,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.1.5_Set_UserGroup_Owner_and_Permission_on_etccron.hourly: Set User/Group Owner and Permission on /etc/cron.hourly\u001b[0m\r\n"
+    ],
+    [
+      0.000085,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.1.6_Set_UserGroup_Owner_and_Permission_on_etccron.daily: Set User/Group Owner and Permission on /etc/cron.daily\u001b[0m\r\n"
+    ],
+    [
+      0.000124,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.1.7_Set_UserGroup_Owner_and_Permission_on_etccron.weekly: Set User/Group Owner and Permission on /etc/cron.weekly\u001b[0m\r\n"
+    ],
+    [
+      0.000084,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.1.8_Set_UserGroup_Owner_and_Permission_on_etccron.monthly: Set User/Group Owner and Permission on /etc/cron.monthly\u001b[0m\r\n"
+    ],
+    [
+      0.000084,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.1.9_Set_UserGroup_Owner_and_Permission_on_etccron.d: Set User/Group Owner and Permission on /etc/cron.d\u001b[0m\r\n"
+    ],
+    [
+      0.000089,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.1.10_Restrict_at_Daemon: Restrict at Daemon\u001b[0m"
+    ],
+    [
+      0.000003,
+      "\r\n"
+    ],
+    [
+      0.000132,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.1.11_Restrict_atcron_to_Authorized_Users: Restrict at/cron to Authorized Users\u001b[0m\r\n"
+    ],
+    [
+      0.000064,
+      "\u001b[31;1m  ✖  xccdf_org.cisecurity.benchmarks_rule_6.2.1_Set_SSH_Protocol_to_2: Set SSH Protocol to 2 (1 failed)\u001b[0m\r\n\u001b[31;1m     expected nil to match /^\\s*Protocol\\s+(\\S+)\\s*(?:#.*)?$/\u001b[0m\r\n"
+    ],
+    [
+      0.000005,
+      "\u001b[31;1m  ✖  xccdf_org.cisecurity.benchmarks_rule_6.2.2_Set_LogLevel_to_INFO: Set LogLevel to INFO (1 failed)\u001b[0m\r\n"
+    ],
+    [
+      0.000013,
+      "\u001b[31;1m     expected nil to match /^\\s*LogLevel\\s+(\\S+)\\s*(?:#.*)?$/\u001b[0m\r\n"
+    ],
+    [
+      0.000112,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.2.3_Set_Permissions_on_etcsshsshd_config: Set Permissions on /etc/ssh/sshd_config\u001b[0m\r\n"
+    ],
+    [
+      0.000026,
+      "\u001b[31;1m  ✖  xccdf_org.cisecurity.benchmarks_rule_6.2.4_Disable_SSH_X11_Forwarding: Disable SSH X11 Forwarding (1 failed)\u001b[0m\r\n"
+    ],
+    [
+      0.000055,
+      "\u001b[31;1m     expected nil to match /^\\s*X11Forwarding\\s+(\\S+)\\s*(?:#.*)?$/\u001b[0m\r\n"
+    ],
+    [
+      0.000032,
+      "\u001b[31;1m  ✖  xccdf_org.cisecurity.benchmarks_rule_6.2.5_Set_SSH_MaxAuthTries_to_4_or_Less: Set SSH MaxAuthTries to 4 or Less (1 failed)\u001b[0m"
+    ],
+    [
+      0.000002,
+      "\r\n"
+    ],
+    [
+      0.000012,
+      "\u001b[31;1m     expected nil to match /^\\s*MaxAuthTries\\s+(\\S+)\\s*(?:#.*)?$/\u001b[0m\r\n"
+    ],
+    [
+      0.000029,
+      "\u001b[31;1m  ✖  xccdf_org.cisecurity.benchmarks_rule_6.2.6_Set_SSH_IgnoreRhosts_to_Yes: Set SSH IgnoreRhosts to Yes (1 failed)\u001b[0m"
+    ],
+    [
+      0.000002,
+      "\r\n"
+    ],
+    [
+      0.000012,
+      "\u001b[31;1m     expected nil to match /^\\s*IgnoreRhosts\\s+(\\S+)\\s*(?:#.*)?$/\u001b[0m\r\n"
+    ],
+    [
+      0.000028,
+      "\u001b[31;1m  ✖  xccdf_org.cisecurity.benchmarks_rule_6.2.7_Set_SSH_HostbasedAuthentication_to_No: Set SSH HostbasedAuthentication to No (1 failed)\u001b[0m"
+    ],
+    [
+      0.000003,
+      "\r\n"
+    ],
+    [
+      0.000011,
+      "\u001b[31;1m     expected nil to match /^\\s*HostbasedAuthentication\\s+(\\S+)\\s*(?:#.*)?$/\u001b[0m\r\n"
+    ],
+    [
+      0.000028,
+      "\u001b[31;1m  ✖  xccdf_org.cisecurity.benchmarks_rule_6.2.8_Disable_SSH_Root_Login: Disable SSH Root Login (1 failed)\u001b[0m"
+    ],
+    [
+      0.000002,
+      "\r\n"
+    ],
+    [
+      0.000011,
+      "\u001b[31;1m     expected nil to match /^\\s*PermitRootLogin\\s+(\\S+)\\s*(?:#.*)?$/\u001b[0m\r\n"
+    ],
+    [
+      0.000031,
+      "\u001b[31;1m  ✖  xccdf_org.cisecurity.benchmarks_rule_6.2.9_Set_SSH_PermitEmptyPasswords_to_No: Set SSH PermitEmptyPasswords to No (1 failed)\u001b[0m\r\n"
+    ],
+    [
+      0.000035,
+      "\u001b[31;1m     expected nil to match /^\\s*PermitEmptyPasswords\\s+(\\S+)\\s*(?:#.*)?$/\u001b[0m"
+    ],
+    [
+      0.000004,
+      "\r\n"
+    ],
+    [
+      0.000095,
+      "\u001b[31;1m  ✖  xccdf_org.cisecurity.benchmarks_rule_6.2.10_Do_Not_Allow_Users_to_Set_Environment_Options: Do Not Allow Users to Set Environment Options (1 failed)\u001b[0m"
+    ],
+    [
+      0.000004,
+      "\r\n"
+    ],
+    [
+      0.000069,
+      "\u001b[31;1m     expected nil to match /^\\s*PermitUserEnvironment\\s+(\\S+)\\s*(?:#.*)?$/\u001b[0m\r\n"
+    ],
+    [
+      0.000067,
+      "\u001b[31;1m  ✖  xccdf_org.cisecurity.benchmarks_rule_6.2.11_Use_Only_Approved_Cipher_in_Counter_Mode: Use Only Approved Cipher in Counter Mode (1 failed)\u001b[0m"
+    ],
+    [
+      0.000005,
+      "\r\n"
+    ],
+    [
+      0.000039,
+      "\u001b[31;1m     expected nil to match /^\\s*Ciphers\\s+(\\S+)\\s*(?:#.*)?$/\u001b[0m\r\n"
+    ],
+    [
+      0.000067,
+      "\u001b[31;1m  ✖  xccdf_org.cisecurity.benchmarks_rule_6.2.12_Set_Idle_Timeout_Interval_for_User_Login: Set Idle Timeout Interval for User Login (2 failed)\u001b[0m"
+    ],
+    [
+      0.000006,
+      "\r\n"
+    ],
+    [
+      0.000012,
+      "\u001b[31;1m     fail: expected nil to match /^\\s*ClientAliveInterval\\s+(\\S+)\\s*(?:#.*)?$/\u001b[0m\r\n"
+    ],
+    [
+      0.000012,
+      "\u001b[31;1m     fail: expected nil to match /^\\s*ClientAliveCountMax\\s+(\\S+)\\s*(?:#.*)?$/\u001b[0m\r\n"
+    ],
+    [
+      0.000037,
+      "\u001b[31;1m  ✖  xccdf_org.cisecurity.benchmarks_rule_6.2.13_Limit_Access_via_SSH: Limit Access via SSH (1 failed)\u001b[0m\r\n"
+    ],
+    [
+      0.000012,
+      "\u001b[31;1m     expected nil to match /^\\s*(AllowUsers|AllowGroups|DenyUsers|DenyGroups)\\s+/\u001b[0m\r\n"
+    ],
+    [
+      0.000034,
+      "\u001b[31;1m  ✖  xccdf_org.cisecurity.benchmarks_rule_6.2.14_Set_SSH_Banner: Set SSH Banner (1 failed)\u001b[0m\r\n"
+    ],
+    [
+      0.000013,
+      "\u001b[31;1m     expected nil to match /^\\s*Banner\\s+(\\S+)\\s*(?:#.*)?$/\u001b[0m\r\n"
+    ],
+    [
+      0.000049,
+      "\u001b[31;1m  ✖  xccdf_org.cisecurity.benchmarks_rule_6.3.1_Upgrade_Password_Hashing_Algorithm_to_SHA-512: Upgrade Password Hashing Algorithm to SHA-512 (3 failed)\u001b[0m\r\n"
+    ],
+    [
+      0.000083,
+      "\u001b[31;1m     fail: expected \"# See libuser.conf(5) for more information.\\n\\n# Do not modify the default module list if you care a...domains) is\\n# probably correct for most installations.\\n# appname = imap\\n# domain = EXAMPLE.COM\\n\" to match /^[\\s]*crypt_style[\\s]+=[\\s]+(?i)sha512[\\s]*$/\r\n     Diff:\u001b[0m\r\n     \u001b[0m\u001b[34m@@ -1,2 +1,90 @@\r\n     \u001b[0m\u001b[31m-/^[\\s]*crypt_style[\\s]+=[\\s]+(?i)sha512[\\s]*$/\r\n     \u001b[0m\u001b[32m+# See libuser.conf(5) for more information.\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+# Do not modify the default module list if you care about unattended calls\r\n     \u001b[0m\u001b[32m+# to programs (i.e., scripts) working!\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+[import]\r\n     \u001b[0m\u001b[32m+# Data from these files is used when libuser.conf does not define a value.\r\n     \u001b[0m\u001b[32m+# The mapping is documented in the man page.\r\n     \u001b[0m\u001b[32m+login_defs = /etc/login.defs\r\n     \u001b[0m\u001b[32m+default_useradd = /etc/default/useradd\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+[defaults]\r\n     \u001b[0m\u001b[32m+# The default (/usr/lib*/libuser) is usually cor"
+    ],
+    [
+      0.000020,
+      "rect\r\n     \u001b[0m\u001b[32m+# moduledir = /your/custom/directory\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+# The following variables are usually imported:\r\n     \u001b[0m\u001b[32m+# skeleton = /etc/skel\r\n     \u001b[0m\u001b[32m+# mailspooldir = /var/mail\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+crypt_style = md5\r\n     \u001b[0m\u001b[32m+modules = files shadow\r\n     \u001b[0m\u001b[32m+create_modules = files shadow\r\n     \u001b[0m\u001b[32m+# modules = files shadow ldap\r\n     \u001b[0m\u001b[32m+# create_modules = ldap\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+[userdefaults]\r\n     \u001b[0m\u001b[32m+LU_USERNAME = %n\r\n     \u001b[0m\u001b[32m+# This is better imported from /etc/login.defs:\r\n     \u001b[0m\u001b[32m+# LU_UIDNUMBER = 500\r\n     \u001b[0m\u001b[32m+LU_GIDNUMBER = %u\r\n     \u001b[0m\u001b[32m+# LU_USERPASSWORD = !!\r\n     \u001b[0m\u001b[32m+# LU_GECOS = %n\r\n     \u001b[0m\u001b[32m+# LU_HOMEDIRECTORY = /home/%n\r\n     \u001b[0m\u001b[32m+# LU_LOGINSHELL = /bin/bash\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+# LU_SHADOWNAME = %n\r\n     \u001b[0m\u001b[32m+# LU_SHADOWPASSWORD = !!\r\n     \u001b[0m\u001b[32m+# LU_SHADOWLASTCHANGE = %d\r\n     \u001b[0m\u001b[32m+# LU_SHADOWMIN = 0\r\n     \u001b[0m\u001b[32m+# LU_SHADOWMAX "
+    ],
+    [
+      0.000012,
+      "= 99999\r\n     \u001b[0m\u001b[32m+# LU_SHADOWWARNING = 7\r\n     \u001b[0m\u001b[32m+# LU_SHADOWINACTIVE = -1\r\n     \u001b[0m\u001b[32m+# LU_SHADOWEXPIRE = -1\r\n     \u001b[0m\u001b[32m+# LU_SHADOWFLAG = -1\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+[groupdefaults]\r\n     \u001b[0m\u001b[32m+LU_GROUPNAME = %n\r\n     \u001b[0m\u001b[32m+# This is better imported from /etc/login.defs:\r\n     \u001b[0m\u001b[32m+# LU_GIDNUMBER = 500\r\n     \u001b[0m\u001b[32m+#\r\n     \u001b[0m\u001b[32m+# LU_GROUPPASSWORD = !!\r\n     \u001b[0m\u001b[32m+# LU_MEMBERUID =\r\n     \u001b[0m\u001b[32m+# LU_ADMINISTRATORUID =\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+[files]\r\n     \u001b[0m\u001b[32m+# This is useful for the case where some master files are used to\r\n     \u001b[0m\u001b[32m+# populate a different NSS mechanism which this workstation uses.\r\n     \u001b[0m\u001b[32m+# directory = /etc\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+[shadow]\r\n     \u001b[0m\u001b[32m+# This is useful for the case where some master files are used to\r\n     \u001b[0m\u001b[32m+# populate a different NSS mechanism which this workstation uses.\r\n     \u001b[0m\u001b[32m+# directory = /etc\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+[ldap]\r\n     \u001b[0m\u001b[32m+# Settin"
+    ],
+    [
+      0.000005,
+      "g these is always necessary.\r\n     \u001b[0m\u001b[32m+# server = ldap\r\n     \u001b[0m\u001b[32m+# basedn = dc=example,dc=com\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+# Setting these is rarely necessary, since it's usually correct.\r\n     \u001b[0m\u001b[32m+# userBranch = ou=People\r\n     \u001b[0m\u001b[32m+# groupBranch = ou=Group\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+# Set only if your administrative user uses simple bind operations to\r\n     \u001b[0m\u001b[32m+# connect to the server.\r\n     \u001b[0m\u001b[32m+# binddn = cn=Manager,dc=example,dc=com\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+# Set this only if the default user (as determined by SASL) is incorrect\r\n     \u001b[0m\u001b[32m+# for SASL bind operations.  Usually, it's correct, so you'll rarely need\r\n     \u001b[0m\u001b[32m+# to set these.\r\n     \u001b[0m\u001b[32m+# user = Manager\r\n     \u001b[0m\u001b[32m+# authuser = Manager\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+[sasl]\r\n     \u001b[0m\u001b[32m+# Set these only if your sasldb is only used by a particular application, and\r\n     \u001b[0m\u001b[32m+# in a particular domain.  The default (all applications, all domains) is\r\n     \u001b[0m\u001b[32m+"
+    ],
+    [
+      0.000008,
+      "# probably correct for most installations.\r\n     \u001b[0m\u001b[32m+# appname = imap\r\n     \u001b[0m\u001b[32m+# domain = EXAMPLE.COM\r\n     \u001b[0m\u001b[0m"
+    ],
+    [
+      0.000002,
+      "\r\n"
+    ],
+    [
+      0.000066,
+      "\u001b[31;1m     fail: expected \"#\\n# Please note that the parameters in this configuration file control the\\n# behavior of the tools...SERGROUPS_ENAB yes\\n\\n# Use SHA512 to encrypt password.\\nENCRYPT_METHOD MD5\\n\\nMD5_CRYPT_ENAB yes\\n\" to match /^[\\s]*ENCRYPT_METHOD[\\s]+SHA512[\\s]*$/\r\n     Diff:\u001b[0m\r\n     \u001b[0m\u001b[34m@@ -1,2 +1,74 @@\r\n     \u001b[0m\u001b[31m-/^[\\s]*ENCRYPT_METHOD[\\s]+SHA512[\\s]*$/\r\n     \u001b[0m\u001b[32m+#\r\n     \u001b[0m\u001b[32m+# Please note that the parameters in this configuration file control the\r\n     \u001b[0m\u001b[32m+# behavior of the tools from the shadow-utils component. None of these\r\n     \u001b[0m\u001b[32m+# tools uses the PAM mechanism, and the utilities that use PAM (such as the\r\n     \u001b[0m\u001b[32m+# passwd command) should therefore be configured elsewhere. Refer to\r\n     \u001b[0m\u001b[32m+# /etc/pam.d/system-auth for more information.\r\n     \u001b[0m\u001b[32m+#\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+# *REQUIRED*\r\n     \u001b[0m\u001b[32m+#   Directory where mailboxes reside, _or_ name of file, relative to the\r\n     \u001b[0m\u001b[32m+#   home directory.  If you _do_ def"
+    ],
+    [
+      0.000016,
+      "ine both, MAIL_DIR takes precedence.\r\n     \u001b[0m\u001b[32m+#   QMAIL_DIR is for Qmail\r\n     \u001b[0m\u001b[32m+#\r\n     \u001b[0m\u001b[32m+#QMAIL_DIR\tMaildir\r\n     \u001b[0m\u001b[32m+MAIL_DIR\t/var/spool/mail\r\n     \u001b[0m\u001b[32m+#MAIL_FILE\t.mail\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+# Password aging controls:\r\n     \u001b[0m\u001b[32m+#\r\n     \u001b[0m\u001b[32m+#\tPASS_MAX_DAYS\tMaximum number of days a password may be used.\r\n     \u001b[0m\u001b[32m+#\tPASS_MIN_DAYS\tMinimum number of days allowed between password changes.\r\n     \u001b[0m\u001b[32m+#\tPASS_MIN_LEN\tMinimum acceptable password length.\r\n     \u001b[0m\u001b[32m+#\tPASS_WARN_AGE\tNumber of days warning given before a password expires.\r\n     \u001b[0m\u001b[32m+#\r\n     \u001b[0m\u001b[32m+PASS_MAX_DAYS\t90\r\n     \u001b[0m\u001b[32m+PASS_MIN_DAYS\t7\r\n     \u001b[0m\u001b[32m+PASS_MIN_LEN\t5\r\n     \u001b[0m\u001b[32m+PASS_WARN_AGE\t7\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+#\r\n     \u001b[0m\u001b[32m+# Min/max values for automatic uid selection in useradd\r\n     \u001b[0m\u001b[32m+#\r\n     \u001b[0m\u001b[32m+UID_MIN                  1000\r\n     \u001b[0m\u001b[32m+UID_MAX                 60000\r\n     \u001b[0m\u001b[32m+# System accounts\r\n     \u001b[0m\u001b[32m+SYS"
+    ],
+    [
+      0.000140,
+      "_UID_MIN               201\r\n     \u001b[0m\u001b[32m+SYS_UID_MAX               999\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+#\r\n     \u001b[0m\u001b[32m+# Min/max values for automatic gid selection in groupadd\r\n     \u001b[0m\u001b[32m+#\r\n     \u001b[0m\u001b[32m+GID_MIN                  1000\r\n     \u001b[0m\u001b[32m+GID_MAX                 60000\r\n     \u001b[0m\u001b[32m+# System accounts\r\n     \u001b[0m\u001b[32m+SYS_GID_MIN               201\r\n     \u001b[0m\u001b[32m+SYS_GID_MAX               999\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+#\r\n     \u001b[0m\u001b[32m+# If defined, this command is run when removing a user.\r\n     \u001b[0m\u001b[32m+# It should remove any at/cron/print jobs etc. owned by\r\n     \u001b[0m\u001b[32m+# the user to be removed (passed as the first argument).\r\n     \u001b[0m\u001b[32m+#\r\n     \u001b[0m\u001b[32m+#USERDEL_CMD\t/usr/sbin/userdel_local\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+#\r\n     \u001b[0m\u001b[32m+# If useradd should create home directories for users by default\r\n     \u001b[0m\u001b[32m+# On RH systems, we do. This option is overridden with the -m flag on\r\n     \u001b[0m\u001b[32m+# useradd command line.\r\n     \u001b[0m\u001b[32m+#\r\n     \u001b[0m\u001b[32m+CREATE_H"
+    ],
+    [
+      0.000005,
+      "OME\tyes\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+# The permission mask is initialized to this value. If not specified, \r\n     \u001b[0m\u001b[32m+# the permission mask will be initialized to 022.\r\n     \u001b[0m\u001b[32m+UMASK           077\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+# This enables userdel to remove user groups if no members exist.\r\n     \u001b[0m\u001b[32m+#\r\n     \u001b[0m\u001b[32m+USERGROUPS_ENAB yes\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+# Use SHA512 to encrypt password.\r\n     \u001b[0m\u001b[32m+ENCRYPT_METHOD MD5\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+MD5_CRYPT_ENAB yes\r\n     \u001b[0m\u001b[0m\r\n\u001b[31;1m     fail: expected \"#%PAM-1.0\\n# This file is auto-generated.\\n# User changes will be destroyed the next time authconfig... use_uid\\nsession     required      pam_unix.so\\nauth        sufficient    pam_unix.so remember=5\\n\" to match /^[\\s]*password[\\s]+(?:(?:required)|(?:sufficient))[\\s]+pam_unix\\.so[\\s]+.*sha512.*$/\r\n     Diff:\u001b[0m\r\n     \u001b[0m\u001b[34m@@ -1,2 +1,24 @@\r\n     \u001b[0m\u001b[31m-/^[\\s]*password[\\s]+(?:(?:required)|(?:sufficient))[\\s]+pam_unix\\.so[\\s]+.*sha512.*$/\r\n     \u001b[0m"
+    ],
+    [
+      0.000015,
+      "\u001b[32m+#%PAM-1.0\r\n     \u001b[0m\u001b[32m+# This file is auto-generated.\r\n     \u001b[0m\u001b[32m+# User changes will be destroyed the next time authconfig is run.\r\n     \u001b[0m\u001b[32m+auth        required      pam_env.so\r\n     \u001b[0m\u001b[32m+auth        sufficient    pam_unix.so nullok try_first_pass\r\n     \u001b[0m\u001b[32m+auth        requisite     pam_succeed_if.so uid \u003e= 1000 quiet_success\r\n     \u001b[0m\u001b[32m+auth        required      pam_deny.so\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+account     required      pam_unix.so\r\n     \u001b[0m\u001b[32m+account     sufficient    pam_localuser.so\r\n     \u001b[0m\u001b[32m+account     sufficient    pam_succeed_if.so uid \u003c 1000 quiet\r\n     \u001b[0m\u001b[32m+account     required      pam_permit.so\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+password    requisite     pam_pwquality.so try_first_pass local_users_only retry=3 authtok_type=\r\n     \u001b[0m\u001b[32m+password    sufficient    pam_unix.so md5 shadow nullok try_first_pass use_authtok\r\n     \u001b[0m\u001b[32m+password    required      pam_deny.so\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+session     optional      pam_k"
+    ],
+    [
+      0.000013,
+      "eyinit.so revoke\r\n     \u001b[0m\u001b[32m+session     required      pam_limits.so\r\n     \u001b[0m\u001b[32m+-session     optional      pam_systemd.so\r\n     \u001b[0m\u001b[32m+session     [success=1 default=ignore] pam_succeed_if.so service in crond quiet use_uid\r\n     \u001b[0m\u001b[32m+session     required      pam_unix.so\r\n     \u001b[0m\u001b[32m+auth        sufficient    pam_unix.so remember=5\r\n     \u001b[0m\u001b[0m"
+    ],
+    [
+      0.000006,
+      "\r\n"
+    ],
+    [
+      0.000080,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.3.2_Set_Password_Creation_Requirement_Parameters_Using_pam_pwquality: Set Password Creation Requirement Parameters Using pam_pwquality\u001b[0m"
+    ],
+    [
+      0.000003,
+      "\r\n"
+    ],
+    [
+      0.000024,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.3.4_Limit_Password_Reuse: Limit Password Reuse\u001b[0m\r\n"
+    ],
+    [
+      0.000029,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.5_Restrict_Access_to_the_su_Command: Restrict Access to the su Command\u001b[0m\r\n"
+    ],
+    [
+      0.000022,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_7.1.1_Set_Password_Expiration_Days: Set Password Expiration Days\u001b[0m\r\n"
+    ],
+    [
+      0.000030,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_7.1.2_Set_Password_Change_Minimum_Number_of_Days: Set Password Change Minimum Number of Days\u001b[0m\r\n"
+    ],
+    [
+      0.000016,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_7.1.3_Set_Password_Expiring_Warning_Days: Set Password Expiring Warning Days\u001b[0m\r\n"
+    ],
+    [
+      0.000038,
+      "\u001b[31;1m  ✖  xccdf_org.cisecurity.benchmarks_rule_7.2_Disable_System_Accounts: Disable System Accounts (1 failed)\u001b[0m\r\n"
+    ],
+    [
+      0.000038,
+      "\u001b[31;1m     expected `[#\u003cstruct user=\"vboxadd\", password=\"x\", uid=\"996\", gid=\"1\", desc=\"\", home=\"/var/run/vboxadd\", shell=\"/bin/false\", count=nil, usernames=nil, username=nil, content=nil\u003e].empty?` to return true, got false\u001b[0m"
+    ],
+    [
+      0.000003,
+      "\r\n"
+    ],
+    [
+      0.000051,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_7.3_Set_Default_Group_for_root_Account: Set Default Group for root Account\u001b[0m\r\n"
+    ],
+    [
+      0.000120,
+      "\u001b[31;1m  ✖  xccdf_org.cisecurity.benchmarks_rule_7.4_Set_Default_umask_for_Users: Set Default umask for Users (13 failed)\u001b[0m\r\n"
+    ],
+    [
+      0.000020,
+      "\u001b[31;1m     fail: expected \"# less initialization script (csh)\\nif ( -x /usr/bin/lesspipe.sh ) then\\n  setenv LESSOPEN \\\"||/usr/bin/lesspipe.sh %s\\\"\\nendif\\n\" to match /^\\s*umask\\s+077\\s*$/\r\n     Diff:\u001b[0m\r\n     \u001b[0m\u001b[34m@@ -1,2 +1,5 @@\r\n     \u001b[0m\u001b[31m-/^\\s*umask\\s+077\\s*$/\r\n     \u001b[0m\u001b[32m+# less initialization script (csh)\r\n     \u001b[0m\u001b[32m+if ( -x /usr/bin/lesspipe.sh ) then\r\n     \u001b[0m\u001b[32m+  setenv LESSOPEN \"||/usr/bin/lesspipe.sh %s\"\r\n     \u001b[0m\u001b[32m+endif\r\n     \u001b[0m\u001b[0m"
+    ],
+    [
+      0.000009,
+      "\r\n"
+    ],
+    [
+      0.000017,
+      "\u001b[31;1m     fail: expected \"# less initialization script (sh)\\n[ -x /usr/bin/lesspipe.sh ] \u0026\u0026 export LESSOPEN=\\\"${LESSOPEN-||/usr/bin/lesspipe.sh %s}\\\"\\n\" to match /^\\s*umask\\s+077\\s*$/\r\n     Diff:\u001b[0m\r\n     \u001b[0m\u001b[34m@@ -1,2 +1,3 @@\r\n     \u001b[0m\u001b[31m-/^\\s*umask\\s+077\\s*$/\r\n     \u001b[0m\u001b[32m+# less initialization script (sh)\r\n     \u001b[0m\u001b[32m+[ -x /usr/bin/lesspipe.sh ] \u0026\u0026 export LESSOPEN=\"${LESSOPEN-||/usr/bin/lesspipe.sh %s}\"\r\n     \u001b[0m\u001b[0m"
+    ],
+    [
+      0.000003,
+      "\r\n"
+    ],
+    [
+      0.000061,
+      "\u001b[31;1m     fail: expected \"# /etc/profile.d/lang.sh - set i18n stuff\\n\\nsourced=0\\n\\nif [ -n \\\"$LANG\\\" ]; then\\n    saved_lang=...      esac\\n    fi\\n\\n    unset SYSFONTACM SYSFONT consoletype\\nfi\\nunset sourced\\nunset langfile\\n\" to match /^\\s*umask\\s+077\\s*$/\r\n     Diff:\u001b[0m\r\n     \u001b[0m\u001b[34m@@ -1,2 +1,91 @@\r\n     \u001b[0m\u001b[31m-/^\\s*umask\\s+077\\s*$/\r\n     \u001b[0m\u001b[32m+# /etc/profile.d/lang.sh - set i18n stuff\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+sourced=0\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+if [ -n \"$LANG\" ]; then\r\n     \u001b[0m\u001b[32m+    saved_lang=\"$LANG\"\r\n     \u001b[0m\u001b[32m+    [ -f \"$HOME/.i18n\" ] \u0026\u0026 . \"$HOME/.i18n\" \u0026\u0026 sourced=1\r\n     \u001b[0m\u001b[32m+    LANG=\"$saved_lang\"\r\n     \u001b[0m\u001b[32m+    unset saved_lang\r\n     \u001b[0m\u001b[32m+else\r\n     \u001b[0m\u001b[32m+    for langfile in /etc/locale.conf \"$HOME/.i18n\" ; do\r\n     \u001b[0m\u001b[32m+        [ -f $langfile ] \u0026\u0026 . $langfile \u0026\u0026 sourced=1\r\n     \u001b[0m\u001b[32m+    done\r\n     \u001b[0m\u001b[32m+fi\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+if [ \"$sourced\" = 1 ]; then\r\n     \u001b[0m\u001b[32m+    [ -n \"$LANG\" ] \u0026\u0026 export LANG || unset LAN"
+    ],
+    [
+      0.000015,
+      "G\r\n     \u001b[0m\u001b[32m+    [ -n \"$LC_ADDRESS\" ] \u0026\u0026 export LC_ADDRESS || unset LC_ADDRESS\r\n     \u001b[0m\u001b[32m+    [ -n \"$LC_CTYPE\" ] \u0026\u0026 export LC_CTYPE || unset LC_CTYPE\r\n     \u001b[0m\u001b[32m+    [ -n \"$LC_COLLATE\" ] \u0026\u0026 export LC_COLLATE || unset LC_COLLATE\r\n     \u001b[0m\u001b[32m+    [ -n \"$LC_IDENTIFICATION\" ] \u0026\u0026 export LC_IDENTIFICATION || unset LC_IDENTIFICATION\r\n     \u001b[0m\u001b[32m+    [ -n \"$LC_MEASUREMENT\" ] \u0026\u0026 export LC_MEASUREMENT || unset LC_MEASUREMENT\r\n     \u001b[0m\u001b[32m+    [ -n \"$LC_MESSAGES\" ] \u0026\u0026 export LC_MESSAGES || unset LC_MESSAGES\r\n     \u001b[0m\u001b[32m+    [ -n \"$LC_MONETARY\" ] \u0026\u0026 export LC_MONETARY || unset LC_MONETARY\r\n     \u001b[0m\u001b[32m+    [ -n \"$LC_NAME\" ] \u0026\u0026 export LC_NAME || unset LC_NAME\r\n     \u001b[0m\u001b[32m+    [ -n \"$LC_NUMERIC\" ] \u0026\u0026 export LC_NUMERIC || unset LC_NUMERIC\r\n     \u001b[0m\u001b[32m+    [ -n \"$LC_PAPER\" ] \u0026\u0026 export LC_PAPER || unset LC_PAPER\r\n     \u001b[0m\u001b[32m+    [ -n \"$LC_TELEPHONE\" ] \u0026\u0026 export LC_TELEPHONE || unset LC_TELEPHONE\r\n     \u001b[0m\u001b[32m+    [ -n \"$LC_TIME\" ] \u0026\u0026 export LC_TIME || unset LC_TIME\r\n     \u001b[0m\u001b[32m+    if "
+    ],
+    [
+      0.000010,
+      "[ -n \"$LC_ALL\" ]; then\r\n     \u001b[0m\u001b[32m+       if [ \"$LC_ALL\" != \"$LANG\" ]; then\r\n     \u001b[0m\u001b[32m+         export LC_ALL\r\n     \u001b[0m\u001b[32m+       else\r\n     \u001b[0m\u001b[32m+         unset LC_ALL\r\n     \u001b[0m\u001b[32m+       fi\r\n     \u001b[0m\u001b[32m+    else\r\n     \u001b[0m\u001b[32m+       unset LC_ALL\r\n     \u001b[0m\u001b[32m+    fi\r\n     \u001b[0m\u001b[32m+    [ -n \"$LANGUAGE\" ] \u0026\u0026 export LANGUAGE || unset LANGUAGE\r\n     \u001b[0m\u001b[32m+    [ -n \"$LINGUAS\" ] \u0026\u0026 export LINGUAS || unset LINGUAS\r\n     \u001b[0m\u001b[32m+    [ -n \"$_XKB_CHARSET\" ] \u0026\u0026 export _XKB_CHARSET || unset _XKB_CHARSET\r\n     \u001b[0m\u001b[32m+    \r\n     \u001b[0m\u001b[32m+    consoletype=$CONSOLETYPE\r\n     \u001b[0m\u001b[32m+    if [ -z \"$consoletype\" ]; then\r\n     \u001b[0m\u001b[32m+      consoletype=$(/sbin/consoletype stdout)\r\n     \u001b[0m\u001b[32m+    fi\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+    if [ -n \"$LANG\" ]; then\r\n     \u001b[0m\u001b[32m+      case $LANG in\r\n     \u001b[0m\u001b[32m+    \t*.utf8*|*.UTF-8*)\r\n     \u001b[0m\u001b[32m+    \tif [ \"$TERM\" = \"linux\" ]; then\r\n     \u001b[0m\u001b[32m+    \t    if [ \"$consoletype\" = \"vt\" ]; then\r\n     \u001b[0m\u001b[32m+    \t    \tcase $LANG in \r\n"
+    ],
+    [
+      0.000103,
+      "     \u001b[0m\u001b[32m+    \t    \t\tja*) LANG=en_US.UTF-8 ;;\r\n     \u001b[0m\u001b[32m+    \t    \t\tko*) LANG=en_US.UTF-8 ;;\r\n     \u001b[0m\u001b[32m+\t\t\tsi*) LANG=en_US.UTF-8 ;;\r\n     \u001b[0m\u001b[32m+    \t    \t\tzh*) LANG=en_US.UTF-8 ;;\r\n     \u001b[0m\u001b[32m+    \t    \t\tar*) LANG=en_US.UTF-8 ;;\r\n     \u001b[0m\u001b[32m+    \t    \t\tfa*) LANG=en_US.UTF-8 ;;\r\n     \u001b[0m\u001b[32m+    \t    \t\the*) LANG=en_US.UTF-8 ;;\r\n     \u001b[0m\u001b[32m+    \t    \t\ten_IN*) ;;\r\n     \u001b[0m\u001b[32m+    \t    \t\t*_IN*) LANG=en_US.UTF-8 ;;\r\n     \u001b[0m\u001b[32m+    \t    \tesac\r\n     \u001b[0m\u001b[32m+            fi\r\n     \u001b[0m\u001b[32m+        fi\r\n     \u001b[0m\u001b[32m+\t;;\r\n     \u001b[0m\u001b[32m+\t*)\r\n     \u001b[0m\u001b[32m+\tif [ \"$TERM\" = \"linux\" ]; then\r\n     \u001b[0m\u001b[32m+\t    if [ \"$consoletype\" = \"vt\" ]; then\r\n     \u001b[0m\u001b[32m+    \t    \tcase $LANG in \r\n     \u001b[0m\u001b[32m+    \t    \t\tja*) LANG=en_US ;;\r\n     \u001b[0m\u001b[32m+    \t    \t\tko*) LANG=en_US ;;\r\n     \u001b[0m\u001b[32m+\t\t\tsi*) LANG=en_US ;;\r\n     \u001b[0m\u001b[32m+    \t    \t\tzh*) LANG=en_US ;;\r\n     \u001b[0m\u001b[32m+    \t    \t\tar*) LANG=en_US ;;\r\n     \u001b[0m\u001b[32m+    \t    \t\tfa*) LANG=en_US ;;\r\n     \u001b[0m\u001b[32m+    \t    \t\the*) LAN"
+    ],
+    [
+      0.000005,
+      "G=en_US ;;\r\n     \u001b[0m\u001b[32m+    \t    \t\ten_IN*) ;;\r\n     \u001b[0m\u001b[32m+    \t    \t\t*_IN*) LANG=en_US ;;\r\n     \u001b[0m\u001b[32m+    \t    \tesac\r\n     \u001b[0m\u001b[32m+\t    fi\r\n     \u001b[0m\u001b[32m+\tfi\r\n     \u001b[0m\u001b[32m+\t;;\r\n     \u001b[0m\u001b[32m+      esac\r\n     \u001b[0m\u001b[32m+    fi\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+    unset SYSFONTACM SYSFONT consoletype\r\n     \u001b[0m\u001b[32m+fi\r\n     \u001b[0m\u001b[32m+unset sourced\r\n     \u001b[0m\u001b[32m+unset langfile\r\n     \u001b[0m\u001b[0m\r\n\u001b[31;1m     fail: expected \"# color-ls initialization\\n\\n# Skip all for noninteractive shells.\\n[ -z \\\"$PS1\\\" ] \u0026\u0026 return\\n\\n#wh...2\u003e/dev/null\\nalias l.='ls -d .* --color=auto' 2\u003e/dev/null\\nalias ls='ls --color=auto' 2\u003e/dev/null\\n\" to match /^\\s*umask\\s+077\\s*$/\r\n     Diff:\u001b[0m\r\n     \u001b[0m\u001b[34m@@ -1,2 +1,58 @@\r\n     \u001b[0m\u001b[31m-/^\\s*umask\\s+077\\s*$/\r\n     \u001b[0m\u001b[32m+# color-ls initialization\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+# Skip all for noninteractive shells.\r\n     \u001b[0m\u001b[32m+[ -z \"$PS1\" ] \u0026\u0026 return\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+#when USER_LS_COLORS defined do not override user LS_COLORS, but use them.\r\n "
+    ],
+    [
+      0.000009,
+      "    \u001b[0m\u001b[32m+if [ -z \"$USER_LS_COLORS\" ]; then\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+  alias ll='ls -l' 2\u003e/dev/null\r\n     \u001b[0m\u001b[32m+  alias l.='ls -d .*' 2\u003e/dev/null\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+  INCLUDE=\r\n     \u001b[0m\u001b[32m+  COLORS=\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+  for colors in \"$HOME/.dir_colors.$TERM\" \"$HOME/.dircolors.$TERM\" \\\r\n     \u001b[0m\u001b[32m+      \"$HOME/.dir_colors\" \"$HOME/.dircolors\"; do\r\n     \u001b[0m\u001b[32m+    [ -e \"$colors\" ] \u0026\u0026 COLORS=\"$colors\" \u0026\u0026 \\\r\n     \u001b[0m\u001b[32m+    INCLUDE=\"`/usr/bin/cat \"$COLORS\" | /usr/bin/grep '^INCLUDE' | /usr/bin/cut -d ' ' -f2-`\" \u0026\u0026 \\\r\n     \u001b[0m\u001b[32m+    break\r\n     \u001b[0m\u001b[32m+  done\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+  [ -z \"$COLORS\" ] \u0026\u0026 [ -e \"/etc/DIR_COLORS.$TERM\" ] \u0026\u0026 \\\r\n     \u001b[0m\u001b[32m+  COLORS=\"/etc/DIR_COLORS.$TERM\"\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+  [ -z \"$COLORS\" ] \u0026\u0026 [ -e \"/etc/DIR_COLORS.256color\" ] \u0026\u0026 \\\r\n     \u001b[0m\u001b[32m+  [ \"x`/usr/bin/tty -s \u0026\u0026 /usr/bin/tput colors 2\u003e/dev/null`\" = \"x256\" ] \u0026\u0026 \\\r\n     \u001b[0m\u001b[32m+  COLORS=\"/etc/DIR_COLORS.256color\"\r\n     \u001b[0m\u001b[32m+\r\n   "
+    ],
+    [
+      0.000020,
+      "  \u001b[0m\u001b[32m+  [ -z \"$COLORS\" ] \u0026\u0026 [ -e \"/etc/DIR_COLORS\" ] \u0026\u0026 \\\r\n     \u001b[0m\u001b[32m+  COLORS=\"/etc/DIR_COLORS\"\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+  # Existence of $COLORS already checked above.\r\n     \u001b[0m\u001b[32m+  [ -n \"$COLORS\" ] || return\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+  if [ -e \"$INCLUDE\" ];\r\n     \u001b[0m\u001b[32m+  then\r\n     \u001b[0m\u001b[32m+    TMP=\"`/usr/bin/mktemp .colorlsXXX -q --tmpdir=/tmp`\"\r\n     \u001b[0m\u001b[32m+    [ -z \"$TMP\" ] \u0026\u0026 return\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+    /usr/bin/cat \"$INCLUDE\" \u003e\u003e $TMP\r\n     \u001b[0m\u001b[32m+    /usr/bin/grep -v '^INCLUDE' \"$COLORS\" \u003e\u003e $TMP\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+    eval \"`/usr/bin/dircolors --sh $TMP 2\u003e/dev/null`\"\r\n     \u001b[0m\u001b[32m+    /usr/bin/rm -f $TMP\r\n     \u001b[0m\u001b[32m+  else\r\n     \u001b[0m\u001b[32m+    eval \"`/usr/bin/dircolors --sh $COLORS 2\u003e/dev/null`\"\r\n     \u001b[0m\u001b[32m+  fi\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+  [ -z \"$LS_COLORS\" ] \u0026\u0026 return\r\n     \u001b[0m\u001b[32m+  /usr/bin/grep -qi \"^COLOR.*none\" $COLORS \u003e/dev/null 2\u003e/dev/null \u0026\u0026 return\r\n     \u001b[0m\u001b[32m+fi\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+unset "
+    ],
+    [
+      0.000275,
+      "TMP COLORS INCLUDE\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+alias ll='ls -l --color=auto' 2\u003e/dev/null\r\n     \u001b[0m\u001b[32m+alias l.='ls -d .* --color=auto' 2\u003e/dev/null\r\n     \u001b[0m\u001b[32m+alias ls='ls --color=auto' 2\u003e/dev/null\r\n     \u001b[0m\u001b[0m\r\n\u001b[31;1m     fail: expected \"# Enable 256 color capabilities for appropriate terminals\\n\\n# Set this variable in your local shell...\\n    setenv TERMCAP `echo $TERMCAP | sed -e 's/Co#8/Co#256/g'`\\n  endif\\nendif\\n\\nunset local256\\n\" to match /^\\s*umask\\s+077\\s*$/\r\n     Diff:\u001b[0m\r\n     \u001b[0m\u001b[34m@@ -1,2 +1,26 @@\r\n     \u001b[0m\u001b[31m-/^\\s*umask\\s+077\\s*$/\r\n     \u001b[0m\u001b[32m+# Enable 256 color capabilities for appropriate terminals\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+# Set this variable in your local shell config if you want remote\r\n     \u001b[0m\u001b[32m+# xterms connecting to this system, to be sent 256 colors.\r\n     \u001b[0m\u001b[32m+# This can be done in /etc/csh.cshrc, or in an earlier profile.d script.\r\n     \u001b[0m\u001b[32m+#   SEND_256_COLORS_TO_REMOTE=1\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+# Terminals with any of the fol"
+    ],
+    [
+      0.000006,
+      "lowing set, support 256 colors (and are local)\r\n     \u001b[0m\u001b[32m+set local256=\"$?COLORTERM$?XTERM_VERSION$?ROXTERM_ID$?KONSOLE_DBUS_SESSION\"\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+if ($?TERM \u0026\u0026 ($local256 || $?SEND_256_COLORS_TO_REMOTE)) then\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+  switch ($TERM)\r\n     \u001b[0m\u001b[32m+    case 'xterm':\r\n     \u001b[0m\u001b[32m+    case 'screen':\r\n     \u001b[0m\u001b[32m+    case 'Eterm':\r\n     \u001b[0m\u001b[32m+      setenv TERM \"$TERM-256color\"\r\n     \u001b[0m\u001b[32m+  endsw\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+  if ($?TERMCAP \u0026\u0026 ($TERM == \"screen-256color\")) then\r\n     \u001b[0m\u001b[32m+    setenv TERMCAP `echo $TERMCAP | sed -e 's/Co#8/Co#256/g'`\r\n     \u001b[0m\u001b[32m+  endif\r\n     \u001b[0m\u001b[32m+endif\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+unset local256\r\n     \u001b[0m\u001b[0m\r\n\u001b[31;1m     fail: expected \"# Check for interactive bash and that we haven't already been sourced.\\n[ -z \\\"$BASH_VERSION\\\" -o -z...code.\\n        . /usr/share/bash-completion/bash_completion\\n    fi\\nfi\\nunset bash bmajor bminor\\n\" to match /^\\s*umask\\s+077\\s*$/\r\n     Diff:\u001b[0m\r\n     \u001b"
+    ],
+    [
+      0.000007,
+      "[0m\u001b[34m@@ -1,2 +1,15 @@\r\n     \u001b[0m\u001b[31m-/^\\s*umask\\s+077\\s*$/\r\n     \u001b[0m\u001b[32m+# Check for interactive bash and that we haven't already been sourced.\r\n     \u001b[0m\u001b[32m+[ -z \"$BASH_VERSION\" -o -z \"$PS1\" -o -n \"$BASH_COMPLETION_COMPAT_DIR\" ] \u0026\u0026 return\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+# Check for recent enough version of bash.\r\n     \u001b[0m\u001b[32m+bash=${BASH_VERSION%.*}; bmajor=${bash%.*}; bminor=${bash#*.}\r\n     \u001b[0m\u001b[32m+if [ $bmajor -gt 4 ] || [ $bmajor -eq 4 -a $bminor -ge 1 ]; then\r\n     \u001b[0m\u001b[32m+    [ -r \"${XDG_CONFIG_HOME:-$HOME/.config}/bash_completion\" ] \u0026\u0026 \\\r\n     \u001b[0m\u001b[32m+        . \"${XDG_CONFIG_HOME:-$HOME/.config}/bash_completion\"\r\n     \u001b[0m\u001b[32m+    if shopt -q progcomp \u0026\u0026 [ -r /usr/share/bash-completion/bash_completion ]; then\r\n     \u001b[0m\u001b[32m+        # Source completion code.\r\n     \u001b[0m\u001b[32m+        . /usr/share/bash-completion/bash_completion\r\n     \u001b[0m\u001b[32m+    fi\r\n     \u001b[0m\u001b[32m+fi\r\n     \u001b[0m\u001b[32m+unset bash bmajor bminor\r\n     \u001b[0m\u001b[0m"
+    ],
+    [
+      0.000007,
+      "\r\n"
+    ],
+    [
+      0.000034,
+      "\u001b[31;1m     fail: expected \"# Initialization script for csh\\n\\n# export AFS if you are in AFS environment\\n\\n# alias which 'alias | /usr/bin/which --tty-only --read-alias --show-dot --show-tilde'\\n\" to match /^\\s*umask\\s+077\\s*$/\r\n     Diff:\u001b[0m\r\n     \u001b[0m\u001b[34m@@ -1,2 +1,6 @@\r\n     \u001b[0m\u001b[31m-/^\\s*umask\\s+077\\s*$/\r\n     \u001b[0m\u001b[32m+# Initialization script for csh\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+# export AFS if you are in AFS environment\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+# alias which 'alias | /usr/bin/which --tty-only --read-alias --show-dot --show-tilde'\r\n     \u001b[0m\u001b[0m"
+    ],
+    [
+      0.000004,
+      "\r\n"
+    ],
+    [
+      0.000142,
+      "\u001b[31;1m     fail: expected \"# /etc/profile.d/lang.csh - set i18n stuff\\n\\nset sourced=0\\n\\nif ($?LANG) then\\n    set saved_lang=...sw\\n    endif    \\n    unsetenv SYSFONTACM\\n    unsetenv SYSFONT\\n    unsetenv consoletype\\nendif\\n\" to match /^\\s*umask\\s+077\\s*$/\r\n     Diff:\u001b[0m\r\n     \u001b[0m\u001b[34m@@ -1,2 +1,84 @@\r\n     \u001b[0m\u001b[31m-/^\\s*umask\\s+077\\s*$/\r\n     \u001b[0m\u001b[32m+# /etc/profile.d/lang.csh - set i18n stuff\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+set sourced=0\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+if ($?LANG) then\r\n     \u001b[0m\u001b[32m+    set saved_lang=$LANG\r\n     \u001b[0m\u001b[32m+    if ( -f \"$HOME/.i18n\" ) then\r\n     \u001b[0m\u001b[32m+\teval `sed -ne 's|^[[:blank:]]*\\([^#=]\\{1,\\}\\)=\\([^=]*\\)|setenv \\1 \\2;|p' \"$HOME/.i18n\"`\r\n     \u001b[0m\u001b[32m+\tset sourced=1\r\n     \u001b[0m\u001b[32m+    endif\r\n     \u001b[0m\u001b[32m+    setenv LANG $saved_lang\r\n     \u001b[0m\u001b[32m+    unset saved_lang\r\n     \u001b[0m\u001b[32m+else\r\n     \u001b[0m\u001b[32m+    foreach file (/etc/locale.conf \"$HOME/.i18n\")\r\n     \u001b[0m\u001b[32m+        if ( -f $file ) then\r\n     \u001b[0m\u001b[32m+\t    eval `sed -ne 's|^[[:blank:]]*\\(["
+    ],
+    [
+      0.000005,
+      "^#=]\\{1,\\}\\)=\\([^=]*\\)|setenv \\1 \\2;|p' $file`\r\n     \u001b[0m\u001b[32m+\t    set sourced=1\r\n     \u001b[0m\u001b[32m+        endif\r\n     \u001b[0m\u001b[32m+    end\r\n     \u001b[0m\u001b[32m+endif\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+if ($sourced == 1) then\r\n     \u001b[0m\u001b[32m+    if ($?LC_ALL \u0026\u0026 $?LANG) then\r\n     \u001b[0m\u001b[32m+        if ($LC_ALL == $LANG) then\r\n     \u001b[0m\u001b[32m+            unsetenv LC_ALL\r\n     \u001b[0m\u001b[32m+        endif\r\n     \u001b[0m\u001b[32m+    endif\r\n     \u001b[0m\u001b[32m+    \r\n     \u001b[0m\u001b[32m+    set consoletype=`/sbin/consoletype stdout`\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+    if ($?LANG) then\r\n     \u001b[0m\u001b[32m+        switch ($LANG)\r\n     \u001b[0m\u001b[32m+\t    case *.utf8*:\r\n     \u001b[0m\u001b[32m+\t    case *.UTF-8*:\r\n     \u001b[0m\u001b[32m+\t\tif ( $?TERM ) then\r\n     \u001b[0m\u001b[32m+\t\t    if ( \"$TERM\" == \"linux\" ) then\r\n     \u001b[0m\u001b[32m+\t\t\tif ( \"$consoletype\" == \"vt\" ) then\r\n     \u001b[0m\u001b[32m+\t\t\t    switch ($LANG)\r\n     \u001b[0m\u001b[32m+\t\t\t    \tcase en_IN*:\r\n     \u001b[0m\u001b[32m+\t\t\t    \t\tbreaksw\r\n     \u001b[0m\u001b[32m+\t\t\t    \tcase ja*:\r\n     \u001b[0m\u001b[32m+\t\t\t    \tcase ko*:\r\n     \u001b[0m\u001b[32m+\t\t\t    \tcase si*:\r\n     \u001b"
+    ],
+    [
+      0.000014,
+      "[0m\u001b[32m+\t\t\t    \tcase zh*:\r\n     \u001b[0m\u001b[32m+\t\t\t    \tcase ar*:\r\n     \u001b[0m\u001b[32m+\t\t\t    \tcase fa*:\r\n     \u001b[0m\u001b[32m+\t\t\t    \tcase he*:\r\n     \u001b[0m\u001b[32m+\t\t\t    \tcase *_IN*:\r\n     \u001b[0m\u001b[32m+\t\t\t    \t\tsetenv LANG en_US.UTF-8\r\n     \u001b[0m\u001b[32m+\t\t\t    \t\tbreaksw\r\n     \u001b[0m\u001b[32m+\t\t\t    endsw\r\n     \u001b[0m\u001b[32m+\t\t\tendif\r\n     \u001b[0m\u001b[32m+\t\t    endif\r\n     \u001b[0m\u001b[32m+\t\tendif\r\n     \u001b[0m\u001b[32m+\t\tbreaksw\r\n     \u001b[0m\u001b[32m+\t    case *:\r\n     \u001b[0m\u001b[32m+\t\tif ( $?TERM ) then\r\n     \u001b[0m\u001b[32m+\t\t    if ( \"$TERM\" == \"linux\" ) then\r\n     \u001b[0m\u001b[32m+\t\t\tif ( \"$consoletype\" == \"vt\" ) then\r\n     \u001b[0m\u001b[32m+\t\t\t    switch ($LANG)\r\n     \u001b[0m\u001b[32m+\t\t\t    \tcase en_IN*:\r\n     \u001b[0m\u001b[32m+\t\t\t    \t\tbreaksw\r\n     \u001b[0m\u001b[32m+\t\t\t    \tcase ja*:\r\n     \u001b[0m\u001b[32m+\t\t\t    \tcase ko*:\r\n     \u001b[0m\u001b[32m+\t\t\t    \tcase si*:\r\n     \u001b[0m\u001b[32m+\t\t\t    \tcase zh*:\r\n     \u001b[0m\u001b[32m+\t\t\t    \tcase ar*:\r\n     \u001b[0m\u001b[32m+\t\t\t    \tcase fa*:\r\n     \u001b[0m\u001b[32m+\t\t\t    \tcase he*:\r\n     \u001b[0m\u001b[32m+\t\t\t    \tcase *_IN*:\r\n     \u001b[0m\u001b[32m+\t\t\t    \t\tsetenv LANG en_US\r\n     \u001b[0m\u001b[32m+\t\t\t    \t\tbreaksw\r\n     \u001b[0m\u001b[32"
+    ],
+    [
+      0.000008,
+      "m+\t\t\t    endsw\r\n     \u001b[0m\u001b[32m+\t\t\tendif\r\n     \u001b[0m\u001b[32m+\t\t    endif\r\n     \u001b[0m\u001b[32m+\t\tendif\r\n     \u001b[0m\u001b[32m+\t\tbreaksw\r\n     \u001b[0m\u001b[32m+\tendsw\r\n     \u001b[0m\u001b[32m+    endif    \r\n     \u001b[0m\u001b[32m+    unsetenv SYSFONTACM\r\n     \u001b[0m\u001b[32m+    unsetenv SYSFONT\r\n     \u001b[0m\u001b[32m+    unsetenv consoletype\r\n     \u001b[0m\u001b[32m+endif\r\n     \u001b[0m\u001b[0m"
+    ],
+    [
+      0.000002,
+      "\r\n"
+    ],
+    [
+      0.000081,
+      "\u001b[31;1m     fail: expected \"# skip everything for non-interactive shells\\nif (! $?prompt) exit\\n\\n# color-ls initialization\\nif ...ish:\\nalias ll 'ls -l --color=auto'\\nalias l. 'ls -d .* --color=auto'\\nalias ls 'ls --color=auto'\\n\" to match /^\\s*umask\\s+077\\s*$/\r\n     Diff:\u001b[0m\r\n     \u001b[0m\u001b[34m@@ -1,2 +1,69 @@\r\n     \u001b[0m\u001b[31m-/^\\s*umask\\s+077\\s*$/\r\n     \u001b[0m\u001b[32m+# skip everything for non-interactive shells\r\n     \u001b[0m\u001b[32m+if (! $?prompt) exit\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+# color-ls initialization\r\n     \u001b[0m\u001b[32m+if ( $?USER_LS_COLORS ) then\r\n     \u001b[0m\u001b[32m+  if ( \"$USER_LS_COLORS\" != \"\" ) then\r\n     \u001b[0m\u001b[32m+     #when USER_LS_COLORS defined do not override user\r\n     \u001b[0m\u001b[32m+     #specified LS_COLORS and use them\r\n     \u001b[0m\u001b[32m+     goto finish\r\n     \u001b[0m\u001b[32m+  endif\r\n     \u001b[0m\u001b[32m+endif\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+alias ll 'ls -l'\r\n     \u001b[0m\u001b[32m+alias l. 'ls -d .*'\r\n     \u001b[0m\u001b[32m+set COLORS=/etc/DIR_COLORS\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+if ($?TERM) then\r\n     \u001b[0m\u001b[32m+  if ( -e \"/etc/DIR"
+    ],
+    [
+      0.000225,
+      "_COLORS.256color\" ) then\r\n     \u001b[0m\u001b[32m+    if ( \"`/usr/bin/tput colors`\" == \"256\" ) then\r\n     \u001b[0m\u001b[32m+       set COLORS=/etc/DIR_COLORS.256color\r\n     \u001b[0m\u001b[32m+    endif\r\n     \u001b[0m\u001b[32m+  endif\r\n     \u001b[0m\u001b[32m+  if ( -e \"/etc/DIR_COLORS.$TERM\" ) then\r\n     \u001b[0m\u001b[32m+     set COLORS=\"/etc/DIR_COLORS.$TERM\"\r\n     \u001b[0m\u001b[32m+  endif\r\n     \u001b[0m\u001b[32m+endif\r\n     \u001b[0m\u001b[32m+if ( -f ~/.dircolors ) set COLORS=~/.dircolors\r\n     \u001b[0m\u001b[32m+if ( -f ~/.dir_colors ) set COLORS=~/.dir_colors\r\n     \u001b[0m\u001b[32m+if ($?TERM) then\r\n     \u001b[0m\u001b[32m+  if ( -f ~/.dircolors.\"$TERM\" ) set COLORS=~/.dircolors.\"$TERM\"\r\n     \u001b[0m\u001b[32m+  if ( -f ~/.dir_colors.\"$TERM\" ) set COLORS=~/.dir_colors.\"$TERM\"\r\n     \u001b[0m\u001b[32m+endif\r\n     \u001b[0m\u001b[32m+set INCLUDE=\"`/usr/bin/cat \"$COLORS\" | /usr/bin/grep '^INCLUDE' | /usr/bin/cut -d ' ' -f2-`\"\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+if ( ! -e \"$COLORS\" ) exit\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+set _tmp=\"`/usr/bin/mktemp .colorlsXXX -q --tmpdir=/tmp`\"\r\n     \u001b[0m\u001b[32m+#if mktemp fails, exit when include was ac"
+    ],
+    [
+      0.000004,
+      "tive, otherwise use $COLORS file\r\n     \u001b[0m\u001b[32m+if ( \"$_tmp\" == '' ) then\r\n     \u001b[0m\u001b[32m+  if ( \"$INCLUDE\" == '' ) then\r\n     \u001b[0m\u001b[32m+    eval \"`/usr/bin/dircolors -c $COLORS`\"\r\n     \u001b[0m\u001b[32m+  endif\r\n     \u001b[0m\u001b[32m+  goto cleanup\r\n     \u001b[0m\u001b[32m+endif\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+if ( \"$INCLUDE\" != '' ) /usr/bin/cat \"$INCLUDE\" \u003e\u003e $_tmp\r\n     \u001b[0m\u001b[32m+/usr/bin/grep -v '^INCLUDE' \"$COLORS\" \u003e\u003e $_tmp\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+eval \"`/usr/bin/dircolors -c $_tmp`\"\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+/usr/bin/rm -f $_tmp\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+if ( \"$LS_COLORS\" == '' ) exit\r\n     \u001b[0m\u001b[32m+cleanup:\r\n     \u001b[0m\u001b[32m+set color_none=`/usr/bin/sed -n '/^COLOR.*none/Ip' \u003c $COLORS`\r\n     \u001b[0m\u001b[32m+if ( \"$color_none\" != '' ) then\r\n     \u001b[0m\u001b[32m+   unset color_none\r\n     \u001b[0m\u001b[32m+   exit\r\n     \u001b[0m\u001b[32m+endif\r\n     \u001b[0m\u001b[32m+unset color_none\r\n     \u001b[0m\u001b[32m+unset _tmp\r\n     \u001b[0m\u001b[32m+unset INCLUDE\r\n     \u001b[0m\u001b[32m+unset COLORS\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+finish:\r\n     \u001b[0m\u001b[32m+alias ll 'ls -l "
+    ],
+    [
+      0.000004,
+      "--color=auto'\r\n     \u001b[0m\u001b[32m+alias l. 'ls -d .* --color=auto'\r\n     \u001b[0m\u001b[32m+alias ls 'ls --color=auto'\r\n     \u001b[0m\u001b[0m"
+    ],
+    [
+      0.000002,
+      "\r\n"
+    ],
+    [
+      0.000024,
+      "\u001b[31;1m     fail: expected \"# Initialization script for bash and sh\\n\\n# export AFS if you are in AFS environment\\nalias which='alias | /usr/bin/which --tty-only --read-alias --show-dot --show-tilde'\\n\" to match /^\\s*umask\\s+077\\s*$/\r\n     Diff:\u001b[0m\r\n     \u001b[0m\u001b[34m@@ -1,2 +1,5 @@\r\n     \u001b[0m\u001b[31m-/^\\s*umask\\s+077\\s*$/\r\n     \u001b[0m\u001b[32m+# Initialization script for bash and sh\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+# export AFS if you are in AFS environment\r\n     \u001b[0m\u001b[32m+alias which='alias | /usr/bin/which --tty-only --read-alias --show-dot --show-tilde'\r\n     \u001b[0m\u001b[0m"
+    ],
+    [
+      0.000002,
+      "\r\n"
+    ],
+    [
+      0.000019,
+      "\u001b[31;1m     fail: expected \"# color-grep initialization\\n\\n/usr/libexec/grepconf.sh -c || return\\n\\nalias grep='grep --color=aut.../null\\nalias egrep='egrep --color=auto' 2\u003e/dev/null\\nalias fgrep='fgrep --color=auto' 2\u003e/dev/null\\n\" to match /^\\s*umask\\s+077\\s*$/\r\n     Diff:\u001b[0m\r\n     \u001b[0m\u001b[34m@@ -1,2 +1,8 @@\r\n     \u001b[0m\u001b[31m-/^\\s*umask\\s+077\\s*$/\r\n     \u001b[0m\u001b[32m+# color-grep initialization\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+/usr/libexec/grepconf.sh -c || return\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+alias grep='grep --color=auto' 2\u003e/dev/null\r\n     \u001b[0m\u001b[32m+alias egrep='egrep --color=auto' 2\u003e/dev/null\r\n     \u001b[0m\u001b[32m+alias fgrep='fgrep --color=auto' 2\u003e/dev/null\r\n     \u001b[0m\u001b[0m"
+    ],
+    [
+      0.000002,
+      "\r\n"
+    ],
+    [
+      0.000146,
+      "\u001b[31;1m     fail: expected \"\\n# color-grep initialization\\n\\n/usr/libexec/grepconf.sh -c\\nif ( $status == 1 ) then\\n    exit\\nen...lias grep 'grep --color=auto'\\nalias egrep 'egrep --color=auto'\\nalias fgrep 'fgrep --color=auto'\\n\" to match /^\\s*umask\\s+077\\s*$/\r\n     Diff:\u001b[0m\r\n     \u001b[0m\u001b[34m@@ -1,2 +1,12 @@\r\n     \u001b[0m\u001b[31m-/^\\s*umask\\s+077\\s*$/\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+# color-grep initialization\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+/usr/libexec/grepconf.sh -c\r\n     \u001b[0m\u001b[32m+if ( $status == 1 ) then\r\n     \u001b[0m\u001b[32m+    exit\r\n     \u001b[0m\u001b[32m+endif\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+alias grep 'grep --color=auto'\r\n     \u001b[0m\u001b[32m+alias egrep 'egrep --color=auto'\r\n     \u001b[0m\u001b[32m+alias fgrep 'fgrep --color=auto'\r\n     \u001b[0m\u001b[0m"
+    ],
+    [
+      0.000006,
+      "\r\n\u001b[31;1m     fail: expected \"# Enable 256 color capabilities for appropriate terminals\\n\\n# Set this variable in your local shell...P=$(echo \\\"$TERMCAP\\\" | sed -e 's/Co#8/Co#256/g')\\n    export TERMCAP\\n  fi\\nfi\\n\\nunset local256\\n\" to match /^\\s*umask\\s+077\\s*$/\r\n     Diff:\u001b[0m\r\n     \u001b[0m\u001b[34m@@ -1,2 +1,27 @@\r\n     \u001b[0m\u001b[31m-/^\\s*umask\\s+077\\s*$/\r\n     \u001b[0m\u001b[32m+# Enable 256 color capabilities for appropriate terminals\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+# Set this variable in your local shell config (such as ~/.bashrc)\r\n     \u001b[0m\u001b[32m+# if you want remote xterms connecting to this system, to be sent 256 colors.\r\n     \u001b[0m\u001b[32m+# This must be set before reading global initialization such as /etc/bashrc.\r\n     \u001b[0m\u001b[32m+#   SEND_256_COLORS_TO_REMOTE=1\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+# Terminals with any of the following set, support 256 colors (and are local)\r\n     \u001b[0m\u001b[32m+local256=\"$COLORTERM$XTERM_VERSION$ROXTERM_ID$KONSOLE_DBUS_SESSION\"\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+if [ -n \"$local256\" ] || [ -n \"$SEND"
+    ],
+    [
+      0.000005,
+      "_256_COLORS_TO_REMOTE\" ]; then\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+  case \"$TERM\" in\r\n     \u001b[0m\u001b[32m+    'xterm') TERM=xterm-256color;;\r\n     \u001b[0m\u001b[32m+    'screen') TERM=screen-256color;;\r\n     \u001b[0m\u001b[32m+    'Eterm') TERM=Eterm-256color;;\r\n     \u001b[0m\u001b[32m+  esac\r\n     \u001b[0m\u001b[32m+  export TERM\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+  if [ -n \"$TERMCAP\" ] \u0026\u0026 [ \"$TERM\" = \"screen-256color\" ]; then\r\n     \u001b[0m\u001b[32m+    TERMCAP=$(echo \"$TERMCAP\" | sed -e 's/Co#8/Co#256/g')\r\n     \u001b[0m\u001b[32m+    export TERMCAP\r\n     \u001b[0m\u001b[32m+  fi\r\n     \u001b[0m\u001b[32m+fi\r\n     \u001b[0m\u001b[32m+\r\n     \u001b[0m\u001b[32m+unset local256\r\n     \u001b[0m\u001b[0m"
+    ],
+    [
+      0.000002,
+      "\r\n"
+    ],
+    [
+      0.000044,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_7.5_Lock_Inactive_User_Accounts: Lock Inactive User Accounts\u001b[0m\r\n"
+    ],
+    [
+      0.000326,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_8.1_Set_Warning_Banner_for_Standard_Login_Services: Set Warning Banner for Standard Login Services\u001b[0m"
+    ],
+    [
+      0.000002,
+      "\r\n"
+    ],
+    [
+      0.000038,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_8.2_Remove_OS_Information_from_Login_Warning_Banners: Remove OS Information from Login Warning Banners\u001b[0m\r\n"
+    ],
+    [
+      0.000086,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.1.2_Verify_Permissions_on_etcpasswd: Verify Permissions on /etc/passwd\u001b[0m\r\n"
+    ],
+    [
+      0.000083,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.1.3_Verify_Permissions_on_etcshadow: Verify Permissions on /etc/shadow\u001b[0m\r\n"
+    ],
+    [
+      0.000082,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.1.4_Verify_Permissions_on_etcgshadow: Verify Permissions on /etc/gshadow\u001b[0m\r\n"
+    ],
+    [
+      0.000127,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.1.5_Verify_Permissions_on_etcgroup: Verify Permissions on /etc/group\u001b[0m\r\n"
+    ],
+    [
+      0.000039,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.1.6_Verify_UserGroup_Ownership_on_etcpasswd: Verify User/Group Ownership on /etc/passwd\u001b[0m\r\n"
+    ],
+    [
+      0.000033,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.1.7_Verify_UserGroup_Ownership_on_etcshadow: Verify User/Group Ownership on /etc/shadow\u001b[0m"
+    ],
+    [
+      0.000002,
+      "\r\n"
+    ],
+    [
+      0.000040,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.1.8_Verify_UserGroup_Ownership_on_etcgshadow: Verify User/Group Ownership on /etc/gshadow\u001b[0m\r\n"
+    ],
+    [
+      0.000036,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.1.9_Verify_UserGroup_Ownership_on_etcgroup: Verify User/Group Ownership on /etc/group\u001b[0m\r\n"
+    ],
+    [
+      0.000021,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.1.11_Find_Un-owned_Files_and_Directories: Find Un-owned Files and Directories\u001b[0m\r\n"
+    ],
+    [
+      0.000023,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.1.12_Find_Un-grouped_Files_and_Directories: Find Un-grouped Files and Directories\u001b[0m\r\n"
+    ],
+    [
+      0.000063,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.2_Verify_No_Legacy__Entries_Exist_in_etcpasswd_File: Verify No Legacy \"+\" Entries Exist in /etc/passwd File\u001b[0m"
+    ],
+    [
+      0.000002,
+      "\r\n"
+    ],
+    [
+      0.000026,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.3_Verify_No_Legacy__Entries_Exist_in_etcshadow_File: Verify No Legacy \"+\" Entries Exist in /etc/shadow File\u001b[0m\r\n"
+    ],
+    [
+      0.000021,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.4_Verify_No_Legacy__Entries_Exist_in_etcgroup_File: Verify No Legacy \"+\" Entries Exist in /etc/group File\u001b[0m\r\n"
+    ],
+    [
+      0.000023,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.5_Verify_No_UID_0_Accounts_Exist_Other_Than_root: Verify No UID 0 Accounts Exist Other Than root\u001b[0m\r\n"
+    ],
+    [
+      0.000114,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.6_Ensure_root_PATH_Integrity: Ensure root PATH Integrity\u001b[0m"
+    ],
+    [
+      0.000002,
+      "\r\n"
+    ],
+    [
+      0.000069,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.7_Check_Permissions_on_User_Home_Directories: Check Permissions on User Home Directories\u001b[0m\r\n"
+    ],
+    [
+      0.000119,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.8_Check_User_Dot_File_Permissions: Check User Dot File Permissions\u001b[0m\r\n"
+    ],
+    [
+      0.000104,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.9_Check_Permissions_on_User_.netrc_Files: Check Permissions on User .netrc Files\u001b[0m\r\n"
+    ],
+    [
+      0.000032,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.10_Check_for_Presence_of_User_.rhosts_Files: Check for Presence of User .rhosts Files\u001b[0m\r\n"
+    ],
+    [
+      0.000025,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.11_Check_Groups_in_etcpasswd: Check Groups in /etc/passwd\u001b[0m\r\n"
+    ],
+    [
+      0.000037,
+      "\u001b[31;1m  ✖  xccdf_org.cisecurity.benchmarks_rule_9.2.12_Check_That_Users_Are_Assigned_Valid_Home_Directories: Check That Users Are Assigned Valid Home Directories (1 failed)\u001b[0m"
+    ],
+    [
+      0.000002,
+      "\r\n"
+    ],
+    [
+      0.000013,
+      "\u001b[31;1m     expected File /var/run/vboxadd to exist\u001b[0m\r\n"
+    ],
+    [
+      0.000027,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.13_Check_User_Home_Directory_Ownership: Check User Home Directory Ownership\u001b[0m\r\n"
+    ],
+    [
+      0.000032,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.14_Check_for_Duplicate_UIDs: Check for Duplicate UIDs\u001b[0m\r\n"
+    ],
+    [
+      0.000078,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.15_Check_for_Duplicate_GIDs: Check for Duplicate GIDs\u001b[0m\r\n"
+    ],
+    [
+      0.000022,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.16_Check_That_Reserved_UIDs_Are_Assigned_to_System_Accounts: Check That Reserved UIDs Are Assigned to System Accounts\u001b[0m"
+    ],
+    [
+      0.000002,
+      "\r\n"
+    ],
+    [
+      0.000031,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.17_Check_for_Duplicate_User_Names: Check for Duplicate User Names\u001b[0m\r\n"
+    ],
+    [
+      0.000030,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.18_Check_for_Duplicate_Group_Names: Check for Duplicate Group Names\u001b[0m\r\n"
+    ],
+    [
+      0.000030,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.19_Check_for_Presence_of_User_.netrc_Files: Check for Presence of User .netrc Files\u001b[0m\r\n"
+    ],
+    [
+      0.000945,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.20_Check_for_Presence_of_User_.forward_Files: Check for Presence of User .forward Files\u001b[0m\r\n"
+    ],
+    [
+      0.000003,
+      "\r\n"
+    ],
+    [
+      0.000008,
+      "Summary: 442 successful   59 failures    0 skipped\r\n"
+    ],
+    [
+      0.075641,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                               \r \r"
+    ],
+    [
+      0.000073,
+      "\u001b]2;chartmann@remchartmann01\u0007"
+    ],
+    [
+      0.000006,
+      "\u001b]1;..Conf/demos/01\u0007"
+    ],
+    [
+      0.002551,
+      "\u001b]7;file://remchartmann01/Users/chartmann/Development/ChefConf/demos/01\u0007"
+    ],
+    [
+      0.014231,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[01;31m➜  \u001b[36m01\u001b[00m \u001b[K"
+    ],
+    [
+      0.000043,
+      "\u001b[?1h\u001b="
+    ],
+    [
+      3.536033,
+      "\r\r\n"
+    ]
+  ]
+}

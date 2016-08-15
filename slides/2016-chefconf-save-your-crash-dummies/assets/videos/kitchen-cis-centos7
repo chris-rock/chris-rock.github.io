@@ -1,0 +1,2286 @@
+{
+  "version": 1,
+  "width": 87,
+  "height": 24,
+  "duration": 82.892481,
+  "command": "/bin/zsh",
+  "title": "",
+  "env": {
+    "TERM": "xterm-256color",
+    "SHELL": "/bin/zsh"
+  },
+  "stdout": [
+    [
+      0.073098,
+      "\u001b]7;file://remchartmann01/Users/chartmann/Development/ChefConf/demos/02-test-kitchen\u0007"
+    ],
+    [
+      0.192273,
+      "\r\nWarning: PATH set to RVM ruby but GEM_HOME and/or GEM_PATH not set, see:\r\n    https://github.com/rvm/rvm/issues/3212\r\n\r\n"
+    ],
+    [
+      0.024731,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                                      \r \r"
+    ],
+    [
+      0.000045,
+      "\u001b]2;chartmann@remchartmann01\u0007"
+    ],
+    [
+      0.000007,
+      "\u001b]1;..-test-kitchen\u0007"
+    ],
+    [
+      0.002403,
+      "\u001b]7;file://remchartmann01/Users/chartmann/Development/ChefConf/demos/02-test-kitchen\u0007"
+    ],
+    [
+      0.016116,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[01;32m➜  \u001b[36m02-test-kitchen\u001b[00m "
+    ],
+    [
+      0.000004,
+      "\u001b[K"
+    ],
+    [
+      0.000091,
+      "\u001b[?1h\u001b="
+    ],
+    [
+      2.027116,
+      "c"
+    ],
+    [
+      0.157545,
+      "\u0008ca"
+    ],
+    [
+      0.161418,
+      "t"
+    ],
+    [
+      0.062364,
+      " "
+    ],
+    [
+      0.144070,
+      "."
+    ],
+    [
+      0.247783,
+      "k"
+    ],
+    [
+      0.136119,
+      "i"
+    ],
+    [
+      0.120285,
+      "t"
+    ],
+    [
+      0.253237,
+      "chen"
+    ],
+    [
+      0.698254,
+      "."
+    ],
+    [
+      0.093237,
+      "yml\u001b[1m \u001b[0m"
+    ],
+    [
+      0.322738,
+      "\u0008\u001b[0m \u0008"
+    ],
+    [
+      0.000087,
+      "\u001b[?1l\u001b\u003e"
+    ],
+    [
+      0.000068,
+      "\r\r\n"
+    ],
+    [
+      0.000920,
+      "\u001b]2;cat .kitchen.yml\u0007\u001b]1;cat\u0007"
+    ],
+    [
+      0.003956,
+      "---\r\ndriver:\r\n  name: vagrant\r\n\r\nprovisioner:\r\n  name: chef_solo\r\n\r\nplatforms:\r\n  - name: centos/7\r\n\r\nverifier:\r\n  name: inspec\r\n  sudo: true\r\n\r\nsuites:\r\n  - name: default\r\n    run_list:\r\n      - recipe[cis-el7-l1-hardening::default]\r\n    attributes:\r\n    verifier:\r\n      inspec_tests:\r\n        - compliance://cis/cis-centos7-level1\r\n"
+    ],
+    [
+      0.000465,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                                      \r \r"
+    ],
+    [
+      0.000089,
+      "\u001b]2;chartmann@remchartmann01\u0007"
+    ],
+    [
+      0.000027,
+      "\u001b]1;..-test-kitchen\u0007"
+    ],
+    [
+      0.002687,
+      "\u001b]7;file://remchartmann01/Users/chartmann/Development/ChefConf/demos/02-test-kitchen\u0007"
+    ],
+    [
+      0.015392,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[01;32m➜  \u001b[36m02-test-kitchen\u001b[00m "
+    ],
+    [
+      0.000006,
+      "\u001b[K"
+    ],
+    [
+      0.000172,
+      "\u001b[?1h\u001b="
+    ],
+    [
+      2.601016,
+      "c"
+    ],
+    [
+      0.071145,
+      "\u0008ch"
+    ],
+    [
+      0.104385,
+      "e"
+    ],
+    [
+      0.073238,
+      "f"
+    ],
+    [
+      0.094195,
+      " "
+    ],
+    [
+      0.168213,
+      "e"
+    ],
+    [
+      0.216161,
+      "x"
+    ],
+    [
+      0.199841,
+      "e"
+    ],
+    [
+      0.223875,
+      "c"
+    ],
+    [
+      0.103924,
+      " "
+    ],
+    [
+      0.504049,
+      "k"
+    ],
+    [
+      0.154044,
+      "i"
+    ],
+    [
+      0.070016,
+      "t"
+    ],
+    [
+      0.185352,
+      "c"
+    ],
+    [
+      0.054642,
+      "h"
+    ],
+    [
+      0.064054,
+      "e"
+    ],
+    [
+      0.112402,
+      "n"
+    ],
+    [
+      0.079331,
+      " "
+    ],
+    [
+      0.169732,
+      "l"
+    ],
+    [
+      0.151599,
+      "i"
+    ],
+    [
+      0.102838,
+      "s"
+    ],
+    [
+      0.063959,
+      "t"
+    ],
+    [
+      0.064161,
+      "\u001b[?1l\u001b\u003e"
+    ],
+    [
+      0.000024,
+      "\r\r\n"
+    ],
+    [
+      0.000780,
+      "\u001b]2;chef exec kitchen list\u0007\u001b]1;chef\u0007"
+    ],
+    [
+      2.682073,
+      "\u001b[32mInstance\u001b[0m          \u001b[32mDriver\u001b[0m   \u001b[32mProvisioner\u001b[0m  \u001b[32mVerifier\u001b[0m  \u001b[32mTransport\u001b[0m  \u001b[32mLast Action\u001b[0m\r\ndefault-centos-7\u001b[37m\u001b[0m  Vagrant\u001b[37m\u001b[0m  ChefSolo\u001b[37m\u001b[0m     Inspec\u001b[37m\u001b[0m    Ssh\u001b[37m\u001b[0m        \u001b[36mCreated\u001b[0m\r\n"
+    ],
+    [
+      0.047092,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                                      \r \r"
+    ],
+    [
+      0.000085,
+      "\u001b]2;chartmann@remchartmann01\u0007"
+    ],
+    [
+      0.000005,
+      "\u001b]1;..-test-kitchen\u0007"
+    ],
+    [
+      0.003208,
+      "\u001b]7;file://remchartmann01/Users/chartmann/Development/ChefConf/demos/02-test-kitchen\u0007"
+    ],
+    [
+      0.014044,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[01;32m➜  \u001b[36m02-test-kitchen\u001b[00m "
+    ],
+    [
+      0.000006,
+      "\u001b[K"
+    ],
+    [
+      0.000154,
+      "\u001b[?1h\u001b="
+    ],
+    [
+      3.015042,
+      "chef exec kitchen list"
+    ],
+    [
+      0.733267,
+      "\u0008 \u0008"
+    ],
+    [
+      0.192594,
+      "\u0008 \u0008"
+    ],
+    [
+      0.231418,
+      "\u0008 \u0008"
+    ],
+    [
+      0.103783,
+      "\u0008 \u0008"
+    ],
+    [
+      0.209930,
+      "c"
+    ],
+    [
+      0.110679,
+      "o"
+    ],
+    [
+      0.223755,
+      "n"
+    ],
+    [
+      0.055574,
+      "v"
+    ],
+    [
+      0.184201,
+      "e"
+    ],
+    [
+      0.088223,
+      "r"
+    ],
+    [
+      1.368036,
+      "g"
+    ],
+    [
+      0.095739,
+      "e"
+    ],
+    [
+      0.104044,
+      " "
+    ],
+    [
+      6.295706,
+      "\u001b[?1l\u001b\u003e"
+    ],
+    [
+      0.000041,
+      "\r\r\n"
+    ],
+    [
+      0.000790,
+      "\u001b]2;chef exec kitchen converge\u0007\u001b]1;chef\u0007"
+    ],
+    [
+      0.705128,
+      "-----\u003e Starting Kitchen (v1.10.0)\r\n"
+    ],
+    [
+      1.980611,
+      "\u001b[36m-----\u003e Converging \u003cdefault-centos-7\u003e...\u001b[0m\r\n"
+    ],
+    [
+      0.000447,
+      "\u001b[36m       Preparing files for transfer\u001b[0m\r\n"
+    ],
+    [
+      0.000063,
+      "\u001b[36m       Preparing dna.json\u001b[0m\r\n"
+    ],
+    [
+      0.000469,
+      "\u001b[36m       Resolving cookbook dependencies with Berkshelf 4.3.5...\u001b[0m\r\n"
+    ],
+    [
+      0.089735,
+      "\u001b[36m       Removing non-cookbook files before transfer\u001b[0m\r\n"
+    ],
+    [
+      0.002168,
+      "\u001b[36m       Preparing solo.rb\u001b[0m\r\n"
+    ],
+    [
+      0.168298,
+      "\u001b[36m-----\u003e Chef Omnibus installation detected (install only if missing)\u001b[0m\r\n"
+    ],
+    [
+      0.018911,
+      "\u001b[36m       Transferring files to \u003cdefault-centos-7\u003e\u001b[0m\r\n"
+    ],
+    [
+      1.083557,
+      "\u001b[36m       Starting Chef Client, version 12.12.15\u001b[0m\r\n"
+    ],
+    [
+      1.270245,
+      "\u001b[36m       resolving cookbooks for run list: [\"cis-el7-l1-hardening::default\"]\u001b[0m\r\n"
+    ],
+    [
+      0.064287,
+      "\u001b[36m       Synchronizing Cookbooks:\u001b[0m\r\n"
+    ],
+    [
+      0.035968,
+      "\u001b[36m         - line (0.6.3)\u001b[0m\r\n\u001b[36m         - cis-el7-l1-hardening (0.6.2)\u001b[0m\r\n"
+    ],
+    [
+      0.000007,
+      "\u001b[36m       Installing Cookbook Gems:\u001b[0m\r\n\u001b[36m       Compiling Cookbooks...\u001b[0m\r\n"
+    ],
+    [
+      0.035450,
+      "\u001b[36m       Converging 109 resources\u001b[0m\r\n"
+    ],
+    [
+      0.000006,
+      "\u001b[36m       Recipe: cis-el7-l1-hardening::default\u001b[0m\r\n"
+    ],
+    [
+      1.362830,
+      "\u001b[36m         * yum_package[firewalld] action install (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.276009,
+      "\u001b[36m         * service[firewalld] action enable\u001b[0m\r\n\u001b[36m           - enable service service[firewalld]\u001b[0m\r\n"
+    ],
+    [
+      0.449628,
+      "\u001b[36m         * service[firewalld] action start\u001b[0m\r\n\u001b[36m           - start service service[firewalld]\u001b[0m\r\n"
+    ],
+    [
+      0.000005,
+      "\u001b[36m         * yum_package[Install grub2] action install (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.008434,
+      "\u001b[36m         * file[/boot/grub2/grub.cfg] action create\u001b[0m\r\n"
+    ],
+    [
+      0.058757,
+      "\u001b[36m           - change mode from '0644' to '0600'\u001b[0m\r\n\u001b[36m           - restore selinux security context\u001b[0m\r\n"
+    ],
+    [
+      0.000006,
+      "\u001b[36m         * yum_package[Install initscripts] action install (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.005873,
+      "\u001b[36m         * replace_or_add[Set Daemon umask] action edit\u001b[0m\r\n\u001b[36m         \u001b[0m\r\n"
+    ],
+    [
+      0.000005,
+      "\u001b[36m       Recipe: cis-el7-l1-hardening::ssh\u001b[0m\r\n\u001b[36m         * yum_package[Install OpenSSH Server] action install (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.070210,
+      "\u001b[36m         * service[sshd.service] action enable (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.065433,
+      "\u001b[36m         * service[sshd.service] action start (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000007,
+      "\u001b[36m         * file[sshd.changed] action nothing (skipped due to action :nothing)\u001b[0m\r\n\u001b[36m         * file[/etc/ssh/sshd_config] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000010,
+      "\u001b[36m         * replace_or_add[SSH Protocol] action edit\u001b[0m\r\n\u001b[36m         \u001b[0m\r\n"
+    ],
+    [
+      0.000017,
+      "\u001b[36m         * file[sshd.changed] action create\u001b[0m\r\n\u001b[36m           - create new file /tmp/.sshd-changed\u001b[0m\r\n"
+    ],
+    [
+      0.000009,
+      "\u001b[36m           - change mode from '' to '0600'\u001b[0m\r\n"
+    ],
+    [
+      0.000005,
+      "\u001b[36m           - change owner from '' to 'root'\u001b[0m\r\n"
+    ],
+    [
+      0.036768,
+      "\u001b[36m           - change group from '' to 'root'\u001b[0m\r\n"
+    ],
+    [
+      0.000010,
+      "\u001b[36m           - restore selinux security context\u001b[0m\r\n\u001b[36m         * replace_or_add[SSH MaxAuthTries] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.000015,
+      "\u001b[36m         \u001b[0m\r\n"
+    ],
+    [
+      0.000021,
+      "\u001b[36m         * file[sshd.changed] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.016012,
+      "\u001b[36m         * replace_or_add[Disable SSH X11 Forwarding] action edit\u001b[0m\r\n\u001b[36m         \u001b[0m\r\n\u001b[36m         * file[sshd.changed] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000005,
+      "\u001b[36m         * replace_or_add[Set SSH IgnoreRhosts to Yes] action edit\u001b[0m\r\n\u001b[36m         \u001b[0m\r\n"
+    ],
+    [
+      0.000018,
+      "\u001b[36m         * file[sshd.changed] action create (up to date)\u001b[0m\r\n\u001b[36m         * replace_or_add[Set SSH Banner] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.000006,
+      "\u001b[36m         \u001b[0m\r\n"
+    ],
+    [
+      0.000016,
+      "\u001b[36m         * file[sshd.changed] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.006474,
+      "\u001b[36m         * delete_lines[Remove no default banner comment] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.000006,
+      "\u001b[36m         \u001b[0m\r\n\u001b[36m         * file[sshd.changed] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000177,
+      "\u001b[36m         * replace_or_add[Set SSH PermitEmptyPasswords to No] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.000287,
+      "\u001b[36m         \u001b[0m\r\n"
+    ],
+    [
+      0.013888,
+      "\u001b[36m         * file[sshd.changed] action create (up to date)\u001b[0m\r\n\u001b[36m         * replace_or_add[Disable SSH Root Login] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.000004,
+      "\u001b[36m         \u001b[0m\r\n\u001b[36m         * file[sshd.changed] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.011536,
+      "\u001b[36m         * replace_or_add[Set SSH HostbasedAuthentication to No] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.000006,
+      "\u001b[36m         \u001b[0m\r\n\u001b[36m         * file[sshd.changed] action create (up to date)\u001b[0m\r\n\u001b[36m         * replace_or_add[Set LogLevel to INFO] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.000007,
+      "\u001b[36m         \u001b[0m\r\n"
+    ],
+    [
+      0.000017,
+      "\u001b[36m         * file[sshd.changed] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.023211,
+      "\u001b[36m         * replace_or_add[Set Idle Timeout Interval for User Login - ClientAliveInterval] action edit\u001b[0m\r\n\u001b[36m         \u001b[0m\r\n"
+    ],
+    [
+      0.000007,
+      "\u001b[36m         * file[sshd.changed] action create (up to date)\u001b[0m\r\n\u001b[36m         * replace_or_add[Set Idle Timeout Interval for User Login - ClientAliveCountMax] action edit\u001b[0m\r\n\u001b[36m         \u001b[0m\r\n\u001b[36m         * file[sshd.changed] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.006720,
+      "\u001b[36m         * replace_or_add[Do Not Allow Users to Set Environment Options] action edit\u001b[0m\r\n\u001b[36m         \u001b[0m\r\n"
+    ],
+    [
+      0.000005,
+      "\u001b[36m         * file[sshd.changed] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.009089,
+      "\u001b[36m         * replace_or_add[Set a DenyUsers config up] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.000006,
+      "\u001b[36m         \u001b[0m\r\n\u001b[36m         * file[sshd.changed] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.008718,
+      "\u001b[36m         * replace_or_add[Set a DenyGroups config up] action edit\u001b[0m\r\n\u001b[36m         \u001b[0m\r\n"
+    ],
+    [
+      0.000009,
+      "\u001b[36m         * file[sshd.changed] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000111,
+      "\u001b[36m         * replace_or_add[Use Only Approved Cipher in Counter Mode] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.000295,
+      "\u001b[36m         \u001b[0m\r\n"
+    ],
+    [
+      0.006371,
+      "\u001b[36m         * file[sshd.changed] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.051006,
+      "\u001b[36m         * execute[Restart sshd only if config has changed] action run\u001b[0m\r\n\u001b[36m           - execute rm -rf /tmp/.sshd-changed\u001b[0m\r\n"
+    ],
+    [
+      0.099500,
+      "\u001b[36m         * service[sshd.service] action restart\u001b[0m\r\n\u001b[36m           - restart service service[sshd.service]\u001b[0m\r\n"
+    ],
+    [
+      0.000006,
+      "\u001b[36m       Recipe: cis-el7-l1-hardening::avahi\u001b[0m\r\n"
+    ],
+    [
+      0.000002,
+      "\u001b[36m         * yum_package[Install Avahi Libs] action install (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000032,
+      "\u001b[36m         * yum_package[Install Avahi Autoipd] action install (up to date)\u001b[0m\r\n"
+    ],
+    [
+      10.237337,
+      "\u001b[36m         * yum_package[Install Avahi] action install\u001b[0m\r\n\u001b[36m           - install version 0.6.31-15.el7_2.1 of package avahi\u001b[0m\r\n"
+    ],
+    [
+      0.136860,
+      "\u001b[36m         * service[avahi-daemon.socket] action disable\u001b[0m\r\n\u001b[36m           - disable service service[avahi-daemon.socket]\u001b[0m\r\n"
+    ],
+    [
+      0.056796,
+      "\u001b[36m         * service[avahi-daemon.socket] action stop (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.127015,
+      "\u001b[36m         * service[avahi-daemon.service] action disable\u001b[0m\r\n\u001b[36m           - disable service service[avahi-daemon.service]\u001b[0m\r\n"
+    ],
+    [
+      0.057941,
+      "\u001b[36m         * service[avahi-daemon.service] action stop (up to date)\u001b[0m\r\n\u001b[36m       Recipe: cis-el7-l1-hardening::cron\u001b[0m\r\n"
+    ],
+    [
+      0.179514,
+      "\u001b[36m         * yum_package[Install cronie] action install (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.059981,
+      "\u001b[36m         * service[crond] action enable (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.064891,
+      "\u001b[36m         * service[crond] action start (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000006,
+      "\u001b[36m         * yum_package[Install cronie-anacron] action install (up to date)\u001b[0m\r\n\u001b[36m         * yum_package[Install crontabs] action install (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.009416,
+      "\u001b[36m         * directory[/etc/cron.d] action create\u001b[0m\r\n"
+    ],
+    [
+      0.031313,
+      "\u001b[36m           - change mode from '0755' to '0700'\u001b[0m\r\n\u001b[36m           - restore selinux security context\u001b[0m\r\n"
+    ],
+    [
+      0.000007,
+      "\u001b[36m         * directory[/etc/cron.monthly] action create\u001b[0m\r\n"
+    ],
+    [
+      0.030448,
+      "\u001b[36m           - change mode from '0755' to '0700'\u001b[0m\r\n\u001b[36m           - restore selinux security context\u001b[0m\r\n"
+    ],
+    [
+      0.000006,
+      "\u001b[36m         * directory[/etc/cron.weekly] action create\u001b[0m\r\n"
+    ],
+    [
+      0.031428,
+      "\u001b[36m           - change mode from '0755' to '0700'\u001b[0m\r\n"
+    ],
+    [
+      0.000006,
+      "\u001b[36m           - restore selinux security context\u001b[0m\r\n"
+    ],
+    [
+      0.000018,
+      "\u001b[36m         * directory[/etc/cron.daily] action create\u001b[0m\r\n"
+    ],
+    [
+      0.031490,
+      "\u001b[36m           - change mode from '0755' to '0700'\u001b[0m\r\n\u001b[36m           - restore selinux security context\u001b[0m\r\n"
+    ],
+    [
+      0.000006,
+      "\u001b[36m         * directory[/etc/cron.hourly] action create\u001b[0m\r\n"
+    ],
+    [
+      0.030110,
+      "\u001b[36m           - change mode from '0755' to '0700'\u001b[0m\r\n\u001b[36m           - restore selinux security context\u001b[0m\r\n"
+    ],
+    [
+      0.000006,
+      "\u001b[36m         * file[/etc/crontab] action create\u001b[0m\r\n"
+    ],
+    [
+      0.026752,
+      "\u001b[36m           - change mode from '0644' to '0700'\u001b[0m\r\n\u001b[36m           - restore selinux security context\u001b[0m\r\n"
+    ],
+    [
+      0.000006,
+      "\u001b[36m         * file[/etc/anacrontab] action create\u001b[0m\r\n"
+    ],
+    [
+      0.027787,
+      "\u001b[36m           - change mode from '0600' to '0700'\u001b[0m\r\n"
+    ],
+    [
+      0.000007,
+      "\u001b[36m           - restore selinux security context\u001b[0m\r\n"
+    ],
+    [
+      0.004032,
+      "\u001b[36m         * file[/etc/cron.deny] action delete\u001b[0m\r\n\u001b[36m           - delete file /etc/cron.deny\u001b[0m\r\n"
+    ],
+    [
+      0.000006,
+      "\u001b[36m         * file[/etc/cron.allow] action create\u001b[0m\r\n\u001b[36m           - create new file /etc/cron.allow\u001b[0m\r\n"
+    ],
+    [
+      0.000009,
+      "\u001b[36m           - change mode from '' to '0700'\u001b[0m\r\n"
+    ],
+    [
+      0.000007,
+      "\u001b[36m           - change owner from '' to 'root'\u001b[0m\r\n"
+    ],
+    [
+      0.028978,
+      "\u001b[36m           - change group from '' to 'root'\u001b[0m\r\n\u001b[36m           - restore selinux security context\u001b[0m\r\n"
+    ],
+    [
+      0.000006,
+      "\u001b[36m       Recipe: cis-el7-l1-hardening::at_daemon\u001b[0m\r\n\u001b[36m         * file[/etc/at.deny] action delete (up to date)\u001b[0m\r\n\u001b[36m         * file[/etc/at.allow] action create\u001b[0m\r\n\u001b[36m           - create new file /etc/at.allow\u001b[0m\r\n"
+    ],
+    [
+      0.000011,
+      "\u001b[36m           - change mode from '' to '0700'\u001b[0m\r\n"
+    ],
+    [
+      0.000018,
+      "\u001b[36m           - change owner from '' to 'root'\u001b[0m\r\n"
+    ],
+    [
+      0.034257,
+      "\u001b[36m           - change group from '' to 'root'\u001b[0m\r\n\u001b[36m           - restore selinux security context\u001b[0m\r\n"
+    ],
+    [
+      0.000006,
+      "\u001b[36m       Recipe: cis-el7-l1-hardening::network-packet-remediation\u001b[0m\r\n\u001b[36m         * yum_package[Install initscripts] action install (up to date)\u001b[0m\r\n\u001b[36m         * yum_package[Install procps-ng] action install (up to date)\u001b[0m\r\n\u001b[36m         * file[/etc/sysctl.conf] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000011,
+      "\u001b[36m         * replace_or_add[enable_update_net.ipv4.conf.all.log_martians=1] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.000003,
+      "\u001b[36m         \u001b[0m\r\n"
+    ],
+    [
+      0.000027,
+      "\u001b[36m         * replace_or_add[enable_net.ipv4.conf.default.log_martians=1] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.000018,
+      "\u001b[36m         \u001b[0m\r\n"
+    ],
+    [
+      0.038843,
+      "\u001b[36m         * execute[update_net.ipv4.conf.all.log_martians=1] action run\u001b[0m\r\n\u001b[36m           - execute /sbin/sysctl -w net.ipv4.conf.all.log_martians=1\u001b[0m\r\n"
+    ],
+    [
+      0.042615,
+      "\u001b[36m         * execute[update_net.ipv4.conf.default.log_martians=1] action run\u001b[0m\r\n"
+    ],
+    [
+      0.000010,
+      "\u001b[36m           - execute /sbin/sysctl -w net.ipv4.conf.default.log_martians=1\u001b[0m\r\n"
+    ],
+    [
+      0.000014,
+      "\u001b[36m         * replace_or_add[enable_net.ipv4.conf.all.send_redirects=0] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.000014,
+      "\u001b[36m         \u001b[0m\r\n"
+    ],
+    [
+      0.000014,
+      "\u001b[36m         * replace_or_add[enable_net.ipv4.conf.default.send_redirects=0] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.000026,
+      "\u001b[36m         \u001b[0m\r\n"
+    ],
+    [
+      0.038862,
+      "\u001b[36m         * execute[update_net.ipv4.conf.all.send_redirects=0] action run\u001b[0m\r\n\u001b[36m           - execute /sbin/sysctl -w net.ipv4.conf.all.send_redirects=0\u001b[0m\r\n"
+    ],
+    [
+      0.045678,
+      "\u001b[36m         * execute[update_net.ipv4.conf.default.send_redirects=0] action run\u001b[0m\r\n\u001b[36m           - execute /sbin/sysctl -w net.ipv4.conf.default.send_redirects=0\u001b[0m\r\n"
+    ],
+    [
+      0.000011,
+      "\u001b[36m         * replace_or_add[enable_net.ipv4.conf.all.accept_redirects=0] action edit\u001b[0m\r\n\u001b[36m         \u001b[0m\r\n"
+    ],
+    [
+      0.000006,
+      "\u001b[36m         * replace_or_add[enable_net.ipv4.conf.default.accept_redirects=0] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.000023,
+      "\u001b[36m         \u001b[0m\r\n"
+    ],
+    [
+      0.038829,
+      "\u001b[36m         * execute[update_net.ipv4.conf.all.accept_redirects=0] action run\u001b[0m\r\n\u001b[36m           - execute /sbin/sysctl -w net.ipv4.conf.all.accept_redirects=0\u001b[0m\r\n"
+    ],
+    [
+      0.045004,
+      "\u001b[36m         * execute[update_net.ipv4.conf.default.accept_redirects=0] action run\u001b[0m\r\n\u001b[36m           - execute /sbin/sysctl -w net.ipv4.conf.default.accept_redirects=0\u001b[0m\r\n"
+    ],
+    [
+      0.000016,
+      "\u001b[36m       Recipe: cis-el7-l1-hardening::login_banners\u001b[0m\r\n\u001b[36m         * file[/etc/motd] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.016865,
+      "\u001b[36m         * execute[Delete OS Version from /etc/motd] action run (skipped due to only_if)\u001b[0m\r\n"
+    ],
+    [
+      0.018685,
+      "\u001b[36m         * execute[Delete Kernel Version from /etc/motd] action run (skipped due to only_if)\u001b[0m\r\n"
+    ],
+    [
+      0.019693,
+      "\u001b[36m         * execute[Delete Machine Architecture from /etc/motd] action run (skipped due to only_if)\u001b[0m\r\n"
+    ],
+    [
+      0.026312,
+      "\u001b[36m         * execute[Delete OS used from /etc/motd] action run (skipped due to only_if)\u001b[0m\r\n\u001b[36m         * file[/etc/issue] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.018698,
+      "\u001b[36m         * execute[Delete OS Version from /etc/issue] action run (skipped due to only_if)\u001b[0m\r\n"
+    ],
+    [
+      0.063509,
+      "\u001b[36m         * execute[Delete Kernel Version from /etc/issue] action run\u001b[0m\r\n\u001b[36m           - execute /usr/bin/sed -i 's:\\\\r:REDACTED_KERNELVER:g' /etc/issue\u001b[0m\r\n"
+    ],
+    [
+      0.054194,
+      "\u001b[36m         * execute[Delete Machine Architecture from /etc/issue] action run\u001b[0m\r\n\u001b[36m           - execute /usr/bin/sed -i 's/\\\\m/REDACTED_ARCH/g' /etc/issue\u001b[0m\r\n"
+    ],
+    [
+      0.021708,
+      "\u001b[36m         * execute[Delete OS used from /etc/issue] action run (skipped due to only_if)\u001b[0m\r\n"
+    ],
+    [
+      0.000006,
+      "\u001b[36m         * file[/etc/issue.net] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.023242,
+      "\u001b[36m         * execute[Delete OS Version from /etc/issue.net] action run (skipped due to only_if)\u001b[0m\r\n"
+    ],
+    [
+      0.055186,
+      "\u001b[36m         * execute[Delete Kernel Version from /etc/issue.net] action run\u001b[0m\r\n\u001b[36m           - execute /usr/bin/sed -i 's:\\\\r:REDACTED_KERNELVER:g' /etc/issue.net\u001b[0m\r\n"
+    ],
+    [
+      0.059084,
+      "\u001b[36m         * execute[Delete Machine Architecture from /etc/issue.net] action run\u001b[0m\r\n"
+    ],
+    [
+      0.000013,
+      "\u001b[36m           - execute /usr/bin/sed -i 's/\\\\m/REDACTED_ARCH/g' /etc/issue.net\u001b[0m\r\n"
+    ],
+    [
+      0.024330,
+      "\u001b[36m         * execute[Delete OS used from /etc/issue.net] action run (skipped due to only_if)\u001b[0m\r\n\u001b[36m       Recipe: cis-el7-l1-hardening::core_dumps\u001b[0m\r\n"
+    ],
+    [
+      0.000006,
+      "\u001b[36m         * yum_package[Install pam] action install (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000004,
+      "\u001b[36m         * replace_or_add[Restrict Core Dumps] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.000020,
+      "\u001b[36m         \u001b[0m\r\n"
+    ],
+    [
+      0.000008,
+      "\u001b[36m       Recipe: cis-el7-l1-hardening::rsyslog\u001b[0m\r\n"
+    ],
+    [
+      0.000019,
+      "\u001b[36m         * yum_package[Install rsyslog] action install (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.054527,
+      "\u001b[36m         * service[rsyslog.service] action enable (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.059003,
+      "\u001b[36m         * service[rsyslog.service] action start (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.002608,
+      "\u001b[36m         * replace_or_add[Configure rsyslog to send logs to remote host] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.000023,
+      "\u001b[36m         \u001b[0m\r\n"
+    ],
+    [
+      0.135620,
+      "\u001b[36m         * service[rsyslog.service] action restart\u001b[0m\r\n\u001b[36m           - restart service service[rsyslog.service]\u001b[0m\r\n"
+    ],
+    [
+      0.000008,
+      "\u001b[36m       Recipe: cis-el7-l1-hardening::ntp\u001b[0m\r\n"
+    ],
+    [
+      7.277798,
+      "\u001b[36m         * yum_package[ntp] action install\u001b[0m\r\n"
+    ],
+    [
+      0.000011,
+      "\u001b[36m           - install version 4.2.6p5-22.el7.centos.2 of package ntp\u001b[0m\r\n\u001b[36m         * file[/etc/ntp.conf] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000013,
+      "\u001b[36m         * replace_or_add[Add kod to default restrict list in ntp.conf for IP V4] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.000017,
+      "\u001b[36m         \u001b[0m\r\n"
+    ],
+    [
+      0.000024,
+      "\u001b[36m         * replace_or_add[Add default restrict list in ntp.conf with a -6 for IP V6 activity] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.000004,
+      "\u001b[36m         \u001b[0m\r\n"
+    ],
+    [
+      0.000026,
+      "\u001b[36m         * file[/etc/sysconfig/ntpd] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000037,
+      "\u001b[36m         * replace_or_add[ntpd] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.000003,
+      "\u001b[36m         \u001b[0m\r\n\u001b[36m       Recipe: cis-el7-l1-hardening::user-mgmt\u001b[0m\r\n"
+    ],
+    [
+      0.000015,
+      "\u001b[36m         * file[/etc/default/useradd] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000016,
+      "\u001b[36m         * replace_or_add[User Inactive Enforcement] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.000020,
+      "\u001b[36m         \u001b[0m\r\n"
+    ],
+    [
+      0.000009,
+      "\u001b[36m         * file[/etc/passwd] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.000012,
+      "\u001b[36m         * file[/etc/pam.d/su] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.003632,
+      "\u001b[36m         * replace_or_add[Restrict su Command] action edit\u001b[0m\r\n\u001b[36m         \u001b[0m\r\n"
+    ],
+    [
+      0.000024,
+      "\u001b[36m         * file[/etc/bashrc] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.005180,
+      "\u001b[36m         * replace_or_add[default umask for /etc/bashrc] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.000005,
+      "\u001b[36m         \u001b[0m\r\n"
+    ],
+    [
+      0.000018,
+      "\u001b[36m         * file[/etc/pam.d/system-auth] action create[2016-07-10T21:01:18-04:00] WARN: File /etc/pam.d/system-auth managed by file[/etc/pam.d/system-auth] is really a symlink. Managing the source file instead.\u001b[0m\r\n"
+    ],
+    [
+      0.000008,
+      "\u001b[36m       [2016-07-10T21:01:18-04:00] WARN: Disable this warning by setting `manage_symlink_source true` on the resource\u001b[0m\r\n\u001b[36m       [2016-07-10T21:01:18-04:00] WARN: In a future Chef release, 'manage_symlink_source' will not be enabled by default\u001b[0m\r\n"
+    ],
+    [
+      0.000017,
+      "\u001b[36m        (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.002137,
+      "\u001b[36m         * replace_or_add[Limit Password Reusd] action edit\u001b[0m\r\n\u001b[36m         \u001b[0m\r\n"
+    ],
+    [
+      0.000004,
+      "\u001b[36m       Recipe: cis-el7-l1-hardening::passwords\u001b[0m\r\n"
+    ],
+    [
+      0.173151,
+      "\u001b[36m         * yum_package[Install libpwquality] action install (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.003654,
+      "\u001b[36m         * file[/etc/security/pwquality.conf] action create (up to date)\u001b[0m\r\n"
+    ],
+    [
+      0.003549,
+      "\u001b[36m         * replace_or_add[Set Password mimimum length] action edit\u001b[0m\r\n\u001b[36m         \u001b[0m\r\n"
+    ],
+    [
+      0.014283,
+      "\u001b[36m         * replace_or_add[Set password dcredit] action edit\u001b[0m\r\n\u001b[36m         \u001b[0m\r\n"
+    ],
+    [
+      0.000007,
+      "\u001b[36m         * replace_or_add[Set password ocredit] action edit\u001b[0m\r\n\u001b[36m         \u001b[0m\r\n\u001b[36m         * replace_or_add[Set password lcredit] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.000037,
+      "\u001b[36m         \u001b[0m\r\n"
+    ],
+    [
+      0.000042,
+      "\u001b[36m         * replace_or_add[Set password ucredit] action edit\u001b[0m\r\n\u001b[36m         \u001b[0m\r\n"
+    ],
+    [
+      0.044192,
+      "\u001b[36m         * execute[Set Password Expiring Warning Days in /etc/shadow] action run\u001b[0m\r\n\u001b[36m           - execute /usr/bin/sed -i 's/::\\([^:]*:[^:]*:\\)$/:7:\\1/g' /etc/shadow\u001b[0m\r\n"
+    ],
+    [
+      0.000006,
+      "\u001b[36m         * replace_or_add[Set Password Expiration Days in login.defs] action edit\u001b[0m\r\n"
+    ],
+    [
+      0.000019,
+      "\u001b[36m         \u001b[0m\r\n"
+    ],
+    [
+      0.041998,
+      "\u001b[36m         * execute[Set Password Expiration Days in /etc/shadow] action run\u001b[0m\r\n\u001b[36m           - execute /usr/bin/sed -i 's/:\\(9[1-9]\\|[1-9][0-9]\\{2,\\}\\)\\?:\\([^:]*:[^:]*:[^:]*:$\\)/:90:\\2/g' /etc/shadow\u001b[0m\r\n"
+    ],
+    [
+      0.000008,
+      "\u001b[36m         * replace_or_add[Set Password Change Minimum Number of Days in login.defs] action edit\u001b[0m\r\n\u001b[36m         \u001b[0m\r\n"
+    ],
+    [
+      0.050435,
+      "\u001b[36m         * execute[Set Password Change Minimum Number of Days in /etc/shadow] action run\u001b[0m\r\n\u001b[36m           - execute /usr/bin/sed -i 's/:[0-6]\\?:\\([^:]*:[^:]*:[^:]*:[^:]*:$\\)/:7:\\1/g' /etc/shadow\u001b[0m\r\n"
+    ],
+    [
+      0.034510,
+      "\u001b[36m       \u001b[0m\r\n"
+    ],
+    [
+      0.000006,
+      "\u001b[36m       Running handlers:\u001b[0m\r\n\u001b[36m       Running handlers complete\u001b[0m\r\n\u001b[36m       \u001b[0m\r\n"
+    ],
+    [
+      0.000055,
+      "\u001b[36m       Deprecated features used!\u001b[0m\r\n"
+    ],
+    [
+      0.000036,
+      "\u001b[36m         Cloning resource attributes for yum_package[Install initscripts] from prior resource (CHEF-3694)\u001b[0m\r\n"
+    ],
+    [
+      0.000005,
+      "\u001b[36m       Previous yum_package[Install initscripts]: /tmp/kitchen/cache/cookbooks/cis-el7-l1-hardening/recipes/default.rb:34:in `from_file'\u001b[0m\r\n\u001b[36m       Current  yum_package[Install initscripts]: /tmp/kitchen/cache/cookbooks/cis-el7-l1-hardening/recipes/network-packet-remediation.rb:10:in `from_file' at 1 location:\u001b[0m\r\n"
+    ],
+    [
+      0.000014,
+      "\u001b[36m           - /tmp/kitchen/cache/cookbooks/cis-el7-l1-hardening/recipes/network-packet-remediation.rb:10:in `from_file'\u001b[0m\r\n"
+    ],
+    [
+      0.000003,
+      "\u001b[36m       \u001b[0m\r\n"
+    ],
+    [
+      0.015980,
+      "\u001b[36m       Chef Client finished, 73/133 resources updated in 23 seconds\u001b[0m\r\n"
+    ],
+    [
+      0.282838,
+      "\u001b[36m       Finished converging \u003cdefault-centos-7\u003e (0m25.42s).\u001b[0m\r\n"
+    ],
+    [
+      0.000291,
+      "-----\u003e Kitchen is finished. (0m27.40s)\r\n"
+    ],
+    [
+      0.048867,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                                      \r \r"
+    ],
+    [
+      0.000058,
+      "\u001b]2;chartmann@remchartmann01\u0007"
+    ],
+    [
+      0.000011,
+      "\u001b]1;..-test-kitchen\u0007"
+    ],
+    [
+      0.002729,
+      "\u001b]7;file://remchartmann01/Users/chartmann/Development/ChefConf/demos/02-test-kitchen\u0007"
+    ],
+    [
+      0.014995,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[01;32m➜  \u001b[36m02-test-kitchen\u001b[00m \u001b[K"
+    ],
+    [
+      0.000209,
+      "\u001b[?1h\u001b="
+    ],
+    [
+      1.649153,
+      "chef exec kitchen converge "
+    ],
+    [
+      0.351541,
+      "\u0008"
+    ],
+    [
+      0.151680,
+      "\u0008 \u0008"
+    ],
+    [
+      0.127974,
+      "\u0008 \u0008"
+    ],
+    [
+      0.063955,
+      "\u0008 \u0008"
+    ],
+    [
+      0.128080,
+      "\u0008 \u0008"
+    ],
+    [
+      0.144170,
+      "\u0008 \u0008"
+    ],
+    [
+      0.095797,
+      "\u0008 \u0008"
+    ],
+    [
+      0.127854,
+      "\u0008 \u0008"
+    ],
+    [
+      0.104099,
+      "\u0008 \u0008"
+    ],
+    [
+      0.177847,
+      "v"
+    ],
+    [
+      0.174364,
+      "e"
+    ],
+    [
+      0.072316,
+      "r"
+    ],
+    [
+      0.271487,
+      "i"
+    ],
+    [
+      0.224270,
+      "f"
+    ],
+    [
+      0.287887,
+      "y"
+    ],
+    [
+      0.096172,
+      " "
+    ],
+    [
+      0.288980,
+      "\u0008"
+    ],
+    [
+      0.294687,
+      "\u001b[?1l\u001b\u003e"
+    ],
+    [
+      0.000046,
+      "\r\r\n"
+    ],
+    [
+      0.001022,
+      "\u001b]2;chef exec kitchen verify\u0007"
+    ],
+    [
+      0.000006,
+      "\u001b]1;chef\u0007"
+    ],
+    [
+      0.715750,
+      "-----\u003e Starting Kitchen (v1.10.0)\r\n"
+    ],
+    [
+      1.968380,
+      "\u001b[36m-----\u003e Setting up \u003cdefault-centos-7\u003e...\u001b[0m\r\n"
+    ],
+    [
+      0.001437,
+      "\u001b[36m       Finished setting up \u003cdefault-centos-7\u003e (0m0.00s).\u001b[0m\r\n"
+    ],
+    [
+      0.000028,
+      "\u001b[36m-----\u003e Verifying \u003cdefault-centos-7\u003e...\u001b[0m\r\n"
+    ],
+    [
+      0.878256,
+      "\u001b[36m       Use `/Users/chartmann/Development/ChefConf/demos/02-test-kitchen/test/integration/default` for testing\u001b[0m\r\n"
+    ],
+    [
+      18.816906,
+      "\u001b[31m  ✖  xccdf_org.cisecurity.benchmarks_rule_1.1.1_Create_Separate_Partition_for_tmp: Mount /tmp should be mounted\r\n     Mount /tmp is not mounted\r\n     \u001b[0m\r\n"
+    ],
+    [
+      0.000006,
+      "\u001b[31m  ✖  xccdf_org.cisecurity.benchmarks_rule_1.1.2_Set_nodev_option_for_tmp_Partition: Mount /tmp should be mounted\r\n     Mount /tmp is not mounted\r\n     \u001b[0m"
+    ],
+    [
+      0.000002,
+      "\r\n"
+    ],
+    [
+      0.000052,
+      "\u001b[31m  ✖  xccdf_org.cisecurity.benchmarks_rule_1.1.3_Set_nosuid_option_for_tmp_Partition: Mount /tmp should be mounted\r\n     Mount /tmp is not mounted\r\n     \u001b[0m\r\n"
+    ],
+    [
+      0.000071,
+      "\u001b[31m  ✖  xccdf_org.cisecurity.benchmarks_rule_1.1.4_Set_noexec_option_for_tmp_Partition: Mount /tmp should be mounted\r\n     Mount /tmp is not mounted\r\n     \u001b[0m\r\n"
+    ],
+    [
+      0.000019,
+      "\u001b[31m  ✖  xccdf_org.cisecurity.benchmarks_rule_1.1.5_Create_Separate_Partition_for_var: Mount /var should be mounted\r\n     Mount /var is not mounted\r\n     \u001b[0m\r\n"
+    ],
+    [
+      0.000057,
+      "\u001b[31m  ✖  xccdf_org.cisecurity.benchmarks_rule_1.1.6_Bind_Mount_the_vartmp_directory_to_tmp: File /etc/fstab content should match /$\\s*\\/tmp\\s+\\/var\\/tmp\\s+none\\s+bind\\s+0\\s+0\\s*$/expected \"\\n#\\n# /etc/fstab\\n# Created by anaconda on Fri Feb 26 22:49:53 2016\\n#\\n# Accessible filesystems, by reference, are maintained under '/dev/disk'\\n# See man pages fstab(5), findfs(8), mount(8) and/or blkid(8) for more info\\n#\\n/dev/mapper/VolGroup00-LogVol00 /                       ext4    defaults        1 1\\nUUID=aba"
+    ],
+    [
+      0.000121,
+      "49bf4-08fe-48b3-b691-2d1da45f4c2f /boot                   ext4    defaults        1 2\\n/dev/mapper/VolGroup00-LogVol01 swap                    swap    defaults        0 0\\n\" to match /$\\s*\\/tmp\\s+\\/var\\/tmp\\s+none\\s+bind\\s+0\\s+0\\s*$/\r\n     Diff:\r\n     @@ -1,2 +1,12 @@\r\n     -/$\\s*\\/tmp\\s+\\/var\\/tmp\\s+none\\s+bind\\s+0\\s+0\\s*$/\r\n     +\r\n     +#\r\n     +# /etc/fstab\r\n     +# Created by anaconda on Fri Feb 26 22:49:53 2016\r\n     +#\r\n     +# Accessible filesystems, by reference, are maintained under '/dev/disk'\r\n     +# See"
+    ],
+    [
+      0.000006,
+      " man pages fstab(5), findfs(8), mount(8) and/or blkid(8) for more info\r\n     +#\r\n     +/dev/mapper/VolGroup00-LogVol00 /                       ext4    defaults        1 1\r\n     +UUID=aba49bf4-08fe-48b3-b691-2d1da45f4c2f /boot                   ext4    defaults        1 2\r\n     +/dev/mapper/VolGroup00-LogVol01 swap                    swap    defaults        0 0\r\n     \u001b[0m\r\n\u001b[31m  ✖  xccdf_org.cisecurity.benchmarks_rule_1.1.7_Create_Separate_Partition_for_varlog: Mount /var/log should be mounted\r\n     Mount /var/log is not mounted\r\n     \u001b[0m\r\n"
+    ],
+    [
+      0.000020,
+      "\u001b[31m  ✖  xccdf_org.cisecurity.benchmarks_rule_1.1.8_Create_Separate_Partition_for_varlogaudit: Mount /var/log/audit should be mounted\r\n     Mount /var/log/audit is not mounted\r\n     \u001b[0m\r\n"
+    ],
+    [
+      0.000026,
+      "\u001b[31m  ✖  xccdf_org.cisecurity.benchmarks_rule_1.1.9_Create_Separate_Partition_for_home: Mount /home should be mounted\r\n     Mount /home is not mounted\r\n     \u001b[0m"
+    ],
+    [
+      0.000003,
+      "\r\n"
+    ],
+    [
+      0.000035,
+      "\u001b[31m  ✖  xccdf_org.cisecurity.benchmarks_rule_1.1.10_Add_nodev_Option_to_home: Mount /home should be mounted\r\n     Mount /home is not mounted\r\n     \u001b[0m\r\n"
+    ],
+    [
+      0.000045,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_1.1.14_Add_nodev_Option_to_devshm_Partition: Mount /dev/shm should be mounted\u001b[0m\r\n"
+    ],
+    [
+      0.000037,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_1.1.15_Add_nosuid_Option_to_devshm_Partition: Mount /dev/shm should be mounted\u001b[0m\r\n"
+    ],
+    [
+      0.000028,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_1.1.16_Add_noexec_Option_to_devshm_Partition: Mount /dev/shm should be mounted\u001b[0m\r\n"
+    ],
+    [
+      0.000024,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_1.1.17_Set_Sticky_Bit_on_All_World-Writable_Directories: Command find / -type d -perm -00002 \\! -perm -01000 stdout should be empty\u001b[0m\r\n"
+    ],
+    [
+      0.000030,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_1.2.1_Verify_CentOS_GPG_Key_is_Installed: System Package gpg-pubkey should be installed\u001b[0m\r\n"
+    ],
+    [
+      0.000033,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_1.2.2_Verify_that_gpgcheck_is_Globally_Activated: File /etc/yum.conf content should match /^\\s*gpgcheck=1\\s*(#.*)?$/\u001b[0m\r\n"
+    ],
+    [
+      0.000044,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_1.5.1_Set_UserGroup_Owner_on_bootgrub2grub.cfg: File /boot/grub2/grub.cfg should exist\u001b[0m\r\n"
+    ],
+    [
+      0.000054,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_1.5.2_Set_Permissions_on_bootgrub2grub.cfg: File /boot/grub2/grub.cfg should exist\u001b[0m\r\n"
+    ],
+    [
+      0.000158,
+      "\u001b[31m  ✖  xccdf_org.cisecurity.benchmarks_rule_1.5.3_Set_Boot_Loader_Password: File /boot/grub2/grub.cfg content should match /^set superusers=\".*\"\\s*(?:#.*)?$/expected \"#\\n# DO NOT EDIT THIS FILE\\n#\\n# It is automatically generated by grub2-mkconfig using templates\\n# from /etc/grub.d and settings from /etc/default/grub\\n#\\n\\n### BEGIN /etc/grub.d/00_header ###\\nset pager=1\\n\\nif [ -s $prefix/grubenv ]; then\\n  load_env\\nfi\\nif [ \\\"${next_entry}\\\" ] ; then\\n   set default=\\\"${next_entry}\\\"\\n   set next_e"
+    ],
+    [
+      0.000028,
+      "ntry=\\n   save_env next_entry\\n   set boot_once=true\\nelse\\n   set default=\\\"${saved_entry}\\\"\\nfi\\n\\nif [ x\\\"${feature_menuentry_id}\\\" = xy ]; then\\n  menuentry_id_option=\\\"--id\\\"\\nelse\\n  menuentry_id_option=\\\"\\\"\\nfi\\n\\nexport menuentry_id_option\\n\\nif [ \\\"${prev_saved_entry}\\\" ]; then\\n  set saved_entry=\\\"${prev_saved_entry}\\\"\\n  save_env saved_entry\\n  set prev_saved_entry=\\n  save_env prev_saved_entry\\n  set boot_once=true\\nfi\\n\\nfunction savedefault {\\n  if [ -z \\\"${boot_once}\\\" ]; then\\n    saved_entr"
+    ],
+    [
+      0.000026,
+      "y=\\\"${chosen}\\\"\\n    save_env saved_entry\\n  fi\\n}\\n\\nfunction load_video {\\n  if [ x$feature_all_video_module = xy ]; then\\n    insmod all_video\\n  else\\n    insmod efi_gop\\n    insmod efi_uga\\n    insmod ieee1275_fb\\n    insmod vbe\\n    insmod vga\\n    insmod video_bochs\\n    insmod video_cirrus\\n  fi\\n}\\n\\nterminal_output console\\nif [ x$feature_timeout_style = xy ] ; then\\n  set timeout_style=menu\\n  set timeout=5\\n# Fallback normal timeout code in case the timeout_style feature is\\n# unavailable.\\nelse"
+    ],
+    [
+      0.000009,
+      "\\n  set timeout=5\\nfi\\n### END /etc/grub.d/00_header ###\\n\\n### BEGIN /etc/grub.d/00_tuned ###\\nset tuned_params=\\\"\\\"\\n### END /etc/grub.d/00_tuned ###\\n\\n### BEGIN /etc/grub.d/01_users ###\\nif [ -f ${prefix}/user.cfg ]; then\\n  source ${prefix}/user.cfg\\n  if [ -n \\\"${GRUB2_PASSWORD}\\\" ]; then\\n    set superusers=\\\"root\\\"\\n    export superusers\\n    password_pbkdf2 root ${GRUB2_PASSWORD}\\n  fi\\nfi\\n### END /etc/grub.d/01_users ###\\n\\n### BEGIN /etc/grub.d/10_linux ###\\nmenuentry 'CentOS Linux (3.10.0-327.1"
+    ],
+    [
+      0.000061,
+      "0.1.el7.x86_64) 7 (Core)' --class centos --class gnu-linux --class gnu --class os --unrestricted $menuentry_id_option 'gnulinux-3.10.0-327.10.1.el7.x86_64-advanced-d50f02c2-c9ed-4653-a3e1-92eea4968ce7' {\\n\\tload_video\\n\\tset gfxpayload=keep\\n\\tinsmod gzio\\n\\tinsmod part_msdos\\n\\tinsmod ext2\\n\\tset root='hd0,msdos2'\\n\\tif [ x$feature_platform_search_hint = xy ]; then\\n\\t  search --no-floppy --fs-uuid --set=root --hint='hd0,msdos2'  aba49bf4-08fe-48b3-b691-2d1da45f4c2f\\n\\telse\\n\\t  search --no-floppy --fs-uui"
+    ],
+    [
+      0.000006,
+      "d --set=root aba49bf4-08fe-48b3-b691-2d1da45f4c2f\\n\\tfi\\n\\tlinux16 /vmlinuz-3.10.0-327.10.1.el7.x86_64 root=/dev/mapper/VolGroup00-LogVol00 ro no_timer_check console=tty0 console=ttyS0,115200 net.ifnames=0 biosdevname=0 crashkernel=auto rd.lvm.lv=VolGroup00/LogVol00 rd.lvm.lv=VolGroup00/LogVol01 rhgb quiet LANG=en_US.UTF-8\\n\\tinitrd16 /initramfs-3.10.0-327.10.1.el7.x86_64.img\\n}\\nmenuentry 'CentOS Linux (0-rescue-70d63a0c469944bda91cd7743c2a3275) 7 (Core)' --class centos --class gnu-linux --class gnu --clas"
+    ],
+    [
+      0.000022,
+      "s os --unrestricted $menuentry_id_option 'gnulinux-0-rescue-70d63a0c469944bda91cd7743c2a3275-advanced-d50f02c2-c9ed-4653-a3e1-92eea4968ce7' {\\n\\tload_video\\n\\tinsmod gzio\\n\\tinsmod part_msdos\\n\\tinsmod ext2\\n\\tset root='hd0,msdos2'\\n\\tif [ x$feature_platform_search_hint = xy ]; then\\n\\t  search --no-floppy --fs-uuid --set=root --hint='hd0,msdos2'  aba49bf4-08fe-48b3-b691-2d1da45f4c2f\\n\\telse\\n\\t  search --no-floppy --fs-uuid --set=root aba49bf4-08fe-48b3-b691-2d1da45f4c2f\\n\\tfi\\n\\tlinux16 /vmlinuz-0-rescue-"
+    ],
+    [
+      0.000014,
+      "70d63a0c469944bda91cd7743c2a3275 root=/dev/mapper/VolGroup00-LogVol00 ro no_timer_check console=tty0 console=ttyS0,115200 net.ifnames=0 biosdevname=0 crashkernel=auto rd.lvm.lv=VolGroup00/LogVol00 rd.lvm.lv=VolGroup00/LogVol01 rhgb quiet\\n\\tinitrd16 /initramfs-0-rescue-70d63a0c469944bda91cd7743c2a3275.img\\n}\\n\\n### END /etc/grub.d/10_linux ###\\n\\n### BEGIN /etc/grub.d/20_linux_xen ###\\n### END /etc/grub.d/20_linux_xen ###\\n\\n### BEGIN /etc/grub.d/20_ppc_terminfo ###\\n### END /etc/grub.d/20_ppc_terminfo ###\\"
+    ],
+    [
+      0.000090,
+      "n\\n### BEGIN /etc/grub.d/30_os-prober ###\\n### END /etc/grub.d/30_os-prober ###\\n\\n### BEGIN /etc/grub.d/40_custom ###\\n# This file provides an easy way to add custom menu entries.  Simply type the\\n# menu entries you want to add after this comment.  Be careful not to change\\n# the 'exec tail' line above.\\n### END /etc/grub.d/40_custom ###\\n\\n### BEGIN /etc/grub.d/41_custom ###\\nif [ -f  ${config_directory}/custom.cfg ]; then\\n  source ${config_directory}/custom.cfg\\nelif [ -z \\\"${config_directory}\\\" -a -f "
+    ],
+    [
+      0.000004,
+      " $prefix/custom.cfg ]; then\\n  source $prefix/custom.cfg;\\nfi\\n### END /etc/grub.d/41_custom ###\\n\" to match /^set superusers=\".*\"\\s*(?:#.*)?$/\r\n     Diff:\r\n     @@ -1,2 +1,141 @@\r\n     -/^set superusers=\".*\"\\s*(?:#.*)?$/\r\n     +#\r\n     +# DO NOT EDIT THIS FILE\r\n     +#\r\n     +# It is automatically generated by grub2-mkconfig using templates\r\n     +# from /etc/grub.d and settings from /etc/default/grub\r\n     +#\r\n     +\r\n     +### BEGIN /etc/grub.d/00_header ###\r\n     +set pager=1\r\n     +\r\n     +if [ -s $prefix/grubenv ];"
+    ],
+    [
+      0.000011,
+      " then\r\n     +  load_env\r\n     +fi\r\n     +if [ \"${next_entry}\" ] ; then\r\n     +   set default=\"${next_entry}\"\r\n     +   set next_entry=\r\n     +   save_env next_entry\r\n     +   set boot_once=true\r\n     +else\r\n     +   set default=\"${saved_entry}\"\r\n     +fi\r\n     +\r\n     +if [ x\"${feature_menuentry_id}\" = xy ]; then\r\n     +  menuentry_id_option=\"--id\"\r\n     +else\r\n     +  menuentry_id_option=\"\"\r\n     +fi\r\n     +\r\n     +export menuentry_id_option\r\n     +\r\n     +if [ \"${prev_saved_entry}\" ]; then\r\n     +  set saved_entry=\"${prev_sav"
+    ],
+    [
+      0.000023,
+      "ed_entry}\"\r\n     +  save_env saved_entry\r\n     +  set prev_saved_entry=\r\n     +  save_env prev_saved_entry\r\n     +  set boot_once=true\r\n     +fi\r\n     +\r\n     +function savedefault {\r\n     +  if [ -z \"${boot_once}\" ]; then\r\n     +    saved_entry=\"${chosen}\"\r\n     +    save_env saved_entry\r\n     +  fi\r\n     +}\r\n     +\r\n     +function load_video {\r\n     +  if [ x$feature_all_video_module = xy ]; then\r\n     +    insmod all_video\r\n     +  else\r\n     +    insmod efi_gop\r\n     +    insmod efi_uga\r\n     +    insmod ieee1275_fb\r\n     +"
+    ],
+    [
+      0.000015,
+      "    insmod vbe\r\n     +    insmod vga\r\n     +    insmod video_bochs\r\n     +    insmod video_cirrus\r\n     +  fi\r\n     +}\r\n     +\r\n     +terminal_output console\r\n     +if [ x$feature_timeout_style = xy ] ; then\r\n     +  set timeout_style=menu\r\n     +  set timeout=5\r\n     +# Fallback normal timeout code in case the timeout_style feature is\r\n     +# unavailable.\r\n     +else\r\n     +  set timeout=5\r\n     +fi\r\n     +### END /etc/grub.d/00_header ###\r\n     +\r\n     +### BEGIN /etc/grub.d/00_tuned ###\r\n     +set tuned_params=\"\"\r\n     +##"
+    ],
+    [
+      0.000136,
+      "# END /etc/grub.d/00_tuned ###\r\n     +\r\n     +### BEGIN /etc/grub.d/01_users ###\r\n     +if [ -f ${prefix}/user.cfg ]; then\r\n     +  source ${prefix}/user.cfg\r\n     +  if [ -n \"${GRUB2_PASSWORD}\" ]; then\r\n     +    set superusers=\"root\"\r\n     +    export superusers\r\n     +    password_pbkdf2 root ${GRUB2_PASSWORD}\r\n     +  fi\r\n     +fi\r\n     +### END /etc/grub.d/01_users ###\r\n     +\r\n     +### BEGIN /etc/grub.d/10_linux ###\r\n     +menuentry 'CentOS Linux (3.10.0-327.10.1.el7.x86_64) 7 (Core)' --class centos --class gnu-li"
+    ],
+    [
+      0.000005,
+      "nux --class gnu --class os --unrestricted $menuentry_id_option 'gnulinux-3.10.0-327.10.1.el7.x86_64-advanced-d50f02c2-c9ed-4653-a3e1-92eea4968ce7' {\r\n     +\tload_video\r\n     +\tset gfxpayload=keep\r\n     +\tinsmod gzio\r\n     +\tinsmod part_msdos\r\n     +\tinsmod ext2\r\n     +\tset root='hd0,msdos2'\r\n     +\tif [ x$feature_platform_search_hint = xy ]; then\r\n     +\t  search --no-floppy --fs-uuid --set=root --hint='hd0,msdos2'  aba49bf4-08fe-48b3-b691-2d1da45f4c2f\r\n     +\telse\r\n     +\t  search --no-floppy --fs-uuid --set=root ab"
+    ],
+    [
+      0.000025,
+      "a49bf4-08fe-48b3-b691-2d1da45f4c2f\r\n     +\tfi\r\n     +\tlinux16 /vmlinuz-3.10.0-327.10.1.el7.x86_64 root=/dev/mapper/VolGroup00-LogVol00 ro no_timer_check console=tty0 console=ttyS0,115200 net.ifnames=0 biosdevname=0 crashkernel=auto rd.lvm.lv=VolGroup00/LogVol00 rd.lvm.lv=VolGroup00/LogVol01 rhgb quiet LANG=en_US.UTF-8\r\n     +\tinitrd16 /initramfs-3.10.0-327.10.1.el7.x86_64.img\r\n     +}\r\n     +menuentry 'CentOS Linux (0-rescue-70d63a0c469944bda91cd7743c2a3275) 7 (Core)' --class centos --class gnu-linux --class gnu"
+    ],
+    [
+      0.000022,
+      " --class os --unrestricted $menuentry_id_option 'gnulinux-0-rescue-70d63a0c469944bda91cd7743c2a3275-advanced-d50f02c2-c9ed-4653-a3e1-92eea4968ce7' {\r\n     +\tload_video\r\n     +\tinsmod gzio\r\n     +\tinsmod part_msdos\r\n     +\tinsmod ext2\r\n     +\tset root='hd0,msdos2'\r\n     +\tif [ x$feature_platform_search_hint = xy ]; then\r\n     +\t  search --no-floppy --fs-uuid --set=root --hint='hd0,msdos2'  aba49bf4-08fe-48b3-b691-2d1da45f4c2f\r\n     +\telse\r\n     +\t  search --no-floppy --fs-uuid --set=root aba49bf4-08fe-48b3-b691-2d1da"
+    ],
+    [
+      0.000097,
+      "45f4c2f\r\n     +\tfi\r\n     +\tlinux16 /vmlinuz-0-rescue-70d63a0c469944bda91cd7743c2a3275 root=/dev/mapper/VolGroup00-LogVol00 ro no_timer_check console=tty0 console=ttyS0,115200 net.ifnames=0 biosdevname=0 crashkernel=auto rd.lvm.lv=VolGroup00/LogVol00 rd.lvm.lv=VolGroup00/LogVol01 rhgb quiet\r\n     +\tinitrd16 /initramfs-0-rescue-70d63a0c469944bda91cd7743c2a3275.img\r\n     +}\r\n     +\r\n     +### END /etc/grub.d/10_linux ###\r\n     +\r\n     +### BEGIN /etc/grub.d/20_linux_xen ###\r\n     +### END /etc/grub.d/20_linux_xen ###\r\n "
+    ],
+    [
+      0.000008,
+      "    +\r\n     +### BEGIN /etc/grub.d/20_ppc_terminfo ###\r\n     +### END /etc/grub.d/20_ppc_terminfo ###\r\n     +\r\n     +### BEGIN /etc/grub.d/30_os-prober ###\r\n     +### END /etc/grub.d/30_os-prober ###\r\n     +\r\n     +### BEGIN /etc/grub.d/40_custom ###\r\n     +# This file provides an easy way to add custom menu entries.  Simply type the\r\n     +# menu entries you want to add after this comment.  Be careful not to change\r\n     +# the 'exec tail' line above.\r\n     +### END /etc/grub.d/40_custom ###\r\n     +\r\n     +### BEGIN /e"
+    ],
+    [
+      0.000034,
+      "tc/grub.d/41_custom ###\r\n     +if [ -f  ${config_directory}/custom.cfg ]; then\r\n     +  source ${config_directory}/custom.cfg\r\n     +elif [ -z \"${config_directory}\" -a -f  $prefix/custom.cfg ]; then\r\n     +  source $prefix/custom.cfg;\r\n     +fi\r\n     +### END /etc/grub.d/41_custom ###\r\n     \u001b[0m"
+    ],
+    [
+      0.000011,
+      "\r\n"
+    ],
+    [
+      0.000043,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_1.6.1_Restrict_Core_Dumps: File /etc/security/limits.conf content should match /^\\s*\\*\\shard\\score\\s0(\\s+#.*)?$/\u001b[0m\r\n"
+    ],
+    [
+      0.000056,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_1.6.2_Enable_Randomized_Virtual_Memory_Region_Placement: Kernel Parameter kernel.randomize_va_space value should not be nil\u001b[0m\r\n"
+    ],
+    [
+      0.000003,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_2.1.1_Remove_telnet-server: System Package telnet-server should not be installed\u001b[0m"
+    ],
+    [
+      0.000002,
+      "\r\n"
+    ],
+    [
+      0.000023,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_2.1.2_Remove_telnet_Clients: System Package telnet should not be installed\u001b[0m\r\n"
+    ],
+    [
+      0.000023,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_2.1.3_Remove_rsh-server: System Package rsh-server should not be installed\u001b[0m\r\n"
+    ],
+    [
+      0.000052,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_2.1.4_Remove_rsh: System Package rsh should not be installed\u001b[0m\r\n"
+    ],
+    [
+      0.000014,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_2.1.5_Remove_NIS_Client: System Package ypbind should not be installed\u001b[0m\r\n"
+    ],
+    [
+      0.000020,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_2.1.6_Remove_NIS_Server: System Package ypserv should not be installed\u001b[0m\r\n"
+    ],
+    [
+      0.000021,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_2.1.7_Remove_tftp: System Package tftp should not be installed\u001b[0m\r\n"
+    ],
+    [
+      0.000045,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_2.1.8_Remove_tftp-server: System Package tftp-server should not be installed\u001b[0m\r\n"
+    ],
+    [
+      0.000017,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_2.1.9_Remove_talk: System Package talk should not be installed\u001b[0m\r\n"
+    ],
+    [
+      0.000022,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_2.1.10_Remove_talk-server: System Package talk-server should not be installed\u001b[0m\r\n"
+    ],
+    [
+      0.000031,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_2.1.12_Disable_chargen-dgram: System Package xinetd should not be installed\u001b[0m\r\n"
+    ],
+    [
+      0.000028,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_2.1.13_Disable_chargen-stream: System Package xinetd should not be installed\u001b[0m\r\n"
+    ],
+    [
+      0.000041,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_2.1.14_Disable_daytime-dgram: System Package xinetd should not be installed\u001b[0m\r\n"
+    ],
+    [
+      0.000029,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_2.1.15_Disable_daytime-stream: System Package xinetd should not be installed\u001b[0m\r\n"
+    ],
+    [
+      0.000028,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_2.1.16_Disable_echo-dgram: System Package xinetd should not be installed\u001b[0m\r\n"
+    ],
+    [
+      0.000036,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_2.1.17_Disable_echo-stream: System Package xinetd should not be installed\u001b[0m\r\n"
+    ],
+    [
+      0.000098,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_2.1.18_Disable_tcpmux-server: System Package xinetd should not be installed\u001b[0m"
+    ],
+    [
+      0.000004,
+      "\r\n"
+    ],
+    [
+      0.000058,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_3.1_Set_Daemon_umask: File /etc/sysconfig/init content should match /^\\s*umask\\s+027\\s*(?:#.*)?$/\u001b[0m"
+    ],
+    [
+      0.000004,
+      "\r\n"
+    ],
+    [
+      0.000056,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_3.2_Remove_the_X_Window_System: System Package xorg-x11-server-common should not be installed\u001b[0m"
+    ],
+    [
+      0.000003,
+      "\r\n"
+    ],
+    [
+      0.000070,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_3.3_Disable_Avahi_Server: #\u003cHashie::Mash ActiveEnterTimestamp=\"\" ActiveEnterTimestampMonotonic=\"0\" ActiveExitTimestamp=\"\" ActiveExitTimestampMonotonic=\"0\" ActiveState=\"inactive\" After=\"system.slice systemd-journald.socket basic.target avahi-daemon.socket\" AllowIsolate=\"no\" AppArmorProfile=\"[unprintable]\" AssertResult=\"no\" AssertTimestamp=\"\" AssertTimestampMonotonic=\"0\" Asserts=\"[unprintable]\" Before=\"shutdown.target\" BindsTo=\"\" BlockIOAccounting=\"no\" BlockIOW"
+    ],
+    [
+      0.000006,
+      "eight=\"18446744073709551615\" BoundBy=\"\" BusName=\"org.freedesktop.Avahi\" CPUAccounting=\"no\" CPUAffinity=\"\" CPUQuotaPerSecUSec=\"infinity\" CPUSchedulingPolicy=\"0\" CPUSchedulingPriority=\"0\" CPUSchedulingResetOnFork=\"no\" CPUShares=\"18446744073709551615\" CanIsolate=\"no\" CanReload=\"yes\" CanStart=\"yes\" CanStop=\"yes\" Capabilities=\"\" CapabilityBoundingSet=\"18446744073709551615\" ConditionResult=\"no\" ConditionTimestamp=\"\" ConditionTimestampMonotonic=\"0\" Conditions=\"[unprintable]\" ConflictedBy=\"\" Conflicts=\"shutdown.tar"
+    ],
+    [
+      0.000027,
+      "get\" ConsistsOf=\"\" ControlGroup=\"\" ControlPID=\"0\" DefaultDependencies=\"yes\" Delegate=\"no\" Description=\"Avahi mDNS/DNS-SD Stack\" DevicePolicy=\"auto\" Documentation=\"\" DropInPaths=\"\" Environment=\"\" ExecMainCode=\"0\" ExecMainExitTimestamp=\"\" ExecMainExitTimestampMonotonic=\"0\" ExecMainPID=\"0\" ExecMainStartTimestamp=\"\" ExecMainStartTimestampMonotonic=\"0\" ExecMainStatus=\"0\" ExecReload=\"{ path=/usr/sbin/avahi-daemon ; argv[]=/usr/sbin/avahi-daemon -r ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; "
+    ],
+    [
+      0.000009,
+      "code=(null) ; status=0/0 }\" ExecStart=\"{ path=/usr/sbin/avahi-daemon ; argv[]=/usr/sbin/avahi-daemon -s ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }\" FailureAction=\"none\" FileDescriptorStoreMax=\"0\" Following=\"\" FragmentPath=\"/usr/lib/systemd/system/avahi-daemon.service\" Group=\"\" GuessMainPID=\"yes\" IOScheduling=\"0\" Id=\"avahi-daemon.service\" IgnoreOnIsolate=\"no\" IgnoreOnSnapshot=\"no\" IgnoreSIGPIPE=\"yes\" InaccessibleDirectories=\"\" InactiveEnterTimestamp=\"\" Inacti"
+    ],
+    [
+      0.000022,
+      "veEnterTimestampMonotonic=\"0\" InactiveExitTimestamp=\"\" InactiveExitTimestampMonotonic=\"0\" Job=\"\" JobTimeoutAction=\"none\" JobTimeoutRebootArgument=\"\" JobTimeoutUSec=\"0\" JoinsNamespaceOf=\"\" KillMode=\"control-group\" KillSignal=\"15\" LimitAS=\"18446744073709551615\" LimitCORE=\"18446744073709551615\" LimitCPU=\"18446744073709551615\" LimitDATA=\"18446744073709551615\" LimitFSIZE=\"18446744073709551615\" LimitLOCKS=\"18446744073709551615\" LimitMEMLOCK=\"65536\" LimitMSGQUEUE=\"819200\" LimitNICE=\"0\" LimitNOFILE=\"4096\" LimitNPRO"
+    ],
+    [
+      0.000006,
+      "C=\"1870\" LimitRSS=\"18446744073709551615\" LimitRTPRIO=\"0\" LimitRTTIME=\"18446744073709551615\" LimitSIGPENDING=\"1870\" LimitSTACK=\"18446744073709551615\" LoadError=\"\\\"\\\"\" LoadState=\"loaded\" MainPID=\"0\" MemoryAccounting=\"no\" MemoryCurrent=\"18446744073709551615\" MemoryLimit=\"18446744073709551615\" MountFlags=\"0\" Names=\"avahi-daemon.service\" NeedDaemonReload=\"no\" Nice=\"0\" NoNewPrivileges=\"no\" NonBlocking=\"no\" NotifyAccess=\"main\" OOMScoreAdjust=\"0\" OnFailure=\"\" OnFailureJobMode=\"replace\" PAMName=\"\" PIDFile=\"\" PartOf="
+    ],
+    [
+      0.000031,
+      "\"\" PermissionsStartOnly=\"no\" Personality=\"\" PrivateDevices=\"no\" PrivateNetwork=\"no\" PrivateTmp=\"no\" PropagatesReloadTo=\"\" ProtectHome=\"no\" ProtectSystem=\"no\" ReadOnlyDirectories=\"\" ReadWriteDirectories=\"\" RebootArgument=\"\" RefuseManualStart=\"no\" RefuseManualStop=\"no\" ReloadPropagatedFrom=\"\" RemainAfterExit=\"no\" RequiredBy=\"\" RequiredByOverridable=\"\" Requires=\"basic.target avahi-daemon.socket\" RequiresMountsFor=\"\" RequiresOverridable=\"\" Requisite=\"\" RequisiteOverridable=\"\" Restart=\"no\" RestartUSec=\"100ms\" Re"
+    ],
+    [
+      0.000005,
+      "strictAddressFamilies=\"[unprintable]\" Result=\"success\" RootDirectory=\"\" RootDirectoryStartOnly=\"no\" RuntimeDirectory=\"\" RuntimeDirectoryMode=\"0755\" SELinuxContext=\"[unprintable]\" SameProcessGroup=\"no\" SecureBits=\"0\" SendSIGHUP=\"no\" SendSIGKILL=\"yes\" Slice=\"system.slice\" SmackProcessLabel=\"[unprintable]\" SourcePath=\"\" StandardError=\"inherit\" StandardInput=\"null\" StandardOutput=\"journal\" StartLimitAction=\"none\" StartLimitBurst=\"5\" StartLimitInterval=\"10000000\" StartupBlockIOWeight=\"18446744073709551615\" Start"
+    ],
+    [
+      0.000016,
+      "upCPUShares=\"18446744073709551615\" StatusErrno=\"0\" StatusText=\"\" StopWhenUnneeded=\"no\" SubState=\"dead\" SupplementaryGroups=\"\" SyslogIdentifier=\"\" SyslogLevelPrefix=\"yes\" SyslogPriority=\"30\" SystemCallArchitectures=\"\" SystemCallErrorNumber=\"0\" SystemCallFilter=\"~\" TTYPath=\"\" TTYReset=\"no\" TTYVHangup=\"no\" TTYVTDisallocate=\"no\" TimeoutStartUSec=\"1min 30s\" TimeoutStopUSec=\"1min 30s\" TimerSlackNSec=\"50000\" Transient=\"no\" TriggeredBy=\"avahi-daemon.socket\" Triggers=\"\" Type=\"dbus\" UMask=\"0022\" UnitFilePreset=\"enabl"
+    ],
+    [
+      0.000013,
+      "ed\" UnitFileState=\"disabled\" User=\"\" UtmpIdentifier=\"\" WantedBy=\"\" Wants=\"system.slice\" WatchdogTimestamp=\"\" WatchdogTimestampMonotonic=\"0\" WatchdogUSec=\"0\" WorkingDirectory=\"\"\u003e UnitFileState should not eq \"enabled\"\u001b[0m"
+    ],
+    [
+      0.000004,
+      "\r\n"
+    ],
+    [
+      0.000069,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_3.4_Disable_Print_Server_-_CUPS: #\u003cHashie::Mash ActiveEnterTimestamp=\"\" ActiveEnterTimestampMonotonic=\"0\" ActiveExitTimestamp=\"\" ActiveExitTimestampMonotonic=\"0\" ActiveState=\"inactive\" After=\"\" AllowIsolate=\"no\" AppArmorProfile=\"[unprintable]\" AssertResult=\"no\" AssertTimestamp=\"\" AssertTimestampMonotonic=\"0\" Asserts=\"[unprintable]\" Before=\"\" BindsTo=\"\" BlockIOAccounting=\"no\" BlockIOWeight=\"18446744073709551615\" BoundBy=\"\" BusName=\"\" CPUAccounting=\"no\" CPUAffi"
+    ],
+    [
+      0.000040,
+      "nity=\"\" CPUQuotaPerSecUSec=\"infinity\" CPUSchedulingPolicy=\"0\" CPUSchedulingPriority=\"0\" CPUSchedulingResetOnFork=\"no\" CPUShares=\"18446744073709551615\" CanIsolate=\"no\" CanReload=\"no\" CanStart=\"yes\" CanStop=\"yes\" Capabilities=\"\" CapabilityBoundingSet=\"18446744073709551615\" ConditionResult=\"no\" ConditionTimestamp=\"\" ConditionTimestampMonotonic=\"0\" Conditions=\"[unprintable]\" ConflictedBy=\"\" Conflicts=\"\" ConsistsOf=\"\" ControlGroup=\"\" ControlPID=\"0\" DefaultDependencies=\"yes\" Delegate=\"no\" Description=\"cups.servic"
+    ],
+    [
+      0.000020,
+      "e\" DevicePolicy=\"auto\" Documentation=\"\" DropInPaths=\"\" Environment=\"\" ExecMainCode=\"0\" ExecMainExitTimestamp=\"\" ExecMainExitTimestampMonotonic=\"0\" ExecMainPID=\"0\" ExecMainStartTimestamp=\"\" ExecMainStartTimestampMonotonic=\"0\" ExecMainStatus=\"0\" FailureAction=\"none\" FileDescriptorStoreMax=\"0\" Following=\"\" FragmentPath=\"\" Group=\"\" GuessMainPID=\"yes\" IOScheduling=\"0\" Id=\"cups.service\" IgnoreOnIsolate=\"no\" IgnoreOnSnapshot=\"no\" IgnoreSIGPIPE=\"yes\" InaccessibleDirectories=\"\" InactiveEnterTimestamp=\"\" InactiveEnte"
+    ],
+    [
+      0.000006,
+      "rTimestampMonotonic=\"0\" InactiveExitTimestamp=\"\" InactiveExitTimestampMonotonic=\"0\" Job=\"\" JobTimeoutAction=\"none\" JobTimeoutRebootArgument=\"\" JobTimeoutUSec=\"0\" JoinsNamespaceOf=\"\" KillMode=\"control-group\" KillSignal=\"15\" LimitAS=\"18446744073709551615\" LimitCORE=\"18446744073709551615\" LimitCPU=\"18446744073709551615\" LimitDATA=\"18446744073709551615\" LimitFSIZE=\"18446744073709551615\" LimitLOCKS=\"18446744073709551615\" LimitMEMLOCK=\"65536\" LimitMSGQUEUE=\"819200\" LimitNICE=\"0\" LimitNOFILE=\"65536\" LimitNPROC=\"18"
+    ],
+    [
+      0.000019,
+      "70\" LimitRSS=\"18446744073709551615\" LimitRTPRIO=\"0\" LimitRTTIME=\"18446744073709551615\" LimitSIGPENDING=\"1870\" LimitSTACK=\"18446744073709551615\" LoadError=\"org.freedesktop.DBus.Error.FileNotFound \\\"No such file or directory\\\"\" LoadState=\"not-found\" MainPID=\"0\" MemoryAccounting=\"no\" MemoryCurrent=\"18446744073709551615\" MemoryLimit=\"18446744073709551615\" MountFlags=\"0\" Names=\"cups.service\" NeedDaemonReload=\"no\" Nice=\"0\" NoNewPrivileges=\"no\" NonBlocking=\"no\" NotifyAccess=\"none\" OOMScoreAdjust=\"0\" OnFailure=\"\" O"
+    ],
+    [
+      0.000068,
+      "nFailureJobMode=\"replace\" PAMName=\"\" PIDFile=\"\" PartOf=\"\" PermissionsStartOnly=\"no\" Personality=\"\" PrivateDevices=\"no\" PrivateNetwork=\"no\" PrivateTmp=\"no\" PropagatesReloadTo=\"\" ProtectHome=\"no\" ProtectSystem=\"no\" ReadOnlyDirectories=\"\" ReadWriteDirectories=\"\" RebootArgument=\"\" RefuseManualStart=\"no\" RefuseManualStop=\"no\" ReloadPropagatedFrom=\"\" RemainAfterExit=\"no\" RequiredBy=\"\" RequiredByOverridable=\"\" Requires=\"\" RequiresMountsFor=\"\" RequiresOverridable=\"\" Requisite=\"\" RequisiteOverridable=\"\" Restart=\"no\""
+    ],
+    [
+      0.000006,
+      " RestartUSec=\"100ms\" RestrictAddressFamilies=\"[unprintable]\" Result=\"success\" RootDirectory=\"\" RootDirectoryStartOnly=\"no\" RuntimeDirectory=\"\" RuntimeDirectoryMode=\"0755\" SELinuxContext=\"[unprintable]\" SameProcessGroup=\"no\" SecureBits=\"0\" SendSIGHUP=\"no\" SendSIGKILL=\"yes\" Slice=\"\" SmackProcessLabel=\"[unprintable]\" SourcePath=\"\" StandardError=\"inherit\" StandardInput=\"null\" StandardOutput=\"inherit\" StartLimitAction=\"none\" StartLimitBurst=\"5\" StartLimitInterval=\"10000000\" StartupBlockIOWeight=\"1844674407370955"
+    ],
+    [
+      0.000013,
+      "1615\" StartupCPUShares=\"18446744073709551615\" StatusErrno=\"0\" StatusText=\"\" StopWhenUnneeded=\"no\" SubState=\"dead\" SupplementaryGroups=\"\" SyslogIdentifier=\"\" SyslogLevelPrefix=\"yes\" SyslogPriority=\"30\" SystemCallArchitectures=\"\" SystemCallErrorNumber=\"0\" SystemCallFilter=\"~\" TTYPath=\"\" TTYReset=\"no\" TTYVHangup=\"no\" TTYVTDisallocate=\"no\" TimeoutStartUSec=\"1min 30s\" TimeoutStopUSec=\"1min 30s\" TimerSlackNSec=\"50000\" Transient=\"no\" TriggeredBy=\"\" Triggers=\"\" Type=\"\" UMask=\"0022\" UnitFilePreset=\"\" UnitFileState=\""
+    ],
+    [
+      0.000006,
+      "\" User=\"\" UtmpIdentifier=\"\" WantedBy=\"\" Wants=\"\" WatchdogTimestamp=\"\" WatchdogTimestampMonotonic=\"0\" WatchdogUSec=\"0\" WorkingDirectory=\"\"\u003e UnitFileState should not eq \"enabled\"\u001b[0m"
+    ],
+    [
+      0.000002,
+      "\r\n"
+    ],
+    [
+      0.000069,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_3.5_Remove_DHCP_Server: System Package dhcp should not be installed\u001b[0m\r\n"
+    ],
+    [
+      0.000074,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_3.6_Configure_Network_Time_Protocol_NTP: File /etc/ntp.conf content should match /^\\s*restrict\\s+default(?=[^#]*\\s+kod)(?=[^#]*\\s+nomodify)(?=[^#]*\\s+notrap)(?=[^#]*\\s+nopeer)(?=[^#]*\\s+noquery)(\\s+kod|\\s+nomodify|\\s+notrap|\\s+nopeer|\\s+noquery)*\\s*(?:#.*)?$/\u001b[0m\r\n"
+    ],
+    [
+      0.000062,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_3.7_Remove_LDAP: System Package openldap-servers should not be installed\u001b[0m\r\n"
+    ],
+    [
+      0.000136,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_3.8_Disable_NFS_and_RPC: #\u003cHashie::Mash ActiveEnterTimestamp=\"\" ActiveEnterTimestampMonotonic=\"0\" ActiveExitTimestamp=\"\" ActiveExitTimestampMonotonic=\"0\" ActiveState=\"inactive\" After=\"systemd-journald.socket var-lib-nfs-rpc_pipefs.mount local-fs.target nfs-config.service system.slice\" AllowIsolate=\"no\" AppArmorProfile=\"[unprintable]\" AssertResult=\"no\" AssertTimestamp=\"\" AssertTimestampMonotonic=\"0\" Asserts=\"[unprintable]\" Before=\"nfs-server.service\" BindsTo=\""
+    ],
+    [
+      0.000006,
+      "nfs-server.service\" BlockIOAccounting=\"no\" BlockIOWeight=\"18446744073709551615\" BoundBy=\"\" BusName=\"\" CPUAccounting=\"no\" CPUAffinity=\"\" CPUQuotaPerSecUSec=\"infinity\" CPUSchedulingPolicy=\"0\" CPUSchedulingPriority=\"0\" CPUSchedulingResetOnFork=\"no\" CPUShares=\"18446744073709551615\" CanIsolate=\"no\" CanReload=\"no\" CanStart=\"yes\" CanStop=\"yes\" Capabilities=\"\" CapabilityBoundingSet=\"18446744073709551615\" ConditionResult=\"no\" ConditionTimestamp=\"\" ConditionTimestampMonotonic=\"0\" Conditions=\"[unprintable]\" Conflicted"
+    ],
+    [
+      0.000007,
+      "By=\"\" Conflicts=\"\" ConsistsOf=\"\" ControlGroup=\"\" ControlPID=\"0\" DefaultDependencies=\"no\" Delegate=\"no\" Description=\"NFSv4 ID-name mapping service\" DevicePolicy=\"auto\" Documentation=\"\" DropInPaths=\"\" Environment=\"\" EnvironmentFile=\"/run/sysconfig/nfs-utils (ignore_errors=yes)\" ExecMainCode=\"0\" ExecMainExitTimestamp=\"\" ExecMainExitTimestampMonotonic=\"0\" ExecMainPID=\"0\" ExecMainStartTimestamp=\"\" ExecMainStartTimestampMonotonic=\"0\" ExecMainStatus=\"0\" ExecStart=\"{ path=/usr/sbin/rpc.idmapd ; argv[]=/usr/sbin/rpc"
+    ],
+    [
+      0.000028,
+      ".idmapd $RPCIDMAPDARGS ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }\" FailureAction=\"none\" FileDescriptorStoreMax=\"0\" Following=\"\" FragmentPath=\"/usr/lib/systemd/system/nfs-idmapd.service\" Group=\"\" GuessMainPID=\"yes\" IOScheduling=\"0\" Id=\"nfs-idmapd.service\" IgnoreOnIsolate=\"no\" IgnoreOnSnapshot=\"no\" IgnoreSIGPIPE=\"yes\" InaccessibleDirectories=\"\" InactiveEnterTimestamp=\"\" InactiveEnterTimestampMonotonic=\"0\" InactiveExitTimestamp=\"\" InactiveExitTimestampMonotonic"
+    ],
+    [
+      0.000006,
+      "=\"0\" Job=\"\" JobTimeoutAction=\"none\" JobTimeoutRebootArgument=\"\" JobTimeoutUSec=\"0\" JoinsNamespaceOf=\"\" KillMode=\"control-group\" KillSignal=\"15\" LimitAS=\"18446744073709551615\" LimitCORE=\"18446744073709551615\" LimitCPU=\"18446744073709551615\" LimitDATA=\"18446744073709551615\" LimitFSIZE=\"18446744073709551615\" LimitLOCKS=\"18446744073709551615\" LimitMEMLOCK=\"65536\" LimitMSGQUEUE=\"819200\" LimitNICE=\"0\" LimitNOFILE=\"4096\" LimitNPROC=\"1870\" LimitRSS=\"18446744073709551615\" LimitRTPRIO=\"0\" LimitRTTIME=\"184467440737095"
+    ],
+    [
+      0.000020,
+      "51615\" LimitSIGPENDING=\"1870\" LimitSTACK=\"18446744073709551615\" LoadError=\"\\\"\\\"\" LoadState=\"loaded\" MainPID=\"0\" MemoryAccounting=\"no\" MemoryCurrent=\"18446744073709551615\" MemoryLimit=\"18446744073709551615\" MountFlags=\"0\" Names=\"rpcidmapd.service nfs-idmapd.service\" NeedDaemonReload=\"no\" Nice=\"0\" NoNewPrivileges=\"no\" NonBlocking=\"no\" NotifyAccess=\"none\" OOMScoreAdjust=\"0\" OnFailure=\"\" OnFailureJobMode=\"replace\" PAMName=\"\" PIDFile=\"\" PartOf=\"\" PermissionsStartOnly=\"no\" Personality=\"\" PrivateDevices=\"no\" Priva"
+    ],
+    [
+      0.000005,
+      "teNetwork=\"no\" PrivateTmp=\"no\" PropagatesReloadTo=\"\" ProtectHome=\"no\" ProtectSystem=\"no\" ReadOnlyDirectories=\"\" ReadWriteDirectories=\"\" RebootArgument=\"\" RefuseManualStart=\"no\" RefuseManualStop=\"no\" ReloadPropagatedFrom=\"\" RemainAfterExit=\"no\" RequiredBy=\"\" RequiredByOverridable=\"\" Requires=\"var-lib-nfs-rpc_pipefs.mount\" RequiresMountsFor=\"\" RequiresOverridable=\"\" Requisite=\"\" RequisiteOverridable=\"\" Restart=\"no\" RestartUSec=\"100ms\" RestrictAddressFamilies=\"[unprintable]\" Result=\"success\" RootDirectory=\"\" R"
+    ],
+    [
+      0.000075,
+      "ootDirectoryStartOnly=\"no\" RuntimeDirectory=\"\" RuntimeDirectoryMode=\"0755\" SELinuxContext=\"[unprintable]\" SameProcessGroup=\"no\" SecureBits=\"0\" SendSIGHUP=\"no\" SendSIGKILL=\"yes\" Slice=\"system.slice\" SmackProcessLabel=\"[unprintable]\" SourcePath=\"\" StandardError=\"inherit\" StandardInput=\"null\" StandardOutput=\"journal\" StartLimitAction=\"none\" StartLimitBurst=\"5\" StartLimitInterval=\"10000000\" StartupBlockIOWeight=\"18446744073709551615\" StartupCPUShares=\"18446744073709551615\" StatusErrno=\"0\" StatusText=\"\" StopWhen"
+    ],
+    [
+      0.000009,
+      "Unneeded=\"no\" SubState=\"dead\" SupplementaryGroups=\"\" SyslogIdentifier=\"\" SyslogLevelPrefix=\"yes\" SyslogPriority=\"30\" SystemCallArchitectures=\"\" SystemCallErrorNumber=\"0\" SystemCallFilter=\"~\" TTYPath=\"\" TTYReset=\"no\" TTYVHangup=\"no\" TTYVTDisallocate=\"no\" TimeoutStartUSec=\"1min 30s\" TimeoutStopUSec=\"1min 30s\" TimerSlackNSec=\"50000\" Transient=\"no\" TriggeredBy=\"\" Triggers=\"\" Type=\"forking\" UMask=\"0022\" UnitFilePreset=\"disabled\" UnitFileState=\"static\" User=\"\" UtmpIdentifier=\"\" WantedBy=\"nfs-server.service\" Wants"
+    ],
+    [
+      0.000009,
+      "=\"system.slice nfs-config.service\" WatchdogTimestamp=\"\" WatchdogTimestampMonotonic=\"0\" WatchdogUSec=\"0\" WorkingDirectory=\"\"\u003e UnitFileState should not eq \"enabled\"\u001b[0m\r\n"
+    ],
+    [
+      0.000046,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_3.9_Remove_DNS_Server: System Package bind should not be installed\u001b[0m\r\n"
+    ],
+    [
+      0.000031,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_3.10_Remove_FTP_Server: System Package vsftpd should not be installed\u001b[0m\r\n"
+    ],
+    [
+      0.000036,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_3.11_Remove_HTTP_Server: System Package httpd should not be installed\u001b[0m\r\n"
+    ],
+    [
+      0.000029,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_3.12_Remove_Dovecot_IMAP_and_POP3_services: System Package dovecot should not be installed\u001b[0m\r\n"
+    ],
+    [
+      0.000027,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_3.13_Remove_Samba: System Package samba should not be installed\u001b[0m\r\n"
+    ],
+    [
+      0.000030,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_3.14_Remove_HTTP_Proxy_Server: System Package squid should not be installed\u001b[0m\r\n"
+    ],
+    [
+      0.000021,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_3.15_Remove_SNMP_Server: System Package net-snmp should not be installed\u001b[0m\r\n"
+    ],
+    [
+      0.000032,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_4.1.1_Disable_IP_Forwarding: Kernel Parameter net.ipv4.ip_forward value should not be nil\u001b[0m\r\n"
+    ],
+    [
+      0.000055,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_4.1.2_Disable_Send_Packet_Redirects: Kernel Parameter net.ipv4.conf.all.send_redirects value should not be nil\u001b[0m\r\n"
+    ],
+    [
+      0.000047,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_4.2.1_Disable_Source_Routed_Packet_Acceptance: Kernel Parameter net.ipv4.conf.all.accept_source_route value should not be nil\u001b[0m\r\n"
+    ],
+    [
+      0.000063,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_4.2.2_Disable_ICMP_Redirect_Acceptance: Kernel Parameter net.ipv4.conf.all.accept_redirects value should not be nil\u001b[0m\r\n"
+    ],
+    [
+      0.000043,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_4.2.4_Log_Suspicious_Packets: Kernel Parameter net.ipv4.conf.all.log_martians value should not be nil\u001b[0m\r\n"
+    ],
+    [
+      0.000041,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_4.2.5_Enable_Ignore_Broadcast_Requests: Kernel Parameter net.ipv4.icmp_echo_ignore_broadcasts value should not be nil\u001b[0m\r\n"
+    ],
+    [
+      0.000030,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_4.2.6_Enable_Bad_Error_Message_Protection: Kernel Parameter net.ipv4.icmp_ignore_bogus_error_responses value should not be nil\u001b[0m\r\n"
+    ],
+    [
+      0.000030,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_4.2.8_Enable_TCP_SYN_Cookies: Kernel Parameter net.ipv4.tcp_syncookies value should not be nil\u001b[0m\r\n"
+    ],
+    [
+      0.000097,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_4.5.3_Verify_Permissions_on_etchosts.allow: File /etc/hosts.allow should exist\u001b[0m\r\n"
+    ],
+    [
+      0.000076,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_4.5.5_Verify_Permissions_on_etchosts.deny: File /etc/hosts.deny should exist\u001b[0m\r\n"
+    ],
+    [
+      0.000072,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_4.7_Enable_firewalld: #\u003cHashie::Mash ActiveEnterTimestamp=\"Sun 2016-07-10 21:00:58 EDT\" ActiveEnterTimestampMonotonic=\"1123605662\" ActiveExitTimestamp=\"\" ActiveExitTimestampMonotonic=\"0\" ActiveState=\"active\" After=\"system.slice basic.target\" AllowIsolate=\"no\" AppArmorProfile=\"[unprintable]\" AssertResult=\"yes\" AssertTimestamp=\"Sun 2016-07-10 21:00:58 EDT\" AssertTimestampMonotonic=\"1123238800\" Asserts=\"[unprintable]\" Before=\"NetworkManager.service network.targe"
+    ],
+    [
+      0.000015,
+      "t libvirtd.service shutdown.target\" BindsTo=\"\" BlockIOAccounting=\"no\" BlockIOWeight=\"18446744073709551615\" BoundBy=\"\" BusName=\"org.fedoraproject.FirewallD1\" CPUAccounting=\"no\" CPUAffinity=\"\" CPUQuotaPerSecUSec=\"infinity\" CPUSchedulingPolicy=\"0\" CPUSchedulingPriority=\"0\" CPUSchedulingResetOnFork=\"no\" CPUShares=\"18446744073709551615\" CanIsolate=\"no\" CanReload=\"yes\" CanStart=\"yes\" CanStop=\"yes\" Capabilities=\"\" CapabilityBoundingSet=\"18446744073709551615\" ConditionResult=\"yes\" ConditionTimestamp=\"Sun 2016-07-10"
+    ],
+    [
+      0.000011,
+      " 21:00:58 EDT\" ConditionTimestampMonotonic=\"1123238799\" Conditions=\"[unprintable]\" ConflictedBy=\"\" Conflicts=\"iptables.service ebtables.service shutdown.target ip6tables.service\" ConsistsOf=\"\" ControlGroup=\"/system.slice/firewalld.service\" ControlPID=\"0\" DefaultDependencies=\"yes\" Delegate=\"no\" Description=\"firewalld - dynamic firewall daemon\" DevicePolicy=\"auto\" Documentation=\"\" DropInPaths=\"\" Environment=\"\" EnvironmentFile=\"/etc/sysconfig/firewalld (ignore_errors=yes)\" ExecMainCode=\"0\" ExecMainExitTimestam"
+    ],
+    [
+      0.000005,
+      "p=\"\" ExecMainExitTimestampMonotonic=\"0\" ExecMainPID=\"11819\" ExecMainStartTimestamp=\"Sun 2016-07-10 21:00:58 EDT\" ExecMainStartTimestampMonotonic=\"1123241463\" ExecMainStatus=\"0\" ExecReload=\"{ path=/bin/kill ; argv[]=/bin/kill -HUP $MAINPID ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }\" ExecStart=\"{ path=/usr/sbin/firewalld ; argv[]=/usr/sbin/firewalld --nofork --nopid $FIREWALLD_ARGS ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ;"
+    ],
+    [
+      0.000014,
+      " status=0/0 }\" FailureAction=\"none\" FileDescriptorStoreMax=\"0\" Following=\"\" FragmentPath=\"/usr/lib/systemd/system/firewalld.service\" Group=\"\" GuessMainPID=\"yes\" IOScheduling=\"0\" Id=\"firewalld.service\" IgnoreOnIsolate=\"no\" IgnoreOnSnapshot=\"no\" IgnoreSIGPIPE=\"yes\" InaccessibleDirectories=\"\" InactiveEnterTimestamp=\"\" InactiveEnterTimestampMonotonic=\"0\" InactiveExitTimestamp=\"Sun 2016-07-10 21:00:58 EDT\" InactiveExitTimestampMonotonic=\"1123241503\" Job=\"\" JobTimeoutAction=\"none\" JobTimeoutRebootArgument=\"\" JobT"
+    ],
+    [
+      0.000003,
+      "imeoutUSec=\"0\" JoinsNamespaceOf=\"\" KillMode=\"control-group\" KillSignal=\"15\" LimitAS=\"18446744073709551615\" LimitCORE=\"18446744073709551615\" LimitCPU=\"18446744073709551615\" LimitDATA=\"18446744073709551615\" LimitFSIZE=\"18446744073709551615\" LimitLOCKS=\"18446744073709551615\" LimitMEMLOCK=\"65536\" LimitMSGQUEUE=\"819200\" LimitNICE=\"0\" LimitNOFILE=\"4096\" LimitNPROC=\"1870\" LimitRSS=\"18446744073709551615\" LimitRTPRIO=\"0\" LimitRTTIME=\"18446744073709551615\" LimitSIGPENDING=\"1870\" LimitSTACK=\"18446744073709551615\" Load"
+    ],
+    [
+      0.000089,
+      "Error=\"\\\"\\\"\" LoadState=\"loaded\" MainPID=\"11819\" MemoryAccounting=\"no\" MemoryCurrent=\"18446744073709551615\" MemoryLimit=\"18446744073709551615\" MountFlags=\"0\" Names=\"firewalld.service\" NeedDaemonReload=\"no\" Nice=\"0\" NoNewPrivileges=\"no\" NonBlocking=\"no\" NotifyAccess=\"none\" OOMScoreAdjust=\"0\" OnFailure=\"\" OnFailureJobMode=\"replace\" PAMName=\"\" PIDFile=\"\" PartOf=\"\" PermissionsStartOnly=\"no\" Personality=\"\" PrivateDevices=\"no\" PrivateNetwork=\"no\" PrivateTmp=\"no\" PropagatesReloadTo=\"\" ProtectHome=\"no\" ProtectSystem"
+    ],
+    [
+      0.000004,
+      "=\"no\" ReadOnlyDirectories=\"\" ReadWriteDirectories=\"\" RebootArgument=\"\" RefuseManualStart=\"no\" RefuseManualStop=\"no\" ReloadPropagatedFrom=\"\" RemainAfterExit=\"no\" RequiredBy=\"\" RequiredByOverridable=\"\" Requires=\"basic.target\" RequiresMountsFor=\"\" RequiresOverridable=\"\" Requisite=\"\" RequisiteOverridable=\"\" Restart=\"no\" RestartUSec=\"100ms\" RestrictAddressFamilies=\"[unprintable]\" Result=\"success\" RootDirectory=\"\" RootDirectoryStartOnly=\"no\" RuntimeDirectory=\"\" RuntimeDirectoryMode=\"0755\" SELinuxContext=\"[unprint"
+    ],
+    [
+      0.000015,
+      "able]\" SameProcessGroup=\"no\" SecureBits=\"0\" SendSIGHUP=\"no\" SendSIGKILL=\"yes\" Slice=\"system.slice\" SmackProcessLabel=\"[unprintable]\" SourcePath=\"\" StandardError=\"null\" StandardInput=\"null\" StandardOutput=\"null\" StartLimitAction=\"none\" StartLimitBurst=\"5\" StartLimitInterval=\"10000000\" StartupBlockIOWeight=\"18446744073709551615\" StartupCPUShares=\"18446744073709551615\" StatusErrno=\"0\" StatusText=\"\" StopWhenUnneeded=\"no\" SubState=\"running\" SupplementaryGroups=\"\" SyslogIdentifier=\"\" SyslogLevelPrefix=\"yes\" Syslo"
+    ],
+    [
+      0.000005,
+      "gPriority=\"30\" SystemCallArchitectures=\"\" SystemCallErrorNumber=\"0\" SystemCallFilter=\"~\" TTYPath=\"\" TTYReset=\"no\" TTYVHangup=\"no\" TTYVTDisallocate=\"no\" TimeoutStartUSec=\"1min 30s\" TimeoutStopUSec=\"1min 30s\" TimerSlackNSec=\"50000\" Transient=\"no\" TriggeredBy=\"\" Triggers=\"\" Type=\"dbus\" UMask=\"0022\" UnitFilePreset=\"enabled\" UnitFileState=\"enabled\" User=\"\" UtmpIdentifier=\"\" WantedBy=\"basic.target\" Wants=\"system.slice\" WatchdogTimestamp=\"Sun 2016-07-10 21:00:58 EDT\" WatchdogTimestampMonotonic=\"1123605467\" Watchdo"
+    ],
+    [
+      0.000008,
+      "gUSec=\"0\" WorkingDirectory=\"\"\u003e UnitFileState should eq \"enabled\"\u001b[0m\r\n"
+    ],
+    [
+      0.000042,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_5.1.1_Install_the_rsyslog_package: System Package rsyslog should be installed\u001b[0m\r\n"
+    ],
+    [
+      0.000057,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_5.1.2_Activate_the_rsyslog_Service: #\u003cHashie::Mash ActiveEnterTimestamp=\"Sun 2016-07-10 21:01:11 EDT\" ActiveEnterTimestampMonotonic=\"1136217403\" ActiveExitTimestamp=\"Sun 2016-07-10 21:01:11 EDT\" ActiveExitTimestampMonotonic=\"1136157211\" ActiveState=\"active\" After=\"system.slice basic.target\" AllowIsolate=\"no\" AppArmorProfile=\"[unprintable]\" AssertResult=\"yes\" AssertTimestamp=\"Sun 2016-07-10 21:01:11 EDT\" AssertTimestampMonotonic=\"1136177776\" Asserts=\"[unprinta"
+    ],
+    [
+      0.000005,
+      "ble]\" Before=\"shutdown.target multi-user.target\" BindsTo=\"\" BlockIOAccounting=\"no\" BlockIOWeight=\"18446744073709551615\" BoundBy=\"\" BusName=\"\" CPUAccounting=\"no\" CPUAffinity=\"\" CPUQuotaPerSecUSec=\"infinity\" CPUSchedulingPolicy=\"0\" CPUSchedulingPriority=\"0\" CPUSchedulingResetOnFork=\"no\" CPUShares=\"18446744073709551615\" CanIsolate=\"no\" CanReload=\"no\" CanStart=\"yes\" CanStop=\"yes\" Capabilities=\"\" CapabilityBoundingSet=\"18446744073709551615\" ConditionResult=\"yes\" ConditionTimestamp=\"Sun 2016-07-10 21:01:11 EDT\" C"
+    ],
+    [
+      0.000025,
+      "onditionTimestampMonotonic=\"1136177776\" Conditions=\"[unprintable]\" ConflictedBy=\"\" Conflicts=\"shutdown.target\" ConsistsOf=\"\" ControlGroup=\"/system.slice/rsyslog.service\" ControlPID=\"0\" DefaultDependencies=\"yes\" Delegate=\"no\" Description=\"System Logging Service\" DevicePolicy=\"auto\" Documentation=\"\" DropInPaths=\"\" Environment=\"\" EnvironmentFile=\"/etc/sysconfig/rsyslog (ignore_errors=yes)\" ExecMainCode=\"0\" ExecMainExitTimestamp=\"\" ExecMainExitTimestampMonotonic=\"0\" ExecMainPID=\"12539\" ExecMainStartTimestamp=\"S"
+    ],
+    [
+      0.000004,
+      "un 2016-07-10 21:01:11 EDT\" ExecMainStartTimestampMonotonic=\"1136180058\" ExecMainStatus=\"0\" ExecStart=\"{ path=/usr/sbin/rsyslogd ; argv[]=/usr/sbin/rsyslogd -n $SYSLOGD_OPTIONS ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }\" FailureAction=\"none\" FileDescriptorStoreMax=\"0\" Following=\"\" FragmentPath=\"/usr/lib/systemd/system/rsyslog.service\" Group=\"\" GuessMainPID=\"yes\" IOScheduling=\"0\" Id=\"rsyslog.service\" IgnoreOnIsolate=\"no\" IgnoreOnSnapshot=\"no\" IgnoreSIGPIPE=\"y"
+    ],
+    [
+      0.000013,
+      "es\" InaccessibleDirectories=\"\" InactiveEnterTimestamp=\"Sun 2016-07-10 21:01:11 EDT\" InactiveEnterTimestampMonotonic=\"1136176305\" InactiveExitTimestamp=\"Sun 2016-07-10 21:01:11 EDT\" InactiveExitTimestampMonotonic=\"1136180105\" Job=\"\" JobTimeoutAction=\"none\" JobTimeoutRebootArgument=\"\" JobTimeoutUSec=\"0\" JoinsNamespaceOf=\"\" KillMode=\"control-group\" KillSignal=\"15\" LimitAS=\"18446744073709551615\" LimitCORE=\"18446744073709551615\" LimitCPU=\"18446744073709551615\" LimitDATA=\"18446744073709551615\" LimitFSIZE=\"1844674"
+    ],
+    [
+      0.000004,
+      "4073709551615\" LimitLOCKS=\"18446744073709551615\" LimitMEMLOCK=\"65536\" LimitMSGQUEUE=\"819200\" LimitNICE=\"0\" LimitNOFILE=\"4096\" LimitNPROC=\"1870\" LimitRSS=\"18446744073709551615\" LimitRTPRIO=\"0\" LimitRTTIME=\"18446744073709551615\" LimitSIGPENDING=\"1870\" LimitSTACK=\"18446744073709551615\" LoadError=\"\\\"\\\"\" LoadState=\"loaded\" MainPID=\"12539\" MemoryAccounting=\"no\" MemoryCurrent=\"18446744073709551615\" MemoryLimit=\"18446744073709551615\" MountFlags=\"0\" Names=\"rsyslog.service\" NeedDaemonReload=\"no\" Nice=\"0\" NoNewPrivile"
+    ],
+    [
+      0.000010,
+      "ges=\"no\" NonBlocking=\"no\" NotifyAccess=\"main\" OOMScoreAdjust=\"0\" OnFailure=\"\" OnFailureJobMode=\"replace\" PAMName=\"\" PIDFile=\"\" PartOf=\"\" PermissionsStartOnly=\"no\" Personality=\"\" PrivateDevices=\"no\" PrivateNetwork=\"no\" PrivateTmp=\"no\" PropagatesReloadTo=\"\" ProtectHome=\"no\" ProtectSystem=\"no\" ReadOnlyDirectories=\"\" ReadWriteDirectories=\"\" RebootArgument=\"\" RefuseManualStart=\"no\" RefuseManualStop=\"no\" ReloadPropagatedFrom=\"\" RemainAfterExit=\"no\" RequiredBy=\"\" RequiredByOverridable=\"\" Requires=\"basic.target\" Re"
+    ],
+    [
+      0.000003,
+      "quiresMountsFor=\"\" RequiresOverridable=\"\" Requisite=\"\" RequisiteOverridable=\"\" Restart=\"on-failure\" RestartUSec=\"100ms\" RestrictAddressFamilies=\"[unprintable]\" Result=\"success\" RootDirectory=\"\" RootDirectoryStartOnly=\"no\" RuntimeDirectory=\"\" RuntimeDirectoryMode=\"0755\" SELinuxContext=\"[unprintable]\" SameProcessGroup=\"no\" SecureBits=\"0\" SendSIGHUP=\"no\" SendSIGKILL=\"yes\" Slice=\"system.slice\" SmackProcessLabel=\"[unprintable]\" SourcePath=\"\" StandardError=\"inherit\" StandardInput=\"null\" StandardOutput=\"null\" Star"
+    ],
+    [
+      0.000014,
+      "tLimitAction=\"none\" StartLimitBurst=\"5\" StartLimitInterval=\"10000000\" StartupBlockIOWeight=\"18446744073709551615\" StartupCPUShares=\"18446744073709551615\" StatusErrno=\"0\" StatusText=\"\" StopWhenUnneeded=\"no\" SubState=\"running\" SupplementaryGroups=\"\" SyslogIdentifier=\"\" SyslogLevelPrefix=\"yes\" SyslogPriority=\"30\" SystemCallArchitectures=\"\" SystemCallErrorNumber=\"0\" SystemCallFilter=\"~\" TTYPath=\"\" TTYReset=\"no\" TTYVHangup=\"no\" TTYVTDisallocate=\"no\" TimeoutStartUSec=\"1min 30s\" TimeoutStopUSec=\"1min 30s\" TimerSla"
+    ],
+    [
+      0.000003,
+      "ckNSec=\"50000\" Transient=\"no\" TriggeredBy=\"\" Triggers=\"\" Type=\"notify\" UMask=\"0066\" UnitFilePreset=\"enabled\" UnitFileState=\"enabled\" User=\"\" UtmpIdentifier=\"\" WantedBy=\"multi-user.target\" Wants=\"system.slice\" WatchdogTimestamp=\"Sun 2016-07-10 21:01:11 EDT\" WatchdogTimestampMonotonic=\"1136217366\" WatchdogUSec=\"0\" WorkingDirectory=\"\"\u003e UnitFileState should eq \"enabled\"\u001b[0m\r\n"
+    ],
+    [
+      0.000418,
+      "\u001b[31m  ✖  xccdf_org.cisecurity.benchmarks_rule_5.1.4_Create_and_Set_Permissions_on_rsyslog_Log_Files: File /usr/share/doc/rsyslog-*/rsyslog_conf.html should existexpected File /usr/share/doc/rsyslog-*/rsyslog_conf.html to exist\u001b[0m\r\n"
+    ],
+    [
+      0.000030,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_5.1.5_Configure_rsyslog_to_Send_Logs_to_a_Remote_Log_Host: File /etc/rsyslog.conf content should match /^\\*\\.\\*\\s+@/\u001b[0m\r\n"
+    ],
+    [
+      0.000024,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.1.1_Enable_anacron_Daemon: System Package cronie-anacron should be installed\u001b[0m\r\n"
+    ],
+    [
+      0.000063,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.1.2_Enable_crond_Daemon: #\u003cHashie::Mash ActiveEnterTimestamp=\"Sun 2016-07-10 20:42:21 EDT\" ActiveEnterTimestampMonotonic=\"6301516\" ActiveExitTimestamp=\"\" ActiveExitTimestampMonotonic=\"0\" ActiveState=\"active\" After=\"systemd-journald.socket auditd.service basic.target system.slice time-sync.target systemd-user-sessions.service\" AllowIsolate=\"no\" AppArmorProfile=\"[unprintable]\" AssertResult=\"yes\" AssertTimestamp=\"Sun 2016-07-10 20:42:21 EDT\" AssertTimestampMon"
+    ],
+    [
+      0.000017,
+      "otonic=\"6293414\" Asserts=\"[unprintable]\" Before=\"shutdown.target multi-user.target\" BindsTo=\"\" BlockIOAccounting=\"no\" BlockIOWeight=\"18446744073709551615\" BoundBy=\"\" BusName=\"\" CPUAccounting=\"no\" CPUAffinity=\"\" CPUQuotaPerSecUSec=\"infinity\" CPUSchedulingPolicy=\"0\" CPUSchedulingPriority=\"0\" CPUSchedulingResetOnFork=\"no\" CPUShares=\"18446744073709551615\" CanIsolate=\"no\" CanReload=\"yes\" CanStart=\"yes\" CanStop=\"yes\" Capabilities=\"\" CapabilityBoundingSet=\"18446744073709551615\" ConditionResult=\"yes\" ConditionTimes"
+    ],
+    [
+      0.000005,
+      "tamp=\"Sun 2016-07-10 20:42:21 EDT\" ConditionTimestampMonotonic=\"6293414\" Conditions=\"[unprintable]\" ConflictedBy=\"\" Conflicts=\"shutdown.target\" ConsistsOf=\"\" ControlGroup=\"/system.slice/crond.service\" ControlPID=\"0\" DefaultDependencies=\"yes\" Delegate=\"no\" Description=\"Command Scheduler\" DevicePolicy=\"auto\" Documentation=\"\" DropInPaths=\"\" Environment=\"\" EnvironmentFile=\"/etc/sysconfig/crond (ignore_errors=no)\" ExecMainCode=\"0\" ExecMainExitTimestamp=\"\" ExecMainExitTimestampMonotonic=\"0\" ExecMainPID=\"635\" Exec"
+    ],
+    [
+      0.000026,
+      "MainStartTimestamp=\"Sun 2016-07-10 20:42:21 EDT\" ExecMainStartTimestampMonotonic=\"6301435\" ExecMainStatus=\"0\" ExecReload=\"{ path=/bin/kill ; argv[]=/bin/kill -HUP $MAINPID ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }\" ExecStart=\"{ path=/usr/sbin/crond ; argv[]=/usr/sbin/crond -n $CRONDARGS ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }\" FailureAction=\"none\" FileDescriptorStoreMax=\"0\" Following=\"\" FragmentPath=\"/usr"
+    ],
+    [
+      0.000003,
+      "/lib/systemd/system/crond.service\" Group=\"\" GuessMainPID=\"yes\" IOScheduling=\"0\" Id=\"crond.service\" IgnoreOnIsolate=\"no\" IgnoreOnSnapshot=\"no\" IgnoreSIGPIPE=\"yes\" InaccessibleDirectories=\"\" InactiveEnterTimestamp=\"\" InactiveEnterTimestampMonotonic=\"0\" InactiveExitTimestamp=\"Sun 2016-07-10 20:42:21 EDT\" InactiveExitTimestampMonotonic=\"6301516\" Job=\"\" JobTimeoutAction=\"none\" JobTimeoutRebootArgument=\"\" JobTimeoutUSec=\"0\" JoinsNamespaceOf=\"\" KillMode=\"process\" KillSignal=\"15\" LimitAS=\"18446744073709551615\" Limi"
+    ],
+    [
+      0.000003,
+      "tCORE=\"18446744073709551615\" LimitCPU=\"18446744073709551615\" LimitDATA=\"18446744073709551615\" LimitFSIZE=\"18446744073709551615\" LimitLOCKS=\"18446744073709551615\" LimitMEMLOCK=\"65536\" LimitMSGQUEUE=\"819200\" LimitNICE=\"0\" LimitNOFILE=\"4096\" LimitNPROC=\"1870\" LimitRSS=\"18446744073709551615\" LimitRTPRIO=\"0\" LimitRTTIME=\"18446744073709551615\" LimitSIGPENDING=\"1870\" LimitSTACK=\"18446744073709551615\" LoadError=\"\\\"\\\"\" LoadState=\"loaded\" MainPID=\"635\" MemoryAccounting=\"no\" MemoryCurrent=\"18446744073709551615\" Memory"
+    ],
+    [
+      0.000004,
+      "Limit=\"18446744073709551615\" MountFlags=\"0\" Names=\"crond.service\" NeedDaemonReload=\"no\" Nice=\"0\" NoNewPrivileges=\"no\" NonBlocking=\"no\" NotifyAccess=\"none\" OOMScoreAdjust=\"0\" OnFailure=\"\" OnFailureJobMode=\"replace\" PAMName=\"\" PIDFile=\"\" PartOf=\"\" PermissionsStartOnly=\"no\" Personality=\"\" PrivateDevices=\"no\" PrivateNetwork=\"no\" PrivateTmp=\"no\" PropagatesReloadTo=\"\" ProtectHome=\"no\" ProtectSystem=\"no\" ReadOnlyDirectories=\"\" ReadWriteDirectories=\"\" RebootArgument=\"\" RefuseManualStart=\"no\" RefuseManualStop=\"no\" R"
+    ],
+    [
+      0.000003,
+      "eloadPropagatedFrom=\"\" RemainAfterExit=\"no\" RequiredBy=\"\" RequiredByOverridable=\"\" Requires=\"basic.target\" RequiresMountsFor=\"\" RequiresOverridable=\"\" Requisite=\"\" RequisiteOverridable=\"\" Restart=\"no\" RestartUSec=\"100ms\" RestrictAddressFamilies=\"[unprintable]\" Result=\"success\" RootDirectory=\"\" RootDirectoryStartOnly=\"no\" RuntimeDirectory=\"\" RuntimeDirectoryMode=\"0755\" SELinuxContext=\"[unprintable]\" SameProcessGroup=\"no\" SecureBits=\"0\" SendSIGHUP=\"no\" SendSIGKILL=\"yes\" Slice=\"system.slice\" SmackProcessLabel="
+    ],
+    [
+      0.000004,
+      "\"[unprintable]\" SourcePath=\"\" StandardError=\"inherit\" StandardInput=\"null\" StandardOutput=\"journal\" StartLimitAction=\"none\" StartLimitBurst=\"5\" StartLimitInterval=\"10000000\" StartupBlockIOWeight=\"18446744073709551615\" StartupCPUShares=\"18446744073709551615\" StatusErrno=\"0\" StatusText=\"\" StopWhenUnneeded=\"no\" SubState=\"running\" SupplementaryGroups=\"\" SyslogIdentifier=\"\" SyslogLevelPrefix=\"yes\" SyslogPriority=\"30\" SystemCallArchitectures=\"\" SystemCallErrorNumber=\"0\" SystemCallFilter=\"~\" TTYPath=\"\" TTYReset=\"n"
+    ],
+    [
+      0.000009,
+      "o\" TTYVHangup=\"no\" TTYVTDisallocate=\"no\" TimeoutStartUSec=\"1min 30s\" TimeoutStopUSec=\"1min 30s\" TimerSlackNSec=\"50000\" Transient=\"no\" TriggeredBy=\"\" Triggers=\"\" Type=\"simple\" UMask=\"0022\" UnitFilePreset=\"enabled\" UnitFileState=\"enabled\" User=\"\" UtmpIdentifier=\"\" WantedBy=\"multi-user.target\" Wants=\"system.slice\" WatchdogTimestamp=\"Sun 2016-07-10 20:42:21 EDT\" WatchdogTimestampMonotonic=\"6301491\" WatchdogUSec=\"0\" WorkingDirectory=\"\"\u003e UnitFileState should eq \"enabled\"\u001b[0m\r\n"
+    ],
+    [
+      0.000098,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.1.3_Set_UserGroup_Owner_and_Permission_on_etcanacrontab: File /etc/anacrontab should exist\u001b[0m\r\n"
+    ],
+    [
+      0.000080,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.1.4_Set_UserGroup_Owner_and_Permission_on_etccrontab: File /etc/crontab should exist\u001b[0m\r\n"
+    ],
+    [
+      0.000092,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.1.5_Set_UserGroup_Owner_and_Permission_on_etccron.hourly: File /etc/cron.hourly should exist\u001b[0m\r\n"
+    ],
+    [
+      0.000091,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.1.6_Set_UserGroup_Owner_and_Permission_on_etccron.daily: File /etc/cron.daily should exist\u001b[0m\r\n"
+    ],
+    [
+      0.000077,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.1.7_Set_UserGroup_Owner_and_Permission_on_etccron.weekly: File /etc/cron.weekly should exist\u001b[0m\r\n"
+    ],
+    [
+      0.000088,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.1.8_Set_UserGroup_Owner_and_Permission_on_etccron.monthly: File /etc/cron.monthly should exist\u001b[0m\r\n"
+    ],
+    [
+      0.000083,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.1.9_Set_UserGroup_Owner_and_Permission_on_etccron.d: File /etc/cron.d should exist\u001b[0m\r\n"
+    ],
+    [
+      0.000091,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.1.10_Restrict_at_Daemon: File /etc/at.deny should not exist\u001b[0m\r\n"
+    ],
+    [
+      0.000092,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.1.11_Restrict_atcron_to_Authorized_Users: File /etc/cron.deny should not exist\u001b[0m\r\n"
+    ],
+    [
+      0.000036,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.2.1_Set_SSH_Protocol_to_2: File /etc/ssh/sshd_config content should match /^\\s*Protocol\\s+(\\S+)\\s*(?:#.*)?$/\u001b[0m\r\n"
+    ],
+    [
+      0.000032,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.2.2_Set_LogLevel_to_INFO: File /etc/ssh/sshd_config content should match /^\\s*LogLevel\\s+(\\S+)\\s*(?:#.*)?$/\u001b[0m\r\n"
+    ],
+    [
+      0.000110,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.2.3_Set_Permissions_on_etcsshsshd_config: File /etc/ssh/sshd_config should exist\u001b[0m\r\n"
+    ],
+    [
+      0.000048,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.2.4_Disable_SSH_X11_Forwarding: File /etc/ssh/sshd_config content should match /^\\s*X11Forwarding\\s+(\\S+)\\s*(?:#.*)?$/\u001b[0m\r\n"
+    ],
+    [
+      0.000037,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.2.5_Set_SSH_MaxAuthTries_to_4_or_Less: File /etc/ssh/sshd_config content should match /^\\s*MaxAuthTries\\s+(\\S+)\\s*(?:#.*)?$/\u001b[0m\r\n"
+    ],
+    [
+      0.000034,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.2.6_Set_SSH_IgnoreRhosts_to_Yes: File /etc/ssh/sshd_config content should match /^\\s*IgnoreRhosts\\s+(\\S+)\\s*(?:#.*)?$/\u001b[0m\r\n"
+    ],
+    [
+      0.000047,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.2.7_Set_SSH_HostbasedAuthentication_to_No: File /etc/ssh/sshd_config content should match /^\\s*HostbasedAuthentication\\s+(\\S+)\\s*(?:#.*)?$/\u001b[0m\r\n"
+    ],
+    [
+      0.000045,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.2.8_Disable_SSH_Root_Login: File /etc/ssh/sshd_config content should match /^\\s*PermitRootLogin\\s+(\\S+)\\s*(?:#.*)?$/\u001b[0m\r\n"
+    ],
+    [
+      0.000033,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.2.9_Set_SSH_PermitEmptyPasswords_to_No: File /etc/ssh/sshd_config content should match /^\\s*PermitEmptyPasswords\\s+(\\S+)\\s*(?:#.*)?$/\u001b[0m\r\n"
+    ],
+    [
+      0.000036,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.2.10_Do_Not_Allow_Users_to_Set_Environment_Options: File /etc/ssh/sshd_config content should match /^\\s*PermitUserEnvironment\\s+(\\S+)\\s*(?:#.*)?$/\u001b[0m\r\n"
+    ],
+    [
+      0.000037,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.2.11_Use_Only_Approved_Cipher_in_Counter_Mode: File /etc/ssh/sshd_config content should match /^\\s*Ciphers\\s+(\\S+)\\s*(?:#.*)?$/\u001b[0m\r\n"
+    ],
+    [
+      0.000055,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.2.12_Set_Idle_Timeout_Interval_for_User_Login: File /etc/ssh/sshd_config content should match /^\\s*ClientAliveInterval\\s+(\\S+)\\s*(?:#.*)?$/\u001b[0m\r\n"
+    ],
+    [
+      0.000032,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.2.13_Limit_Access_via_SSH: File /etc/ssh/sshd_config content should match /^\\s*(AllowUsers|AllowGroups|DenyUsers|DenyGroups)\\s+/\u001b[0m\r\n"
+    ],
+    [
+      0.000031,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.2.14_Set_SSH_Banner: File /etc/ssh/sshd_config content should match /^\\s*Banner\\s+(\\S+)\\s*(?:#.*)?$/\u001b[0m\r\n"
+    ],
+    [
+      0.000111,
+      "\u001b[31m  ✖  xccdf_org.cisecurity.benchmarks_rule_6.3.1_Upgrade_Password_Hashing_Algorithm_to_SHA-512: File /etc/libuser.conf content should match /^[\\s]*crypt_style[\\s]+=[\\s]+(?i)sha512[\\s]*$/expected \"# See libuser.conf(5) for more information.\\n\\n# Do not modify the default module list if you care about unattended calls\\n# to programs (i.e., scripts) working!\\n\\n[import]\\n# Data from these files is used when libuser.conf does not define a value.\\n# The mapping is documented in the man page.\\nlogin_defs = "
+    ],
+    [
+      0.000003,
+      "/etc/login.defs\\ndefault_useradd = /etc/default/useradd\\n\\n[defaults]\\n# The default (/usr/lib*/libuser) is usually correct\\n# moduledir = /your/custom/directory\\n\\n# The following variables are usually imported:\\n# skeleton = /etc/skel\\n# mailspooldir = /var/mail\\n\\ncrypt_style = md5\\nmodules = files shadow\\ncreate_modules = files shadow\\n# modules = files shadow ldap\\n# create_modules = ldap\\n\\n[userdefaults]\\nLU_USERNAME = %n\\n# This is better imported from /etc/login.defs:\\n# LU_UIDNUMBER = 500\\nLU_GIDN"
+    ],
+    [
+      0.000003,
+      "UMBER = %u\\n# LU_USERPASSWORD = !!\\n# LU_GECOS = %n\\n# LU_HOMEDIRECTORY = /home/%n\\n# LU_LOGINSHELL = /bin/bash\\n\\n# LU_SHADOWNAME = %n\\n# LU_SHADOWPASSWORD = !!\\n# LU_SHADOWLASTCHANGE = %d\\n# LU_SHADOWMIN = 0\\n# LU_SHADOWMAX = 99999\\n# LU_SHADOWWARNING = 7\\n# LU_SHADOWINACTIVE = -1\\n# LU_SHADOWEXPIRE = -1\\n# LU_SHADOWFLAG = -1\\n\\n[groupdefaults]\\nLU_GROUPNAME = %n\\n# This is better imported from /etc/login.defs:\\n# LU_GIDNUMBER = 500\\n#\\n# LU_GROUPPASSWORD = !!\\n# LU_MEMBERUID =\\n# LU_ADMINISTRATORUID =\\n\\"
+    ],
+    [
+      0.000004,
+      "n[files]\\n# This is useful for the case where some master files are used to\\n# populate a different NSS mechanism which this workstation uses.\\n# directory = /etc\\n\\n[shadow]\\n# This is useful for the case where some master files are used to\\n# populate a different NSS mechanism which this workstation uses.\\n# directory = /etc\\n\\n[ldap]\\n# Setting these is always necessary.\\n# server = ldap\\n# basedn = dc=example,dc=com\\n\\n# Setting these is rarely necessary, since it's usually correct.\\n# userBranch = ou=P"
+    ],
+    [
+      0.000003,
+      "eople\\n# groupBranch = ou=Group\\n\\n# Set only if your administrative user uses simple bind operations to\\n# connect to the server.\\n# binddn = cn=Manager,dc=example,dc=com\\n\\n# Set this only if the default user (as determined by SASL) is incorrect\\n# for SASL bind operations.  Usually, it's correct, so you'll rarely need\\n# to set these.\\n# user = Manager\\n# authuser = Manager\\n\\n[sasl]\\n# Set these only if your sasldb is only used by a particular application, and\\n# in a particular domain.  The default (al"
+    ],
+    [
+      0.000004,
+      "l applications, all domains) is\\n# probably correct for most installations.\\n# appname = imap\\n# domain = EXAMPLE.COM\\n\" to match /^[\\s]*crypt_style[\\s]+=[\\s]+(?i)sha512[\\s]*$/\r\n     Diff:\r\n     @@ -1,2 +1,90 @@\r\n     -/^[\\s]*crypt_style[\\s]+=[\\s]+(?i)sha512[\\s]*$/\r\n     +# See libuser.conf(5) for more information.\r\n     +\r\n     +# Do not modify the default module list if you care about unattended calls\r\n     +# to programs (i.e., scripts) working!\r\n     +\r\n     +[import]\r\n     +# Data from these files is used when l"
+    ],
+    [
+      0.000009,
+      "ibuser.conf does not define a value.\r\n     +# The mapping is documented in the man page.\r\n     +login_defs = /etc/login.defs\r\n     +default_useradd = /etc/default/useradd\r\n     +\r\n     +[defaults]\r\n     +# The default (/usr/lib*/libuser) is usually correct\r\n     +# moduledir = /your/custom/directory\r\n     +\r\n     +# The following variables are usually imported:\r\n     +# skeleton = /etc/skel\r\n     +# mailspooldir = /var/mail\r\n     +\r\n     +crypt_style = md5\r\n     +modules = files shadow\r\n     +create_modules = files shadow"
+    ],
+    [
+      0.000004,
+      "\r\n     +# modules = files shadow ldap\r\n     +# create_modules = ldap\r\n     +\r\n     +[userdefaults]\r\n     +LU_USERNAME = %n\r\n     +# This is better imported from /etc/login.defs:\r\n     +# LU_UIDNUMBER = 500\r\n     +LU_GIDNUMBER = %u\r\n     +# LU_USERPASSWORD = !!\r\n     +# LU_GECOS = %n\r\n     +# LU_HOMEDIRECTORY = /home/%n\r\n     +# LU_LOGINSHELL = /bin/bash\r\n     +\r\n     +# LU_SHADOWNAME = %n\r\n     +# LU_SHADOWPASSWORD = !!\r\n     +# LU_SHADOWLASTCHANGE = %d\r\n     +# LU_SHADOWMIN = 0\r\n     +# LU_SHADOWMAX = 99999\r\n     +# LU_SHADO"
+    ],
+    [
+      0.000008,
+      "WWARNING = 7\r\n     +# LU_SHADOWINACTIVE = -1\r\n     +# LU_SHADOWEXPIRE = -1\r\n     +# LU_SHADOWFLAG = -1\r\n     +\r\n     +[groupdefaults]\r\n     +LU_GROUPNAME = %n\r\n     +# This is better imported from /etc/login.defs:\r\n     +# LU_GIDNUMBER = 500\r\n     +#\r\n     +# LU_GROUPPASSWORD = !!\r\n     +# LU_MEMBERUID =\r\n     +# LU_ADMINISTRATORUID =\r\n     +\r\n     +[files]\r\n     +# This is useful for the case where some master files are used to\r\n     +# populate a different NSS mechanism which this workstation uses.\r\n     +# directory = /e"
+    ],
+    [
+      0.000013,
+      "tc\r\n     +\r\n     +[shadow]\r\n     +# This is useful for the case where some master files are used to\r\n     +# populate a different NSS mechanism which this workstation uses.\r\n     +# directory = /etc\r\n     +\r\n     +[ldap]\r\n     +# Setting these is always necessary.\r\n     +# server = ldap\r\n     +# basedn = dc=example,dc=com\r\n     +\r\n     +# Setting these is rarely necessary, since it's usually correct.\r\n     +# userBranch = ou=People\r\n     +# groupBranch = ou=Group\r\n     +\r\n     +# Set only if your administrative user uses s"
+    ],
+    [
+      0.000003,
+      "imple bind operations to\r\n     +# connect to the server.\r\n     +# binddn = cn=Manager,dc=example,dc=com\r\n     +\r\n     +# Set this only if the default user (as determined by SASL) is incorrect\r\n     +# for SASL bind operations.  Usually, it's correct, so you'll rarely need\r\n     +# to set these.\r\n     +# user = Manager\r\n     +# authuser = Manager\r\n     +\r\n     +[sasl]\r\n     +# Set these only if your sasldb is only used by a particular application, and\r\n     +# in a particular domain.  The default (all applications, all "
+    ],
+    [
+      0.000010,
+      "domains) is\r\n     +# probably correct for most installations.\r\n     +# appname = imap\r\n     +# domain = EXAMPLE.COM\r\n     \u001b[0m"
+    ],
+    [
+      0.000002,
+      "\r\n"
+    ],
+    [
+      0.000085,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.3.2_Set_Password_Creation_Requirement_Parameters_Using_pam_pwquality: File /etc/pam.d/system-auth content should match /^\\s*password\\s+(?:required|requisite)\\s+pam_pwquality.so\\s+(?:\\S+\\s+)*try_first_pass(?:\\s+\\S+)*\\s*$/\u001b[0m"
+    ],
+    [
+      0.000002,
+      "\r\n"
+    ],
+    [
+      0.000049,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.3.4_Limit_Password_Reuse: File /etc/pam.d/system-auth content should match /^\\s*password\\s+sufficient\\s+pam_unix.so(\\s+[^\\s]+)*\\s+remember=5(\\s+[^\\s]+)*\\s*$/\u001b[0m\r\n"
+    ],
+    [
+      0.000024,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_6.5_Restrict_Access_to_the_su_Command: File /etc/pam.d/su content should match /^\\s*auth\\s+required\\s+pam_wheel.so\\s+use_uid\\s*$/\u001b[0m\r\n"
+    ],
+    [
+      0.000258,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_7.1.1_Set_Password_Expiration_Days: File /etc/login.defs content should match /^PASS_MAX_DAYS\\s+(90|[1-7][0-9]|[1-9])$/\u001b[0m\r\n"
+    ],
+    [
+      0.000264,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_7.1.2_Set_Password_Change_Minimum_Number_of_Days: File /etc/login.defs content should match /^PASS_MIN_DAYS\\s+([7-9]|[1-9][0-9]+)$/\u001b[0m\r\n"
+    ],
+    [
+      0.000232,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_7.1.3_Set_Password_Expiring_Warning_Days: File /etc/login.defs content should match /^PASS_WARN_AGE\\s+([7-9]|[1-9][0-9]+)$/\u001b[0m\r\n"
+    ],
+    [
+      0.000036,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_7.2_Disable_System_Accounts: /etc/passwd with user =~ /^(?!root|sync|shutdown|halt).*$/ entries should not be empty\u001b[0m\r\n"
+    ],
+    [
+      0.000043,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_7.3_Set_Default_Group_for_root_Account: /etc/passwd with user == \"root\" entries should not be empty\u001b[0m\r\n"
+    ],
+    [
+      0.000147,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_7.4_Set_Default_umask_for_Users: File /etc/bashrc content should match /^\\s*umask\\s+077\\s*$/\u001b[0m\r\n"
+    ],
+    [
+      0.000033,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_7.5_Lock_Inactive_User_Accounts: File /etc/default/useradd content should match /^INACTIVE=35$/\u001b[0m\r\n"
+    ],
+    [
+      0.000379,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_8.1_Set_Warning_Banner_for_Standard_Login_Services: File /etc/motd should exist\u001b[0m\r\n"
+    ],
+    [
+      0.000078,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_8.2_Remove_OS_Information_from_Login_Warning_Banners: File /etc/motd content should not match /(\\\\v|\\\\r|\\\\m|\\\\s)/\u001b[0m"
+    ],
+    [
+      0.000010,
+      "\r\n"
+    ],
+    [
+      0.000186,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.1.2_Verify_Permissions_on_etcpasswd: File /etc/passwd should exist\u001b[0m\r\n"
+    ],
+    [
+      0.000092,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.1.3_Verify_Permissions_on_etcshadow: File /etc/shadow should exist\u001b[0m\r\n"
+    ],
+    [
+      0.000099,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.1.4_Verify_Permissions_on_etcgshadow: File /etc/gshadow should exist\u001b[0m\r\n"
+    ],
+    [
+      0.000151,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.1.5_Verify_Permissions_on_etcgroup: File /etc/group should exist\u001b[0m\r\n"
+    ],
+    [
+      0.000020,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.1.6_Verify_UserGroup_Ownership_on_etcpasswd: File /etc/passwd should exist\u001b[0m\r\n"
+    ],
+    [
+      0.000056,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.1.7_Verify_UserGroup_Ownership_on_etcshadow: File /etc/shadow should exist\u001b[0m\r\n"
+    ],
+    [
+      0.000069,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.1.8_Verify_UserGroup_Ownership_on_etcgshadow: File /etc/gshadow should exist\u001b[0m"
+    ],
+    [
+      0.000004,
+      "\r\n"
+    ],
+    [
+      0.000103,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.1.9_Verify_UserGroup_Ownership_on_etcgroup: File /etc/group should exist\u001b[0m"
+    ],
+    [
+      0.000004,
+      "\r\n"
+    ],
+    [
+      0.000058,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.1.11_Find_Un-owned_Files_and_Directories: Command find / -regex .\\*/.\\* -type f -nouser stdout should be empty\u001b[0m\r\n"
+    ],
+    [
+      0.000062,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.1.12_Find_Un-grouped_Files_and_Directories: Command find / -regex .\\*/.\\* -type f -nogroup stdout should be empty\u001b[0m\r\n"
+    ],
+    [
+      0.000227,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.1_Ensure_Password_Fields_are_Not_Empty: /etc/shadow with user = /.*/ on entry user=root passwords should cmp /.+/\u001b[0m\r\n"
+    ],
+    [
+      0.000019,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.2_Verify_No_Legacy__Entries_Exist_in_etcpasswd_File: File /etc/passwd content should not match /^+:/\u001b[0m\r\n"
+    ],
+    [
+      0.000032,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.3_Verify_No_Legacy__Entries_Exist_in_etcshadow_File: File /etc/shadow content should not match /^+:/\u001b[0m\r\n"
+    ],
+    [
+      0.000043,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.4_Verify_No_Legacy__Entries_Exist_in_etcgroup_File: File /etc/group content should not match /^+:/\u001b[0m\r\n"
+    ],
+    [
+      0.000039,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.5_Verify_No_UID_0_Accounts_Exist_Other_Than_root: File /etc/passwd content should not match /^(?!root:)[^:]*:[^:]*:0/\u001b[0m\r\n"
+    ],
+    [
+      0.000245,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.6_Ensure_root_PATH_Integrity: [\"/sbin\", \"/bin\", \"/usr/sbin\", \"/usr/bin\"] should not be empty\u001b[0m\r\n"
+    ],
+    [
+      0.000055,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.7_Check_Permissions_on_User_Home_Directories: File /home/vagrant should not be writable by group\u001b[0m\r\n"
+    ],
+    [
+      0.000084,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.8_Check_User_Dot_File_Permissions: File /home/vagrant/.bash_history should not be writable by group\u001b[0m\r\n"
+    ],
+    [
+      0.000089,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.9_Check_Permissions_on_User_.netrc_Files: File /home/vagrant/.netrc should not be executable by group\u001b[0m\r\n"
+    ],
+    [
+      0.000029,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.10_Check_for_Presence_of_User_.rhosts_Files: File /home/vagrant/.rhosts should not exist\u001b[0m"
+    ],
+    [
+      0.000003,
+      "\r\n"
+    ],
+    [
+      0.000045,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.11_Check_Groups_in_etcpasswd: File /etc/group content should match /^[^:]*:[^:]*:1000:[^:]*$/\u001b[0m\r\n"
+    ],
+    [
+      0.000027,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.12_Check_That_Users_Are_Assigned_Valid_Home_Directories: File /home/vagrant should exist\u001b[0m\r\n"
+    ],
+    [
+      0.000035,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.13_Check_User_Home_Directory_Ownership: File /home/vagrant should be owned by \"vagrant\"\u001b[0m\r\n"
+    ],
+    [
+      0.000051,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.14_Check_for_Duplicate_UIDs: [\"0\", \"1\", \"2\", \"3\", \"4\", \"5\", \"6\", \"7\", \"8\", \"11\", \"12\", \"14\", \"99\", \"170\", \"999\", \"998\", \"81\", \"997\", \"32\", \"59\", \"29\", \"65534\", \"89\", \"74\", \"1000\", \"70\", \"38\"] length should not eq 0\u001b[0m\r\n"
+    ],
+    [
+      0.000031,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.15_Check_for_Duplicate_GIDs: [\"0\", \"1\", \"2\", \"3\", \"4\", \"5\", \"6\", \"7\", \"8\", \"9\", \"10\", \"11\", \"12\", \"15\", \"18\", \"19\", \"20\", \"30\", \"39\", \"50\", \"54\", \"63\", \"99\", \"100\", \"22\", \"35\", \"999\", \"170\", \"998\", \"190\", \"997\", \"996\", \"81\", \"995\", \"32\", \"40\", \"59\", \"29\", \"65534\", \"90\", \"89\", \"74\", \"84\", \"1000\", \"70\", \"38\"] length should not eq 0\u001b[0m"
+    ],
+    [
+      0.000008,
+      "\r\n"
+    ],
+    [
+      0.000058,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.16_Check_That_Reserved_UIDs_Are_Assigned_to_System_Accounts: /etc/passwd with user =~ /^(?!root|bin|daemon|adm|lp|sync|shutdown|halt|mail|news|uucp|operator|games|gopher|ftp|nobody|nscd|vcsa|rpc|mailnull|smmsp|pcap|ntp|dbus|avahi|sshd|rpcuser|nfsnobody|haldaemon|avahi-autoipd|distcache|apache|oprofile|webalizer|dovecot|squid|named|xfs|gdm|sabayon|usbmuxd|rtkit|abrt|saslauth|pulse|postfix|tcpdump).*$/ entries should not be empty\u001b[0m\r\n"
+    ],
+    [
+      0.000060,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.17_Check_for_Duplicate_User_Names: [\"root\", \"bin\", \"daemon\", \"adm\", \"lp\", \"sync\", \"shutdown\", \"halt\", \"mail\", \"operator\", \"games\", \"ftp\", \"nobody\", \"avahi-autoipd\", \"systemd-bus-proxy\", \"systemd-network\", \"dbus\", \"polkitd\", \"rpc\", \"tss\", \"rpcuser\", \"nfsnobody\", \"postfix\", \"sshd\", \"vagrant\", \"avahi\", \"ntp\"] length should not eq 0\u001b[0m\r\n"
+    ],
+    [
+      0.000053,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.18_Check_for_Duplicate_Group_Names: [\"root\", \"bin\", \"daemon\", \"sys\", \"adm\", \"tty\", \"disk\", \"lp\", \"mem\", \"kmem\", \"wheel\", \"cdrom\", \"mail\", \"man\", \"dialout\", \"floppy\", \"games\", \"tape\", \"video\", \"ftp\", \"lock\", \"audio\", \"nobody\", \"users\", \"utmp\", \"utempter\", \"ssh_keys\", \"avahi-autoipd\", \"input\", \"systemd-journal\", \"systemd-bus-proxy\", \"systemd-network\", \"dbus\", \"polkitd\", \"rpc\", \"dip\", \"tss\", \"rpcuser\", \"nfsnobody\", \"postdrop\", \"postfix\", \"sshd\", \"screen\", \"v"
+    ],
+    [
+      0.000002,
+      "agrant\", \"avahi\", \"ntp\"] length should not eq 0\u001b[0m"
+    ],
+    [
+      0.000002,
+      "\r\n"
+    ],
+    [
+      0.000035,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.19_Check_for_Presence_of_User_.netrc_Files: File /home/vagrant/.netrc should not exist\u001b[0m\r\n"
+    ],
+    [
+      0.001041,
+      "\u001b[32m  ✔  xccdf_org.cisecurity.benchmarks_rule_9.2.20_Check_for_Presence_of_User_.forward_Files: File /home/vagrant/.forward should not exist\u001b[0m\r\n"
+    ],
+    [
+      0.000003,
+      "\r\n\r\n"
+    ],
+    [
+      0.000005,
+      "Profile: CIS CentOS Linux 7 Benchmark Level 1 (cis-centos7-level1)\r\n"
+    ],
+    [
+      0.000002,
+      "Version: 1.1.0"
+    ],
+    [
+      0.000002,
+      "\r\n"
+    ],
+    [
+      0.000024,
+      "Target:  ssh://vagrant@127.0.0.1:2201\r\n\r\n"
+    ],
+    [
+      0.000011,
+      "     No tests executed.\u001b[0m\r\n"
+    ],
+    [
+      0.000003,
+      "\r\n"
+    ],
+    [
+      0.000008,
+      "Summary: 581 successful   40 failures    0 skipped\r\n"
+    ],
+    [
+      0.001113,
+      "\u001b[31m\u003e\u003e\u003e\u003e\u003e\u003e ------Exception-------\u001b[0m\r\n"
+    ],
+    [
+      0.000003,
+      "\u001b[31m\u003e\u003e\u003e\u003e\u003e\u003e Class: Kitchen::ActionFailed\u001b[0m\r\n"
+    ],
+    [
+      0.000002,
+      "\u001b[31m\u003e\u003e\u003e\u003e\u003e\u003e Message: 1 actions failed.\r\n\u003e\u003e\u003e\u003e\u003e\u003e     Verify failed on instance \u003cdefault-centos-7\u003e.  Please see .kitchen/logs/default-centos-7.log for more details\u001b[0m"
+    ],
+    [
+      0.000002,
+      "\r\n"
+    ],
+    [
+      0.000012,
+      "\u001b[31m\u003e\u003e\u003e\u003e\u003e\u003e ----------------------\u001b[0m\r\n"
+    ],
+    [
+      0.000020,
+      "\u001b[31m\u003e\u003e\u003e\u003e\u003e\u003e Please see .kitchen/logs/kitchen.log for more details\u001b[0m\r\n"
+    ],
+    [
+      0.000003,
+      "\u001b[31m\u003e\u003e\u003e\u003e\u003e\u003e Also try running `kitchen diagnose --all` for configuration\r\n\u001b[0m\r\n"
+    ],
+    [
+      0.126147,
+      "\u001b[1m\u001b[7m%\u001b[27m\u001b[1m\u001b[0m                                                                                      \r \r"
+    ],
+    [
+      0.000144,
+      "\u001b]2;chartmann@remchartmann01\u0007"
+    ],
+    [
+      0.000005,
+      "\u001b]1;..-test-kitchen\u0007"
+    ],
+    [
+      0.002316,
+      "\u001b]7;file://remchartmann01/Users/chartmann/Development/ChefConf/demos/02-test-kitchen\u0007"
+    ],
+    [
+      0.012399,
+      "\r\u001b[0m\u001b[27m\u001b[24m\u001b[J\u001b[01;31m➜  \u001b[36m02-test-kitchen\u001b[00m \u001b[K"
+    ],
+    [
+      0.000164,
+      "\u001b[?1h\u001b="
+    ],
+    [
+      1.152032,
+      "\r\r\n"
+    ]
+  ]
+}
