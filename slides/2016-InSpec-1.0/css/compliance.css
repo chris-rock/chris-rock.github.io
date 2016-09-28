@@ -1,0 +1,145 @@
+@font-face {
+  font-family: "Montserrat";
+  font-weight: 800;
+  src: url("../assets/fonts/montserrat/Montserrat-Black.otf");
+}
+
+@font-face {
+  font-family: "Montserrat";
+  font-weight: 700;
+  src: url("../assets/fonts/montserrat/Montserrat-ExtraBold.otf");
+}
+
+@font-face {
+  font-family: "Montserrat";
+  font-weight: 600;
+  src: url("../assets/fonts/montserrat/Montserrat-Bold.otf");
+}
+
+@font-face {
+  font-family: "Montserrat";
+  font-weight: 500;
+  src: url("../assets/fonts/montserrat/Montserrat-SemiBold.otf");
+}
+
+@font-face {
+  font-family: "Montserrat";
+  font-weight: 400;
+  src: url("../assets/fonts/montserrat/Montserrat-Regular.otf");
+}
+
+@font-face {
+  font-family: "Montserrat";
+  font-weight: 300;
+  src: url("../assets/fonts/montserrat/Montserrat-Light.otf");
+}
+
+@font-face {
+  font-family: "Montserrat";
+  font-weight: 200;
+  src: url("../assets/fonts/montserrat/Montserrat-UltraLight.otf");
+}
+
+@font-face {
+  font-family: "Montserrat";
+  font-weight: 100;
+  src: url("../assets/fonts/montserrat/Montserrat-Hairline.otf");
+}
+
+.reveal {
+  font-family: "Montserrat";
+  font-weight: 300;
+  font-size: 38px;
+}
+
+.title h1 {
+  font-family: 'Montserrat';
+  font-size: 1.6em;
+  padding-top: 300px;
+  text-align: left;
+}
+
+.title h2 {
+  font-family: 'Montserrat';
+  font-size: 1em;
+  text-align: left;
+  font-weight: 300;
+}
+
+.reveal .vertical-list {
+	list-style: none;
+  margin: 0;
+}
+.vertical-list li {
+	list-style: none;
+  line-height: 40px;
+  font-size: 25px;
+}
+.horizontal-list {
+	list-style: none;
+}
+.horizontal-list li {
+	list-style: none;
+	display: inline-block;
+	padding: 1rem;
+}
+
+.reveal pre {
+	box-shadow: none;
+}
+
+.reveal pre code {
+  padding: 0 1.7rem;
+}
+
+.reveal pre code {
+	overflow-x: hidden;
+}
+
+.reveal .longtext {
+  font-size: 22px;
+  line-height: 32px;
+  text-align: left;
+}
+
+.checklist ul li {
+  border-top: 1px solid white;
+  border-top-color: #7d868c;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.checklist ul li:last-child {
+  border-bottom: 1px solid white;
+  border-bottom-color: #7d868c;
+}
+
+.checklist .task {
+  padding-right: 20px;
+}
+
+.checklist .task.done{
+  color: #5ab7b2;
+}
+
+.reveal .cis-logos td {
+  text-align: center;
+  border: none;
+  padding-bottom: 40px;
+}
+
+.reveal .cis-logos img {
+  display:block;
+  background:none;
+  margin:auto;
+  height:80px;
+  padding-bottom: 20px;
+}
+
+.reveal .footnote {
+  font-size: 18px;
+}
+
+.asciinema-player-wrapper:-webkit-full-screen {
+  background-color: #fdf6e3;
+}

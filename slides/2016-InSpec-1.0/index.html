@@ -1,0 +1,584 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>InSpec 1.0</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/white-chef.css">
+		<link rel="stylesheet" href="assets/fonts/fontello/css/fontello.css">
+		<link rel="stylesheet" href="assets/fonts/source-code-pro/source-code-pro.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<link rel="stylesheet" href="bower_components/highlightjs/styles/github-solarized-dark.css" id="theme">
+		<script src="bower_components/highlightjs/highlight.pack.min.js" charset="utf-8"></script>
+
+		<link rel="stylesheet" type="text/css" href="css/asciinema-player.css" />
+		<script src="js/asciinema-player.js"></script>
+
+		<link rel="stylesheet" href="css/compliance.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section class="title has-dark-background" data-background-image="./assets/images/test.gif" data-background-size="100%" data-background-color="#222" style="color:#FFFFFF;">
+					<h1 style="text-transform: uppercase; text-align: center;"><img class="plain" style="width: 400px;background:none;300px" data-src="./assets/images/InSpec_White.png"></h1>
+					<hr>
+					<h2 style="text-shadow: 2px 2px black;">InSpec 1.0: The Quest to Make Testing and Security part of DevOp</h2>
+				</section>
+
+				<section>
+					<h3 style="text-transform: lowercase;">$> whoami</h3>
+					<div class="col50">
+						<p>Christoph Hartmann</p>
+						<p style="font-size: smaller">Engineering Lead at Chef</p>
+						<ul class="vertical-list" style="font-size: 1.0vw; text-align:center">
+							<li><a href="https://twitter.com/chri_hartmann"><i class="icon-twitter"></i>@chri_hartmann</a></li>
+							<li><a href="https://github.com/chris-rock"><i class="icon-github-circled"></i>chris-rock</a></li>
+							<li><a href="mailto:chartmann@chef.io"><i class="icon-mail-alt"></i>chartmann@chef.io</a></li>
+						</ul>
+					</div>
+				</section>
+
+				<section class="checklist">
+					<img class="plain" style="width: 400px; display: block; margin: auto; padding-bottom:50px" src="./assets/images/InSpec_Regular.png">
+					<p>InSpec turns infrastructure testing, compliance and security requirements into code</p>
+				</section>
+
+				<section>
+					<img class="plain" style="display: block; margin: auto;" src="./assets/images/history.png">
+					<ul class="vertical-list" style="font-size: 1.0vw; text-align:center">
+						<li>86 Releases (5 per month)</li>
+						<li>59 Contributors</li>
+						<li>2.900 Commits</li>
+						<li>Inventors: Dominik Richter, Christoph Hartmann</li
+					</ul>
+				</section>
+
+				<section>
+					<p>InSpec Contributors:</p>
+					<table style="width:80%">
+						<tbody>
+							<tr>
+								<td style="width:25%;vertical-align: middle;"><img class="plain" style="display:block;background:none;margin:auto;height:120px;" src="./assets/images/hpe.png"></td>
+								<td style="width:25%;vertical-align: middle;"><img class="plain" style="display:block;background:none;margin:auto;height:120px;" src="./assets/images/ibm.png"></td>
+							</tr>
+						</tbody>
+					</table>
+				</section>
+
+				<section class="checklist">
+					<h2>Why should I care?</h2>
+				</section>
+
+				<section data-background-image="./assets/images/beetle-california.jpg">
+					<h2 style="color:#3dc7f7; text-align:center">My infrastructure works already</h2>
+				</section>
+
+				<section data-background-image="./assets/images/beetle-jet.jpg">
+					<h2 style="color:#3dc7f7; text-align:center">And I deployed a booster already!</h2>
+				</section>
+
+				<section>
+					<h2>Are you sure?</h2>
+					<ul class="vertical-list" style="font-size: 1.0vw; text-align:center">
+						<li>code - deploy cycle should be short</li>
+						<li>safety needs to be ensured</li>
+						<li>ensure (corporate) guidelines are fullfilled</li>
+					</ul>
+				</section>
+
+				<section data-background-image="./assets/images/porsche-future.jpg">
+				</section>
+
+				<section class="checklist">
+					<img class="plain" style="width: 400px; display: block; margin: auto; padding-bottom:50px" src="./assets/images/InSpec_Regular.png">
+					<p>InSpec turns infrastructure testing, compliance and security requirements into code</p>
+				</section>
+
+				<section data-transition="fade-out">
+					<h3>InSpec HowTo</h3>
+					<pre><code class="hljs bash">
+$ inspec
+Commands:
+  inspec archive PATH                # archive a profile to tar.gz (default) or zip
+  inspec check PATH                  # verify all tests at the specified PATH
+  inspec compliance SUBCOMMAND ...   # Chef Compliance commands
+  inspec detect                      # detect the target OS
+  inspec exec PATHS                  # run all test files at the specified PATH.
+  inspec help [COMMAND]              # Describe available commands or one specific c...
+  inspec init TEMPLATE ...           # Scaffolds a new project
+  inspec json PATH                   # read all tests in PATH and generate a JSON su...
+  inspec shell                       # open an interactive debugging shell
+  inspec supermarket SUBCOMMAND ...  # Supermarket commands
+  inspec version                     # prints the version of this tool
+
+Options:
+  [--diagnose], [--no-diagnose]  # Show diagnostics (versions, configurations)
+					</code></pre>
+				</section>
+
+				<section data-transition="fade">
+					<h3>Test your local node</h3>
+					<pre>
+						<code class="hljs ruby">
+describe sshd_config do
+	its('Protocol') { should cmp 2 }
+end
+						</code>
+					</pre>
+					<pre><code class="hljs bash">
+inspec exec test.rb
+					</code></pre>
+					<p class=small>&nbsp;</p>
+				</section>
+
+				<section style="text-align: left;">
+					<table style="font-size: 25px;">
+							<thead>
+								<tr>
+									<th style="width:25%"></th>
+									<th style="width:37.5%">chef-client</th>
+									<th style="width:37.5%">inspec</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Project</td>
+									<td>github.com/chef/chef</td>
+									<td>github.com/chef/inspec</td>
+								</tr>
+								<tr>
+									<td>First Commit</td>
+									<td>March 2008</td>
+									<td>April 2015</td>
+								</tr>
+								<tr>
+									<td>Language</td>
+									<td>Ruby DSL</td>
+									<td>Ruby DSL</td>
+								</tr>
+								<tr>
+									<td>Code</td>
+									<td>
+<pre style="margin: 0; padding: 0;"><code style="padding-top: 10px;padding-bottom: 30px;padding-left: 12px;font-size: 18px;height:80px;">
+service 'iptables' do
+  action [ :enable, :start ]
+end
+</code></pre>
+									</td>
+									<td>
+<pre style="margin: 0; padding: 0;"><code style="padding-top: 10px;padding-bottom: 30px;padding-left: 12px;font-size: 18px;height:80px;">
+describe service('iptables') do
+  it { should be_enabled }
+  it { should be_running }
+end
+</code></pre>
+									</td>
+								</tr>
+								<tr>
+									<td>Execution</td>
+									<td>Local</td>
+									<td>Local / Remote (SSH, WinRM, Docker)</td>
+								</tr>
+								<tr>
+									<td>Artifacts</td>
+									<td>Recipes, Resources, Cookbooks</td>
+									<td>Controls, Resources, Profiles</td>
+								</tr>
+								<tr>
+									<td>Share</td>
+									<td>Chef Supermarket, Github, Bitbucket, etc</td>
+									<td>Chef Supermarket, Github, Bitbucket, etc</td>
+								</tr>
+							</tbody>
+						</table>
+				</section>
+
+				<section>
+					<h3>Compliance language</h3>
+					<pre>
+						<code class="hljs ruby">
+control 'ssh-1234' do
+  impact 1.0
+  title 'Server: Set protocol version to SSHv2'
+  desc "
+    Set the SSH protocol version to 2. Don't use legacy
+    insecure SSHv1 connections anymore...
+  "
+
+  describe sshd_config do
+    its('Protocol') { should cmp 2 }
+  end
+end
+						</code>
+					</pre>
+				</section>
+
+				<section data-transition="fade">
+					<h3>Test remote via SSH</h3>
+					<pre><code class="hljs bash">
+inspec exec test.rb -i vagrant.key -t ssh://root@172.17.0.1:11022
+					</code></pre>
+					<p class=small>no Ruby / agent on the node</p>
+				</section>
+
+				<section data-transition="fade">
+					<h3>Test remote via WinRM</h3>
+					<pre><code class="hljs bash">
+inspec exec test.rb -t winrm://Admin@192.168.1.2 --password super
+					</code></pre>
+					<p class=small>no Ruby / agent on the node</p>
+				</section>
+
+				<section>
+					<img class="plain" style="display:block;background:none;margin:auto;height:100px;padding-bottom:50px" src="./assets/images/windows-logo.png">
+					<h3>Windows 2016 / Nano Support</h3>
+				</section>
+
+				<section data-transition="fade-in">
+					<h3>Test Docker Container</h3>
+					<pre><code class="hljs bash">
+inspec exec test.rb -t docker://3cc8837bb6a8
+					</code></pre>
+					<p class=small>no SSH / agent on the container</p>
+				</section>
+
+				<section>
+					<h3>Profile foundation</h3>
+					<img style="border:none;box-shadow:none;" src="./assets/images/inheritance1.png" alt="Base profile for inheritance" />
+				</section>
+
+				<section>
+					<h3>Make adjustments</h3>
+					<img style="border:none;box-shadow:none;" src="./assets/images/inheritance2.png" alt="Base profile inheritance" />
+				</section>
+
+				<section>
+					<h4>Native InSpec</h4>
+					<pre style="margin: 0 auto;">
+						<code class="hljs ruby">
+include_control "cis/cis-centos6-lvl1" do
+  skip_control "xccdf_org.cisecurity.benchmarks_rule_1.5.1_Set_UserGroup_Owner_on_etcgrub.conf"
+  skip_control "xccdf_org.cisecurity.benchmarks_rule_1.5.2_Set_Permissions_on_etcgrub.conf"
+
+  control "xccdf_org.cisecurity.benchmarks_rule_3.9_Remove_DNS_Server" do
+    impact 1.0
+  end
+end
+
+control "my-own-1" ...
+						</code>
+					</pre>
+				</section>
+
+				<section>
+					<h3>Spread to other environments</h3>
+					<img style="border:none;box-shadow:none;" src="./assets/images/inheritance3.png" alt="More inheritance" />
+				</section>
+
+
+				<section>
+					<h3>Custom Resources</h3>
+					<pre><code class="hljs bash" style="font-size: 18px;line-height: 20px;">
+control 'tls1.2' do
+  title 'Run TLS 1.2 whenever SSL is active on a port'
+  impact 0.5
+  port.protocols(/tcp/).entries.each do |socket|
+    describe ssl(port: socket.port).protocols('tls1.2') do
+      it { should be_enabled }
+    end
+  end
+end
+
+control 'ssl2' do
+  title 'Disable SSL2 from all exposed SSL ports.'
+  impact 1.0
+  port.protocols(/tcp/).entries.each do |socket|
+    describe ssl(port: socket).protocols('ssl2') do
+      it { should_not be_enabled }
+    end
+  end
+end
+					</code></pre>
+				</section>
+
+				<section>
+					<h3>Custom Resources</h3>
+					<pre><code class="hljs bash" style="font-size: 18px;line-height: 20px;">
+class SSL < Inspec.resource(1)
+  name 'ssl'
+
+  desc "
+    SSL test resource
+  "
+
+  def initialize(opts = {})
+    @host = opts[:host]
+    @port = opts[:port]
+    ...
+  end
+
+  def enabled?
+    res = SSLShake.hello(@host, protocol: 'tcp', port: @port)
+    res['success']
+  end
+end
+					</code></pre>
+				</section>
+
+				<section data-transition="fade-out">
+					<h3>InSpec Profiles</h3>
+					<pre><code class="hljs bash" style="font-size: 18px;line-height: 20px;">
+$ inspec init profile my-newprofile
+Create new profile at /Users/chris/my-newprofile
+ * Create directory controls
+ * Create file controls/example.rb
+ * Create file inspec.yml
+ * Create directory libraries
+ * Create file README.md
+ * Create file libraries/.gitkeep
+
+$ inspec exec my-newprofile
+
+Profile: InSpec Profile (my-newprofile)
+Version: 0.1.0
+Target:  local://
+
+	✔  File /tmp should be directory
+	✔  tmp-1.0: Create /tmp directory
+
+Summary: 2 successful, 0 failures, 0 skipped
+					</code></pre>
+
+					<span class="footnote">
+						<img src="http://www.anniehedgie.com/assets/images/author.jpg"
+							style="height: 50px;border-radius: 100%;display: inline;margin-right: 10px;vertical-align: middle;border: 3px solid #222;"
+						>
+						<a href="http://www.anniehedgie.com/inspec-basics-5">
+							Annie Hedgpeth: InSpec Tutorial: Day 5 - Creating a Profile
+						</a>
+					</span>
+
+				</section>
+
+				<section>
+					<p>Works with all DevOps tools e.g.</p>
+					<table style="width:80%">
+						<tbody>
+							<tr>
+								<td style="width:25%;vertical-align: middle;"><img class="plain" style="display:block;background:none;margin:auto;height:120px;" src="./assets/images/chef.logo.png"></td>
+								<td style="width:25%;vertical-align: middle;"><img class="plain" style="display:block;background:none;margin:auto;height:120px;" src="./assets/images/puppet.logo.small.png"></td>
+								<td style="width:25%;vertical-align: middle;"><img class="plain" style="display:block;background:none;margin:auto;height:120px;" src="./assets/images/ansible_logo_round.png"></td>
+								<td style="width:25%;vertical-align: middle;"><img class="plain" style="display:block;background:none;margin:auto;height:120px;" src="./assets/images/saltstack-logo.png"></td>
+							</tr>
+						</tbody>
+					</table>
+				</section>
+
+				<section class="checklist" data-background-color="#222" style="color:#FFFFFF">
+					<h2>Facts</h2>
+					<ul class="vertical-list">
+						<li><span class="task done">&#x2714;</span>Translate compliance into code.</li>
+						<li><span class="task done">&#x2714;</span>Clearly express statements of policy.</li>
+						<li><span class="task done">&#x2714;</span>Inspect machines, data, and APIs.</li>
+						<li><span class="task done">&#x2714;</span>Run code anywhere.</li>
+						<li><span class="task done">&#x2714;</span>Find issues early.</li>
+						<li><span class="task done">&#x2714;</span>Write code quickly.</li>
+					</ul>
+				</section>
+
+				<section>
+					<h1>Demo Time</h2>
+				</section>
+
+				<section class="title has-dark-background" data-background-size="100%" data-background-color="#222" style="color:#FFFFFF;">
+					<h1 style="text-transform: uppercase;">Scale</h1>
+					<hr>
+					<h2 style="text-shadow: 2px 2px black;">Roll-out saftey at scale</h2>
+				</section>
+
+				<section>
+					<h2>Compliance as Code.</h2>
+					<img class="plain" src="./assets/images/same.stack+workflow.png" alt="Same stack and workflow" />
+
+					<aside class="notes">
+						<ul>
+						 <li>Allows collaboration between departments</li>
+						 <li>Paves the way for implementation</li>
+						 <li>Can be used in existing CI/CD pipelines</li>
+						 <li>Out-of-the-box profiles are available</li>
+						 <li>Powerful framework to cover custom needs</li>
+					 </ul>
+					</aside>
+				</section>
+
+				<section style="text-align: left;">
+					<img class="plain" style="display: block; margin: auto; height: 600px;" src="./assets/images/it-infrastructure.png">
+				</section>
+
+				<section style="text-align: left;">
+					<img class="plain" style="display: block; margin: auto;height:80px;padding-bottom: 40px;" src="./assets/images/same.flow.png">
+					<table>
+							<thead>
+								<tr>
+									<th style="width:33%">Development</th>
+									<th style="width:33%">Staging</th>
+									<th style="width:33%">Production</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Chef</td>
+									<td>Chef</td>
+									<td>Chef</td>
+								</tr>
+								<tr>
+									<td>Test Kitchen</td>
+									<td>CI/CD</td>
+									<td>Chef Server</td>
+								</tr>
+								<tr>
+									<td>Serverspec</td>
+									<td>ChefSpec<br/>Rubocop</td>
+									<td>Security Tool</td>
+								</tr>
+							</tbody>
+						</table>
+				</section>
+
+				<section>
+					<img class="plain" style="display:block;width: 300px;background:none;margin:auto" src="./assets/images/CISLogoWeb.png">
+					<div class="longtext" style="text-align:center">
+						<p>Chef Compliance ships with profiles for:</p>
+
+						<table class="cis-logos">
+							<tbody>
+								<tr>
+									<td style="width: 25%;">
+										<img class="plain" src="./assets/images/aws-logo.png">
+										Amazon Linux<br/>2014.09 / 2015.03
+									</td>
+									<td style="width: 25%;">
+										<img class="plain" src="./assets/images/centos-logo.png">
+										CentOS<br/>6 / 7
+									</td>
+									<td style="width: 25%;">
+										<img class="plain" src="./assets/images/hpe-logo.png">
+										HP UX<br/>11i
+									</td>
+									<td style="width: 25%;">
+										<img class="plain" src="./assets/images/ibm-aix-logo.jpg">
+										IBM AIX<br/>5.3 / 6.1 / 7.1
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<img class="plain" src="./assets/images/redhat-logo.png">
+										RHEL<br/>6 / 7
+									</td>
+									<td>
+										<img class="plain" src="./assets/images/suse-logo.png">
+										SLES<br/>11 / 12
+									</td>
+									<td>
+										<img class="plain" src="./assets/images/ubuntu-logo.svg">
+										Ubuntu Server<br/>12.04 / 14.04
+									</td>
+									<td>
+										<img class="plain" style="display:block;background:none;margin:auto;height:80px;" src="./assets/images/windows-logo.png">
+										Windows<br/>2012 R2
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</section>
+
+				<section style="text-align: left;">
+					<img class="plain" style="display: block; margin: auto; height: 600px;" src="./assets/images/visibility.png">
+				</section>
+
+				<section>
+					<h2>One workflow cycle</h2>
+					<img class="plain" src="./assets/images/compliance.workflow.png" alt="Compliance Workflow"/>
+				</section>
+
+				<section style="text-align: left;">
+					<img class="plain" style="display: block; margin: auto; height: 600px;" src="./assets/images/it-infrastructure-devsec.png">
+				</section>
+
+				<section id="continuouscompliance" data-background-color="#222" style="color:#FFFFFF">
+					<span>continuous</span><br/>
+					<span style="font-size: 300px;line-height: 130px;color:#6bb2e2;">&infin;</span><br/>
+					<span class="typed-element"></span>
+				</section>
+
+				<section class="thankyou">
+					<h2>Thank you</h2>
+					<div style="width: 100%;">
+						<div style="width: 47%; display: inline-block;">
+							<ul class="vertical-list" style="font-size: 1.0vw; display: block; text-align: center;position: relative;top: -6px;">
+								<li><a href="https://twitter.com/chri_hartmann"><i class="icon-twitter"></i>@chri_hartmann</a></li>
+								<li><a href="https://github.com/chris-rock"><i class="icon-github-circled"></i>chris-rock</a></li>
+								<li><a href="mailto:chartmann@chef.io"><i class="icon-mail-alt"></i>chartmann@chef.io</a></li>
+							</ul>
+						</div>
+						<div style="width: 47%; display: inline-block;">
+							<img class="plain" src="./assets/images/inspec-logo.png" style="height: 70px;">
+							<ul class="vertical-list" style="font-size: 1.0vw; display: block; text-align: center">
+								<li><a href="http://inspec.io" target="_blank">inspec.io</a></li>
+								<li><a href="https://github.com/chef/inspec" target="_blank">github.com/chef/inspec</a></li>
+							</ul>
+						</div>
+					</div>
+				</section>
+		</div>
+
+		<script src="bower_components/jquery/dist/jquery.min.js"></script>
+		<script src="bower_components/typed.js/dist/typed.min.js"></script>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+
+		<script>
+			Reveal.addEventListener( 'slidechanged', function( event ) {
+				// event.previousSlide, event.currentSlide, event.indexh, event.indexv
+				if (event.currentSlide.id == 'continuouscompliance') {
+					$(".typed-element").typed({
+							strings: ["",  "testing", "compliance"],
+							typeSpeed: 100
+					});
+				}
+			} );
+		</script>
+	</body>
+</html>
