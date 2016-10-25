@@ -54,20 +54,20 @@ $ bunzip2 coreos_production_openstack_image.img.bz2
 +------------------+--------------------------------------+
 | checksum         | ed8eef431a77f11c3bea501574c590fe     |
 | container_format | bare                                 |
-| created_at       | <span class="number">2015</span>-<span class="number">04</span>-<span class="number">22</span>T13:<span class="number">24</span>:<span class="number">42</span>                  |
+| created_at       | 2015-04-22T13:24:42                  |
 | deleted          | False                                |
 | deleted_at       | None                                 |
 | disk_format      | qcow2                                |
-| id               | <span class="number">5</span>f6add97-<span class="number">7</span>f21-<span class="number">407</span>b-<span class="number">8</span>f17-c887603efacb |
+| id               | 5f6add97-7f21-407b-8f17-c887603efacb |
 | is_public        | True                                 |
-| min_disk         | <span class="number">0</span>                                    |
-| min_ram          | <span class="number">0</span>                                    |
+| min_disk         | 0                                    |
+| min_ram          | 0                                    |
 | name             | CoreOS                               |
 | owner            | eef34004eb0f4f5ca722a29efd292d70     |
 | protected        | False                                |
-| size             | <span class="number">420413440</span>                            |
+| size             | 420413440                            |
 | status           | active                               |
-| updated_at       | <span class="number">2015</span>-<span class="number">04</span>-<span class="number">22</span>T13:<span class="number">31</span>:<span class="number">49</span>                  |
+| updated_at       | 2015-04-22T13:31:49                  |
 | virtual_size     | None                                 |
 +------------------+--------------------------------------+
 </code></pre>
@@ -85,24 +85,24 @@ $ bunzip2 coreos_production_openstack_image.img.bz2
 https://discovery.etcd.io/24a9bafd557e8c45f89f547de6564ae5
 </code></pre><h2 id="create-a-cloud-config-file">Create a cloud config&nbsp;file</h2>
 <p>Create a local <code>cloud-config.yaml</code> and replace the <code>https://discovery.etcd.io/&lt;token&gt;</code> with your discovery url like ‘<a href="https://discovery.etcd.io/24a9bafd557e8c45f89f547de6564ae5">https://discovery.etcd.io/24a9bafd557e8c45f89f547de6564ae5</a>‘</p>
-<pre><code class="lang-yaml">#cloud-config
+<pre><code class="lang-yaml"><span class="comment">#cloud-config</span>
 
-coreos:
-  etcd:
-    # generate a new token for each unique cluster from https://discovery.etcd.io/new?size=3
-    # specify the intial size of your cluster with ?size=X
-    discovery: https://discovery.etcd.io/&lt;token&gt;
+<span class="attr">coreos:</span>
+<span class="attr">  etcd:</span>
+    <span class="comment"># generate a new token for each unique cluster from https://discovery.etcd.io/new?size=3</span>
+    <span class="comment"># specify the intial size of your cluster with ?size=X</span>
+<span class="attr">    discovery:</span> https://discovery.etcd.io/&lt;token<span class="string">&gt;
     # multi-region and multi-cloud deployments need to use $public_ipv4
-    addr: $private_ipv4:4001
-    peer-addr: $private_ipv4:7001
-  units:
-    - name: etcd.service
-      command: start
-    - name: fleet.service
-      command: start
-ssh_authorized_keys:
-  # include one or more SSH public keys
-  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0g+ZTxC7weoIJLUafOgrm+h...
+</span><span class="attr">    addr:</span> $private_ipv4:<span class="number">4001</span>
+<span class="attr">    peer-addr:</span> $private_ipv4:<span class="number">7001</span>
+<span class="attr">  units:</span>
+<span class="attr">    - name:</span> etcd.service
+<span class="attr">      command:</span> start
+<span class="attr">    - name:</span> fleet.service
+<span class="attr">      command:</span> start
+<span class="attr">ssh_authorized_keys:</span>
+  <span class="comment"># include one or more <span class="caps">SSH</span> public keys</span>
+<span class="bullet">  -</span> ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0g+ZTxC7weoIJLUafOgrm+h...
 </code></pre>
 <p>More detailed configuration options are available at <a href="https://coreos.com/docs/cluster-management/setup/cloudinit-cloud-config/">CoreOS&nbsp;Docs</a></p>
 <h2 id="create-a-new-coreos-cluster">Create a new CoreOS&nbsp;cluster</h2>
@@ -154,7 +154,7 @@ c65cf227... 192.168.0.13    -
         <section class="about">
         </section>
         <section class="copy">
-          <p>&copy; 2015 Christoph Hartmann &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
+          <p>&copy; 2016 Christoph Hartmann &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
           </p>
         </section>
       </div>

@@ -41,9 +41,9 @@
 <p>Before I walk you through the details of Chef on <span class="caps">AIX</span>, I would like to thank <a href="https://twitter.com/julian_dunn">Julian from Chef Inc.</a> for his exceptional support over the last months. Additionally, I like to thank <span class="caps">IBM</span> for providing the amazing <a href="http://www.ibm.com/partnerworld/pdp"><span class="caps">IBM</span> Power Development Cloud</a>.</p>
 <h2 id="getting-started-with-chef-on-aix">Getting started with Chef on&nbsp;<span class="caps">AIX</span></h2>
 <p>The following tests are executed on vanilla <span class="caps">AIX</span> 7.1. I installed some GNU tools like vim, zsh and wget to get a nice console feeling. Finally, I was ready to download and install Chef 12. The AIX version of Chef is supported for AIX 6.1 and AIX 7.1 and you can read more about the announcement at <a href="http://lists.opscode.com/sympa/arc/chef/2014-11/msg00038.html">Chef Lists</a>.</p>
-<pre><code class="lang-bash">l5a1vp051_pub &gt; wget -r -nd http://opscode-omnibus-packages.s3.amazonaws.com/aix/<span class="number">6.1</span>/powerpc/chef-<span class="number">12.0</span>.<span class="number">0</span>-rc.<span class="number">0</span>-<span class="number">1</span>.powerpc.bff
---<span class="number">10</span>:<span class="number">18</span>:<span class="number">05</span>--  http://opscode-omnibus-packages.s3.amazonaws.com/aix/<span class="number">6.1</span>/powerpc/chef-<span class="number">12.0</span>.<span class="number">0</span>-rc.<span class="number">0</span>-<span class="number">1</span>.powerpc.bff
-           =&gt; `chef-<span class="number">12.0</span>.<span class="number">0</span>-rc.<span class="number">0</span>-<span class="number">1</span>.powerpc.bff<span class="string">'
+<pre><code class="lang-bash">l5a1vp051_pub &gt; wget -r -nd http://opscode-omnibus-packages.s3.amazonaws.com/aix/6.1/powerpc/chef-12.0.0-rc.0-1.powerpc.bff
+--10:18:05--  http://opscode-omnibus-packages.s3.amazonaws.com/aix/6.1/powerpc/chef-12.0.0-rc.0-1.powerpc.bff
+           =&gt; `chef-12.0.0-rc.0-1.powerpc.bff<span class="string">'
 Resolving opscode-omnibus-packages.s3.amazonaws.com... 54.231.64.169
 Connecting to opscode-omnibus-packages.s3.amazonaws.com[54.231.64.169]:80... connected.
 <span class="caps">HTTP</span> request sent, awaiting response... 200 OK
@@ -51,23 +51,23 @@ Length: 86,565,376 [binary/octet-stream]
 
 100%[=========================================================================================&gt;] 86,565,376    23.55M/s    ETA 00:00
 
-10:18:09 (22.67 MB/s) - `chef-12.0.0-rc.0-1.powerpc.bff'</span> saved [<span class="number">86565376</span>/<span class="number">86565376</span>]
+10:18:09 (22.67 MB/s) - `chef-12.0.0-rc.0-1.powerpc.bff'</span> saved [86565376/86565376]
 
 
-<span class="caps">FINISHED</span> --<span class="number">10</span>:<span class="number">18</span>:<span class="number">09</span>--
-Downloaded: <span class="number">86</span>,<span class="number">565</span>,<span class="number">376</span> bytes <span class="keyword">in</span> <span class="number">1</span> files
+<span class="caps">FINISHED</span> --10:18:09--
+Downloaded: 86,565,376 bytes <span class="keyword">in</span> 1 files
 l5a1vp051_pub &gt;
 </code></pre>
 <p>Chef delivers in a <span class="caps">AIX</span> backup file format (similar to unix tar format). To install the content, we need to know the fileset name. We display the content with <code>installp -ld chef-12.0.0-rc.0-1.powerpc.bff</code></p>
-<pre><code class="lang-bash">l5a1vp051_pub &gt; installp -ld chef-<span class="number">12.0</span>.<span class="number">0</span>-rc.<span class="number">0</span>-<span class="number">1</span>.powerpc.bff
+<pre><code class="lang-bash">l5a1vp051_pub &gt; installp -ld chef-12.0.0-rc.0-1.powerpc.bff
   Fileset Name                Level                     I/U Q Content
   ====================================================================
-  chef                        <span class="number">12.0</span>.<span class="number">0.1</span>                   I  N usr,root
+  chef                        12.0.0.1                   I  N usr,root
 <span class="comment">#   The full stack of chef</span>
 l5a1vp051_pub &gt;
 </code></pre>
 <p>Now, we collected all required information to start the installation. We use <code>installp</code> with the preview flag, to verify that everything works as intended: <code>installp -apXY -d chef-12.0.0-rc.0-1.powerpc.bff chef</code>. In case you are not familliar with the flags: <code>a: apply</code>, <code>p: preview</code>, <code>X: extend fs</code> and <code>Y: accepts license agreements</code>.</p>
-<pre><code class="lang-bash">l5a1vp051_pub &gt; installp -apXY <span class="operator">-d</span> chef-<span class="number">12.0</span>.<span class="number">0</span>-rc.<span class="number">0</span>-<span class="number">1</span>.powerpc.bff chef
+<pre><code class="lang-bash">l5a1vp051_pub &gt; installp -apXY <span class="_">-d</span> chef-12.0.0-rc.0-1.powerpc.bff chef
 *******************************************************************************
 installp <span class="caps">PREVIEW</span>:  installation will not actually occur.
 *******************************************************************************
@@ -86,7 +86,7 @@ SUCCESSES
 
   Selected Filesets
   -----------------
-  chef <span class="number">12.0</span>.<span class="number">0.1</span>                               <span class="comment"># The full stack of chef</span>
+  chef 12.0.0.1                               <span class="comment"># The full stack of chef</span>
 
   &lt;&lt; End of Success Section &gt;&gt;
 
@@ -96,23 +96,23 @@ SUCCESSES
 Verifying build dates...done
 FILESET STATISTICS
 ------------------
-    <span class="number">1</span>  Selected to be installed, of which:
-        <span class="number">1</span>  Passed pre-installation verification
+    1  Selected to be installed, of <span class="built_in">which</span>:
+        1  Passed pre-installation verification
   ----
-    <span class="number">1</span>  Total to be installed
+    1  Total to be installed
 
 <span class="caps">RESOURCES</span>
 ---------
   Estimated system resource requirements <span class="keyword">for</span> filesets being installed:
-                (All sizes are <span class="keyword">in</span> <span class="number">512</span>-byte blocks)
+                (All sizes are <span class="keyword">in</span> 512-byte blocks)
       Filesystem                     Needed Space             Free Space
-      /                                   <span class="number">15676</span>                 <span class="number">363384</span>
-      /usr                                <span class="number">37276</span>                 <span class="number">380312</span>
-      /opt                               <span class="number">291496</span>                 <span class="number">132640</span>
+      /                                   15676                 363384
+      /usr                                37276                 380312
+      /opt                               291496                 132640
       -----                            --------                 ------
-      <span class="caps">TOTAL</span>:                             <span class="number">344448</span>                 <span class="number">876336</span>
+      <span class="caps">TOTAL</span>:                             344448                 876336
 
-  <span class="caps">NOTE</span>:  <span class="string">"Needed Space"</span> values are calculated from data available prior
+  NOTE:  <span class="string">"Needed Space"</span> values are calculated from data available prior
   to installation.  These are the estimated resources required <span class="keyword">for</span> the
   entire operation.  Further resource checks will be made during
   installation to verify that these initial estimates are sufficient.
@@ -191,29 +191,29 @@ end
 </code></pre>
 <p>We use chef-zero to run the helloworld&nbsp;cookbook.</p>
 <pre><code class="lang-bash">$ chef-client -z -o helloworld
-[<span class="number">2014</span>-<span class="number">12</span>-<span class="number">03</span>T08:<span class="number">14</span>:<span class="number">41</span>-<span class="number">06</span>:<span class="number">00</span>] <span class="caps">WARN</span>: No config file found or specified on command line, using command line options.
-Starting Chef Client, version <span class="number">12.0</span>.<span class="number">0</span>.rc.<span class="number">0</span>
-[<span class="number">2014</span>-<span class="number">12</span>-<span class="number">03</span>T08:<span class="number">14</span>:<span class="number">46</span>-<span class="number">06</span>:<span class="number">00</span>] <span class="caps">WARN</span>: Run List override has been provided.
-[<span class="number">2014</span>-<span class="number">12</span>-<span class="number">03</span>T08:<span class="number">14</span>:<span class="number">46</span>-<span class="number">06</span>:<span class="number">00</span>] <span class="caps">WARN</span>: Original Run List: []
-[<span class="number">2014</span>-<span class="number">12</span>-<span class="number">03</span>T08:<span class="number">14</span>:<span class="number">46</span>-<span class="number">06</span>:<span class="number">00</span>] <span class="caps">WARN</span>: Overridden Run List: [recipe[helloworld]]
+[2014-12-03T08:14:41-06:00] WARN: No config file found or specified on <span class="built_in">command</span> line, using <span class="built_in">command</span> line options.
+Starting Chef Client, version 12.0.0.rc.0
+[2014-12-03T08:14:46-06:00] <span class="caps">WARN</span>: Run List override has been provided.
+[2014-12-03T08:14:46-06:00] WARN: Original Run List: []
+[2014-12-03T08:14:46-06:00] WARN: Overridden Run List: [recipe[helloworld]]
 resolving cookbooks <span class="keyword">for</span> run list: [<span class="string">"helloworld"</span>]
 Synchronizing Cookbooks:
   - helloworld
 Compiling Cookbooks...
-Converging <span class="number">1</span> resources
+Converging 1 resources
 Recipe: helloworld::default
   * file[/home/u0015844/x.txt] action create
     - create new file /home/u0015844/x.txt
-    - update content <span class="keyword">in</span> file /home/u0015844/x.txt from none to <span class="number">787</span>ec7
-    --- /home/u0015844/x.txt        <span class="number">2014</span>-<span class="number">12</span>-<span class="number">03</span> <span class="number">08</span>:<span class="number">14</span>:<span class="number">46.000000000</span> -<span class="number">0600</span>
-    +++ /home/u0015844/.x.txt20141203-<span class="number">10027096</span>-<span class="number">1</span>qnz8tq      <span class="number">2014</span>-<span class="number">12</span>-<span class="number">03</span> <span class="number">08</span>:<span class="number">14</span>:<span class="number">46.000000000</span> -<span class="number">0600</span>
-    @@ -<span class="number">1</span> +<span class="number">1</span>,<span class="number">2</span> @@
+    - update content <span class="keyword">in</span> file /home/u0015844/x.txt from none to 787ec7
+    --- /home/u0015844/x.txt        2014-12-03 08:14:46.000000000 -0600
+    +++ /home/u0015844/.x.txt20141203-10027096-1qnz8tq      2014-12-03 08:14:46.000000000 -0600
+    @@ -1 +1,2 @@
     +<span class="caps">HELLO</span> WORLD AIX
-[<span class="number">2014</span>-<span class="number">12</span>-<span class="number">03</span>T08:<span class="number">14</span>:<span class="number">46</span>-<span class="number">06</span>:<span class="number">00</span>] <span class="caps">WARN</span>: Skipping final node save because override_runlist was given
+[2014-12-03T08:14:46-06:00] WARN: Skipping final node save because override_runlist was given
 
 Running handlers:
 Running handlers complete
-Chef Client finished, <span class="number">1</span>/<span class="number">1</span> resources updated <span class="keyword">in</span> <span class="number">3.754716</span> seconds
+Chef Client finished, 1/1 resources updated <span class="keyword">in</span> 3.754716 seconds
 l5a1vp051_pub &gt;
 </code></pre>
 <p>
@@ -235,7 +235,7 @@ l5a1vp051_pub &gt;
         <section class="about">
         </section>
         <section class="copy">
-          <p>&copy; 2015 Christoph Hartmann &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
+          <p>&copy; 2016 Christoph Hartmann &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
           </p>
         </section>
       </div>

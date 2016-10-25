@@ -48,7 +48,7 @@
     <span class="keyword">var</span> value = hash.digest(<span class="string">'hex'</span>)
 
     <span class="comment">// print result</span>
-    console.log(value);
+    <span class="built_in">console</span>.log(value);
 </code></pre>
 <p>The great thing about the nodejs implementation of <code>Hash</code> is the possibility to stream data directly into the&nbsp;hash:</p>
 <pre><code class="lang-javascript">    <span class="comment">// generate a hash from file stream</span>
@@ -62,10 +62,10 @@
     hash.setEncoding(<span class="string">'hex'</span>);
 
     <span class="comment">// once the stream is done, we read the values</span>
-    fstream.on(<span class="string">'end'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+    fstream.on(<span class="string">'end'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{
         hash.end();
         <span class="comment">// print result</span>
-        console.log(hash.read());
+        <span class="built_in">console</span>.log(hash.read());
     });
 
     <span class="comment">// pipe file to hash generator</span>
@@ -94,7 +94,7 @@
         <section class="about">
         </section>
         <section class="copy">
-          <p>&copy; 2015 Christoph Hartmann &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
+          <p>&copy; 2016 Christoph Hartmann &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
           </p>
         </section>
       </div>

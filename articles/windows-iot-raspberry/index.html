@@ -42,23 +42,23 @@
 <p>We will use Windows 10 for <span class="caps">SD</span> card preparation. Currently, I found no easy way to build an image (eg. with <code>dd</code>) on Linux or Mac. I recommend to use Windows 10 as a host operating system. I just deployed it on a new machine to play around with Windows 10 and Windows 10&nbsp;IoT.</p>
 <p>Now, insert a blank <span class="caps">8GB</span> Class 10 SD card into your computer and find your SD card with <code>diskpart</code></p>
 <pre><code class="lang-bash">Windows PowerShell
-Copyright (C) <span class="number">2015</span> Microsoft Corporation. All rights reserved.
+Copyright (C) 2015 Microsoft Corporation. All rights reserved.
 
-<span class="caps">PS</span> C:\Windows\system32&gt; diskpart
+PS C:\Windows\system32&gt; diskpart
 
-Microsoft DiskPart version <span class="number">10.0</span>.<span class="number">10074</span>
+Microsoft DiskPart version 10.0.10074
 
-Copyright (C) <span class="number">1999</span>-<span class="number">2013</span> Microsoft Corporation.
-On computer: <span class="caps">WIN</span>-<span class="number">7</span><span class="caps">ECOKTDG4QV</span>
+Copyright (C) 1999-2013 Microsoft Corporation.
+On computer: WIN-7ECOKTDG4QV
 
 DISKPART&gt; list disk
 
   Disk <span class="comment">###  Status         Size     Free     Dyn  Gpt</span>
   --------  -------------  -------  -------  ---  ---
-  Disk <span class="number">0</span>    Online          <span class="number">232</span> <span class="caps">GB</span>      <span class="number">0</span> B
-  Disk <span class="number">1</span>    Online           <span class="number">59</span> <span class="caps">GB</span>      <span class="number">0</span> B        *
+  Disk 0    Online          232 <span class="caps">GB</span>      0 B
+  Disk 1    Online           59 GB      0 B        *
 
-<span class="caps">DISKPART</span>&gt; <span class="keyword">exit</span>
+DISKPART&gt; <span class="built_in">exit</span>
 
 Leaving DiskPart...
 </code></pre>
@@ -80,16 +80,16 @@ PS C:\Users\chris\Downloads\Windows_IoT_Core_RPI2_BUILD&gt;
 /ImageFile:Flash.ffu /ApplyDrive:\\.\PhysicalDriveN /SkipPlatformCheck
 
 Deployment Image Servicing and Management tool
-Version: <span class="number">10.0</span>.<span class="number">10074.0</span>
+Version: 10.0.10074.0
 
 Applying image
-[==========================<span class="number">100.0</span>%==========================]
+[==========================100.0%==========================]
 
-Error: <span class="number">1117</span>
+Error: 1117
 
 The request could not be performed because of an I/O device error.
 
-The <span class="caps">DISM</span> log file can be found at C:\Windows\Logs\DISM\dism.log
+The DISM <span class="built_in">log</span> file can be found at C:\Windows\Logs\<span class="caps">DISM</span>\dism.log
 PS C:\Users\chris\Downloads\Windows_IoT_Core_RPI2_BUILD&gt;
 </code></pre>
 <p>Finally, remove your <span class="caps">SD</span> card from your&nbsp;computer.</p>
@@ -121,7 +121,7 @@ PS C:\Users\chris\Downloads\Windows_IoT_Core_RPI2_BUILD&gt;
         <section class="about">
         </section>
         <section class="copy">
-          <p>&copy; 2015 Christoph Hartmann &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
+          <p>&copy; 2016 Christoph Hartmann &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
           </p>
         </section>
       </div>

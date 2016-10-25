@@ -55,7 +55,7 @@
 <pre><code class="lang-scala">get(<span class="string">"/hello/:name"</span>) {
   <span class="comment">// Matches "<span class="caps">GET</span> /hello/foo" and "GET /hello/bar"</span>
   <span class="comment">// params("name") is "foo" or "bar"</span>
-  &lt;p&gt;Hello, {params(<span class="string">"name"</span>)}&lt;/p&gt;
+  &lt;p&gt;<span class="type">Hello</span>, {params(<span class="string">"name"</span>)}&lt;/p&gt;
 }
 </code></pre>
 <p>For the command-line requests I am going to use <a href="/articles/scalatra-bearer-authentication/httpie%20http://httpie.org">httpie</a></p>
@@ -109,21 +109,21 @@ Server: Jetty(8.1.8.v20121106)
 
 <p>Now you need to wire it into your&nbsp;Servlet:</p>
 <pre><code class="lang-scala"><span class="class"><span class="keyword">trait</span> <span class="title">HelloAppStack</span></span>
-  <span class="keyword">extends</span> ScalatraServlet
-  <span class="keyword">with</span> ScalateSupport
-  <span class="keyword">with</span> CorsSupport
-  <span class="keyword">with</span> AuthenticationSupport {
+  <span class="keyword">extends</span> <span class="type">ScalatraServlet</span>
+  <span class="keyword">with</span> <span class="type">ScalateSupport</span>
+  <span class="keyword">with</span> <span class="type">CorsSupport</span>
+  <span class="keyword">with</span> <span class="type">AuthenticationSupport</span> {
   ...
   }
 </code></pre>
 <p>Now you are able to secure routes&nbsp;with:</p>
 <pre><code class="lang-scala">get(<span class="string">"/hello/:name"</span>) {
 
-    <span class="keyword">val</span> user: User = auth.get
+    <span class="keyword">val</span> user: <span class="type">User</span> = auth.get
 
     <span class="comment">// Matches "<span class="caps">GET</span> /hello/foo" and "GET /hello/bar"</span>
     <span class="comment">// params("name") is "foo" or "bar"</span>
-    &lt;p&gt;Hello, {params(<span class="string">"name"</span>)}&lt;/p&gt;
+    &lt;p&gt;<span class="type">Hello</span>, {params(<span class="string">"name"</span>)}&lt;/p&gt;
 }
 </code></pre>
 <p>Finally unauthenticated responses are&nbsp;rejected:</p>
@@ -184,7 +184,7 @@ Set-Cookie: JSESSIONID=1qxp4ot72v3lmr01n3vesosel;Path=/
         <section class="about">
         </section>
         <section class="copy">
-          <p>&copy; 2015 Christoph Hartmann &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
+          <p>&copy; 2016 Christoph Hartmann &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
           </p>
         </section>
       </div>

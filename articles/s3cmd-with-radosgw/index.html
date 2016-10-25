@@ -42,13 +42,13 @@
 <h3 id="ubuntu">Ubuntu</h3>
 <p>For Ubuntu you need to install the s3 repo before installing the package <code>s3cmd</code>:</p>
 <pre><code class="lang-bash"><span class="comment"># install repo key</span>
-wget -O- -q http://s3tools.org/repo/deb-all/stable/s3tools.key | <span class="built_in">sudo</span> apt-key add -
+wget -O- -q http://s3tools.org/repo/deb-all/stable/s3tools.key | sudo apt-key add -
 <span class="comment"># install repo</span>
-<span class="built_in">sudo</span> wget -O/etc/apt/sources.list.d/s3tools.list http://s3tools.org/repo/deb-all/stable/s3tools.list
+sudo wget -O/etc/apt/sources.list.d/s3tools.list http://s3tools.org/repo/deb-all/stable/s3tools.list
 <span class="comment"># update package manager</span>
-<span class="built_in">sudo</span> apt-get update
+sudo apt-get update
 <span class="comment"># install s3cmd</span>
-<span class="built_in">sudo</span> apt-get install s3cmd
+sudo apt-get install s3cmd
 </code></pre>
 <h3 id="macos">MacOS</h3>
 <p>On Mac you may use <a href="http://brew.sh/">brew</a> to install&nbsp;s3cmd:</p>
@@ -155,7 +155,7 @@ verbosity = WARNING
 </code></pre>
 <p>Afterwards you may try to access your bucket with <code>s3cmd</code>:</p>
 <pre><code class="lang-bash">s3cmd -c s3test.cfg ls
-ERROR: S3 error: <span class="number">403</span> (InvalidAccessKeyId): The <span class="caps">AWS</span> Access Key Id you provided does not exist <span class="keyword">in</span> our records.
+ERROR: S3 error: 403 (InvalidAccessKeyId): The AWS Access Key Id you provided does not exist <span class="keyword">in</span> our records.
 </code></pre>
 <p>We need to adapt a few lines to configure s3cmd for radosgw. Currently <code>s3cmd</code> does not know the radosgw hostname. Replace <code>host_base</code> and <code>host_bucket</code> with the hostname of the radosgw&nbsp;host:</p>
 <pre><code class="lang-code">host_base = s3.amazonaws.com
@@ -208,7 +208,7 @@ samplecontent
         <section class="about">
         </section>
         <section class="copy">
-          <p>&copy; 2015 Christoph Hartmann &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
+          <p>&copy; 2016 Christoph Hartmann &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
           </p>
         </section>
       </div>

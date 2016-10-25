@@ -48,7 +48,7 @@
 <p>After running the script, Chef is installed on your machine. Tip: For production use, you can host the Chef client binaries on your own server and change the script with the required download&nbsp;urls.</p>
 <p>The next step is to transfer the cookbooks on your machine. In production environment you could easily copy the cookbooks from a <span class="caps">NFS</span> volume for Chef-Solo or use a Chef Server (recommended&nbsp;way).</p>
 <p>I wrote a <a href="https://github.com/chris-rock/aix-base-setup"><span class="caps">AIX</span> setup cookbook</a> that offers chef recipes for installing wget, curl, vim, zip and tar. The <a href="https://github.com/chris-rock/aix-base-setup/blob/master/recipes/vim.rb">recipe for vim</a> looks&nbsp;like:</p>
-<pre><code class="lang-ruby"><span class="string">%w(vim-common vim-enhanced)</span>.each <span class="keyword">do</span> |pack|
+<pre><code class="lang-ruby"><span class="string">%w(vim-common vim-enhanced)</span>.each <span class="keyword">do</span> <span class="params">|pack|</span>
   aix_toolboxpackage pack <span class="keyword">do</span>
     action <span class="symbol">:install</span>
   <span class="keyword">end</span>
@@ -59,7 +59,7 @@
 <pre><code class="lang-ruby">
 <span class="string">%w(https://supermarket.chef.io/cookbooks/aix/download 
    https://supermarket.chef.io/cookbooks/aix-base-setup/download
-)</span>.each <span class="keyword">do</span> |cb|
+)</span>.each <span class="keyword">do</span> <span class="params">|cb|</span>
   <span class="comment"># download</span>
   remote_file <span class="string">'download cookbook'</span> <span class="keyword">do</span>
     source cb
@@ -78,30 +78,30 @@
 <p>Now run <code>chef-apply download.rb</code>. Afterwards the extracted cookbooks are located in <code>/var/chef/cookbooks/</code></p>
 <pre><code class="lang-bash">$ &gt; mkdir /var/chef/cookbooks
 $ &gt; chef-apply download.rb
-[<span class="number">2015</span>-<span class="number">01</span>-<span class="number">29</span>T08:<span class="number">04</span>:<span class="number">38</span>-<span class="number">06</span>:<span class="number">00</span>] <span class="caps">WARN</span>: Please install an English UTF-<span class="number">8</span> locale <span class="keyword">for</span> Chef to use, falling back to C locale and disabling <span class="caps">UTF</span>-<span class="number">8</span> support.
-[<span class="number">2015</span>-<span class="number">01</span>-<span class="number">29</span>T08:<span class="number">04</span>:<span class="number">43</span>-<span class="number">06</span>:<span class="number">00</span>] <span class="caps">WARN</span>: Cloning resource attributes <span class="keyword">for</span> remote_file[download cookbook] from prior resource (<span class="caps">CHEF</span>-<span class="number">3694</span>)
-[<span class="number">2015</span>-<span class="number">01</span>-<span class="number">29</span>T08:<span class="number">04</span>:<span class="number">43</span>-<span class="number">06</span>:<span class="number">00</span>] <span class="caps">WARN</span>: Previous remote_file[download cookbook]: download.rb:<span class="number">5</span>:<span class="keyword">in</span> `block <span class="keyword">in</span> run_chef_recipe<span class="string">'
+[2015-01-29T08:04:38-06:00] WARN: Please install an English UTF-8 locale <span class="keyword">for</span> Chef to use, falling back to C locale and disabling <span class="caps">UTF</span>-8 support.
+[2015-01-29T08:04:43-06:00] WARN: Cloning resource attributes <span class="keyword">for</span> remote_file[download cookbook] from prior resource (<span class="caps">CHEF</span>-3694)
+[2015-01-29T08:04:43-06:00] WARN: Previous remote_file[download cookbook]: download.rb:5:<span class="keyword">in</span> `block <span class="keyword">in</span> run_chef_recipe<span class="string">'
 [2015-01-29T08:04:43-06:00] <span class="caps">WARN</span>: Current  remote_file[download cookbook]: download.rb:5:in `block in run_chef_recipe'</span>
-[<span class="number">2015</span>-<span class="number">01</span>-<span class="number">29</span>T08:<span class="number">04</span>:<span class="number">43</span>-<span class="number">06</span>:<span class="number">00</span>] <span class="caps">WARN</span>: Cloning resource attributes <span class="keyword">for</span> execute[extract-cookbook] from prior resource (<span class="caps">CHEF</span>-<span class="number">3694</span>)
-[<span class="number">2015</span>-<span class="number">01</span>-<span class="number">29</span>T08:<span class="number">04</span>:<span class="number">43</span>-<span class="number">06</span>:<span class="number">00</span>] <span class="caps">WARN</span>: Previous execute[extract-cookbook]: download.rb:<span class="number">12</span>:<span class="keyword">in</span> `block <span class="keyword">in</span> run_chef_recipe<span class="string">'
+[2015-01-29T08:04:43-06:00] <span class="caps">WARN</span>: Cloning resource attributes <span class="keyword">for</span> execute[extract-cookbook] from prior resource (<span class="caps">CHEF</span>-3694)
+[2015-01-29T08:04:43-06:00] WARN: Previous execute[extract-cookbook]: download.rb:12:<span class="keyword">in</span> `block <span class="keyword">in</span> run_chef_recipe<span class="string">'
 [2015-01-29T08:04:43-06:00] <span class="caps">WARN</span>: Current  execute[extract-cookbook]: download.rb:12:in `block in run_chef_recipe'</span>
 Recipe: (chef-apply cookbook)::(chef-apply recipe)
   * remote_file[download cookbook] action create
     - create new file /var/chef/cookbooks/cookbook.tar.gz
-    - update content <span class="keyword">in</span> file /var/chef/cookbooks/cookbook.tar.gz from none to <span class="number">2</span>b736b
+    - update content <span class="keyword">in</span> file /var/chef/cookbooks/cookbook.tar.gz from none to 2b736b
     (new content is binary, diff output suppressed)
   * execute[extract-cookbook] action run
-    - execute gzip <span class="operator">-d</span> &lt; /var/chef/cookbooks/cookbook.tar.gz | tar xvf -
+    - execute gzip <span class="_">-d</span> &lt; /var/chef/cookbooks/cookbook.tar.gz | tar xvf -
   * execute[extract-cookbook] action run
-    - execute gzip <span class="operator">-d</span> &lt; /var/chef/cookbooks/cookbook.tar.gz | tar xvf -
+    - execute gzip <span class="_">-d</span> &lt; /var/chef/cookbooks/cookbook.tar.gz | tar xvf -
   * execute[extract-cookbook] action nothing (skipped due to action :nothing)
   * remote_file[download cookbook] action create
-    - update content <span class="keyword">in</span> file /var/chef/cookbooks/cookbook.tar.gz from <span class="number">2</span>b736b to <span class="number">5</span>d59e4
+    - update content <span class="keyword">in</span> file /var/chef/cookbooks/cookbook.tar.gz from 2b736b to 5d59e4
     (current file is binary, diff output suppressed)
   * execute[extract-cookbook] action run
-    - execute gzip <span class="operator">-d</span> &lt; /var/chef/cookbooks/cookbook.tar.gz | tar xvf -
+    - execute gzip <span class="_">-d</span> &lt; /var/chef/cookbooks/cookbook.tar.gz | tar xvf -
   * execute[extract-cookbook] action run
-    - execute gzip <span class="operator">-d</span> &lt; /var/chef/cookbooks/cookbook.tar.gz | tar xvf -
+    - execute gzip <span class="_">-d</span> &lt; /var/chef/cookbooks/cookbook.tar.gz | tar xvf -
   * execute[extract-cookbook] action nothing (skipped due to action :nothing)
 $ &gt;
 </code></pre>
@@ -125,118 +125,118 @@ cookbook_path [ root + <span class="string">'/cookbooks'</span>, root + <span cl
 <p>All required files to run the coobooks are configured on the <span class="caps">AIX</span> machine. To install <code>curl</code>, <code>wget</code>, <code>vim</code>, <code>zip</code> and <code>zsh</code> we start the Chef&nbsp;run. </p>
 <pre><code class="lang-bash">$ &gt; <span class="built_in">cd</span> /var/chef/
 $ &gt; chef-solo -c solo.rb -j solo.json
-[<span class="number">2015</span>-<span class="number">01</span>-<span class="number">29</span>T08:<span class="number">07</span>:<span class="number">05</span>-<span class="number">06</span>:<span class="number">00</span>] <span class="caps">WARN</span>: Please install an English UTF-<span class="number">8</span> locale <span class="keyword">for</span> Chef to use, falling back to C locale and disabling <span class="caps">UTF</span>-<span class="number">8</span> support.
-Starting Chef Client, version <span class="number">12.0</span>.<span class="number">3</span>
+[2015-01-29T08:07:05-06:00] <span class="caps">WARN</span>: Please install an English UTF-8 locale <span class="keyword">for</span> Chef to use, falling back to C locale and disabling <span class="caps">UTF</span>-8 support.
+Starting Chef Client, version 12.0.3
 Compiling Cookbooks...
-Converging <span class="number">9</span> resources
+Converging 9 resources
 Recipe: aix-base-setup::curl
   * aix_toolboxpackage[curl] action install
-    * remote_file[/var/chef/curl-<span class="number">7.9</span>.<span class="number">3</span>-<span class="number">2</span>.aix4.<span class="number">3</span>.ppc.rpm] action create
-      - create new file /var/chef/curl-<span class="number">7.9</span>.<span class="number">3</span>-<span class="number">2</span>.aix4.<span class="number">3</span>.ppc.rpm
-      - update content <span class="keyword">in</span> file /var/chef/curl-<span class="number">7.9</span>.<span class="number">3</span>-<span class="number">2</span>.aix4.<span class="number">3</span>.ppc.rpm from none to <span class="number">34</span>b591
+    * remote_file[/var/chef/curl-7.9.3-2.aix4.3.ppc.rpm] action create
+      - create new file /var/chef/curl-7.9.3-2.aix4.3.ppc.rpm
+      - update content <span class="keyword">in</span> file /var/chef/curl-7.9.3-2.aix4.3.ppc.rpm from none to 34b591
       (new content is binary, diff output suppressed)
     * rpm_package[curl] action install
-      - install version <span class="number">7.9</span>.<span class="number">3</span>-<span class="number">2</span> of package curl
+      - install version 7.9.3-2 of package curl
 
 Recipe: aix-base-setup::wget
   * aix_toolboxpackage[wget] action install
-    * remote_file[/var/chef/wget-<span class="number">1.9</span>.<span class="number">1</span>-<span class="number">1</span>.aix5.<span class="number">1</span>.ppc.rpm] action create
-      - create new file /var/chef/wget-<span class="number">1.9</span>.<span class="number">1</span>-<span class="number">1</span>.aix5.<span class="number">1</span>.ppc.rpm
-      - update content <span class="keyword">in</span> file /var/chef/wget-<span class="number">1.9</span>.<span class="number">1</span>-<span class="number">1</span>.aix5.<span class="number">1</span>.ppc.rpm from none to d1274c
+    * remote_file[/var/chef/wget-1.9.1-1.aix5.1.ppc.rpm] action create
+      - create new file /var/chef/wget-1.9.1-1.aix5.1.ppc.rpm
+      - update content <span class="keyword">in</span> file /var/chef/wget-1.9.1-1.aix5.1.ppc.rpm from none to d1274c
       (new content is binary, diff output suppressed)
     * rpm_package[wget] action install
-      - install version <span class="number">1.9</span>.<span class="number">1</span>-<span class="number">1</span> of package wget
+      - install version 1.9.1-1 of package wget
 
 Recipe: aix-base-setup::vim
   * aix_toolboxpackage[vim-common] action install
-    * remote_file[/var/chef/vim-common-<span class="number">6.3</span>-<span class="number">1</span>.aix5.<span class="number">1</span>.ppc.rpm] action create
-      - create new file /var/chef/vim-common-<span class="number">6.3</span>-<span class="number">1</span>.aix5.<span class="number">1</span>.ppc.rpm
-      - update content <span class="keyword">in</span> file /var/chef/vim-common-<span class="number">6.3</span>-<span class="number">1</span>.aix5.<span class="number">1</span>.ppc.rpm from none to <span class="number">8</span>d0c9f
+    * remote_file[/var/chef/vim-common-6.3-1.aix5.1.ppc.rpm] action create
+      - create new file /var/chef/vim-common-6.3-1.aix5.1.ppc.rpm
+      - update content <span class="keyword">in</span> file /var/chef/vim-common-6.3-1.aix5.1.ppc.rpm from none to 8d0c9f
       (new content is binary, diff output suppressed)
     * rpm_package[vim-common] action install
-      - install version <span class="number">6.3</span>-<span class="number">1</span> of package vim-common
+      - install version 6.3-1 of package vim-common
 
   * aix_toolboxpackage[vim-enhanced] action install
-    * remote_file[/var/chef/vim-enhanced-<span class="number">6.3</span>-<span class="number">1</span>.aix5.<span class="number">1</span>.ppc.rpm] action create
-      - create new file /var/chef/vim-enhanced-<span class="number">6.3</span>-<span class="number">1</span>.aix5.<span class="number">1</span>.ppc.rpm
-      - update content <span class="keyword">in</span> file /var/chef/vim-enhanced-<span class="number">6.3</span>-<span class="number">1</span>.aix5.<span class="number">1</span>.ppc.rpm from none to <span class="number">0</span>b6e60
+    * remote_file[/var/chef/vim-enhanced-6.3-1.aix5.1.ppc.rpm] action create
+      - create new file /var/chef/vim-enhanced-6.3-1.aix5.1.ppc.rpm
+      - update content <span class="keyword">in</span> file /var/chef/vim-enhanced-6.3-1.aix5.1.ppc.rpm from none to 0b6e60
       (new content is binary, diff output suppressed)
     * rpm_package[vim-enhanced] action install
-      - install version <span class="number">6.3</span>-<span class="number">1</span> of package vim-enhanced
+      - install version 6.3-1 of package vim-enhanced
 
 Recipe: aix-base-setup::zip
   * aix_toolboxpackage[zip] action install
-    * remote_file[/var/chef/zip-<span class="number">2.3</span>-<span class="number">3</span>.aix4.<span class="number">3</span>.ppc.rpm] action create
-      - create new file /var/chef/zip-<span class="number">2.3</span>-<span class="number">3</span>.aix4.<span class="number">3</span>.ppc.rpm
-      - update content <span class="keyword">in</span> file /var/chef/zip-<span class="number">2.3</span>-<span class="number">3</span>.aix4.<span class="number">3</span>.ppc.rpm from none to <span class="number">195196</span>
+    * remote_file[/var/chef/zip-2.3-3.aix4.3.ppc.rpm] action create
+      - create new file /var/chef/zip-2.3-3.aix4.3.ppc.rpm
+      - update content <span class="keyword">in</span> file /var/chef/zip-2.3-3.aix4.3.ppc.rpm from none to 195196
       (new content is binary, diff output suppressed)
     * rpm_package[zip] action install
-      - install version <span class="number">2.3</span>-<span class="number">3</span> of package zip
+      - install version 2.3-3 of package zip
 
   * aix_toolboxpackage[unzip] action install
-    * remote_file[/var/chef/unzip-<span class="number">5.51</span>-<span class="number">1</span>.aix5.<span class="number">1</span>.ppc.rpm] action create
-      - create new file /var/chef/unzip-<span class="number">5.51</span>-<span class="number">1</span>.aix5.<span class="number">1</span>.ppc.rpm
-      - update content <span class="keyword">in</span> file /var/chef/unzip-<span class="number">5.51</span>-<span class="number">1</span>.aix5.<span class="number">1</span>.ppc.rpm from none to <span class="number">1</span>c0445
+    * remote_file[/var/chef/unzip-5.51-1.aix5.1.ppc.rpm] action create
+      - create new file /var/chef/unzip-5.51-1.aix5.1.ppc.rpm
+      - update content <span class="keyword">in</span> file /var/chef/unzip-5.51-1.aix5.1.ppc.rpm from none to 1c0445
       (new content is binary, diff output suppressed)
     * rpm_package[unzip] action install
-      - install version <span class="number">5.51</span>-<span class="number">1</span> of package unzip
+      - install version 5.51-1 of package unzip
 
 Recipe: aix-base-setup::zsh
   * aix_toolboxpackage[coreutils] action install
-    * remote_file[/var/chef/coreutils-<span class="number">5.2</span>.<span class="number">1</span>-<span class="number">2</span>.aix5.<span class="number">1</span>.ppc.rpm] action create
-      - create new file /var/chef/coreutils-<span class="number">5.2</span>.<span class="number">1</span>-<span class="number">2</span>.aix5.<span class="number">1</span>.ppc.rpm
-      - update content <span class="keyword">in</span> file /var/chef/coreutils-<span class="number">5.2</span>.<span class="number">1</span>-<span class="number">2</span>.aix5.<span class="number">1</span>.ppc.rpm from none to <span class="number">1</span>dec06
+    * remote_file[/var/chef/coreutils-5.2.1-2.aix5.1.ppc.rpm] action create
+      - create new file /var/chef/coreutils-5.2.1-2.aix5.1.ppc.rpm
+      - update content <span class="keyword">in</span> file /var/chef/coreutils-5.2.1-2.aix5.1.ppc.rpm from none to 1dec06
       (new content is binary, diff output suppressed)
     * rpm_package[coreutils] action install
-      - install version <span class="number">5.2</span>.<span class="number">1</span>-<span class="number">2</span> of package coreutils
+      - install version 5.2.1-2 of package coreutils
 
   * aix_toolboxpackage[grep] action install
-    * remote_file[/var/chef/grep-<span class="number">2.5</span>.<span class="number">1</span>-<span class="number">1</span>.aix4.<span class="number">3</span>.ppc.rpm] action create
-      - create new file /var/chef/grep-<span class="number">2.5</span>.<span class="number">1</span>-<span class="number">1</span>.aix4.<span class="number">3</span>.ppc.rpm
-      - update content <span class="keyword">in</span> file /var/chef/grep-<span class="number">2.5</span>.<span class="number">1</span>-<span class="number">1</span>.aix4.<span class="number">3</span>.ppc.rpm from none to <span class="number">805523</span>
+    * remote_file[/var/chef/grep-2.5.1-1.aix4.3.ppc.rpm] action create
+      - create new file /var/chef/grep-2.5.1-1.aix4.3.ppc.rpm
+      - update content <span class="keyword">in</span> file /var/chef/grep-2.5.1-1.aix4.3.ppc.rpm from none to 805523
       (new content is binary, diff output suppressed)
     * rpm_package[grep] action install
-      - install version <span class="number">2.5</span>.<span class="number">1</span>-<span class="number">1</span> of package grep
+      - install version 2.5.1-1 of package grep
 
   * aix_toolboxpackage[zsh] action install
-    * remote_file[/var/chef/zsh-<span class="number">4.0</span>.<span class="number">4</span>-<span class="number">3</span>.aix5.<span class="number">1</span>.ppc.rpm] action create
-      - create new file /var/chef/zsh-<span class="number">4.0</span>.<span class="number">4</span>-<span class="number">3</span>.aix5.<span class="number">1</span>.ppc.rpm
-      - update content <span class="keyword">in</span> file /var/chef/zsh-<span class="number">4.0</span>.<span class="number">4</span>-<span class="number">3</span>.aix5.<span class="number">1</span>.ppc.rpm from none to <span class="number">3</span>eb16c
+    * remote_file[/var/chef/zsh-4.0.4-3.aix5.1.ppc.rpm] action create
+      - create new file /var/chef/zsh-4.0.4-3.aix5.1.ppc.rpm
+      - update content <span class="keyword">in</span> file /var/chef/zsh-4.0.4-3.aix5.1.ppc.rpm from none to 3eb16c
       (new content is binary, diff output suppressed)
     * rpm_package[zsh] action install
-      - install version <span class="number">4.0</span>.<span class="number">4</span>-<span class="number">3</span> of package zsh
+      - install version 4.0.4-3 of package zsh
 
 
 Running handlers:
 Running handlers complete
-Chef Client finished, <span class="number">27</span>/<span class="number">27</span> resources updated <span class="keyword">in</span> <span class="number">35.332408</span> seconds
+Chef Client finished, 27/27 resources updated <span class="keyword">in</span> 35.332408 seconds
 $ &gt;
 </code></pre>
 <p>We are ready to use the system with a basic&nbsp;setup.</p>
 <h2 id="the-classic-way">The classic&nbsp;way</h2>
 <p>For comparison, I will highlight the installation of the same tools with a manual installation. First, we need to ensure that we are able to install rpm packages. <span class="caps">RPM</span> can be downloaded from <a href="ftp://public.dhe.ibm.com/aix/freeSoftware/aixtoolbox/INSTALLP/ppc/rpm.rte"><span class="caps">IBM</span>’s FTP server</a>.</p>
 <pre><code class="lang-bash">l5a1vp051_pub[/home/u0015844] &gt; ftp ftp.software.ibm.com
-Connected to dispsd-<span class="number">40</span>-www3.boulder.ibm.com.
-<span class="number">220</span> service.boulder.ibm.com <span class="caps">FTP</span> server (Version wu-<span class="number">2.6</span>.<span class="number">2.1</span>(<span class="number">5</span>) Custom Tue Aug <span class="number">17</span> <span class="number">13</span>:<span class="number">28</span>:<span class="number">23</span> <span class="caps">MDT</span> <span class="number">2010</span>) ready.
+Connected to dispsd-40-www3.boulder.ibm.com.
+220 service.boulder.ibm.com FTP server (Version wu-2.6.2.1(5) Custom Tue Aug 17 13:28:23 MDT 2010) ready.
 Name (ftp.software.ibm.com:u0015844): ftp
-<span class="number">331</span> Guest login ok, send any password.
+331 Guest login ok, send any password.
 Password:
-<span class="number">230</span> Guest login ok, access restrictions apply.
+230 Guest login ok, access restrictions apply.
 ftp&gt; <span class="built_in">cd</span> aix/freeSoftware/aixtoolbox/<span class="caps">INSTALLP</span>/ppc
-<span class="number">250</span> <span class="caps">CWD</span> command successful.
+250 CWD <span class="built_in">command</span> successful.
 ftp&gt; binary
-<span class="number">200</span> Type <span class="keyword">set</span> to I.
+200 Type <span class="built_in">set</span> to I.
 ftp&gt; get rpm.rte
-<span class="number">200</span> <span class="caps">PORT</span> command successful.
-<span class="number">150</span> Opening <span class="caps">BINARY</span> mode data connection <span class="keyword">for</span> rpm.rte (<span class="number">2408448</span> bytes).
-<span class="number">226</span> Transfer complete.
-<span class="number">2408448</span> bytes received <span class="keyword">in</span> <span class="number">1.299</span> seconds (<span class="number">1811</span> Kbytes/s)
-local: rpm.rte remote: rpm.rte
+200 <span class="caps">PORT</span> <span class="built_in">command</span> successful.
+150 Opening <span class="caps">BINARY</span> mode data connection <span class="keyword">for</span> rpm.rte (2408448 bytes).
+226 Transfer complete.
+2408448 bytes received <span class="keyword">in</span> 1.299 seconds (1811 Kbytes/s)
+<span class="built_in">local</span>: rpm.rte remote: rpm.rte
 ftp&gt; quit
-<span class="number">221</span>-You have transferred <span class="number">2408448</span> bytes <span class="keyword">in</span> <span class="number">1</span> files.
-<span class="number">221</span>-Total traffic <span class="keyword">for</span> this session was <span class="number">2410547</span> bytes <span class="keyword">in</span> <span class="number">1</span> transfers.
-<span class="number">221</span>-Thank you <span class="keyword">for</span> using the <span class="caps">FTP</span> service on service.boulder.ibm.com.
-<span class="number">221</span> Goodbye.
+221-You have transferred 2408448 bytes <span class="keyword">in</span> 1 files.
+221-Total traffic <span class="keyword">for</span> this session was 2410547 bytes <span class="keyword">in</span> 1 transfers.
+221-Thank you <span class="keyword">for</span> using the <span class="caps">FTP</span> service on service.boulder.ibm.com.
+221 Goodbye.
 
 installp -qaXgd rpm.rte rpm.rte
 +-----------------------------------------------------------------------------+
@@ -246,7 +246,7 @@ Verifying selections...done
 Verifying requisites...done
 Results...
 
-<span class="caps">WARNINGS</span>
+WARNINGS
 --------
   Problems described <span class="keyword">in</span> this section are not likely to be the <span class="built_in">source</span> of any
   immediate or serious failures, but further actions may be necessary or
@@ -255,7 +255,7 @@ Results...
   Already Installed
   -----------------
   The number of selected filesets that are either already installed
-  or effectively installed through superseding filesets is <span class="number">1</span>.  See
+  or effectively installed through superseding filesets is 1.  See
   the summaries at the end of this installation <span class="keyword">for</span> details.
 
   <span class="caps">NOTE</span>:  Base level filesets may be reinstalled using the <span class="string">"Force"</span>
@@ -270,17 +270,17 @@ Results...
 Verifying build dates...done
 FILESET STATISTICS
 ------------------
-    <span class="number">1</span>  Selected to be installed, of which:
-        <span class="number">1</span>  Already installed (directly or via superseding filesets)
+    1  Selected to be installed, of <span class="built_in">which</span>:
+        1  Already installed (directly or via superseding filesets)
   ----
-    <span class="number">0</span>  Total to be installed
+    0  Total to be installed
 
 
 Pre-installation Failure/Warning Summary
 ----------------------------------------
 Name                      Level           Pre-installation Failure/Warning
 -------------------------------------------------------------------------------
-rpm.rte                   <span class="number">3.0</span>.<span class="number">5.52</span>        Already installed
+rpm.rte                   3.0.5.52        Already installed
 
 l5a1vp051_pub[/home/u0015844] &gt;
 ```bash
@@ -289,55 +289,55 @@ Once we have <span class="caps">FTP</span>, we are ready to download wget to eas
 
 ```bash
 l5a1vp051_pub[/home/u0015844] &gt; ftp ftp.software.ibm.com
-Connected to dispsd-<span class="number">40</span>-www3.boulder.ibm.com.
-<span class="number">220</span> service.boulder.ibm.com <span class="caps">FTP</span> server (Version wu-<span class="number">2.6</span>.<span class="number">2.1</span>(<span class="number">5</span>) Custom Tue Aug <span class="number">17</span> <span class="number">13</span>:<span class="number">28</span>:<span class="number">23</span> <span class="caps">MDT</span> <span class="number">2010</span>) ready.
+Connected to dispsd-40-www3.boulder.ibm.com.
+220 service.boulder.ibm.com FTP server (Version wu-2.6.2.1(5) Custom Tue Aug 17 13:28:23 MDT 2010) ready.
 Name (ftp.software.ibm.com:u0015844): ftp
-<span class="number">331</span> Guest login ok, send any password.
+331 Guest login ok, send any password.
 Password:
-<span class="number">230</span> Guest login ok, access restrictions apply.
+230 Guest login ok, access restrictions apply.
 ftp&gt; <span class="built_in">cd</span> aix/freeSoftware/aixtoolbox/<span class="caps">RPMS</span>/ppc/wget
-<span class="number">250</span> <span class="caps">CWD</span> command successful.
+250 CWD <span class="built_in">command</span> successful.
 ftp&gt; binary
-<span class="number">200</span> Type <span class="keyword">set</span> to I.
-ftp&gt; get wget-<span class="number">1.9</span>.<span class="number">1</span>-<span class="number">3</span>.aix6.<span class="number">1</span>.ppc.rpm
-<span class="number">200</span> <span class="caps">PORT</span> command successful.
-<span class="number">150</span> Opening <span class="caps">BINARY</span> mode data connection <span class="keyword">for</span> wget-<span class="number">1.9</span>.<span class="number">1</span>-<span class="number">3</span>.aix6.<span class="number">1</span>.ppc.rpm (<span class="number">465606</span> bytes).
-<span class="number">226</span> Transfer complete.
-<span class="number">465606</span> bytes received <span class="keyword">in</span> <span class="number">0.8058</span> seconds (<span class="number">564.3</span> Kbytes/s)
-local: wget-<span class="number">1.9</span>.<span class="number">1</span>-<span class="number">3</span>.aix6.<span class="number">1</span>.ppc.rpm remote: wget-<span class="number">1.9</span>.<span class="number">1</span>-<span class="number">3</span>.aix6.<span class="number">1</span>.ppc.rpm
+200 Type <span class="built_in">set</span> to I.
+ftp&gt; get wget-1.9.1-3.aix6.1.ppc.rpm
+200 <span class="caps">PORT</span> <span class="built_in">command</span> successful.
+150 Opening <span class="caps">BINARY</span> mode data connection <span class="keyword">for</span> wget-1.9.1-3.aix6.1.ppc.rpm (465606 bytes).
+226 Transfer complete.
+465606 bytes received <span class="keyword">in</span> 0.8058 seconds (564.3 Kbytes/s)
+<span class="built_in">local</span>: wget-1.9.1-3.aix6.1.ppc.rpm remote: wget-1.9.1-3.aix6.1.ppc.rpm
 ftp&gt; quit
-<span class="number">221</span>-You have transferred <span class="number">465606</span> bytes <span class="keyword">in</span> <span class="number">1</span> files.
-<span class="number">221</span>-Total traffic <span class="keyword">for</span> this session was <span class="number">468128</span> bytes <span class="keyword">in</span> <span class="number">2</span> transfers.
-<span class="number">221</span>-Thank you <span class="keyword">for</span> using the <span class="caps">FTP</span> service on service.boulder.ibm.com.
-<span class="number">221</span> Goodbye.
-l5a1vp051_pub[/home/u0015844] &gt; rpm -hUv wget-<span class="number">1.9</span>.<span class="number">1</span>-<span class="number">3</span>.aix6.<span class="number">1</span>.ppc.rpm
+221-You have transferred 465606 bytes <span class="keyword">in</span> 1 files.
+221-Total traffic <span class="keyword">for</span> this session was 468128 bytes <span class="keyword">in</span> 2 transfers.
+221-Thank you <span class="keyword">for</span> using the <span class="caps">FTP</span> service on service.boulder.ibm.com.
+221 Goodbye.
+l5a1vp051_pub[/home/u0015844] &gt; rpm -hUv wget-1.9.1-3.aix6.1.ppc.rpm
 wget                        <span class="comment">##################################################</span>
 l5a1vp051_pub[/home/u0015844] &gt;
 </code></pre>
 <p>Since wget is available on <span class="caps">AIX</span> now, we can use it to download all required rpm&nbsp;packages.</p>
 <pre><code class="lang-bash"><span class="comment"># Download the vim binaries</span>
-wget -r -nd ftp://ftp.software.ibm.com/aix/freeSoftware/aixtoolbox/<span class="caps">RPMS</span>/ppc/vim/vim-common-<span class="number">6.3</span>-<span class="number">1</span>.aix5.<span class="number">1</span>.ppc.rpm
-wget -r -nd ftp://ftp.software.ibm.com/aix/freeSoftware/aixtoolbox/<span class="caps">RPMS</span>/ppc/vim/vim-enhanced-<span class="number">6.3</span>-<span class="number">1</span>.aix5.<span class="number">1</span>.ppc.rpm
+wget -r -nd ftp://ftp.software.ibm.com/aix/freeSoftware/aixtoolbox/<span class="caps">RPMS</span>/ppc/vim/vim-common-6.3-1.aix5.1.ppc.rpm
+wget -r -nd ftp://ftp.software.ibm.com/aix/freeSoftware/aixtoolbox/RPMS/ppc/vim/vim-enhanced-6.3-1.aix5.1.ppc.rpm
 <span class="comment"># Install vim</span>
-rpm -hUv vim-common-<span class="number">6.3</span>-<span class="number">1</span>.aix5.<span class="number">1</span>.ppc.rpm vim-enhanced-<span class="number">6.3</span>-<span class="number">1</span>.aix5.<span class="number">1</span>.ppc.rpm
+rpm -hUv vim-common-6.3-1.aix5.1.ppc.rpm vim-enhanced-6.3-1.aix5.1.ppc.rpm
 vim-common                  <span class="comment">##################################################</span>
 vim-enhanced                <span class="comment">##################################################</span>
 </code></pre>
 <pre><code class="lang-bash"><span class="comment"># Download <span class="amp">&amp;</span> Install curl</span>
-wget -r -nd ftp://ftp.software.ibm.com/aix/freeSoftware/aixtoolbox/<span class="caps">RPMS</span>/ppc/curl/curl-<span class="number">7.9</span>.<span class="number">3</span>-<span class="number">2</span>.aix4.<span class="number">3</span>.ppc.rpm
+wget -r -nd ftp://ftp.software.ibm.com/aix/freeSoftware/aixtoolbox/<span class="caps">RPMS</span>/ppc/curl/curl-7.9.3-2.aix4.3.ppc.rpm
 <span class="comment"># Install vim</span>
-rpm -hUv curl-<span class="number">7.9</span>.<span class="number">3</span>-<span class="number">2</span>.aix4.<span class="number">3</span>.ppc.rpm
+rpm -hUv curl-7.9.3-2.aix4.3.ppc.rpm
 </code></pre>
 <pre><code class="lang-bash"><span class="comment"># Download <span class="amp">&amp;</span> Install the zsh binaries</span>
-wget -r -nd ftp://ftp.software.ibm.com/aix/freeSoftware/aixtoolbox/<span class="caps">RPMS</span>/ppc/zsh/zsh-<span class="number">4.0</span>.<span class="number">4</span>-<span class="number">3</span>.aix5.<span class="number">1</span>.ppc.rpm
-wget -r -nd ftp://ftp.software.ibm.com/aix/freeSoftware/aixtoolbox/<span class="caps">RPMS</span>/ppc/coreutils/coreutils-<span class="number">5.2</span>.<span class="number">1</span>-<span class="number">2</span>.aix5.<span class="number">1</span>.ppc.rpm
-wget -r -nd ftp://ftp.software.ibm.com/aix/freeSoftware/aixtoolbox/<span class="caps">RPMS</span>/ppc/grep/grep-<span class="number">2.5</span>.<span class="number">1</span>-<span class="number">1</span>.aix4.<span class="number">3</span>.ppc.rpm
-rpm -hUv zsh-<span class="number">4.0</span>.<span class="number">4</span>-<span class="number">3</span>.aix5.<span class="number">1</span>.ppc.rpm coreutils-<span class="number">5.2</span>.<span class="number">1</span>-<span class="number">2</span>.aix5.<span class="number">1</span>.ppc.rpm grep-<span class="number">2.5</span>.<span class="number">1</span>-<span class="number">1</span>.aix4.<span class="number">3</span>.ppc.rpm
+wget -r -nd ftp://ftp.software.ibm.com/aix/freeSoftware/aixtoolbox/<span class="caps">RPMS</span>/ppc/zsh/zsh-4.0.4-3.aix5.1.ppc.rpm
+wget -r -nd ftp://ftp.software.ibm.com/aix/freeSoftware/aixtoolbox/RPMS/ppc/coreutils/coreutils-5.2.1-2.aix5.1.ppc.rpm
+wget -r -nd ftp://ftp.software.ibm.com/aix/freeSoftware/aixtoolbox/RPMS/ppc/grep/grep-2.5.1-1.aix4.3.ppc.rpm
+rpm -hUv zsh-4.0.4-3.aix5.1.ppc.rpm coreutils-5.2.1-2.aix5.1.ppc.rpm grep-2.5.1-1.aix4.3.ppc.rpm
 </code></pre>
 <pre><code class="lang-bash"><span class="comment"># Download <span class="amp">&amp;</span> Install zip</span>
-wget -r -nd ftp://ftp.software.ibm.com/aix/freeSoftware/aixtoolbox/<span class="caps">RPMS</span>/ppc/zip/zip-<span class="number">2.3</span>-<span class="number">3</span>.aix4.<span class="number">3</span>.ppc.rpm
-wget -r -nd ftp://ftp.software.ibm.com/aix/freeSoftware/aixtoolbox/<span class="caps">RPMS</span>/ppc/unzip/unzip-<span class="number">5.51</span>-<span class="number">1</span>.aix5.<span class="number">1</span>.ppc.rpm
-su root -c rpm -hUv zip-<span class="number">2.3</span>-<span class="number">3</span>.aix4.<span class="number">3</span>.ppc.rpm unzip-<span class="number">5.51</span>-<span class="number">1</span>.aix5.<span class="number">1</span>.ppc.rpm
+wget -r -nd ftp://ftp.software.ibm.com/aix/freeSoftware/aixtoolbox/<span class="caps">RPMS</span>/ppc/zip/zip-2.3-3.aix4.3.ppc.rpm
+wget -r -nd ftp://ftp.software.ibm.com/aix/freeSoftware/aixtoolbox/RPMS/ppc/unzip/unzip-5.51-1.aix5.1.ppc.rpm
+su root -c rpm -hUv zip-2.3-3.aix4.3.ppc.rpm unzip-5.51-1.aix5.1.ppc.rpm
 </code></pre>
 <p>Finally, we have reached the final&nbsp;setup.</p>
 <h2 id="conclusion">Conclusion</h2>
@@ -370,7 +370,7 @@ su root -c rpm -hUv zip-<span class="number">2.3</span>-<span class="number">3</
         <section class="about">
         </section>
         <section class="copy">
-          <p>&copy; 2015 Christoph Hartmann &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
+          <p>&copy; 2016 Christoph Hartmann &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
           </p>
         </section>
       </div>

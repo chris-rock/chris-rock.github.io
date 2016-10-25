@@ -61,10 +61,10 @@
 <p>A use case, that combines both&nbsp;approaches:</p>
 <pre><code class="lang-bash">
 $ docker run -i -t ubuntu:trusty /bin/bash
-root@<span class="number">5</span>ead76a77765:/<span class="comment"># apt-get update</span>
-root@<span class="number">5</span>ead76a77765:/<span class="comment"># apt-get install -y graphicsmagick wget</span>
-root@<span class="number">5</span>ead76a77765:/<span class="comment"># wget -q -O avatar.jpg https://avatars3.githubusercontent.com/u/1178413?v=2&amp;s=460</span>
-root@<span class="number">5</span>ead76a77765:/<span class="comment"># gm convert -size 120x120 avatar.jpg -resize 120x120 +profile "*" thumbnail.jpg</span>
+root@5ead76a77765:/<span class="comment"># apt-get update</span>
+root@5ead76a77765:/<span class="comment"># apt-get install -y graphicsmagick wget</span>
+root@5ead76a77765:/<span class="comment"># wget -q -O avatar.jpg https://avatars3.githubusercontent.com/u/1178413?v=2&amp;s=460</span>
+root@5ead76a77765:/<span class="comment"># gm convert -size 120x120 avatar.jpg -resize 120x120 +profile "*" thumbnail.jpg</span>
 </code></pre>
 <p>How would you do the same in an automated&nbsp;fashion?</p>
 <h2 id="solution">Solution</h2>
@@ -78,25 +78,25 @@ root@<span class="number">5</span>ead76a77765:/<span class="comment"># gm conver
 </code></pre>
 <p>I completed this approach with <a href="https://github.com/chris-rock/docker-exec">docker-exec</a>. Now we are able to run the commands in docker. It also uses Javascript Promises instead of plain callbacks. This enables us to easily chain commands. The example introduced above can be written as&nbsp;follows:</p>
 <pre><code class="lang-javascript"><span class="keyword">var</span> ds = <span class="keyword">new</span> DockerRunner();
-ds.start().then(<span class="function"><span class="keyword">function</span> <span class="params">(stream)</span> {</span>
+ds.start().then(<span class="function"><span class="keyword">function</span> (<span class="params">stream</span>) </span>{
     stream.pipe(process.stdout);
-    console.log(<span class="string">'---&gt; run apt-get update\n'</span>);
+    <span class="built_in">console</span>.log(<span class="string">'---&gt; run apt-get update\n'</span>);
     <span class="keyword">return</span> ds.run(<span class="string">'apt-get update'</span>);
-}).then(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-    console.log(<span class="string">'---&gt; install gm\n'</span>);
+}).then(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+    <span class="built_in">console</span>.log(<span class="string">'---&gt; install gm\n'</span>);
     <span class="keyword">return</span> ds.run(<span class="string">'apt-get install -y graphicsmagick wget'</span>);
-}).then(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-    console.log(<span class="string">'---&gt; convert image\n'</span>);
+}).then(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+    <span class="built_in">console</span>.log(<span class="string">'---&gt; convert image\n'</span>);
     <span class="keyword">return</span> ds.run(<span class="string">'gm convert -size 120x120 avatar.jpg -resize 120x120 +profile "*" thumbnail.jpg'</span>);
-}).then(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-    console.log(<span class="string">'---&gt; stop container\n'</span>);
+}).then(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+    <span class="built_in">console</span>.log(<span class="string">'---&gt; stop container\n'</span>);
     <span class="keyword">return</span> ds.stop();
-}).then(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-    console.log(<span class="string">'---&gt; Done without error\n'</span>);
+}).then(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+    <span class="built_in">console</span>.log(<span class="string">'---&gt; Done without error\n'</span>);
     done();
-}).catch(<span class="function"><span class="keyword">function</span> <span class="params">(err)</span> {</span>
-    console.log(<span class="string">'Done with error\n'</span>);
-    console.log(err);
+}).catch(<span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>{
+    <span class="built_in">console</span>.log(<span class="string">'Done with error\n'</span>);
+    <span class="built_in">console</span>.log(err);
 });
 </code></pre>
 <p>If you are using <a href="https://github.com/boot2docker/boot2docker">boot2docker</a> on Mac, you need to change the&nbsp;initialization:</p>
@@ -124,7 +124,7 @@ ds.start().then(<span class="function"><span class="keyword">function</span> <sp
         <section class="about">
         </section>
         <section class="copy">
-          <p>&copy; 2015 Christoph Hartmann &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
+          <p>&copy; 2016 Christoph Hartmann &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
           </p>
         </section>
       </div>

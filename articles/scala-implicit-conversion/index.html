@@ -39,11 +39,11 @@
 <p><a href="http://stackoverflow.com/questions/8054018/json-library-for-scala">Plenty of options</a> are available for <span class="caps">JSON</span> in Scala. It really depends on your setup and may depend on your web framework decision. I am not going to start an argumentation about the best toolkit available. The following post will stick with <a href="http://argonaut.io">Argonaut</a>, but the general approach works with other <span class="caps">JSON</span> frameworks as well. I selected it because it fits my function development approach in Scala and works well with <a href="http://www.scalatra.org/">Scalatra</a>. Be aware that Scalatra itself <a href="http://scalatra.org/2.3/guides/formats/json.html">promotes</a> <a href="http://json4s.org/">JSON4s</a> with <a href="http://jackson.codehaus.org/">Jackson</a>, but I found it more difficult to use that&nbsp;Argonaut.</p>
 <h2 id="conversion">Conversion</h2>
 <p>Before we talk about the conversion, we need to define the data model. I use the <a href="http://slick.typesafe.com/doc/2.1.0/orm-to-slick.html">slick sample&nbsp;structuree</a></p>
-<pre><code class="lang-scala">  <span class="class"><span class="keyword">case</span> <span class="keyword">class</span> <span class="title">Person</span> <span class="params">(id: Int,name: String,age: Int,addressId:Int)</span></span>
-  <span class="class"><span class="keyword">case</span> <span class="keyword">class</span> <span class="title">Address</span> <span class="params">(id: Int, street: String,city: String)</span></span>
+<pre><code class="lang-scala">  <span class="keyword">case</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> (<span class="params">id: <span class="type">Int</span>,name: <span class="type">String</span>,age: <span class="type">Int</span>,addressId:<span class="type">Int</span></span>)</span>
+  <span class="keyword">case</span> <span class="class"><span class="keyword">class</span> <span class="title">Address</span> (<span class="params">id: <span class="type">Int</span>, street: <span class="type">String</span>,city: <span class="type">String</span></span>)</span>
 
   <span class="comment">// no direct reference, to fit with slick database models</span>
-  <span class="class"><span class="keyword">case</span> <span class="keyword">class</span> <span class="title">PersonWithAddress</span><span class="params">(person: Person, address: Address)</span></span>
+  <span class="keyword">case</span> <span class="class"><span class="keyword">class</span> <span class="title">PersonWithAddress</span>(<span class="params">person: <span class="type">Person</span>, address: <span class="type">Address</span></span>)</span>
 </code></pre>
 <p>Now we are able to store a person with&nbsp;address:</p>
 <pre><code>  val person = Person(0, &quot;John Rambo&quot; , 67, 0)
@@ -55,12 +55,12 @@
 </code></pre>
 <p>Scala provides a cool feature for <a href="http://docs.scala-lang.org/tutorials/FAQ/finding-implicits.html">implicit type conversion</a>. This is very handy for our use case and fits with <a href="http://argonaut.io/doc/codec/">argonaut codec</a>. For our case, the following definition is&nbsp;appropriate: </p>
 <pre><code class="lang-scala">  <span class="comment">// implicit conversion with argonaut</span>
-  implicit <span class="keyword">def</span> PersonAddressEncodeJson: EncodeJson[PersonWithAddress] =
-  EncodeJson((p: PersonWithAddress) =&gt;
+  <span class="keyword">implicit</span> <span class="function"><span class="keyword">def</span> <span class="title">PersonAddressEncodeJson</span></span>: <span class="type">EncodeJson</span>[<span class="type">PersonWithAddress</span>] =
+  <span class="type">EncodeJson</span>((p: <span class="type">PersonWithAddress</span>) =&gt;
     (<span class="string">"id"</span> := p.person.id) -&gt;:
     (<span class="string">"name"</span> := p.person.name) -&gt;:
     (<span class="string">"age"</span> := p.person.age) -&gt;:
-    (<span class="string">"address"</span> := Json (
+    (<span class="string">"address"</span> := <span class="type">Json</span> (
       (<span class="string">"id"</span> := p.address.id),
       (<span class="string">"street"</span> := p.address.street),
       (<span class="string">"city"</span> := p.address.city)
@@ -69,31 +69,31 @@
 </code></pre>
 <p>Now we have all pieces together to convert Scala data types to <span class="caps">JSON</span>. The result looks as&nbsp;follows:</p>
 <pre><code class="lang-json">{
-  "<span class="attribute">id</span>": <span class="value"><span class="number">0</span></span>,
-  "<span class="attribute">name</span>": <span class="value"><span class="string">"John Rambo"</span></span>,
-  "<span class="attribute">age</span>": <span class="value"><span class="number">67</span></span>,
-  "<span class="attribute">address</span>": <span class="value">{
-    "<span class="attribute">id</span>": <span class="value"><span class="number">0</span></span>,
-    "<span class="attribute">street</span>": <span class="value"><span class="string">"101 W Main St"</span></span>,
-    "<span class="attribute">city</span>": <span class="value"><span class="string">"Madison, Kentucky"</span>
-  </span>}
-</span>}
+  <span class="attr">"id"</span>: <span class="number">0</span>,
+  <span class="attr">"name"</span>: <span class="string">"John Rambo"</span>,
+  <span class="attr">"age"</span>: <span class="number">67</span>,
+  <span class="attr">"address"</span>: {
+    <span class="attr">"id"</span>: <span class="number">0</span>,
+    <span class="attr">"street"</span>: <span class="string">"101 W Main St"</span>,
+    <span class="attr">"city"</span>: <span class="string">"Madison, Kentucky"</span>
+  }
+}
 </code></pre>
 <p>To consume <span class="caps">JSON</span> data we write a&nbsp;decoder:</p>
-<pre><code class="lang-scala">implicit <span class="keyword">def</span> PersonAddressDecodeJson: DecodeJson[PersonWithAddress] =
-  DecodeJson(c =&gt; <span class="keyword">for</span> {
+<pre><code class="lang-scala"><span class="keyword">implicit</span> <span class="function"><span class="keyword">def</span> <span class="title">PersonAddressDecodeJson</span></span>: <span class="type">DecodeJson</span>[<span class="type">PersonWithAddress</span>] =
+  <span class="type">DecodeJson</span>(c =&gt; <span class="keyword">for</span> {
 
-    id &lt;- (c --\ <span class="string">"id"</span>).as[Int]
-    name &lt;- (c --\ <span class="string">"name"</span>).as[String]
-    age &lt;- (c --\ <span class="string">"age"</span>).as[Int]
-    address &lt;- (c --\ <span class="string">"address"</span>).as[Json]
+    id &lt;- (c --\ <span class="string">"id"</span>).as[<span class="type">Int</span>]
+    name &lt;- (c --\ <span class="string">"name"</span>).as[<span class="type">String</span>]
+    age &lt;- (c --\ <span class="string">"age"</span>).as[<span class="type">Int</span>]
+    address &lt;- (c --\ <span class="string">"address"</span>).as[<span class="type">Json</span>]
 
     <span class="comment">// extract data from address</span>
-    addressid &lt;- (address.acursor --\ <span class="string">"id"</span>).as[Int]
-    street &lt;- (address.acursor --\ <span class="string">"street"</span>).as[String]
-    city &lt;- (address.acursor --\ <span class="string">"city"</span>).as[String]
+    addressid &lt;- (address.acursor --\ <span class="string">"id"</span>).as[<span class="type">Int</span>]
+    street &lt;- (address.acursor --\ <span class="string">"street"</span>).as[<span class="type">String</span>]
+    city &lt;- (address.acursor --\ <span class="string">"city"</span>).as[<span class="type">String</span>]
 
-  } <span class="keyword">yield</span> PersonWithAddress(Person(id, name, age, addressid), Address(addressid, street, city)))
+  } <span class="keyword">yield</span> <span class="type">PersonWithAddress</span>(<span class="type">Person</span>(id, name, age, addressid), <span class="type">Address</span>(addressid, street, city)))
 </code></pre>
 <p>As a result we get a valid Scala object with the expected&nbsp;data</p>
 <pre><code class="lang-code">PersonWithAddress(Person(0,John Rambo,67,0),Address(0,101 W Main St,Madison, Kentucky))
@@ -102,50 +102,50 @@
 <pre><code class="lang-code">  age &lt;- (c --\ &quot;age&quot;).as[Option[Int]]
 </code></pre>
 <h1 id="the-complete-sample-">The complete&nbsp;sample:</h1>
-<pre><code class="lang-scala"><span class="keyword">import</span> argonaut._, Argonaut._
+<pre><code class="lang-scala"><span class="keyword">import</span> argonaut._, <span class="type">Argonaut</span>._
 
-<span class="class"><span class="keyword">object</span> <span class="title">ImplicitConversion</span> {</span>
+<span class="class"><span class="keyword">object</span> <span class="title">ImplicitConversion</span> </span>{
 
   <span class="comment">// data model based on http://slick.typesafe.com/doc/2.1.0/orm-to-slick.html</span>
-  <span class="class"><span class="keyword">case</span> <span class="keyword">class</span> <span class="title">Person</span> <span class="params">(id: Int,name: String,age: Int,addressId:Int)</span></span>
-  <span class="class"><span class="keyword">case</span> <span class="keyword">class</span> <span class="title">Address</span> <span class="params">(id: Int, street: String,city: String)</span></span>
+  <span class="keyword">case</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> (<span class="params">id: <span class="type">Int</span>,name: <span class="type">String</span>,age: <span class="type">Int</span>,addressId:<span class="type">Int</span></span>)</span>
+  <span class="keyword">case</span> <span class="class"><span class="keyword">class</span> <span class="title">Address</span> (<span class="params">id: <span class="type">Int</span>, street: <span class="type">String</span>,city: <span class="type">String</span></span>)</span>
 
   <span class="comment">// no direct reference, to fit with slick database models</span>
-  <span class="class"><span class="keyword">case</span> <span class="keyword">class</span> <span class="title">PersonWithAddress</span><span class="params">(person: Person, address: Address)</span></span>
+  <span class="keyword">case</span> <span class="class"><span class="keyword">class</span> <span class="title">PersonWithAddress</span>(<span class="params">person: <span class="type">Person</span>, address: <span class="type">Address</span></span>)</span>
 
   <span class="comment">// implicit conversion with argonaut</span>
-  implicit <span class="keyword">def</span> PersonAddressEncodeJson: EncodeJson[PersonWithAddress] =
-  EncodeJson((p: PersonWithAddress) =&gt;
+  <span class="keyword">implicit</span> <span class="function"><span class="keyword">def</span> <span class="title">PersonAddressEncodeJson</span></span>: <span class="type">EncodeJson</span>[<span class="type">PersonWithAddress</span>] =
+  <span class="type">EncodeJson</span>((p: <span class="type">PersonWithAddress</span>) =&gt;
     (<span class="string">"id"</span> := p.person.id) -&gt;:
     (<span class="string">"name"</span> := p.person.name) -&gt;:
     (<span class="string">"age"</span> := p.person.age) -&gt;:
-    (<span class="string">"address"</span> := Json (
+    (<span class="string">"address"</span> := <span class="type">Json</span> (
       (<span class="string">"id"</span> := p.address.id),
       (<span class="string">"street"</span> := p.address.street),
       (<span class="string">"city"</span> := p.address.city)
     )
   ) -&gt;: jEmptyObject)
 
-  implicit <span class="keyword">def</span> PersonAddressDecodeJson: DecodeJson[PersonWithAddress] =
-  DecodeJson(c =&gt; <span class="keyword">for</span> {
+  <span class="keyword">implicit</span> <span class="function"><span class="keyword">def</span> <span class="title">PersonAddressDecodeJson</span></span>: <span class="type">DecodeJson</span>[<span class="type">PersonWithAddress</span>] =
+  <span class="type">DecodeJson</span>(c =&gt; <span class="keyword">for</span> {
 
-    id &lt;- (c --\ <span class="string">"id"</span>).as[Int]
-    name &lt;- (c --\ <span class="string">"name"</span>).as[String]
-    age &lt;- (c --\ <span class="string">"age"</span>).as[Int]
-    address &lt;- (c --\ <span class="string">"address"</span>).as[Json]
+    id &lt;- (c --\ <span class="string">"id"</span>).as[<span class="type">Int</span>]
+    name &lt;- (c --\ <span class="string">"name"</span>).as[<span class="type">String</span>]
+    age &lt;- (c --\ <span class="string">"age"</span>).as[<span class="type">Int</span>]
+    address &lt;- (c --\ <span class="string">"address"</span>).as[<span class="type">Json</span>]
 
     <span class="comment">// extract data from address</span>
-    addressid &lt;- (address.acursor --\ <span class="string">"id"</span>).as[Int]
-    street &lt;- (address.acursor --\ <span class="string">"street"</span>).as[String]
-    city &lt;- (address.acursor --\ <span class="string">"city"</span>).as[String]
+    addressid &lt;- (address.acursor --\ <span class="string">"id"</span>).as[<span class="type">Int</span>]
+    street &lt;- (address.acursor --\ <span class="string">"street"</span>).as[<span class="type">String</span>]
+    city &lt;- (address.acursor --\ <span class="string">"city"</span>).as[<span class="type">String</span>]
 
-  } <span class="keyword">yield</span> PersonWithAddress(Person(id, name, age, addressid), Address(addressid, street, city)))
+  } <span class="keyword">yield</span> <span class="type">PersonWithAddress</span>(<span class="type">Person</span>(id, name, age, addressid), <span class="type">Address</span>(addressid, street, city)))
 
-  <span class="keyword">def</span> main(args: Array[String]) {
+  <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]) {
     <span class="comment">// running a sample</span>
-    <span class="keyword">val</span> person = Person(<span class="number">0</span>, <span class="string">"John Rambo"</span> , <span class="number">67</span>, <span class="number">0</span>)
-    <span class="keyword">val</span> address = Address(<span class="number">0</span>, <span class="string">"101 W Main St"</span>, <span class="string">"Madison, Kentucky"</span>)
-    <span class="keyword">val</span> pa = PersonWithAddress(person, address)
+    <span class="keyword">val</span> person = <span class="type">Person</span>(<span class="number">0</span>, <span class="string">"John Rambo"</span> , <span class="number">67</span>, <span class="number">0</span>)
+    <span class="keyword">val</span> address = <span class="type">Address</span>(<span class="number">0</span>, <span class="string">"101 W Main St"</span>, <span class="string">"Madison, Kentucky"</span>)
+    <span class="keyword">val</span> pa = <span class="type">PersonWithAddress</span>(person, address)
 
     <span class="comment">// convert the person to json</span>
     <span class="keyword">val</span> json = pa.asJson
@@ -154,7 +154,7 @@
     println (content)
 
     <span class="comment">// we should get a person instance here</span>
-    <span class="keyword">var</span> padecoded : PersonWithAddress = content.decodeOption[PersonWithAddress].get
+    <span class="keyword">var</span> padecoded : <span class="type">PersonWithAddress</span> = content.decodeOption[<span class="type">PersonWithAddress</span>].get
 
     println (padecoded)
   }
@@ -177,7 +177,7 @@
         <section class="about">
         </section>
         <section class="copy">
-          <p>&copy; 2015 Christoph Hartmann &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
+          <p>&copy; 2016 Christoph Hartmann &mdash; powered by&nbsp;<a href="https://github.com/jnordberg/wintersmith">Wintersmith</a>
           </p>
         </section>
       </div>
