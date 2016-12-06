@@ -5,9 +5,296 @@
     <atom:link href="http://lollyrock.com/feed.xml" rel="self" type="application/rss+xml"></atom:link>
     <link>http://lollyrock.com</link>
     <description>fun &amp; sun</description>
-    <pubDate>Fri, 12  Aug 2016 02:00:00 +0200</pubDate>
+    <pubDate>Tue, 06 Dec 2016 01:00:00 +0100</pubDate>
     <generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator>
     <language>en</language>
+    <item>
+      <title>Using meta-profiles with Chef Compliance</title>
+      <link>http://lollyrock.com/articles/chef-compliance-meta-profiles/</link>
+      <pubDate>Tue, 06 Dec 2016 01:00:00 +0100</pubDate>
+      <guid isPermaLink="true">http://lollyrock.com/articles/chef-compliance-meta-profiles/</guid>
+      <author></author>
+      <description>&lt;p&gt;This article demonstrates InSpec’s meta profile functionality in combination with Chef Compliance. This feature enables you to write profile overlays and to reuse controls from existing profiles. This is a great way to manage deviations of out-of-the-box profiles shipped with Chef Compliance.&lt;/p&gt;
+&lt;h2 id=&quot;meta-profiles&quot;&gt;Meta Profiles&lt;/h2&gt;
+&lt;p&gt;A meta profile is an overlay or a collection of multiple profiles. Examples are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;a deviation from CIS benchmarks&lt;/li&gt;
+&lt;li&gt;collection of all CIS profiles that apply to your infrastructure (eg. a company-wide profile)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The structure of a meta profile (e.g. &lt;a href=&quot;https://github.com/chris-rock/acme-inspec-profile&quot;&gt;Acme InSpec profile&lt;/a&gt;) is identical to any other InSpec profile:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;tree acme-inspec-profile
+acme-inspec-profile
+├── LICENSE
+├── README.md
+├── controls
+│   ├── hardening.rb
+│   ├── patch.rb
+│   └── ssl.rb
+└── inspec.yml
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;InSpec &lt;code&gt;dependencies&lt;/code&gt; are defined in &lt;code&gt;inspec.yml&lt;/code&gt; via &lt;code&gt;depends&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ cat acme-inspec-profile/inspec.yml
+name: acme-inspec-profile
+title: Meta profile for Acme Inc
+maintainer: Christoph Hartmann
+copyright: Christoph Hartmann
+copyright_email: chris@lollyrock.com
+license: Apache 2.0
+summary: This profile collects all compliance and security related requirements for Acme Inc.
+version: 0.1.0
+depends:
+  - name: linux-patch-benchmark
+    git: https://github.com/dev-sec/linux-patch-benchmark.git
+  - name: windows-patch-benchmark
+    git: https://github.com/dev-sec/windows-patch-benchmark.git
+  - name: os-hardening
+    git: https://github.com/dev-sec/tests-os-hardening.git
+  - name: ssh-hardening
+    git: https://github.com/dev-sec/tests-ssh-hardening.git
+  - name: ssl-benchmark
+    git: https://github.com/dev-sec/ssl-benchmark.git
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In addition to &lt;code&gt;git&lt;/code&gt; dependencies, InSpec supports &lt;code&gt;supermarket&lt;/code&gt;, &lt;code&gt;url&lt;/code&gt; and &lt;code&gt;compliance&lt;/code&gt; dependencies as profile locations as well:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;depends:
+  # defaults to supermarket
+  - name: hardening/ssh-hardening  
+  # remote tar or zip file
+  - name: os-hardening
+    url: https://github.com/dev-sec/tests-os-hardening/archive/master.zip
+  # git
+  - git: https://github.com/dev-sec/ssl-benchmark.git
+  - name: windows-patch-benchmark
+    git: https://github.com/chris-rock/windows-patch-benchmark.git
+  # Chef Compliance / Chef Automate
+  - name: linux
+    compliance: base/linux
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Once you depend on another profile, you can leverage all its controls in your meta profile. Additionally all custom InSpec resources are available as well, in case you want to define new controls.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ cat acme-inspec-profile/controls/hardening.rb
+# encoding: utf-8
+#
+# Licensed under the Apache License, Version 2.0 (the &amp;quot;License&amp;quot;);
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an &amp;quot;AS IS&amp;quot; BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# author: Christoph Hartmann
+# author: Dominik Richter
+
+# ensure linux servers are hardenend
+include_controls &amp;#39;os-hardening&amp;#39;
+include_controls &amp;#39;ssh-hardening&amp;#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;InSpec provides &lt;code&gt;include_controls&lt;/code&gt; and &lt;code&gt;require_controls&lt;/code&gt; keywords to load controls from inherited profiles. By default, no controls are executed after you defined its dependency in &lt;code&gt;inspec.yml&lt;/code&gt;. The parameter for &lt;code&gt;include_controls&lt;/code&gt; eg. &lt;code&gt;os-hardening&lt;/code&gt; matches the name in &lt;code&gt;inspec.yml&lt;/code&gt;. In that specific case, we just import all controls from our dependency. Further documentation about this behavior   available at &lt;a href=&quot;http://inspec.io/docs/reference/profiles/&quot;&gt;InSpec Docs&lt;/a&gt;. The dependency management functionality is specified in &lt;a href=&quot;https://github.com/chef/inspec/issues/888&quot;&gt;RFC Dependencies&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;vendoring&quot;&gt;Vendoring&lt;/h2&gt;
+&lt;p&gt;While InSpec allows runtime resolution of dependencies, customers want to ensure safety for their production environment. Some challenges I have seen very often:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;no internet is available in air-gapped environments&lt;/li&gt;
+&lt;li&gt;new profile updates need to be tested before they are used in production&lt;/li&gt;
+&lt;li&gt;integration in CI/CD pipelines&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In order to help with those challenges, the InSpec team decided to establish a vendoring mechanism for profiles. This process is defined in &lt;a href=&quot;https://github.com/chef/inspec/issues/1283&quot;&gt;Vendor dependent profiles in archive&lt;/a&gt; and is composed of two steps:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;resolve all dependencies and their versions&lt;/li&gt;
+&lt;li&gt;download all dependencies into &lt;code&gt;vendor&lt;/code&gt; directory&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Once those steps are finalized, an InSpec profile can be executed standalone without any internet connection available during runtime. Chef Compliance and Chef Automate prefer that approach over runtime profile resolution.&lt;/p&gt;
+&lt;p&gt;The lockfile &lt;code&gt;inspec.lock&lt;/code&gt; looks similar to &lt;code&gt;inspec.yml&lt;/code&gt;, but describes all version constraints.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;cat acme-inspec-profile/inspec.lock
+---
+lockfile_version: 1
+depends:
+- name: linux-patch-benchmark
+  resolved_source:
+    git: https://github.com/dev-sec/linux-patch-benchmark.git
+    ref: d53030317b711f36fa2fde9e18170ce6b4eaacf2
+  version_constraints: &amp;quot;&amp;gt;= 0&amp;quot;
+- name: windows-patch-benchmark
+  resolved_source:
+    git: https://github.com/dev-sec/windows-patch-benchmark.git
+    ref: c183d08eb25638e7f5eac97e521640ea314c8e3d
+  version_constraints: &amp;quot;&amp;gt;= 0&amp;quot;
+- name: os-hardening
+  resolved_source:
+    git: https://github.com/dev-sec/tests-os-hardening.git
+    ref: da3a1b6ce8a845d6818152a824e123c2445c355f
+  version_constraints: &amp;quot;&amp;gt;= 0&amp;quot;
+- name: ssh-hardening
+  resolved_source:
+    git: https://github.com/dev-sec/tests-ssh-hardening.git
+    ref: 75754b9b3fe45c601f0fa0036b01c61c8b8e26d9
+  version_constraints: &amp;quot;&amp;gt;= 0&amp;quot;
+- name: ssl-benchmark
+  resolved_source:
+    git: https://github.com/dev-sec/ssl-benchmark.git
+    ref: e17486c864434c818f96ca13edd2c5a420100a45
+  version_constraints: &amp;quot;&amp;gt;= 0&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;All dependencies are downloaded and stored in &lt;code&gt;vendor&lt;/code&gt; directory.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;tree acme-inspec-profile
+acme-inspec-profile
+├── LICENSE
+├── README.md
+├── controls
+│   ├── hardening.rb
+│   ├── patch.rb
+│   └── ssl.rb
+├── inspec.lock
+├── inspec.yml
+└── vendor
+    ├── 75754b9b3fe45c601f0fa0036b01c61c8b8e26d9
+    │   ├── CHANGELOG.md
+    │   ├── Gemfile
+    │   ├── README.md
+    │   ├── Rakefile
+    │   ├── controls
+    │   │   ├── ssh_spec.rb
+    │   │   └── sshd_spec.rb
+    │   ├── inspec.yml
+    │   └── libraries
+    │       └── ssh_crypto.rb
+    ├── c183d08eb25638e7f5eac97e521640ea314c8e3d
+    │   ├── CONTRIBUTING.md
+    │   ├── ChefCompliance.png
+    │   ├── InSpec+Update.png
+    │   ├── LICENSE
+    │   ├── README.md
+    │   ├── Windows+Update.png
+    │   ├── controls
+    │   │   └── patches.rb
+    │   ├── inspec.yml
+    │   └── libraries
+    │       └── windows_updates.rb
+    ├── d53030317b711f36fa2fde9e18170ce6b4eaacf2
+    │   ├── CentOS+Patch.png
+    │   ├── Gemfile
+    │   ├── LICENSE
+    │   ├── README.md
+    │   ├── Rakefile
+    │   ├── controls
+    │   │   └── patches.rb
+    │   ├── inspec.yml
+    │   └── libraries
+    │       └── linux_updates.rb
+    ├── da3a1b6ce8a845d6818152a824e123c2445c355f
+    │   ├── CHANGELOG.md
+    │   ├── Gemfile
+    │   ├── README.md
+    │   ├── Rakefile
+    │   ├── controls
+    │   │   ├── os_spec.rb
+    │   │   ├── package_spec.rb
+    │   │   └── sysctl_spec.rb
+    │   └── inspec.yml
+    └── e17486c864434c818f96ca13edd2c5a420100a45
+        ├── README.md
+        ├── controls
+        │   └── ssl_test.rb
+        └── inspec.yml
+
+15 directories, 43 files
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;execute-a-meta-profile-with-chef-compliance&quot;&gt;Execute a meta profile with Chef Compliance&lt;/h2&gt;
+&lt;p&gt;In order to run meta profiles we need at least &lt;a href=&quot;https://discourse.chef.io/t/chef-compliance-1-7-3-inspec-1-7-1/9985&quot;&gt;Chef Compliance 1.7.3&lt;/a&gt;. Next, just clone the  &lt;a href=&quot;https://github.com/chris-rock/acme-inspec-profile&quot;&gt;Acme InSpec profile&lt;/a&gt; via &lt;code&gt;git clone https://github.com/chris-rock/acme-inspec-profile&lt;/code&gt;. We have two options to upload the profile to Chef Compliance:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Upload via InSpec CLI&lt;/li&gt;
+&lt;li&gt;Upload of archive via Chef Compliance Web UI&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The first is the easiest since everything is done for you with one command.&lt;/p&gt;
+&lt;h3 id=&quot;upload-via-inspec-cli&quot;&gt;Upload via InSpec CLI&lt;/h3&gt;
+&lt;p&gt;First, you need to login to Chef Compliance. You find your login token in Chef Compliance via the about dialog.&lt;/p&gt;
+&lt;p&gt;&lt;center&gt;&lt;img src=&quot;/articles/chef-compliance-meta-profiles/cc-token-fs8.png&quot; alt=&quot;Copy the token from Chef Compliance&quot; title=&quot;Access Token in Chef Compliance&quot; width=&quot;700px&quot;&gt;&lt;/center&gt;&lt;/p&gt;
+
+&lt;p&gt;Use that token to login via InSpec CLI:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ inspec compliance login https://compliance.test --insecure --user=&amp;#39;admin&amp;#39; --token=&amp;#39;eyJh....Jlqg&amp;#39;
+
+API access token stored
+
+$ git clone https://github.com/chris-rock/acme-inspec-profile
+Cloning into &amp;#39;acme-inspec-profile&amp;#39;...
+remote: Counting objects: 12, done.
+remote: Total 12 (delta 0), reused 0 (delta 0), pack-reused 12
+Unpacking objects: 100% (12/12), done.
+Checking connectivity... done.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Once you are logged in, you use the &lt;code&gt;compliance upload&lt;/code&gt; command to package and upload the &lt;code&gt;acme-inspec-profile&lt;/code&gt; profile for Chef Compliance.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ inspec compliance upload acme-inspec-profile            
+Vendor dependencies of acme-inspec-profile into acme-inspec-profile/vendor
+I, [2016-12-06T10:24:43.899931 #90853]  INFO -- : Checking profile in acme-inspec-profile
+I, [2016-12-06T10:24:43.900029 #90853]  INFO -- : Metadata OK.
+`command(ssh).exist?` is not suported on your OS:
+I, [2016-12-06T10:24:44.070233 #90853]  INFO -- : Found 120 controls.
+W, [2016-12-06T10:24:44.070519 #90853]  WARN -- : Control verify-kb has no description
+W, [2016-12-06T10:24:44.070555 #90853]  WARN -- : Control important-count has no description
+W, [2016-12-06T10:24:44.070571 #90853]  WARN -- : Control important-patches has no description
+W, [2016-12-06T10:24:44.070581 #90853]  WARN -- : Control important-patches has no tests defined
+W, [2016-12-06T10:24:44.070591 #90853]  WARN -- : Control optional-count has no description
+W, [2016-12-06T10:24:44.070601 #90853]  WARN -- : Control optional-patches has no description
+W, [2016-12-06T10:24:44.070610 #90853]  WARN -- : Control optional-patches has no tests defined
+W, [2016-12-06T10:24:44.070619 #90853]  WARN -- : Control verify-patches has no description
+W, [2016-12-06T10:24:44.070629 #90853]  WARN -- : Control patches has no description
+W, [2016-12-06T10:24:44.070638 #90853]  WARN -- : Control patches has no tests defined
+Profile is valid
+Generate temporary profile archive at /var/folders/jy/2bnrfb4s36jbjtzllvhhyqhw0000gn/T/acme-inspec-profile20161206-90853-kzpo1p.tar.gz
+I, [2016-12-06T10:24:44.088457 #90853]  INFO -- : Generate archive /var/folders/jy/2bnrfb4s36jbjtzllvhhyqhw0000gn/T/acme-inspec-profile20161206-90853-kzpo1p.tar.gz.
+I, [2016-12-06T10:24:44.194607 #90853]  INFO -- : Finished archive generation.
+Start upload to admin/acme-inspec-profile
+Uploading to Chef Compliance
+Successfully uploaded profile
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The profile is available in Chef Compliance now:&lt;/p&gt;
+&lt;p&gt;&lt;center&gt;&lt;img src=&quot;/articles/chef-compliance-meta-profiles/cc-meta-profile-fs8.png&quot; alt=&quot;The meta profile is available in Chef Compliance&quot; title=&quot;Meta profile in Chef Compliance&quot; width=&quot;700px&quot;&gt;&lt;/center&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;upload-of-archive-via-chef-compliance-web-ui&quot;&gt;Upload of archive via Chef Compliance Web UI&lt;/h3&gt;
+&lt;p&gt;In cases, where you cannot upload the profile via CLI, you have to archive the profile manually. At first you trigger the vendoring process via &lt;code&gt;inspec vendor&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ inspec vendor acme-inspec-profile
+Vendor dependencies of acme-inspec-profile into acme-inspec-profile/vendor
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Once the vendoring process is done, the &lt;code&gt;vendor&lt;/code&gt; directory and the &lt;code&gt;inspec.lock&lt;/code&gt; are placed in the &lt;code&gt;acme-inspec-profile&lt;/code&gt; directory. Now, run &lt;code&gt;inspec archive&lt;/code&gt; to generate a package.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ inspec archive acme-inspec-profile
+I, [2016-12-06T10:32:59.234327 #93241]  INFO -- : Checking profile in acme-inspec-profile
+I, [2016-12-06T10:32:59.234422 #93241]  INFO -- : Metadata OK.
+`command(ssh).exist?` is not suported on your OS:
+I, [2016-12-06T10:32:59.376949 #93241]  INFO -- : Found 126 controls.
+W, [2016-12-06T10:32:59.377156 #93241]  WARN -- : Control verify-kb has no description
+W, [2016-12-06T10:32:59.377181 #93241]  WARN -- : Control important-count has no description
+W, [2016-12-06T10:32:59.377199 #93241]  WARN -- : Control important-patches has no description
+W, [2016-12-06T10:32:59.377214 #93241]  WARN -- : Control important-patches has no tests defined
+W, [2016-12-06T10:32:59.377225 #93241]  WARN -- : Control optional-count has no description
+W, [2016-12-06T10:32:59.377235 #93241]  WARN -- : Control optional-patches has no description
+W, [2016-12-06T10:32:59.377243 #93241]  WARN -- : Control optional-patches has no tests defined
+W, [2016-12-06T10:32:59.377253 #93241]  WARN -- : Control verify-patches has no description
+W, [2016-12-06T10:32:59.377262 #93241]  WARN -- : Control patches has no description
+W, [2016-12-06T10:32:59.377277 #93241]  WARN -- : Control patches has no tests defined
+W, [2016-12-06T10:32:59.377294 #93241]  WARN -- : Control tls1.2 has no description
+W, [2016-12-06T10:32:59.377329 #93241]  WARN -- : Control tls1.2 has no tests defined
+W, [2016-12-06T10:32:59.377339 #93241]  WARN -- : Control ssl2 has no description
+W, [2016-12-06T10:32:59.377392 #93241]  WARN -- : Control ssl2 has no tests defined
+W, [2016-12-06T10:32:59.377408 #93241]  WARN -- : Control ssl3 has no description
+W, [2016-12-06T10:32:59.377419 #93241]  WARN -- : Control ssl3 has no tests defined
+W, [2016-12-06T10:32:59.377429 #93241]  WARN -- : Control tls1.0 has no description
+W, [2016-12-06T10:32:59.377441 #93241]  WARN -- : Control tls1.0 has no tests defined
+W, [2016-12-06T10:32:59.377480 #93241]  WARN -- : Control tls1.1 has no description
+W, [2016-12-06T10:32:59.377536 #93241]  WARN -- : Control tls1.1 has no tests defined
+W, [2016-12-06T10:32:59.377567 #93241]  WARN -- : Control rc4 has no description
+W, [2016-12-06T10:32:59.377586 #93241]  WARN -- : Control rc4 has no tests defined
+I, [2016-12-06T10:32:59.378081 #93241]  INFO -- : Generate archive /Users/chartmann/Development/compliance/inspec/acme-inspec-profile.tar.gz.
+I, [2016-12-06T10:32:59.486476 #93241]  INFO -- : Finished archive generation.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;center&gt;&lt;img src=&quot;/articles/chef-compliance-meta-profiles/cc-manual-upload-fs8.png&quot; alt=&quot;Upload the profile to Chef Compliance&quot; title=&quot;Profile Upload Chef Compliance&quot; width=&quot;700px&quot;&gt;&lt;/center&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;scan-a-node&quot;&gt;Scan a node&lt;/h3&gt;
+&lt;p&gt;Voilà, the profile is available in Chef Compliance:&lt;/p&gt;
+&lt;p&gt;&lt;center&gt;&lt;img src=&quot;/articles/chef-compliance-meta-profiles/cc-profile-fs8.png&quot; alt=&quot;Browse the profile in Chef Compliance&quot; title=&quot;View profile details in Chef Compliance&quot; width=&quot;700px&quot;&gt;&lt;/center&gt;&lt;/p&gt;
+
+&lt;p&gt;The profile can be selected for remote scans via the Chef Compliance dashboard:&lt;/p&gt;
+&lt;p&gt;&lt;center&gt;&lt;img src=&quot;/articles/chef-compliance-meta-profiles/cc-scan-fs8.png&quot; alt=&quot;Trigger a scan in Chef Compliance&quot; title=&quot;Trigger scan in Chef Compliance&quot; width=&quot;700px&quot;&gt;&lt;/center&gt;&lt;/p&gt;
+
+&lt;p&gt;Once the scan is done, you’ll see a report including controls from all dependent profiles:&lt;/p&gt;
+&lt;p&gt;&lt;center&gt;&lt;img src=&quot;/articles/chef-compliance-meta-profiles/cc-scanresult-fs8.png&quot; alt=&quot;The meta profile is available in Chef Compliance&quot; title=&quot;Meta profile in Chef Compliance&quot; width=&quot;700px&quot;&gt;&lt;/center&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
+&lt;p&gt;We’ve seen how meta profiles are defined and executed. The new meta profile mechanism makes it easy for users to define complex scenarios and manage profile deviations in an easy and understandable way. Inline with the InSpec philosophy, everything is defined as &lt;code&gt;Compliance as Code&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Let me know how that works for you!&lt;/p&gt;
+</description>
+    </item>
     <item>
       <title>ChefConf 2016 - Save Your Crash Dummies!</title>
       <link>http://lollyrock.com/articles/chefconf2016-save-your-crash-dummies/</link>
