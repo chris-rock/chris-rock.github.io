@@ -5,9 +5,150 @@
     <atom:link href="http://lollyrock.com/feed.xml" rel="self" type="application/rss+xml"></atom:link>
     <link>http://lollyrock.com</link>
     <description>fun &amp; sun</description>
-    <pubDate>Tue, 06 Dec 2016 01:00:00 +0100</pubDate>
+    <pubDate>Mon, 10 Apr 2017 02:00:00 +0200</pubDate>
     <generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator>
     <language>en</language>
+    <item>
+      <title>Windows Infrastructure Testing and Compliance with InSpec</title>
+      <link>http://lollyrock.com/articles/inspec-windows/</link>
+      <pubDate>Mon, 10 Apr 2017 02:00:00 +0200</pubDate>
+      <guid isPermaLink="true">http://lollyrock.com/articles/inspec-windows/</guid>
+      <author></author>
+      <description>&lt;p&gt;InSpec is an infrastructure testing and compliance tool that allows you to write re-usable tests for IT infrastructure. InSpec tests can be used easily in development and production environments to shift &lt;a href=&quot;https://blog.chef.io/2016/09/26/shift-left-security-and-compliance-automation-with-inspec-and-chef/&quot;&gt;Compliance left&lt;/a&gt;. This blog post will highlight how you can leverage InSpec on Windows.&lt;/p&gt;
+&lt;h2 id=&quot;install-inspec-on-windows&quot;&gt;Install InSpec on Windows&lt;/h2&gt;
+&lt;p&gt;First things first: We need InSpec on our workstation to play with it. The easiest way to get started is the installation via package. For production environments, I recommend the InSpec package. ChefDK is a very good solution if you need Chef + Test-Kitchen + InSpec. You can download both packages from &lt;a href=&quot;https://downloads.chef.io/&quot;&gt;https://downloads.chef.io/&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Alternatively, you can install InSpec via a Powershell script:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project inspec
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Once InSpec is installed, run &lt;code&gt;inspec version&lt;/code&gt; to verify that the installation was successful.&lt;/p&gt;
+&lt;h2 id=&quot;write-your-first-test&quot;&gt;Write your first test&lt;/h2&gt;
+&lt;p&gt;In my case, I am going to use &lt;a href=&quot;https://code.visualstudio.com/&quot;&gt;Visual Studio Code&lt;/a&gt; to write the InSpec test. Open Powershell and create a new directory:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-ruby&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# create a directory for the test&lt;/span&gt;
+md inspec
+cd .\inspec
+&lt;span class=&quot;comment&quot;&gt;# open Visual Studio Code&lt;/span&gt;
+code .
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/inspec-windows/inspec-create-dir.png&quot; alt=&quot;Create new directory for InSpec tests&quot; title=&quot;Create new directory for InSpec tests&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Now, create a new file in Visual Studio Code and write down the first InSpec test:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-ruby&quot;&gt;describe service(&lt;span class=&quot;string&quot;&gt;'DHCP Client'&lt;/span&gt;) &lt;span class=&quot;keyword&quot;&gt;do&lt;/span&gt;
+  it { should be_installed }
+  it { should be_running }
+&lt;span class=&quot;keyword&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This is all we need to test if the &lt;code&gt;DHCP Client&lt;/code&gt; service is installed and running. Save the file and let’s execute the test.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/inspec-windows/vscode-test.png&quot; alt=&quot;Write InSpec tests in VSCode&quot; title=&quot;Write InSpec tests in VSCode&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Execute InSpec from Powershell:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;inspec &lt;span class=&quot;built_in&quot;&gt;exec&lt;/span&gt; .\test.rb
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/inspec-windows/inspec-exec-test.png&quot; alt=&quot;Execute InSpec test&quot; title=&quot;Execute InSpec test&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;run-inspec-tests-against-a-remote-windows-machine&quot;&gt;Run InSpec tests against a remote Windows machine&lt;/h2&gt;
+&lt;p&gt;I passed the &lt;code&gt;hello world&lt;/code&gt; of InSpec by running the first test on our workstation. As a next step, we run the same test against a remote Windows 2012 R2 server. We will use the same InSpec command with additional target information:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;inspec &lt;span class=&quot;built_in&quot;&gt;exec&lt;/span&gt; test.rb -t winrm://Administarator@hostname -p &lt;span class=&quot;string&quot;&gt;'P@ssword'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/inspec-windows/inspec-exec-remote.png&quot; alt=&quot;Execute InSpec test remotely&quot; title=&quot;Execute InSpec test remotely&quot;&gt;&lt;/p&gt;
+&lt;p&gt;With a few commands, we executed an InSpec test against a local workstation and a remote server.&lt;/p&gt;
+&lt;h2 id=&quot;resources-for-windows&quot;&gt;Resources for Windows&lt;/h2&gt;
+&lt;p&gt;Above, we explained how an InSpec test is created and executed. To ease writing InSpec tests, InSpec ships with various resources optimized for Windows environments. Those resources range from core operating system resources to application resources.&lt;/p&gt;
+&lt;p&gt;Verify Windows settings and configuration:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://inspec.io/docs/reference/resources/file/&quot;&gt;file&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://inspec.io/docs/reference/resources/package/&quot;&gt;package&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://inspec.io/docs/reference/resources/port/&quot;&gt;port&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://inspec.io/docs/reference/resources/registry_key/&quot;&gt;registry_key&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://inspec.io/docs/reference/resources/service/&quot;&gt;service&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://inspec.io/docs/reference/resources/user/&quot;&gt;user&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://inspec.io/docs/reference/resources/users/&quot;&gt;users&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://inspec.io/docs/reference/resources/windows_feature/&quot;&gt;windows_feature&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://inspec.io/docs/reference/resources/windows_task/&quot;&gt;windows_task&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://inspec.io/docs/reference/resources/wmi/&quot;&gt;wmi&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Audit Windows security settings:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://inspec.io/docs/reference/resources/audit_policy/&quot;&gt;audit_policy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://inspec.io/docs/reference/resources/security_policy/&quot;&gt;security_policy&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Run custom scripts:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://inspec.io/docs/reference/resources/powershell/&quot;&gt;powershell&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://inspec.io/docs/reference/resources/vbscript/&quot;&gt;vbscript&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Verify IIS configuration:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://inspec.io/docs/reference/resources/iis_site/&quot;&gt;iis_site&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;More resources are available and documented at &lt;a href=&quot;http://inspec.io/docs/reference/resources/&quot;&gt;InSpec Docs&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&quot;verify-configuration-of-the-windows-operating-system&quot;&gt;Verify configuration of the Windows operating system&lt;/h2&gt;
+&lt;p&gt;The following example illustrate the use of the &lt;code&gt;file&lt;/code&gt;, &lt;code&gt;user&lt;/code&gt;, &lt;code&gt;users&lt;/code&gt;, &lt;code&gt;package&lt;/code&gt; and &lt;code&gt;windows_taks&lt;/code&gt; resource.&lt;/p&gt;
+&lt;script src=&quot;https://gist.github.com/chris-rock/3ab57d7d1bb3d1b813f614f81dcfafbf.js&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;The result on my Windows 10 workstation looks like:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/inspec-windows/test-win.png&quot; alt=&quot;Run InSpec operating system checks&quot; title=&quot;Run InSpec operating system checks&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;security-checks-for-windows&quot;&gt;Security checks for Windows&lt;/h2&gt;
+&lt;p&gt;If you are interested in operating system hardening for Windows, you need to be able to verify &lt;code&gt;registry_key&lt;/code&gt;s, &lt;code&gt;security_policy&lt;/code&gt; or &lt;code&gt;audit_policy&lt;/code&gt;.&lt;/p&gt;
+&lt;script src=&quot;https://gist.github.com/chris-rock/7269ebfbff4f2500e59f922aa9d598fa.js&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;Have a look at &lt;a href=&quot;https://technet.microsoft.com/en-us/library/jj966254.aspx&quot;&gt;Administer Security Policy Settings&lt;/a&gt;,&lt;a href=&quot;https://technet.microsoft.com/en-us/library/dn221963.aspx&quot;&gt;User Rights Assignment&lt;/a&gt;, &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/windows/desktop/bb530716.aspx&quot;&gt;Privilege Constants&lt;/a&gt; and &lt;a href=&quot;https://technet.microsoft.com/en-us/library/cc766468.aspx&quot;&gt;Audit Policy&lt;/a&gt; to learn more about possible settings.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/inspec-windows/test-sec.png&quot; alt=&quot;Run security checks&quot; title=&quot;Run security checks&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;reuse-existing-powershell-or-vbscript-in-inspec&quot;&gt;Reuse existing Powershell or VBScript in InSpec&lt;/h2&gt;
+&lt;p&gt;InSpec also supports running Powershell and VBScript. This allows you to re-use existing scripts inside InSpec. &lt;code&gt;powershell&lt;/code&gt; and &lt;code&gt;vbscript&lt;/code&gt; resources provide the required capabilities to embed scripts in InSpec.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-ruby&quot;&gt;script = &amp;lt;&amp;lt;-EOH
+  Write-Output &lt;span class=&quot;string&quot;&gt;'hello'&lt;/span&gt;
+EOH
+
+describe powershell(script) &lt;span class=&quot;keyword&quot;&gt;do&lt;/span&gt;
+  its(&lt;span class=&quot;string&quot;&gt;'stdout'&lt;/span&gt;) { should eq &lt;span class=&quot;string&quot;&gt;&quot;hello\r\n&quot;&lt;/span&gt; }
+  its(&lt;span class=&quot;string&quot;&gt;'stderr'&lt;/span&gt;) { should eq &lt;span class=&quot;string&quot;&gt;''&lt;/span&gt; }
+&lt;span class=&quot;keyword&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Besides Powershell, InSpec supports &lt;code&gt;vbscript&lt;/code&gt;, too:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-ruby&quot;&gt;script = &amp;lt;&amp;lt;-EOH
+  WScript.Echo &lt;span class=&quot;string&quot;&gt;&quot;hello&quot;&lt;/span&gt;
+EOH
+
+describe vbscript(script) &lt;span class=&quot;keyword&quot;&gt;do&lt;/span&gt;
+  its(&lt;span class=&quot;string&quot;&gt;'stdout'&lt;/span&gt;) { should eq &lt;span class=&quot;string&quot;&gt;&quot;hello\r\n&quot;&lt;/span&gt; }
+&lt;span class=&quot;keyword&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;application-testing-with-inspec&quot;&gt;Application testing with InSpec&lt;/h2&gt;
+&lt;p&gt;In addition to operating system checks, we can test IIS configurations with InSpec as well. The following example is demonstrating tests for an out-of-the-box IIS server.&lt;/p&gt;
+&lt;script src=&quot;https://gist.github.com/chris-rock/a079adf369c88ac671b2b0f96f9bb229.js&quot;&gt;&lt;/script&gt;
+
+&lt;h2 id=&quot;compliance&quot;&gt;Compliance&lt;/h2&gt;
+&lt;p&gt;Above, we introduced InSpec as an infrastructure testing tool. For compliance, &lt;a href=&quot;http://inspec.io/docs/reference/dsl_inspec/&quot;&gt;additional metadata&lt;/a&gt; need to be attached to &lt;code&gt;describe&lt;/code&gt; tests. The following example is demonstrating the use of criticallity (&lt;code&gt;impact&lt;/code&gt;), &lt;code&gt;title&lt;/code&gt;, tags (&lt;code&gt;tag&lt;/code&gt;) and references (&lt;code&gt;ref&lt;/code&gt;).&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-ruby&quot;&gt;control &lt;span class=&quot;string&quot;&gt;'windows-base-102'&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;do&lt;/span&gt;
+  impact &lt;span class=&quot;number&quot;&gt;1.0&lt;/span&gt;
+  title &lt;span class=&quot;string&quot;&gt;'Anonymous Access to Windows Shares and Named Pipes is Disallowed'&lt;/span&gt;
+  tag &lt;span class=&quot;symbol&quot;&gt;cis:&lt;/span&gt; [&lt;span class=&quot;string&quot;&gt;'windows_2012r2:2.3.11.8'&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;'windows_2016:2.3.10.9'&lt;/span&gt;]
+  ref &lt;span class=&quot;string&quot;&gt;'CIS Microsoft Windows Server 2012 R2 Benchmark'&lt;/span&gt;
+  ref &lt;span class=&quot;string&quot;&gt;'CIS Microsoft Windows Server 2016 RTM (Release 1607) Benchmark'&lt;/span&gt;
+  describe registry_key(&lt;span class=&quot;string&quot;&gt;'HKLM\System\CurrentControlSet\Services\LanManServer\Parameters'&lt;/span&gt;) &lt;span class=&quot;keyword&quot;&gt;do&lt;/span&gt;
+    it { should exist }
+    its(&lt;span class=&quot;string&quot;&gt;'RestrictNullSessAccess'&lt;/span&gt;) { should eq &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt; }
+  &lt;span class=&quot;keyword&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;keyword&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In most cases, you do not want to start from scratch to develop compliance benchmarks. The &lt;a href=&quot;http://dev-sec.io/&quot;&gt;DevSec.io&lt;/a&gt; project is already providing industry best-practices for Linux and Windows operating systems. The Windows benchmark is currently in development and contributions are welcome to cover more areas. Lets run the DevSec Windows Baseline quickly:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-ruby&quot;&gt;inspec exec &lt;span class=&quot;symbol&quot;&gt;https:&lt;/span&gt;/&lt;span class=&quot;regexp&quot;&gt;/github.com/dev&lt;/span&gt;-sec/windows-baseline
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Are you compliant?&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/inspec-windows/test-devsec.png&quot; alt=&quot;Run DevSec Windows Baseline&quot; title=&quot;Run DevSec Windows Baseline&quot;&gt;&lt;/p&gt;
+&lt;p&gt;I recommend you have a look at the following DevSec profiles:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/dev-sec/windows-baseline&quot;&gt;DevSec Windows Baseline&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/dev-sec/windows-patch-baseline&quot;&gt;DevSec Windows Patch Baseline&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Those benchmark already support Windows 2012+, Windows 2016 and Windows Nano.&lt;/p&gt;
+&lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
+&lt;p&gt;This blog post covered the following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;InSpec installation on Windows&lt;/li&gt;
+&lt;li&gt;InSpec resources for Windows&lt;/li&gt;
+&lt;li&gt;Execute InSpec tests locally and remotely&lt;/li&gt;
+&lt;li&gt;InSpec Compliance profiles for Windows&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You should be prepared to start your first tests with InSpec in your own environment. If you feel that something is missing, please let me know.&lt;/p&gt;
+</description>
+    </item>
     <item>
       <title>Using meta-profiles with Chef Compliance</title>
       <link>http://lollyrock.com/articles/chef-compliance-meta-profiles/</link>
