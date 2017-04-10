@@ -5,13 +5,13 @@ date: 2017-04-10
 template: article.jade
 ---
 
-InSpec is an infrastructure testing and compliance tool that allows you to write re-usable tests for IT infrastructure. InSpec tests can be used easily in development and production environments to shift [Compliance left](https://blog.chef.io/2016/09/26/shift-left-security-and-compliance-automation-with-inspec-and-chef/). This blog post will highlight how you can leverage InSpec on Windows.
+InSpec is an infrastructure testing and compliance tool that allows you to write re-usable tests for your IT components. InSpec tests can easily be used in development and production environments to shift [Compliance left](https://blog.chef.io/2016/09/26/shift-left-security-and-compliance-automation-with-inspec-and-chef/). This blog post will highlight how you can leverage InSpec on Windows.
 
 ## Install InSpec on Windows
 
-First things first: We need InSpec on our workstation to play with it. The easiest way to get started is the installation via package. For production environments, I recommend the InSpec package. ChefDK is a very good solution if you need Chef + Test-Kitchen + InSpec. You can download both packages from [https://downloads.chef.io/](https://downloads.chef.io/).
+First things first: We need InSpec on our workstation. There are two packages that offer an easy way to get started. For production and standalone environments, I recommend the InSpec package. Alternatively there is ChefDK, if you need Chef + Test-Kitchen + InSpec. You can download both packages from [https://downloads.chef.io/](https://downloads.chef.io/).
 
-Alternatively, you can install InSpec via a Powershell script:
+Another option is to install InSpec via a Powershell script:
 
 ```
 . { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project inspec
@@ -68,7 +68,7 @@ With a few commands, we executed an InSpec test against a local workstation and 
 
 ## Resources for Windows
 
-Above, we explained how an InSpec test is created and executed. To ease writing InSpec tests, InSpec ships with various resources optimized for Windows environments. Those resources range from core operating system resources to application resources.
+Above, we explained how an InSpec test is created and executed. To make this experience great, InSpec ships with a number of resources optimized for Windows environments. Those resources range from core operating system essentials to application components.
 
 Verify Windows settings and configuration:
 
@@ -105,13 +105,13 @@ The following example illustrate the use of the `file`, `user`, `users`, `packag
 
 <script src="https://gist.github.com/chris-rock/3ab57d7d1bb3d1b813f614f81dcfafbf.js"></script>
 
-The result on my Windows 10 workstation looks like:
+The result on my Windows 10 workstation will return:
 
 ![Run InSpec operating system checks](test-win.png "Run InSpec operating system checks")
 
 ## Security checks for Windows
 
-If you are interested in operating system hardening for Windows, you need to be able to verify `registry_key`s, `security_policy` or `audit_policy`.
+If you are interested in operating system hardening for Windows, you need to be able to verify `registry_key`, `security_policy` or `audit_policy`.
 
 <script src="https://gist.github.com/chris-rock/7269ebfbff4f2500e59f922aa9d598fa.js"></script>
 
@@ -149,13 +149,13 @@ end
 
 ## Application testing with InSpec
 
-In addition to operating system checks, we can test IIS configurations with InSpec as well. The following example is demonstrating tests for an out-of-the-box IIS server.
+In addition to operating system checks, we can test IIS configurations with InSpec as well. The following example demonstrates tests for an out-of-the-box IIS server.
 
 <script src="https://gist.github.com/chris-rock/a079adf369c88ac671b2b0f96f9bb229.js"></script>
 
 ## Compliance
 
-Above, we introduced InSpec as an infrastructure testing tool. For compliance, [additional metadata](http://inspec.io/docs/reference/dsl_inspec/) need to be attached to `describe` tests. The following example is demonstrating the use of criticallity (`impact`), `title`, tags (`tag`) and references (`ref`).
+Above, we introduced InSpec as an infrastructure testing tool. For compliance, [additional metadata](http://inspec.io/docs/reference/dsl_inspec/) can be attached around `describe` tests. The following example shows the use of criticality (`impact`), `title`, tags (`tag`) and references (`ref`).
 
 ```ruby
 control 'windows-base-102' do
@@ -171,7 +171,7 @@ control 'windows-base-102' do
 end
 ```
 
-In most cases, you do not want to start from scratch to develop compliance benchmarks. The [DevSec.io](http://dev-sec.io/) project is already providing industry best-practices for Linux and Windows operating systems. The Windows benchmark is currently in development and contributions are welcome to cover more areas. Lets run the DevSec Windows Baseline quickly:
+In most cases, you do not want to start from scratch to develop compliance benchmarks. The [DevSec.io](http://dev-sec.io/) project already provides industry best-practices for Linux and Windows operating systems. The Windows benchmark is currently in development and contributions are welcome to cover more areas. Let's run the DevSec Windows Baseline quickly:
 
 ```ruby
 inspec exec https://github.com/dev-sec/windows-baseline
