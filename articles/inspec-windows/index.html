@@ -34,10 +34,10 @@
     <div id="content">
       <div class="content-wrap">
         <article class="article">
-          <section class="content"><p>InSpec is an infrastructure testing and compliance tool that allows you to write re-usable tests for <span class="caps">IT</span> infrastructure. InSpec tests can be used easily in development and production environments to shift <a href="https://blog.chef.io/2016/09/26/shift-left-security-and-compliance-automation-with-inspec-and-chef/">Compliance left</a>. This blog post will highlight how you can leverage InSpec on&nbsp;Windows.</p>
+          <section class="content"><p>InSpec is an infrastructure testing and compliance tool that allows you to write re-usable tests for your <span class="caps">IT</span> components. InSpec tests can easily be used in development and production environments to shift <a href="https://blog.chef.io/2016/09/26/shift-left-security-and-compliance-automation-with-inspec-and-chef/">Compliance left</a>. This blog post will highlight how you can leverage InSpec on&nbsp;Windows.</p>
 <h2 id="install-inspec-on-windows">Install InSpec on&nbsp;Windows</h2>
-<p>First things first: We need InSpec on our workstation to play with it. The easiest way to get started is the installation via package. For production environments, I recommend the InSpec package. ChefDK is a very good solution if you need Chef + Test-Kitchen + InSpec. You can download both packages from <a href="https://downloads.chef.io/">https://downloads.chef.io/</a>.</p>
-<p>Alternatively, you can install InSpec via a Powershell&nbsp;script:</p>
+<p>First things first: We need InSpec on our workstation. There are two packages that offer an easy way to get started. For production and standalone environments, I recommend the InSpec package. Alternatively there is ChefDK, if you need Chef + Test-Kitchen + InSpec. You can download both packages from <a href="https://downloads.chef.io/">https://downloads.chef.io/</a>.</p>
+<p>Another option is to install InSpec via a Powershell&nbsp;script:</p>
 <pre><code>. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project inspec
 </code></pre><p>Once InSpec is installed, run <code>inspec version</code> to verify that the installation was&nbsp;successful.</p>
 <h2 id="write-your-first-test">Write your first&nbsp;test</h2>
@@ -68,7 +68,7 @@ code .
 <p><img src="/articles/inspec-windows/inspec-exec-remote.png" alt="Execute InSpec test remotely" title="Execute InSpec test remotely"></p>
 <p>With a few commands, we executed an InSpec test against a local workstation and a remote&nbsp;server.</p>
 <h2 id="resources-for-windows">Resources for&nbsp;Windows</h2>
-<p>Above, we explained how an InSpec test is created and executed. To ease writing InSpec tests, InSpec ships with various resources optimized for Windows environments. Those resources range from core operating system resources to application&nbsp;resources.</p>
+<p>Above, we explained how an InSpec test is created and executed. To make this experience great, InSpec ships with a number of resources optimized for Windows environments. Those resources range from core operating system essentials to application&nbsp;components.</p>
 <p>Verify Windows settings and&nbsp;configuration:</p>
 <ul>
 <li><a href="http://inspec.io/docs/reference/resources/file/">file</a></li>
@@ -101,10 +101,10 @@ code .
 <p>The following example illustrate the use of the <code>file</code>, <code>user</code>, <code>users</code>, <code>package</code> and <code>windows_taks</code> resource.</p>
 <script src="https://gist.github.com/chris-rock/3ab57d7d1bb3d1b813f614f81dcfafbf.js"></script>
 
-<p>The result on my Windows 10 workstation looks&nbsp;like:</p>
+<p>The result on my Windows 10 workstation will&nbsp;return:</p>
 <p><img src="/articles/inspec-windows/test-win.png" alt="Run InSpec operating system checks" title="Run InSpec operating system checks"></p>
 <h2 id="security-checks-for-windows">Security checks for&nbsp;Windows</h2>
-<p>If you are interested in operating system hardening for Windows, you need to be able to verify <code>registry_key</code>s, <code>security_policy</code> or <code>audit_policy</code>.</p>
+<p>If you are interested in operating system hardening for Windows, you need to be able to verify <code>registry_key</code>, <code>security_policy</code> or <code>audit_policy</code>.</p>
 <script src="https://gist.github.com/chris-rock/7269ebfbff4f2500e59f922aa9d598fa.js"></script>
 
 <p>Have a look at <a href="https://technet.microsoft.com/en-us/library/jj966254.aspx">Administer Security Policy Settings</a>,<a href="https://technet.microsoft.com/en-us/library/dn221963.aspx">User Rights Assignment</a>, <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/bb530716.aspx">Privilege Constants</a> and <a href="https://technet.microsoft.com/en-us/library/cc766468.aspx">Audit Policy</a> to learn more about possible&nbsp;settings.</p>
@@ -130,11 +130,11 @@ describe vbscript(script) <span class="keyword">do</span>
 <span class="keyword">end</span>
 </code></pre>
 <h2 id="application-testing-with-inspec">Application testing with&nbsp;InSpec</h2>
-<p>In addition to operating system checks, we can test <span class="caps">IIS</span> configurations with InSpec as well. The following example is demonstrating tests for an out-of-the-box IIS&nbsp;server.</p>
+<p>In addition to operating system checks, we can test <span class="caps">IIS</span> configurations with InSpec as well. The following example demonstrates tests for an out-of-the-box IIS&nbsp;server.</p>
 <script src="https://gist.github.com/chris-rock/a079adf369c88ac671b2b0f96f9bb229.js"></script>
 
 <h2 id="compliance">Compliance</h2>
-<p>Above, we introduced InSpec as an infrastructure testing tool. For compliance, <a href="http://inspec.io/docs/reference/dsl_inspec/">additional metadata</a> need to be attached to <code>describe</code> tests. The following example is demonstrating the use of criticallity (<code>impact</code>), <code>title</code>, tags (<code>tag</code>) and references (<code>ref</code>).</p>
+<p>Above, we introduced InSpec as an infrastructure testing tool. For compliance, <a href="http://inspec.io/docs/reference/dsl_inspec/">additional metadata</a> can be attached around <code>describe</code> tests. The following example shows the use of criticality (<code>impact</code>), <code>title</code>, tags (<code>tag</code>) and references (<code>ref</code>).</p>
 <pre><code class="lang-ruby">control <span class="string">'windows-base-102'</span> <span class="keyword">do</span>
   impact <span class="number">1.0</span>
   title <span class="string">'Anonymous Access to Windows Shares and Named Pipes is Disallowed'</span>
@@ -147,7 +147,7 @@ describe vbscript(script) <span class="keyword">do</span>
   <span class="keyword">end</span>
 <span class="keyword">end</span>
 </code></pre>
-<p>In most cases, you do not want to start from scratch to develop compliance benchmarks. The <a href="http://dev-sec.io/">DevSec.io</a> project is already providing industry best-practices for Linux and Windows operating systems. The Windows benchmark is currently in development and contributions are welcome to cover more areas. Lets run the DevSec Windows Baseline&nbsp;quickly:</p>
+<p>In most cases, you do not want to start from scratch to develop compliance benchmarks. The <a href="http://dev-sec.io/">DevSec.io</a> project already provides industry best-practices for Linux and Windows operating systems. The Windows benchmark is currently in development and contributions are welcome to cover more areas. Let’s run the DevSec Windows Baseline&nbsp;quickly:</p>
 <pre><code class="lang-ruby">inspec exec <span class="symbol">https:</span>/<span class="regexp">/github.com/dev</span>-sec/windows-baseline
 </code></pre>
 <p>Are you&nbsp;compliant?</p>
