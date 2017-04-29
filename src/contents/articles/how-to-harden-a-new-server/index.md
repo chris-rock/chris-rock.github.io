@@ -135,8 +135,8 @@ Setting up chef (11.10.4-1.ubuntu.13.04) ...
 Thank you for installing Chef!
 Running Chef on hardening.tlabscloud.com...
 Installing Berkshelf cookbooks to 'cookbooks'...
-Installing os-hardening (1.0.1) from site: 'http://cookbooks.opscode.com/api/v1/cookbooks'
-Installing ssh-hardening (1.0.0) from site: 'http://cookbooks.opscode.com/api/v1/cookbooks'
+Installing os-hardening (1.0.1) from site: 'https://supermarket.chef.io/api/v1/cookbooks'
+Installing ssh-hardening (1.0.0) from site: 'https://supermarket.chef.io/api/v1/cookbooks'
 Using sysctl (0.3.4)
 Using ntp (1.6.2)
 Using apt (2.3.8)
@@ -165,11 +165,11 @@ In less than 5 minutes, a new server is hardened for the core system and ssh. Be
 
 More information is available at:
 
- * http://hardening.io/
+ * http://dev-sec.io/
  * http://vulcanosec.com/
- * https://github.com/TelekomLabs/example-chef-hardening
- * http://community.opscode.com/cookbooks/os-hardening
- * http://community.opscode.com/cookbooks/ssh-hardening
+ * https://github.com/dev-sec/hardening
+ * https://supermarket.chef.io/cookbooks/os-hardening
+ * https://supermarket.chef.io/cookbooks/ssh-hardening
 
 
 Happy Hardening!

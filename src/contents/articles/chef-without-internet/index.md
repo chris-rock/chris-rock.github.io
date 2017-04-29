@@ -42,7 +42,7 @@ This proofs that we are able to bootstrap a machine with a local chef binary. It
 
 # Uninstall Chef with Chef
 
-My customers often asked for a method to do a one-time install of [hardening framework](http://hardening.io/). In such a case it would be great, if we could remove the chef installer after the machine bootstrap.
+My customers often asked for a method to do a one-time install of [DevSec Hardening Framework](http://dev-sec.io/). In such a case it would be great, if we could remove the chef installer after the machine bootstrap.
 
 Now fun begins and we proof, that we are able to uninstall the chef binary with a chef cookbook:
 

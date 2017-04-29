@@ -33,7 +33,7 @@ We identified a few patterns:
 - Developers need an automated way to deal with security configuration
 - Operations need a deterministic and manageable software
 
-In a small team of four ([Dominik](http://arlimus.github.io/), Patrick, [Edmund](http://ehaselwanter.com/) and I) worked in an interdisciplinary team with know-how in each area for product delivery and security. We started prototyping, developing, deploying. Eventually, we created a project called [Hardening Framework](http://hardening.io/) with Deutsche Telekom. What is special about the Hardening Framework?
+In a small team of four ([Dominik](http://arlimus.github.io/), Patrick, [Edmund](http://ehaselwanter.com/) and I) worked in an interdisciplinary team with know-how in each area for product delivery and security. We started prototyping, developing, deploying. Eventually, we created a project called [DevSec Hardening Framework](http://dev-sec.io/) with Deutsche Telekom. What is special about the Hardening Framework?
 
  * Security configuration is documented as code which is great for developers, because they are able to focus on product implementation
  * Instead of abstract regularities, we used Serverspec to define tests. This allowed use the tests as a verification mechanism
@@ -43,15 +43,15 @@ In a small team of four ([Dominik](http://arlimus.github.io/), Patrick, [Edmund]
 
 In practice, we developed the security test rules first (like):
 
- * https://github.com/hardening-io/tests-os-hardening
+ * https://github.com/dev-sec/tests-os-hardening
 
-From now on, security teams started developing tests instead of static documents, because those can be re-used across the whole company. E.g. those can be integrated in CI environments or used on local test machines. 
+From now on, security teams started developing tests instead of static documents, because those can be re-used across the whole company. E.g. those can be integrated in CI environments or used on local test machines.
 
 Next, development and operations needed an implementation that automatically remedies failed tests. We implemented the security configuration in Chef, Puppet and Ansible:
 
- * https://github.com/hardening-io/chef-os-hardening 
- * https://github.com/hardening-io/puppet-os-hardening
- * https://github.com/hardening-io/ansible-os-hardening
+ * https://github.com/dev-sec/chef-os-hardening
+ * https://github.com/dev-sec/puppet-os-hardening
+ * https://github.com/dev-sec/ansible-os-hardening
 
 All implementations of the os-hardening module use the same tests. By writing all security requirements as tests rules, we are able to automate tests and increase the velocity of the product delivery. Think of a manufacturing line that has security built-in.
 
