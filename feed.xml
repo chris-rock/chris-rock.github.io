@@ -479,7 +479,7 @@ I, [2016-12-06T10:32:59.486476 #93241]  INFO -- : Finished archive generation.
 &lt;li&gt;Developers need an automated way to deal with security configuration&lt;/li&gt;
 &lt;li&gt;Operations need a deterministic and manageable software&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;In a small team of four (&lt;a href=&quot;http://arlimus.github.io/&quot;&gt;Dominik&lt;/a&gt;, Patrick, &lt;a href=&quot;http://ehaselwanter.com/&quot;&gt;Edmund&lt;/a&gt; and I) worked in an interdisciplinary team with know-how in each area for product delivery and security. We started prototyping, developing, deploying. Eventually, we created a project called &lt;a href=&quot;http://hardening.io/&quot;&gt;Hardening Framework&lt;/a&gt; with Deutsche Telekom. What is special about the Hardening Framework?&lt;/p&gt;
+&lt;p&gt;In a small team of four (&lt;a href=&quot;http://arlimus.github.io/&quot;&gt;Dominik&lt;/a&gt;, Patrick, &lt;a href=&quot;http://ehaselwanter.com/&quot;&gt;Edmund&lt;/a&gt; and I) worked in an interdisciplinary team with know-how in each area for product delivery and security. We started prototyping, developing, deploying. Eventually, we created a project called &lt;a href=&quot;http://dev-sec.io/&quot;&gt;DevSec Hardening Framework&lt;/a&gt; with Deutsche Telekom. What is special about the Hardening Framework?&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Security configuration is documented as code which is great for developers, because they are able to focus on product implementation&lt;/li&gt;
 &lt;li&gt;Instead of abstract regularities, we used Serverspec to define tests. This allowed use the tests as a verification mechanism&lt;/li&gt;
@@ -489,14 +489,14 @@ I, [2016-12-06T10:32:59.486476 #93241]  INFO -- : Finished archive generation.
 &lt;/ul&gt;
 &lt;p&gt;In practice, we developed the security test rules first (like):&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://github.com/hardening-io/tests-os-hardening&quot;&gt;https://github.com/hardening-io/tests-os-hardening&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/dev-sec/tests-os-hardening&quot;&gt;https://github.com/dev-sec/tests-os-hardening&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;From now on, security teams started developing tests instead of static documents, because those can be re-used across the whole company. E.g. those can be integrated in CI environments or used on local test machines. &lt;/p&gt;
+&lt;p&gt;From now on, security teams started developing tests instead of static documents, because those can be re-used across the whole company. E.g. those can be integrated in CI environments or used on local test machines.&lt;/p&gt;
 &lt;p&gt;Next, development and operations needed an implementation that automatically remedies failed tests. We implemented the security configuration in Chef, Puppet and Ansible:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://github.com/hardening-io/chef-os-hardening&quot;&gt;https://github.com/hardening-io/chef-os-hardening&lt;/a&gt; &lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://github.com/hardening-io/puppet-os-hardening&quot;&gt;https://github.com/hardening-io/puppet-os-hardening&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://github.com/hardening-io/ansible-os-hardening&quot;&gt;https://github.com/hardening-io/ansible-os-hardening&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/dev-sec/chef-os-hardening&quot;&gt;https://github.com/dev-sec/chef-os-hardening&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/dev-sec/puppet-os-hardening&quot;&gt;https://github.com/dev-sec/puppet-os-hardening&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/dev-sec/ansible-os-hardening&quot;&gt;https://github.com/dev-sec/ansible-os-hardening&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;All implementations of the os-hardening module use the same tests. By writing all security requirements as tests rules, we are able to automate tests and increase the velocity of the product delivery. Think of a manufacturing line that has security built-in.&lt;/p&gt;
 &lt;h2 id=&quot;take-away&quot;&gt;Take-Away&lt;/h2&gt;
@@ -2223,7 +2223,7 @@ dpkg-query &lt;span class=&quot;_&quot;&gt;-l&lt;/span&gt; chef
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;This proofs that we are able to bootstrap a machine with a local chef binary. It would be amazing, if Chef Inc could provide apt and yum repositories. This would allow us to work with the standard operating system setup and we would be able to re-use existing package mirrors.&lt;/p&gt;
 &lt;h1 id=&quot;uninstall-chef-with-chef&quot;&gt;Uninstall Chef with Chef&lt;/h1&gt;
-&lt;p&gt;My customers often asked for a method to do a one-time install of &lt;a href=&quot;http://hardening.io/&quot;&gt;hardening framework&lt;/a&gt;. In such a case it would be great, if we could remove the chef installer after the machine bootstrap.&lt;/p&gt;
+&lt;p&gt;My customers often asked for a method to do a one-time install of &lt;a href=&quot;http://dev-sec.io/&quot;&gt;DevSec Hardening Framework&lt;/a&gt;. In such a case it would be great, if we could remove the chef installer after the machine bootstrap.&lt;/p&gt;
 &lt;p&gt;Now fun begins and we proof, that we are able to uninstall the chef binary with a chef cookbook:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;lang-ruby&quot;&gt;
 &lt;span class=&quot;comment&quot;&gt;## Uninstall chef&lt;/span&gt;
@@ -2951,8 +2951,8 @@ Setting up chef (11.10.4-1.ubuntu.13.04) ...
 Thank you &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; installing Chef!
 Running Chef on hardening.tlabscloud.com...
 Installing Berkshelf cookbooks to &lt;span class=&quot;string&quot;&gt;'cookbooks'&lt;/span&gt;...
-Installing os-hardening (1.0.1) from site: &lt;span class=&quot;string&quot;&gt;'http://cookbooks.opscode.com/api/v1/cookbooks'&lt;/span&gt;
-Installing ssh-hardening (1.0.0) from site: &lt;span class=&quot;string&quot;&gt;'http://cookbooks.opscode.com/api/v1/cookbooks'&lt;/span&gt;
+Installing os-hardening (1.0.1) from site: &lt;span class=&quot;string&quot;&gt;'https://supermarket.chef.io/api/v1/cookbooks'&lt;/span&gt;
+Installing ssh-hardening (1.0.0) from site: &lt;span class=&quot;string&quot;&gt;'https://supermarket.chef.io/api/v1/cookbooks'&lt;/span&gt;
 Using sysctl (0.3.4)
 Using ntp (1.6.2)
 Using apt (2.3.8)
@@ -2979,11 +2979,11 @@ Chef Client finished, 10/45 resources updated &lt;span class=&quot;keyword&quot;
 &lt;/ul&gt;
 &lt;p&gt;More information is available at:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://hardening.io/&quot;&gt;http://hardening.io/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://dev-sec.io/&quot;&gt;http://dev-sec.io/&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://vulcanosec.com/&quot;&gt;http://vulcanosec.com/&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://github.com/TelekomLabs/example-chef-hardening&quot;&gt;https://github.com/TelekomLabs/example-chef-hardening&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://community.opscode.com/cookbooks/os-hardening&quot;&gt;http://community.opscode.com/cookbooks/os-hardening&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://community.opscode.com/cookbooks/ssh-hardening&quot;&gt;http://community.opscode.com/cookbooks/ssh-hardening&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/dev-sec/hardening&quot;&gt;https://github.com/dev-sec/hardening&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://supermarket.chef.io/cookbooks/os-hardening&quot;&gt;https://supermarket.chef.io/cookbooks/os-hardening&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://supermarket.chef.io/cookbooks/ssh-hardening&quot;&gt;https://supermarket.chef.io/cookbooks/ssh-hardening&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Happy Hardening!&lt;/p&gt;
 &lt;p&gt;If you have any questions contact me via &lt;a href=&quot;https://twitter.com/chri_hartmann&quot;&gt;Twitter @chri_hartmann&lt;/a&gt; or &lt;a href=&quot;https://github.com/chris-rock&quot;&gt;Github&lt;/a&gt;&lt;/p&gt;
