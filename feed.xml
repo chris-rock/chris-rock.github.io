@@ -5,13 +5,406 @@
     <atom:link href="http://lollyrock.com/feed.xml" rel="self" type="application/rss+xml"></atom:link>
     <link>http://lollyrock.com</link>
     <description>fun &amp; sun</description>
-    <pubDate>Mon, 10 Apr 2017 02:00:00 +0200</pubDate>
+    <pubDate>Sun, 30 Apr 2017 19:00:00 -0500</pubDate>
     <generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator>
     <language>en</language>
     <item>
+      <title>InSpec for Docker</title>
+      <link>http://lollyrock.com/articles/inspec-for-docker/</link>
+      <pubDate>Sun, 30 Apr 2017 19:00:00 -0500</pubDate>
+      <guid isPermaLink="true">http://lollyrock.com/articles/inspec-for-docker/</guid>
+      <author></author>
+      <description>&lt;p&gt;Docker environments enable you to manage fast-moving infrastructure. The faster you move, the better your test environment needs to be. InSpec provides that capability. With the recent addition of 3 new resources: &lt;code&gt;docker&lt;/code&gt;, &lt;code&gt;docker_image&lt;/code&gt; and a &lt;code&gt;docker_container&lt;/code&gt;, it became even easier to verify docker hosts and docker containers. This blog post demonstrates how to use InSpec to verify your Docker environments.&lt;/p&gt;
+&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
+&lt;p&gt;&lt;center&gt;&lt;img src=&quot;/articles/inspec-for-docker/inspec-docker.png&quot; alt=&quot;&quot; title=&quot;Docker Architecture Overview&quot; width=&quot;700px&quot;&gt;&lt;/center&gt;&lt;/p&gt;
+
+&lt;p&gt;Before I am talking about docker infrastructure testing, I need to explain the different parts of the docker universe quickly.&lt;/p&gt;
+&lt;p&gt;&lt;center style=&quot;font-size: 14px&quot;&gt;&lt;img src=&quot;/articles/inspec-for-docker/docker-architecture.svg&quot; alt=&quot;&quot; title=&quot;Docker Architecture Overview&quot; width=&quot;700px&quot;&gt;Source: &lt;a href=&quot;https://docs.docker.com/engine/docker-overview/#docker-architecture&quot;&gt;https://docs.docker.com/engine/docker-overview/#docker-architecture&lt;/a&gt;&lt;/center&gt;&lt;/p&gt;
+
+&lt;p&gt;A docker host is the runtime environment (docker cli + docker daemon) that manages docker images and containers on a machine. Therefore it helps to manages the complete lifecycle of a container and provides a nice CLI to interact. The docker daemon can start multiple containers in parallel. A good read to understand containers is &lt;a href=&quot;https://news.ycombinator.com/item?id=13982620&quot;&gt;Containers vs. Zones vs. Jails vs. VMs&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;InSpec allows you to scan both, the host and the running container. At first, I am demonstrating the use of InSpec with a running container to ensure the container is configured correctly. Afterwards, I am going to talk about 3 InSpec resources that help you to verify a docker host environment:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;docker container&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;docker image&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;docker&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Those resources are heavily used in &lt;a href=&quot;https://github.com/dev-sec/cis-docker-benchmark&quot;&gt;DevSec’s CIS Docker Benchmark &lt;/a&gt; to ensure best-practices security configuration for docker hosts.&lt;/p&gt;
+&lt;h2 id=&quot;verify-a-running-container&quot;&gt;Verify a running container&lt;/h2&gt;
+&lt;p&gt;The simplest use-case is to verify a running docker container. Just start a new container by&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;docker run -it alpine /bin/sh
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Now, we can use InSpec to run the &lt;a href=&quot;https://github.com/dev-sec/linux-baseline&quot;&gt;DevSec Linux Baseline&lt;/a&gt; against that container:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ inspec exec https://github.com/dev-sec/linux-baseline -t docker://ca2dbee25ddc
+Profile: DevSec Linux Security Baseline (linux-baseline)
+Version: 2.0.1
+Target:  docker://ca2dbee25ddca24f453005a15cd64f1004fbe6f974df957658fcdf6d1fa6331e
+
+  ✔  os-01: Trusted hosts login
+     ✔  Command find / -name &amp;#39;.rhosts&amp;#39; stdout should be empty
+     ✔  Command find / -name &amp;#39;hosts.equiv&amp;#39;  stdout should be empty
+  ×  os-02: Check owner and permissions for /etc/shadow (1 failed)
+     ✔  File /etc/shadow should exist
+     ✔  File /etc/shadow should be file
+     ✔  File /etc/shadow should be owned by &amp;quot;root&amp;quot;
+     ✔  File /etc/shadow should not be executable
+     ✔  File /etc/shadow should be writable by owner
+     ✔  File /etc/shadow should be readable by owner
+     ✔  File /etc/shadow should not be readable by other
+     ×  File /etc/shadow group should eq nil
+
+     expected: nil
+          got: &amp;quot;shadow&amp;quot;
+
+     (compared using ==)
+
+...
+
+  ✔  sysctl-31a: Secure Core Dumps - dump settings
+    ✔  Kernel Parameter fs.suid_dumpable value should cmp == /(0|2)/
+  ↺  sysctl-31b: Secure Core Dumps - dump path
+    ↺  Skipped control due to only_if condition.
+  ✔  sysctl-32: kernel.randomize_va_space
+    ✔  Kernel Parameter kernel.randomize_va_space value should eq 2
+  ✔  sysctl-33: CPU No execution Flag or Kernel ExecShield
+    ✔  /proc/cpuinfo Flags should include NX
+
+  Profile Summary: 20 successful, 23 failures, 7 skipped
+  Test Summary: 46 successful, 56 failures, 9 skipped
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;You can write your own tests and run those against a running container, too. Further information about the available InSpec resources is available at &lt;a href=&quot;https://www.inspec.io/docs/&quot;&gt;InSpec Docs&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;how-to-use-docker_container-&quot;&gt;How to use ‘docker_container’&lt;/h2&gt;
+&lt;p&gt;The &lt;code&gt;docker_container&lt;/code&gt; resource helps you to verify running container. For the following test, I am going to start a new postgres database:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d  -p 5432:5432 postgres
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;I’d like to write a test that ensures the container &lt;code&gt;some-postgres&lt;/code&gt; runs and the port is mapped. A simple InSpec test can do the trick:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;describe docker_container(&amp;#39;some-postgres&amp;#39;) do
+  it { should exist }
+  it { should be_running }
+  its(&amp;#39;repo&amp;#39;) { should eq &amp;#39;postgres&amp;#39; }
+  its(&amp;#39;ports&amp;#39;) { should eq &amp;quot;0.0.0.0:5432-&amp;gt;5432/tcp&amp;quot; }
+  its(&amp;#39;command&amp;#39;) { should eq &amp;#39;docker-entrypoint.sh postgres&amp;#39; }
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;I am going to run that test that quickly in InSpec Shell, but you can use the same test in a &lt;code&gt;test.rb&lt;/code&gt; and run &lt;code&gt;inspec exec test.rb&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;inspec shell
+Welcome to the interactive InSpec Shell
+To find out how to use it, type: help
+
+You are currently running on:
+
+    OS platform:  mac_os_x
+    OS family:  darwin
+    OS release: 10.12.4
+
+inspec&amp;gt; describe docker_container(&amp;#39;some-postgres&amp;#39;) do
+inspec&amp;gt;   it { should exist }  
+inspec&amp;gt;   it { should be_running }  
+inspec&amp;gt;   its(&amp;#39;repo&amp;#39;) { should eq &amp;#39;postgres&amp;#39; }  
+inspec&amp;gt;   its(&amp;#39;ports&amp;#39;) { should eq &amp;quot;0.0.0.0:5432-&amp;gt;5432/tcp&amp;quot; }  
+inspec&amp;gt;   its(&amp;#39;command&amp;#39;) { should eq &amp;#39;docker-entrypoint.sh postgres&amp;#39; }  
+inspec&amp;gt; end  
+
+Profile: inspec-shell
+Version: (not specified)
+
+  Docker Container
+     ✔  some-postgres should exist
+     ✔  some-postgres should be running
+     ✔  some-postgres repo should eq &amp;quot;postgres&amp;quot;
+     ✔  some-postgres ports should eq &amp;quot;0.0.0.0:5432-&amp;gt;5432/tcp&amp;quot;
+     ✔  some-postgres command should eq &amp;quot;docker-entrypoint.sh postgres&amp;quot;
+
+Test Summary: 5 successful, 0 failures, 0 skipped
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In case you want to verify a specific container id, you can do that as well:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;describe docker_container(id: &amp;#39;a3df5ff6740f&amp;#39;) do
+  it { should exist }
+  it { should be_running }
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;how-to-use-docker_image-&quot;&gt;How to use ‘docker_image’&lt;/h2&gt;
+&lt;p&gt;Another use-case I am seeing very often is to ensure a specific Docker image is not used in your environment anymore. I am going to use Ubuntu 12.04 as an example, since it went &lt;a href=&quot;http://fridge.ubuntu.com/2017/03/15/ubuntu-12-04-precise-pangolin-reaches-end-of-life-on-april-28-2017/&quot;&gt;end of life&lt;/a&gt; recently. The following test ensures that &lt;code&gt;u12:latest&lt;/code&gt; image is available on your docker host:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;describe docker_image(&amp;#39;u12:latest&amp;#39;) do
+  it { should_not exist }
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Lets run it in InSpec Shell quickly:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;inspec shell
+Welcome to the interactive InSpec Shell
+To find out how to use it, type: help
+
+You are currently running on:
+
+    OS platform:  mac_os_x
+    OS family:  darwin
+    OS release: 10.12.4
+
+inspec&amp;gt; describe docker_image(&amp;#39;u12:latest&amp;#39;) do
+inspec&amp;gt;   it { should_not exist }  
+inspec&amp;gt; end  
+
+Profile: inspec-shell
+Version: (not specified)
+
+  Docker Image
+     ✔  u12:latest should not exist
+
+Test Summary: 1 successful, 0 failures, 0 skipped
+inspec&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The &lt;code&gt;docker_image&lt;/code&gt; resource can also be used to verify a specific image id:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;describe docker_image(&amp;#39;alpine:latest&amp;#39;) do
+  it { should exist }
+  its(&amp;#39;id&amp;#39;) { should eq &amp;#39;sha256:4a415e3663882fbc554ee830889c68a33b3585503892cc718a4698e91ef2a526&amp;#39; }
+  its(&amp;#39;image&amp;#39;) { should eq &amp;#39;alpine:latest&amp;#39; }
+  its(&amp;#39;repo&amp;#39;) { should eq &amp;#39;alpine&amp;#39; }
+  its(&amp;#39;tag&amp;#39;) { should eq &amp;#39;latest&amp;#39; }
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In addition you could also verify that no container is using the &lt;code&gt;u12:latest&lt;/code&gt; image. We ask InSpec to return all images of the containers. This will return a list of images used by the containers. As a next step, we just have to ensure the specific image is not used anymore.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;describe docker.containers do
+  its(&amp;#39;images&amp;#39;) { should_not include &amp;#39;u12:latest&amp;#39; }
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;more-advanced-used-cases-with-docker-resource&quot;&gt;More advanced used cases with ‘docker’ resource&lt;/h2&gt;
+&lt;p&gt;The &lt;code&gt;docker&lt;/code&gt; resource is more complex to use than &lt;code&gt;docker_image&lt;/code&gt; and &lt;code&gt;docker_container&lt;/code&gt;, but allows you to implement more complex query scenarios. It provides 4 key methods to fetch more information about the docker host:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;containers&lt;/code&gt; returns all running and exited containers by running &lt;code&gt;docker ps -a --no-trunc&lt;/code&gt; under the hood&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;images&lt;/code&gt; returns all locally available images by running &lt;code&gt;docker images -a --no-trunc&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;version&lt;/code&gt; is the parsed content of &lt;code&gt;docker version&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;object(id)&lt;/code&gt; returns information about a docker object and parses the output from &lt;code&gt;docker inspect id&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Docker Containers&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;describe docker.containers do
+  its(&amp;#39;images&amp;#39;) { should_not include &amp;#39;u12:latest&amp;#39; }
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Let us inspec the &lt;code&gt;docker&lt;/code&gt; resource with InSpec Shell. This will show two containers, one is already exited and another one is still running:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ inspec shell
+dockeWelcome to the interactive InSpec Shell
+To find out how to use it, type: help
+
+You are currently running on:
+
+    OS platform:  mac_os_x
+    OS family:  darwin
+    OS release: 10.12.4
+
+inspec&amp;gt; docker.containers.entries
+=&amp;gt; [docker.containers.entries
+=&amp;gt; [#&amp;lt;struct
+  command=&amp;quot;\&amp;quot;/bin/sh\&amp;quot;&amp;quot;,
+  id=&amp;quot;ca2dbee25ddca24f453005a15cd64f1004fbe6f974df957658fcdf6d1fa6331e&amp;quot;,
+  image=&amp;quot;alpine&amp;quot;,
+  labels=&amp;quot;&amp;quot;,
+  localvolumes=&amp;quot;0&amp;quot;,
+  mounts=&amp;quot;&amp;quot;,
+  names=&amp;quot;keen_dijkstra&amp;quot;,
+  networks=&amp;quot;bridge&amp;quot;,
+  ports=&amp;quot;&amp;quot;,
+  runningfor=&amp;quot;About an hour ago&amp;quot;,
+  size=&amp;quot;0B&amp;quot;,
+  status=&amp;quot;Exited (127) 13 seconds ago&amp;quot;,
+  exists?=nil,
+  running?=nil&amp;gt;,
+ #&amp;lt;struct
+  command=&amp;quot;\&amp;quot;docker-entrypoint.sh postgres\&amp;quot;&amp;quot;,
+  id=&amp;quot;921f6363ceaa3c5253a31068a0c8cb7b3a78c1353cf6b4125c7a5460d4e8ce2a&amp;quot;,
+  image=&amp;quot;postgres&amp;quot;,
+  labels=&amp;quot;&amp;quot;,
+  localvolumes=&amp;quot;1&amp;quot;,
+  mounts=&amp;quot;afee92bcd2e8e84cccf884cd42443f0ff718789dca271e7497a308e22622514a&amp;quot;,
+  names=&amp;quot;some-postgres&amp;quot;,
+  networks=&amp;quot;bridge&amp;quot;,
+  ports=&amp;quot;0.0.0.0:5432-&amp;gt;5432/tcp&amp;quot;,
+  runningfor=&amp;quot;3 hours ago&amp;quot;,
+  size=&amp;quot;0B&amp;quot;,
+  status=&amp;quot;Up 3 hours&amp;quot;,
+  exists?=nil,
+  running?=nil&amp;gt;]
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The resource allows you to ask for all running containers:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;docker.containers.running?.entries
+=&amp;gt; [#&amp;lt;struct
+  command=&amp;quot;\&amp;quot;docker-entrypoint.sh postgres\&amp;quot;&amp;quot;,
+  id=&amp;quot;921f6363ceaa3c5253a31068a0c8cb7b3a78c1353cf6b4125c7a5460d4e8ce2a&amp;quot;,
+  image=&amp;quot;postgres&amp;quot;,
+  labels=&amp;quot;&amp;quot;,
+  localvolumes=&amp;quot;1&amp;quot;,
+  mounts=&amp;quot;afee92bcd2e8e84cccf884cd42443f0ff718789dca271e7497a308e22622514a&amp;quot;,
+  names=&amp;quot;some-postgres&amp;quot;,
+  networks=&amp;quot;bridge&amp;quot;,
+  ports=&amp;quot;0.0.0.0:5432-&amp;gt;5432/tcp&amp;quot;,
+  runningfor=&amp;quot;3 hours ago&amp;quot;,
+  size=&amp;quot;0B&amp;quot;,
+  status=&amp;quot;Up 3 hours&amp;quot;,
+  exists?=nil,
+  running?=nil&amp;gt;]
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;You can also filter containers by the following fields: &lt;code&gt;commands&lt;/code&gt;, &lt;code&gt;ids&lt;/code&gt;, &lt;code&gt;images&lt;/code&gt;, &lt;code&gt;labels&lt;/code&gt;, &lt;code&gt;local_volumes&lt;/code&gt;, &lt;code&gt;mounts&lt;/code&gt;, &lt;code&gt;names&lt;/code&gt;, &lt;code&gt;networks&lt;/code&gt;, &lt;code&gt;ports&lt;/code&gt;, &lt;code&gt;running_for&lt;/code&gt;, &lt;code&gt;sizes&lt;/code&gt;,&lt;code&gt;status&lt;/code&gt;, &lt;code&gt;running?&lt;/code&gt;,&lt;code&gt;exists?&lt;/code&gt;. For example, if you want to verify the configuration for each container, you can do the following in InSpec:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# returns all container ids
+docker.containers.ids.each do |id|
+  # call docker inspect to retrieve detailed information about the container
+  describe docker.object(id) do
+    its(&amp;#39;HostConfig.Privileged&amp;#39;) { should cmp false }
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you want to do the following for running containers, just say so:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# returns all running container ids
+docker.containers.running?.ids.each do |id|
+  # call docker inspect to retrieve detailed information about the container
+  describe docker.object(id) do
+    its(&amp;#39;HostConfig.Privileged&amp;#39;) { should cmp false }
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you a looking for a specific container:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# returns all running container ids
+docker.containers.where { names == &amp;#39;some-postgres&amp;#39; }.ids.each do |id|
+  # call docker inspect to retrieve detailed information about the container
+  describe docker.object(id) do
+    its(&amp;#39;HostConfig.Privileged&amp;#39;) { should cmp false }
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;Docker Images&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Docker images can be inspected with a similar approach:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;describe docker.images do
+  its(&amp;#39;repositories&amp;#39;) { should_not include &amp;#39;inssecure_image&amp;#39; }
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;You can also filter images by the following fields: &lt;code&gt;ids&lt;/code&gt;, &lt;code&gt;repositories&lt;/code&gt;, &lt;code&gt;tags&lt;/code&gt;, &lt;code&gt;sizes&lt;/code&gt;, &lt;code&gt;digests&lt;/code&gt;, &lt;code&gt;created&lt;/code&gt;, &lt;code&gt;created_since&lt;/code&gt; and &lt;code&gt;exists?&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;If you want to verify that no image is using the ADD instruction in Dockerfile, you can iterate over all image ids and ask &lt;code&gt;docker history&lt;/code&gt; if the ADD instruction was used:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;docker.images.ids.each do |id|
+  describe command(&amp;quot;docker history #{id}| grep &amp;#39;ADD&amp;#39;&amp;quot;) do
+    its(&amp;#39;stdout&amp;#39;) { should eq &amp;#39;&amp;#39; }
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;Docker Version&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;InSpec allows you to verify the docker client and server version that is used on your machine. Behind the scenes, it is using the &lt;code&gt;docker version&lt;/code&gt; command. This would return the following values:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ docker version
+Client:
+ Version:      17.05.0-ce-rc1
+ API version:  1.29
+ Go version:   go1.7.5
+ Git commit:   2878a85
+ Built:        Tue Apr 11 20:55:05 2017
+ OS/Arch:      darwin/amd64
+
+Server:
+ Version:      17.05.0-ce-rc1
+ API version:  1.29 (minimum version 1.12)
+ Go version:   go1.7.5
+ Git commit:   2878a85
+ Built:        Tue Apr 11 20:55:05 2017
+ OS/Arch:      linux/amd64
+ Experimental: true
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In InSpec Shell, you see the parsed values:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;inspec&amp;gt; docker.version
+=&amp;gt; {&amp;quot;Client&amp;quot;=&amp;gt;
+  {&amp;quot;Version&amp;quot;=&amp;gt;&amp;quot;17.05.0-ce-rc1&amp;quot;,
+   &amp;quot;ApiVersion&amp;quot;=&amp;gt;&amp;quot;1.29&amp;quot;,
+   &amp;quot;DefaultAPIVersion&amp;quot;=&amp;gt;&amp;quot;1.29&amp;quot;,
+   &amp;quot;GitCommit&amp;quot;=&amp;gt;&amp;quot;2878a85&amp;quot;,
+   &amp;quot;GoVersion&amp;quot;=&amp;gt;&amp;quot;go1.7.5&amp;quot;,
+   &amp;quot;Os&amp;quot;=&amp;gt;&amp;quot;darwin&amp;quot;,
+   &amp;quot;Arch&amp;quot;=&amp;gt;&amp;quot;amd64&amp;quot;,
+   &amp;quot;BuildTime&amp;quot;=&amp;gt;&amp;quot;Tue Apr 11 20:55:05 2017&amp;quot;},
+ &amp;quot;Server&amp;quot;=&amp;gt;
+  {&amp;quot;Version&amp;quot;=&amp;gt;&amp;quot;17.05.0-ce-rc1&amp;quot;,
+   &amp;quot;ApiVersion&amp;quot;=&amp;gt;&amp;quot;1.29&amp;quot;,
+   &amp;quot;MinAPIVersion&amp;quot;=&amp;gt;&amp;quot;1.12&amp;quot;,
+   &amp;quot;GitCommit&amp;quot;=&amp;gt;&amp;quot;2878a85&amp;quot;,
+   &amp;quot;GoVersion&amp;quot;=&amp;gt;&amp;quot;go1.7.5&amp;quot;,
+   &amp;quot;Os&amp;quot;=&amp;gt;&amp;quot;linux&amp;quot;,
+   &amp;quot;Arch&amp;quot;=&amp;gt;&amp;quot;amd64&amp;quot;,
+   &amp;quot;KernelVersion&amp;quot;=&amp;gt;&amp;quot;4.9.21-moby&amp;quot;,
+   &amp;quot;Experimental&amp;quot;=&amp;gt;true,
+   &amp;quot;BuildTime&amp;quot;=&amp;gt;&amp;quot;Tue Apr 11 20:55:05 2017&amp;quot;}}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Now, I am going to write a check that ensures docker is newer than &lt;code&gt;1.12&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;describe docker.version do
+  its(&amp;#39;Server.Version&amp;#39;) { should cmp &amp;gt;= &amp;#39;1.12&amp;#39;}
+  its(&amp;#39;Client.Version&amp;#39;) { should cmp &amp;gt;= &amp;#39;1.12&amp;#39;}
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;Docker Info&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;docker.info&lt;/code&gt; parses the output of &lt;code&gt;docker info&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;docker info
+Containers: 5
+ Running: 1
+ Paused: 0
+ Stopped: 4
+Images: 108
+Server Version: 17.05.0-ce-rc1
+....
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Again, you can inspect all values in InSpec with InSpec Shell:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;inspec&amp;gt; docker.info
+=&amp;gt; {&amp;quot;ID&amp;quot;=&amp;gt;&amp;quot;YMXQ:5C62:Q3AR:XV77:7LS6:O56G:A6VZ:V5LJ:WNNJ:UQTO:QKPB:K62P&amp;quot;,
+ &amp;quot;Containers&amp;quot;=&amp;gt;5,
+ &amp;quot;ContainersRunning&amp;quot;=&amp;gt;1,
+ &amp;quot;ContainersPaused&amp;quot;=&amp;gt;0,
+ &amp;quot;ContainersStopped&amp;quot;=&amp;gt;4,
+ &amp;quot;Images&amp;quot;=&amp;gt;108,
+ &amp;quot;Driver&amp;quot;=&amp;gt;&amp;quot;overlay2&amp;quot;,
+ &amp;quot;DriverStatus&amp;quot;=&amp;gt;[[&amp;quot;Backing Filesystem&amp;quot;, &amp;quot;extfs&amp;quot;], [&amp;quot;Supports d_type&amp;quot;, &amp;quot;true&amp;quot;], [&amp;quot;Native Overlay Diff&amp;quot;, &amp;quot;true&amp;quot;]],
+ &amp;quot;SystemStatus&amp;quot;=&amp;gt;nil,
+ &amp;quot;Plugins&amp;quot;=&amp;gt;{&amp;quot;Volume&amp;quot;=&amp;gt;[&amp;quot;local&amp;quot;], &amp;quot;Network&amp;quot;=&amp;gt;[&amp;quot;bridge&amp;quot;, &amp;quot;host&amp;quot;, &amp;quot;ipvlan&amp;quot;, &amp;quot;macvlan&amp;quot;, &amp;quot;null&amp;quot;, &amp;quot;overlay&amp;quot;], &amp;quot;Authorization&amp;quot;=&amp;gt;[]},
+ &amp;quot;MemoryLimit&amp;quot;=&amp;gt;true,
+ &amp;quot;SwapLimit&amp;quot;=&amp;gt;true,
+ &amp;quot;KernelMemory&amp;quot;=&amp;gt;true,
+ &amp;quot;CpuCfsPeriod&amp;quot;=&amp;gt;true,
+ &amp;quot;CpuCfsQuota&amp;quot;=&amp;gt;true,
+ &amp;quot;CPUShares&amp;quot;=&amp;gt;true,
+ &amp;quot;CPUSet&amp;quot;=&amp;gt;true,
+ &amp;quot;IPv4Forwarding&amp;quot;=&amp;gt;true,
+ &amp;quot;BridgeNfIptables&amp;quot;=&amp;gt;true,
+ &amp;quot;BridgeNfIp6tables&amp;quot;=&amp;gt;true,
+ &amp;quot;Debug&amp;quot;=&amp;gt;true,
+ &amp;quot;NFd&amp;quot;=&amp;gt;25,
+ &amp;quot;OomKillDisable&amp;quot;=&amp;gt;true,
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Now, lets ensure we are not running more than 20 containers on a node:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;describe docker.info do
+  its(&amp;#39;ContainersRunning&amp;#39;) { should cmp &amp;lt;= 20 }
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If Swarm is active, you could verify that you have only a limited amount of leaders:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;describe docker.info do
+  its(&amp;#39;Swarm.Managers&amp;#39;) { should cmp &amp;lt;= 3 }
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;Docker Object&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Each docker object store multiple attributes. Docker allows you to see those values by running &lt;code&gt;docker inspect&lt;/code&gt;. This data is parsed in InSpec too and can be used to verify entries for container and images objects:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;describe docker.object(container_id) do
+  its(&amp;#39;Configuration.Path&amp;#39;) { should eq &amp;#39;value&amp;#39; }
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Be aware that docker object is very complex and the output varies by object. An example output in InSpec shell looks like:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;inspec&amp;gt; docker.object(&amp;#39;921f6363ceaa3c5253a31068a0c8cb7b3a78c1353cf6b4125c7a5460d4e8ce2a&amp;#39;)
+=&amp;gt; {&amp;quot;Id&amp;quot;=&amp;gt;&amp;quot;921f6363ceaa3c5253a31068a0c8cb7b3a78c1353cf6b4125c7a5460d4e8ce2a&amp;quot;,
+ &amp;quot;Created&amp;quot;=&amp;gt;&amp;quot;2017-04-29T11:27:45.846552618Z&amp;quot;,
+ &amp;quot;Path&amp;quot;=&amp;gt;&amp;quot;docker-entrypoint.sh&amp;quot;,
+ &amp;quot;Args&amp;quot;=&amp;gt;[&amp;quot;postgres&amp;quot;],
+ &amp;quot;State&amp;quot;=&amp;gt;
+  {&amp;quot;Status&amp;quot;=&amp;gt;&amp;quot;running&amp;quot;,
+   &amp;quot;Running&amp;quot;=&amp;gt;true,
+   &amp;quot;Paused&amp;quot;=&amp;gt;false,
+   &amp;quot;Restarting&amp;quot;=&amp;gt;false,
+   &amp;quot;OOMKilled&amp;quot;=&amp;gt;false,
+   &amp;quot;Dead&amp;quot;=&amp;gt;false,
+   &amp;quot;Pid&amp;quot;=&amp;gt;18850,
+   &amp;quot;ExitCode&amp;quot;=&amp;gt;0,
+   &amp;quot;Error&amp;quot;=&amp;gt;&amp;quot;&amp;quot;,
+   &amp;quot;StartedAt&amp;quot;=&amp;gt;&amp;quot;2017-04-29T11:27:46.414873644Z&amp;quot;,
+   &amp;quot;FinishedAt&amp;quot;=&amp;gt;&amp;quot;0001-01-01T00:00:00Z&amp;quot;},
+ &amp;quot;Image&amp;quot;=&amp;gt;&amp;quot;sha256:390220867755ef4d1351705130960605d14a44518149e89c674189eefcb09306&amp;quot;,
+ &amp;quot;ResolvConfPath&amp;quot;=&amp;gt;&amp;quot;/var/lib/docker/containers/921f6363ceaa3c5253a31068a0c8cb7b3a78c1353cf6b4125c7a5460d4e8ce2a/resolv.conf&amp;quot;,
+ &amp;quot;HostnamePath&amp;quot;=&amp;gt;&amp;quot;/var/lib/docker/containers/921f6363ceaa3c5253a31068a0c8cb7b3a78c1353cf6b4125c7a5460d4e8ce2a/hostname&amp;quot;,
+ &amp;quot;HostsPath&amp;quot;=&amp;gt;&amp;quot;/var/lib/docker/containers/921f6363ceaa3c5253a31068a0c8cb7b3a78c1353cf6b4125c7a5460d4e8ce2a/hosts&amp;quot;,
+ &amp;quot;LogPath&amp;quot;=&amp;gt;&amp;quot;/var/lib/docker/containers/921f6363ceaa3c5253a31068a0c8cb7b3a78c1353cf6b4125c7a5460d4e8ce2a/921f6363ceaa3c5253a31068a0c8cb7b3a78c1353cf6b4125c7a5460d4e8ce2a-json.log&amp;quot;,
+ &amp;quot;Name&amp;quot;=&amp;gt;&amp;quot;/some-postgres&amp;quot;,
+ &amp;quot;AppArmorProfile&amp;quot;=&amp;gt;&amp;quot;&amp;quot;,
+ `
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;verify-secure-configuration&quot;&gt;Verify secure configuration&lt;/h2&gt;
+&lt;p&gt;If you are going to run your own docker environment in production, you should make the additional work to harden the docker environment. The &lt;a href=&quot;https://benchmarks.cisecurity.org/tools2/docker/CIS_Docker_1.13.0_Benchmark_v1.0.0.pdf&quot;&gt;CIS Docker Benchmark&lt;/a&gt; provides a detailed overview about all best-practices. Based on those guidelines, the &lt;a href=&quot;http://atomic111.github.io/blog/inspec-cis-docker&quot;&gt;DevSec Hardening Framework Team&lt;/a&gt; implemented a machine-readable version that allows you to easily execute the tests. To execute the InSpec profile, just run:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ inspec exec https://github.com/dev-sec/cis-docker-benchmark
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;This blog post covered various aspects of docker environment verification ranging from docker hosts to docker container. If you feel that something is missing, please let me know.&lt;/p&gt;
+&lt;p&gt;Stay secure, Chris&lt;/p&gt;
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.inspec.io/docs/reference/resources/docker/&quot;&gt;InSpec docker resource&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.inspec.io/docs/reference/resources/docker_container/&quot;&gt;InSpec docker_container resource&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.inspec.io/docs/reference/resources/docker_image/&quot;&gt;InSpec docker_image resource&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/dev-sec/cis-docker-benchmark&quot;&gt;DevSec CIS Docker Benchmark Implementation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://benchmarks.cisecurity.org/tools2/docker/CIS_Docker_1.13.0_Benchmark_v1.0.0.pdf&quot;&gt;CIS Docker Benchmark PDF&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/chef/inspec/pull/1566&quot;&gt;Docker Pull Request Resource&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    <item>
       <title>Windows Infrastructure Testing and Compliance with InSpec</title>
       <link>http://lollyrock.com/articles/inspec-windows/</link>
-      <pubDate>Mon, 10 Apr 2017 02:00:00 +0200</pubDate>
+      <pubDate>Sun, 09 Apr 2017 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/inspec-windows/</guid>
       <author></author>
       <description>&lt;p&gt;InSpec is an infrastructure testing and compliance tool that allows you to write re-usable tests for your IT components. InSpec tests can easily be used in development and production environments to shift &lt;a href=&quot;https://blog.chef.io/2016/09/26/shift-left-security-and-compliance-automation-with-inspec-and-chef/&quot;&gt;Compliance left&lt;/a&gt;. This blog post will highlight how you can leverage InSpec on Windows.&lt;/p&gt;
@@ -152,7 +545,7 @@ describe vbscript(script) &lt;span class=&quot;keyword&quot;&gt;do&lt;/span&gt;
     <item>
       <title>Using meta-profiles with Chef Compliance</title>
       <link>http://lollyrock.com/articles/chef-compliance-meta-profiles/</link>
-      <pubDate>Tue, 06 Dec 2016 01:00:00 +0100</pubDate>
+      <pubDate>Mon, 05 Dec 2016 18:00:00 -0600</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/chef-compliance-meta-profiles/</guid>
       <author></author>
       <description>&lt;p&gt;This article demonstrates InSpec’s meta profile functionality in combination with Chef Compliance. This feature enables you to write profile overlays and to reuse controls from existing profiles. This is a great way to manage deviations of out-of-the-box profiles shipped with Chef Compliance.&lt;/p&gt;
@@ -439,7 +832,7 @@ I, [2016-12-06T10:32:59.486476 #93241]  INFO -- : Finished archive generation.
     <item>
       <title>ChefConf 2016 - Save Your Crash Dummies!</title>
       <link>http://lollyrock.com/articles/chefconf2016-save-your-crash-dummies/</link>
-      <pubDate>Fri, 12  Aug 2016 02:00:00 +0200</pubDate>
+      <pubDate>Thu, 11  Aug 2016 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/chefconf2016-save-your-crash-dummies/</guid>
       <author></author>
       <description>&lt;p&gt;With infrastructure and application automation we have gained the tools to change systems in the blink of an eye. However, with increasing size, complexity, and time, these components will inevitably challenge your expectations. This uncertainty will ultimately slow you down. This talk will introduce the workflow to gain back trust.&lt;/p&gt;
@@ -453,7 +846,7 @@ I, [2016-12-06T10:32:59.486476 #93241]  INFO -- : Finished archive generation.
     <item>
       <title>DevOps and Security</title>
       <link>http://lollyrock.com/articles/devops-security/</link>
-      <pubDate>Fri, 19 Jun 2015 02:00:00 +0200</pubDate>
+      <pubDate>Thu, 18 Jun 2015 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/devops-security/</guid>
       <author></author>
       <description>&lt;p&gt;To ensure the security of your IT services, different disciplines need to come together. Development, operations and security departments need to work hand in hand in order to ship a secure product. Every department has its core competencies and it is a challenge to create a common view on the security implementation for a product.&lt;/p&gt;
@@ -508,7 +901,7 @@ I, [2016-12-06T10:32:59.486476 #93241]  INFO -- : Finished archive generation.
     <item>
       <title>Try Kubernetes with Vagrant</title>
       <link>http://lollyrock.com/articles/kubernetes-vagrant/</link>
-      <pubDate>Mon, 01 Jun 2015 02:00:00 +0200</pubDate>
+      <pubDate>Sun, 31 May 2015 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/kubernetes-vagrant/</guid>
       <author></author>
       <description>&lt;p&gt;To get familiar with kubernetes, it is always good to start with an example. This blog post will setup nginx running on kubernetes.&lt;/p&gt;
@@ -785,7 +1178,7 @@ $ kubectl delete -f 01-nginx-health-check.yaml
     <item>
       <title>Install Windows IoT on Raspberry Pi 2</title>
       <link>http://lollyrock.com/articles/windows-iot-raspberry/</link>
-      <pubDate>Sun, 10 May 2015 02:00:00 +0200</pubDate>
+      <pubDate>Sat, 09 May 2015 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/windows-iot-raspberry/</guid>
       <author></author>
       <description>&lt;p&gt;Recently, Microsoft announced its &lt;a href=&quot;http://ms-iot.github.io/content/GetStarted.htm&quot;&gt;Windows 10 IoT Core Insider Preview&lt;/a&gt; and it is very exiting to get an ARM version of Windows running on a small device. Microsoft did a great job to bring the operating system to smaller devices and I am looking forward to play more with their IoT solutions. Now, lets install Windows on Raspberry 2.&lt;/p&gt;
@@ -866,7 +1259,7 @@ PS C:\Users\chris\Downloads\Windows_IoT_Core_RPI2_BUILD&amp;gt;
     <item>
       <title>npm install - could be dangerous</title>
       <link>http://lollyrock.com/articles/npm-dependency-could-be-dangerous/</link>
-      <pubDate>Sat, 09 May 2015 02:00:00 +0200</pubDate>
+      <pubDate>Fri, 08 May 2015 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/npm-dependency-could-be-dangerous/</guid>
       <author></author>
       <description>&lt;p&gt;&lt;a href=&quot;https://www.npmjs.com/&quot;&gt;NPM&lt;/a&gt; hosts about 144,000 npm modules on their registry. Over one million modules are downloaded per month. Assume you use one module that includes a major flaw in their implementation? Will you detect it?&lt;/p&gt;
@@ -907,7 +1300,7 @@ rm -rf /
     <item>
       <title>Run CoreOS on OpenStack</title>
       <link>http://lollyrock.com/articles/coreos-openstack/</link>
-      <pubDate>Tue, 28 Apr 2015 02:00:00 +0200</pubDate>
+      <pubDate>Mon, 27 Apr 2015 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/coreos-openstack/</guid>
       <author></author>
       <description>&lt;p&gt;This guide will walk you through downloading CoreOS for OpenStack, importing in OpenStack  with &lt;code&gt;glance&lt;/code&gt; and start your first CoreOS cluster with the &lt;code&gt;nova&lt;/code&gt; tool.&lt;/p&gt;
@@ -1021,7 +1414,7 @@ c65cf227... 192.168.0.13    -
     <item>
       <title>OpenStack CLI in Docker</title>
       <link>http://lollyrock.com/articles/openstack-cli-docker/</link>
-      <pubDate>Wed, 22 Apr 2015 02:00:00 +0200</pubDate>
+      <pubDate>Tue, 21 Apr 2015 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/openstack-cli-docker/</guid>
       <author></author>
       <description>&lt;p&gt;Recently, I faced the issue, that I had some python modules for OpenStack had dependency issues with other python modules. In addition I use multiple machines with the OpenStack CLI and it is always a lot of effort to synchronize the software to the latest state. I could have used virtualenv, but I had issues with this setup, too. Therefore I decided to start implementing a Docker container.&lt;/p&gt;
@@ -1044,7 +1437,7 @@ $ nova list
     <item>
       <title>Managing your mainframe infrastructure using Chef</title>
       <link>http://lollyrock.com/articles/managing-mainframe-using-chef/</link>
-      <pubDate>Thu, 22 Jan 2015 01:00:00 +0100</pubDate>
+      <pubDate>Wed, 21 Jan 2015 18:00:00 -0600</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/managing-mainframe-using-chef/</guid>
       <author></author>
       <description>&lt;p&gt;This blog post will focus on running Chef cookbooks on AIX server. As an example we will install various Linux tools via Chef and demonstrate, how a mainframe setup can be automated.&lt;/p&gt;
@@ -1374,7 +1767,7 @@ su root -c rpm -hUv zip-2.3-3.aix4.3.ppc.rpm unzip-5.51-1.aix5.1.ppc.rpm
     <item>
       <title>Chef loves AIX - Mainframe Automation</title>
       <link>http://lollyrock.com/articles/ibm-aix-chef/</link>
-      <pubDate>Wed, 03 Dec 2014 01:00:00 +0100</pubDate>
+      <pubDate>Tue, 02 Dec 2014 18:00:00 -0600</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/ibm-aix-chef/</guid>
       <author></author>
       <description>&lt;p&gt;I was very exited to play with IBM AIX and Chef 12. Coming from an Open Stack background with deep knowledge about automation and security with RedHat Linux and Windows Server, I was looking forward to gain insights about using the configuration management tool Chef with AIX. I have done some big deployments on cloud infrastructures and I am very pleased to see some technologies finding their way into core enterprise applications.&lt;/p&gt;
@@ -1569,7 +1962,7 @@ l5a1vp051_pub &amp;gt;
     <item>
       <title>Simple file uploads with Express 4</title>
       <link>http://lollyrock.com/articles/express4-file-upload/</link>
-      <pubDate>Sat, 15 Nov 2014 01:00:00 +0100</pubDate>
+      <pubDate>Fri, 14 Nov 2014 18:00:00 -0600</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/express4-file-upload/</guid>
       <author></author>
       <description>&lt;p&gt;&lt;a href=&quot;http://expressjs.com/&quot;&gt;Express&lt;/a&gt; is a great web framework for Javascript. Quite often you have to deal with file uploads. Although this may seems like a trivial point, it has its challenges, especially if everything is asynchronous. &lt;/p&gt;
@@ -1713,7 +2106,7 @@ app.listen(&lt;span class=&quot;number&quot;&gt;3000&lt;/span&gt;);
     <item>
       <title>Execute commands in a Docker sandbox</title>
       <link>http://lollyrock.com/articles/execute-in-docker-sandbox/</link>
-      <pubDate>Sun, 28 Sep 2014 02:00:00 +0200</pubDate>
+      <pubDate>Sat, 27 Sep 2014 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/execute-in-docker-sandbox/</guid>
       <author></author>
       <description>&lt;p&gt;If we deal a lot with data from an untrusted source, we want to operate on data in a sandbox. For example, every file we handle may includes a virus and tries to attack our machine. &lt;/p&gt;
@@ -1798,7 +2191,7 @@ Chris&lt;/p&gt;
     <item>
       <title>Implicit JSON conversion with Scala</title>
       <link>http://lollyrock.com/articles/scala-implicit-conversion/</link>
-      <pubDate>Sun, 21 Sep 2014 02:00:00 +0200</pubDate>
+      <pubDate>Sat, 20 Sep 2014 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/scala-implicit-conversion/</guid>
       <author></author>
       <description>&lt;p&gt;In my last blog posts about Scala, I explained &lt;a href=&quot;http://lollyrock.com/articles/scalatra-bearer-authentication/&quot;&gt;Scalatra with Bearer Authentication&lt;/a&gt; and &lt;a href=&quot;http://lollyrock.com/articles/scala-http-requests/&quot;&gt;Asynchronous HTTP requests with Scala and Dispatch&lt;/a&gt;. Today I am going to focus on JSON. We will encode data types to JSON and decode JSON into existing data structures.&lt;/p&gt;
@@ -1935,7 +2328,7 @@ Chris&lt;/p&gt;
     <item>
       <title>Encrypt files with GPG</title>
       <link>http://lollyrock.com/articles/encrypt-files-with-gpg/</link>
-      <pubDate>Sun, 14 Sep 2014 02:00:00 +0200</pubDate>
+      <pubDate>Sat, 13 Sep 2014 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/encrypt-files-with-gpg/</guid>
       <author></author>
       <description>&lt;p&gt;Although &lt;a href=&quot;https://www.gnupg.org/&quot;&gt;GPG&lt;/a&gt; and &lt;a href=&quot;https://gpgtools.org/&quot;&gt;GPG Tools&lt;/a&gt; are well known for Email encryption, the same tool-chain can be used to encrypt files. We deep dive into the command line, but everything should work with any other UI client as well.&lt;/p&gt;
@@ -1978,7 +2371,7 @@ Chris&lt;/p&gt;
     <item>
       <title>s3cmd with radosgw</title>
       <link>http://lollyrock.com/articles/s3cmd-with-radosgw/</link>
-      <pubDate>Sun, 07 Sep 2014 02:00:00 +0200</pubDate>
+      <pubDate>Sat, 06 Sep 2014 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/s3cmd-with-radosgw/</guid>
       <author></author>
       <description>&lt;p&gt;Amazon introduced the concept of &lt;a href=&quot;http://en.wikipedia.org/wiki/Amazon_S3&quot;&gt;S3&lt;/a&gt; object storage to a wide-range of users. Their interface is the defacto-standard to store files in web applications. Nowadays, it is used by other vendors as well. &lt;a href=&quot;http://ceph.com/&quot;&gt;Ceph&lt;/a&gt; and &lt;a href=&quot;http://basho.com/riak-cloud-storage/&quot;&gt;RiakCS&lt;/a&gt; are some examples, where the same interface is available. This blog post will setup s3cmd with Ceph radosgw.&lt;/p&gt;
@@ -2146,7 +2539,7 @@ samplecontent
     <item>
       <title>Encrypt and decrypt content with Nodejs</title>
       <link>http://lollyrock.com/articles/nodejs-encryption/</link>
-      <pubDate>Tue, 02 Sep 2014 02:00:00 +0200</pubDate>
+      <pubDate>Mon, 01 Sep 2014 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/nodejs-encryption/</guid>
       <author></author>
       <description>&lt;style type=&quot;text/css&quot;&gt;
@@ -2195,7 +2588,7 @@ n use 0.11.13 crypto-gcm.js
     <item>
       <title>Chef without an internet connection / Uninstall Chef with Chef</title>
       <link>http://lollyrock.com/articles/chef-without-internet/</link>
-      <pubDate>Sun, 24  Aug 2014 02:00:00 +0200</pubDate>
+      <pubDate>Sat, 23  Aug 2014 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/chef-without-internet/</guid>
       <author></author>
       <description>&lt;p&gt;Recently I had a discussion with a DevOps team about an installation of Chef without an internet connection. A normal chef bootstrap fetches the chef binaries via “curl -L &lt;a href=&quot;https://www.opscode.com/chef/install.sh&quot;&gt;https://www.opscode.com/chef/install.sh&lt;/a&gt; | sudo bash”. This will happen, even if you use a Chef Server. Therefore you would require a connection to download the Chef client binaries. &lt;/p&gt;
@@ -2331,7 +2724,7 @@ un  chef                             &amp;lt;none&amp;gt;                       
     <item>
       <title>Applied Content Security Policy for Nginx and Nodejs</title>
       <link>http://lollyrock.com/articles/content-security-policy/</link>
-      <pubDate>Mon, 18  Aug 2014 02:00:00 +0200</pubDate>
+      <pubDate>Sun, 17  Aug 2014 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/content-security-policy/</guid>
       <author></author>
       <description>&lt;p&gt;Some years ago it was common that users deactivated JavaScript to reduce the security risk of their browser. Nowadays HTML5 (JavaScript, CSS in combination with AJAX) is required to provide superior user experience. Users have no chance to deactivate JavaScript and expect the same kind of quality. Web Developers (and I am for sure part of it) on the other hand just add a simple &lt;code&gt;noscript&lt;/code&gt; and think they are done. In most cases Web Developers live with the credo: “JavaScript is essential. There is no web without.”&lt;/p&gt;
@@ -2486,7 +2879,7 @@ app.listen(&lt;span class=&quot;number&quot;&gt;3000&lt;/span&gt;);
     <item>
       <title>Asynchronous HTTP requests with Scala and Dispatch</title>
       <link>http://lollyrock.com/articles/scala-http-requests/</link>
-      <pubDate>Mon, 11  Aug 2014 02:00:00 +0200</pubDate>
+      <pubDate>Sun, 10  Aug 2014 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/scala-http-requests/</guid>
       <author></author>
       <description>&lt;p&gt;Today, we use REST APIs everywhere. Quite often this requires the implementation of SDKs for specific languages. If you are going to write a SDK or you need to call a REST backend without the availability of a SDK, you need a framework to send HTTP requests. The cool thing about Scala is the fact that it has native support for &lt;a href=&quot;http://docs.scala-lang.org/overviews/core/futures.html&quot;&gt;Futures (aka Promises)&lt;/a&gt;. By using futures, you simplify your life:&lt;/p&gt;
@@ -2638,7 +3031,7 @@ object UserParser {
     <item>
       <title>Install OpenStack CLI on Ubuntu</title>
       <link>http://lollyrock.com/articles/install-openstack-cli/</link>
-      <pubDate>Sun, 03  Aug 2014 02:00:00 +0200</pubDate>
+      <pubDate>Sat, 02  Aug 2014 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/install-openstack-cli/</guid>
       <author></author>
       <description>&lt;p&gt;To setup the Open Stack Cli on a new server, you need to install Python 2.7 and the xml libraries. Once everything is prepared, the cli can be installed with:&lt;/p&gt;
@@ -2688,7 +3081,7 @@ pip install python-glanceclient
     <item>
       <title>Scalatra with Bearer Authentication</title>
       <link>http://lollyrock.com/articles/scalatra-bearer-authentication/</link>
-      <pubDate>Sat, 26 Jul 2014 02:00:00 +0200</pubDate>
+      <pubDate>Fri, 25 Jul 2014 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/scalatra-bearer-authentication/</guid>
       <author></author>
       <description>&lt;h1 id=&quot;why-use-scala-over-java-&quot;&gt;Why use Scala over Java?&lt;/h1&gt;
@@ -2832,7 +3225,7 @@ Set-Cookie: JSESSIONID=1qxp4ot72v3lmr01n3vesosel;Path=/
     <item>
       <title>How to harden a new server with Chef</title>
       <link>http://lollyrock.com/articles/how-to-harden-a-new-server/</link>
-      <pubDate>Wed, 14 May 2014 02:00:00 +0200</pubDate>
+      <pubDate>Tue, 13 May 2014 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/how-to-harden-a-new-server/</guid>
       <author></author>
       <description>&lt;p&gt;Deutsche Telekom developed scripts in Chef and Puppet to harden servers according to well-known guidelines like bettercrypto and internal guidelines at Deutsche Telekom. More information is available at the project page of the &lt;a href=&quot;http://hardening.io/&quot;&gt;Hardening Framework&lt;/a&gt;. Disclosure: I am core developer at this project.&lt;/p&gt;
@@ -2993,7 +3386,7 @@ Chef Client finished, 10/45 resources updated &lt;span class=&quot;keyword&quot;
     <item>
       <title>SHA 512 Hashs with nodejs</title>
       <link>http://lollyrock.com/articles/nodejs-sha512/</link>
-      <pubDate>Sun, 06 Apr 2014 02:00:00 +0200</pubDate>
+      <pubDate>Sat, 05 Apr 2014 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/nodejs-sha512/</guid>
       <author></author>
       <description>&lt;p&gt;Quite often you need to encrypt files. Recently I updated an application from encryption to &lt;a href=&quot;http://en.wikipedia.org/wiki/Authenticated_encryption&quot;&gt;authenticated encryption&lt;/a&gt; and used the encrypt-then-mac approach.&lt;/p&gt;
@@ -3047,7 +3440,7 @@ Chef Client finished, 10/45 resources updated &lt;span class=&quot;keyword&quot;
     <item>
       <title>Open Stack Glance Image Create</title>
       <link>http://lollyrock.com/articles/glance-image-create/</link>
-      <pubDate>Thu, 03 Apr 2014 02:00:00 +0200</pubDate>
+      <pubDate>Wed, 02 Apr 2014 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/glance-image-create/</guid>
       <author></author>
       <description>&lt;p&gt;The newest version of Ubuntu is out and we need to upload the latest version to Open Stack. Of course we try to save our bandwith. There we use &lt;code&gt;-copy-from&lt;/code&gt; instead of &lt;code&gt;--file openstack_image.img&lt;/code&gt;:&lt;/p&gt;
@@ -3084,7 +3477,7 @@ Chef Client finished, 10/45 resources updated &lt;span class=&quot;keyword&quot;
     <item>
       <title>Open Stack VM Resizing</title>
       <link>http://lollyrock.com/articles/openstack-vm-resize/</link>
-      <pubDate>Wed, 02 Apr 2014 02:00:00 +0200</pubDate>
+      <pubDate>Tue, 01 Apr 2014 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/openstack-vm-resize/</guid>
       <author></author>
       <description>&lt;p&gt;Once in a while you need to upgrade a VM with more CPU or storage.&lt;/p&gt;
@@ -3137,7 +3530,7 @@ nova boot $VMNAME --flavor=$FLAVOR --image=$IMAGE --security-groups=$SG --nic po
     <item>
       <title>Havana Box</title>
       <link>http://lollyrock.com/articles/havana-box/</link>
-      <pubDate>Mon, 28 Oct 2013 01:00:00 +0100</pubDate>
+      <pubDate>Sun, 27 Oct 2013 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/havana-box/</guid>
       <author></author>
       <description>&lt;center&gt;&lt;a href=&quot;http://www.flickr.com/photos/fixedgear/2998411614/&quot; title=&quot;Havana by fixedgear, on Flickr&quot;&gt;&lt;img src=&quot;http://farm4.staticflickr.com/3161/2998411614_787b7717b2_q.jpg&quot; width=&quot;150px&quot; height=&quot;150px&quot; alt=&quot;Havana&quot; style=&quot;margin:0px&quot;&gt;&lt;/a&gt;&lt;/center&gt;
