@@ -129,24 +129,24 @@ $ kubectl run-container webserver --image=nginx --replicas=3 --port=80
 webserver    webserver      nginx      run-container=webserver   3
 
 <span class="comment"># Show all running pods</span>
-$ kubectl get pods <span class="_">-l</span> run-container=webserver
+$ kubectl get pods -l run-container=webserver
 <span class="caps">POD</span>               IP            CONTAINER(S)   IMAGE(S)   HOST                    LABELS                    STATUS    CREATED      MESSAGE
 webserver-6de4a   10.246.1.17                             10.245.1.3/10.245.1.3   run-container=webserver   Running   27 seconds   
                                 webserver      nginx                                                        Running   25 seconds   
 webserver-koxmk   10.246.1.19                             10.245.1.3/10.245.1.3   run-container=webserver   Running   27 seconds   
                                 webserver      nginx                                                        Running   24 seconds   
-webserver<span class="_">-lt</span>0e9   10.246.1.18                             10.245.1.3/10.245.1.3   run-container=webserver   Running   27 seconds   
+webserver-lt0e9   10.246.1.18                             10.245.1.3/10.245.1.3   run-container=webserver   Running   27 seconds   
                                 webserver      nginx                                                        Running   24 seconds   
 
-$ kubectl get replicationControllers <span class="_">-l</span> run-container=webserver
-<span class="caps">CONTROLLER</span>   CONTAINER(S)   IMAGE(S)   SELECTOR                  REPLICAS
+$ kubectl get replicationControllers -l run-container=webserver
+CONTROLLER   CONTAINER(S)   IMAGE(S)   SELECTOR                  REPLICAS
 webserver    webserver      nginx      run-container=webserver   3
 
 <span class="comment"># Resize the replica:</span>
 $ kubectl resize rc webserver --replicas=2
 resized
 
-$ kubectl get replicationControllers <span class="_">-l</span> run-container=webserver
+$ kubectl get replicationControllers -l run-container=webserver
 <span class="caps">CONTROLLER</span>   CONTAINER(S)   IMAGE(S)   SELECTOR                  REPLICAS
 webserver    webserver      nginx      run-container=webserver   2
 
@@ -156,8 +156,8 @@ $ kubectl get nodes
 10.245.1.3   &lt;none&gt;    Ready
 
 <span class="comment"># Delete running nginx pod with all replicas and services</span>
-$ kubectl stop pods,services <span class="_">-l</span> run-container=webserver
-$ kubectl delete pods,services <span class="_">-l</span> run-container=webserver
+$ kubectl stop pods,services -l run-container=webserver
+$ kubectl delete pods,services -l run-container=webserver
 $ kubectl resize rc webserver --replicas=2
 pods/webserver-6de4a
 pods/webserver-koxmk
@@ -165,67 +165,67 @@ pods/webserver-koxmk
 <h2 id="start-nginx-cluster-with-pods-definition">Start Nginx cluster with pods&nbsp;definition</h2>
 <p>We define a pod definition <code>01-nginx.yaml</code> to get nginx up and running. The meta data describes the name and labels of the container. This is required to define selectors for replicas, as we use it later. The <code>containers</code> define the used docker image. Create the following&nbsp;file:</p>
 <pre><code class="lang-yaml"><span class="comment"># 01-nginx.yaml</span>
-<span class="attr">apiVersion:</span> v1beta3
-<span class="attr">kind:</span> Pod
+<span class="attr">apiVersion:</span> <span class="string">v1beta3</span>
+<span class="attr">kind:</span> <span class="string">Pod</span>
 <span class="attr">metadata:</span>
-<span class="attr">  name:</span> www
+<span class="attr">  name:</span> <span class="string">www</span>
 <span class="attr">  labels:</span> 
-<span class="attr">    name:</span> www-nginx
+<span class="attr">    name:</span> <span class="string">www-nginx</span>
 <span class="attr">spec:</span>
 <span class="attr">  containers:</span>
-<span class="attr">    - name:</span> nginx
-<span class="attr">      image:</span> nginx
+<span class="attr">    - name:</span> <span class="string">nginx</span>
+<span class="attr">      image:</span> <span class="string">nginx</span>
 <span class="attr">      ports:</span>
 <span class="attr">        - containerPort:</span> <span class="number">80</span>
 </code></pre>
 <p>Load the pod into&nbsp;kubernetes.</p>
 <pre><code class="lang-bash"><span class="comment"># Start nginx pod/container</span>
-$ kubectl create <span class="_">-f</span> 01-nginx.yaml 
+$ kubectl create -f 01-nginx.yaml 
 pods/www
 
 <span class="comment"># Check that nginx is running</span>
-$ kubectl get pods <span class="_">-l</span> name=www-nginx
+$ kubectl get pods -l name=www-nginx
 </code></pre>
 <p>Now, we adapt the replica by creating a new <code>ReplicationController</code> definition:</p>
 <pre><code class="lang-yaml"><span class="comment"># 01-nginx-replica.yaml</span>
-<span class="attr">apiVersion:</span> v1beta3
-<span class="attr">kind:</span> ReplicationController
+<span class="attr">apiVersion:</span> <span class="string">v1beta3</span>
+<span class="attr">kind:</span> <span class="string">ReplicationController</span>
 <span class="attr">metadata:</span>
-<span class="attr">  name:</span> nginx-controller
+<span class="attr">  name:</span> <span class="string">nginx-controller</span>
 <span class="attr">spec:</span>
 <span class="attr">  replicas:</span> <span class="number">2</span>
   <span class="comment"># selector identifies the set of Pods that this</span>
   <span class="comment"># replication controller is responsible for managing</span>
 <span class="attr">  selector:</span>
-<span class="attr">    name:</span> www-nginx
+<span class="attr">    name:</span> <span class="string">www-nginx</span>
   <span class="comment"># podTemplate defines the 'cookie cutter' used for creating</span>
   <span class="comment"># new pods when necessary</span>
 <span class="attr">  template:</span>
 <span class="attr">    metadata:</span>
-<span class="attr">      name:</span> www
+<span class="attr">      name:</span> <span class="string">www</span>
 <span class="attr">      labels:</span>
         <span class="comment"># Important: these labels need to match the selector above</span>
         <span class="comment"># The api server enforces this constraint.</span>
-<span class="attr">        name:</span> www-nginx
+<span class="attr">        name:</span> <span class="string">www-nginx</span>
 <span class="attr">    spec:</span>
 <span class="attr">      containers:</span>
-<span class="attr">        - name:</span> nginx
-<span class="attr">          image:</span> nginx
+<span class="attr">        - name:</span> <span class="string">nginx</span>
+<span class="attr">          image:</span> <span class="string">nginx</span>
 <span class="attr">          ports:</span>
 <span class="attr">            - containerPort:</span> <span class="number">80</span>
 </code></pre>
 <p>Load the new definition into&nbsp;kubernetes:</p>
 <pre><code class="lang-bash"><span class="comment"># Increase replica of the current nginx instances</span>
-$ kubectl create <span class="_">-f</span> 01-nginx-replica.yaml
+$ kubectl create -f 01-nginx-replica.yaml
 replicationcontrollers/nginx-controller
 
 <span class="comment"># Check the replica</span>
-$ kubectl get replicationControllers <span class="_">-l</span> name=www-nginx         
+$ kubectl get replicationControllers -l name=www-nginx         
 <span class="caps">CONTROLLER</span>         CONTAINER(S)   IMAGE(S)   SELECTOR         REPLICAS
 nginx-controller   nginx          nginx      name=www-nginx   2
 
 <span class="comment"># Verify the connection to the pods</span>
-$ kubectl get pods <span class="_">-l</span> name=www-nginx                                                                                ✘130 
+$ kubectl get pods -l name=www-nginx                                                                                ✘130 
 <span class="caps">POD</span>                      IP            CONTAINER(S)   IMAGE(S)   HOST                    LABELS           STATUS    CREATED      MESSAGE
 nginx-controller-lfeo7   10.246.1.15                             10.245.1.3/10.245.1.3   name=www-nginx   Running   21 minutes   
                                        nginx          nginx                                               Running   21 minutes   
@@ -239,51 +239,51 @@ www                      10.246.1.11                             10.245.1.3/10.2
 </code></pre>
 <p>The different containers are not useful by itself. We would like to abstract all instances by a service. Create and load the service definition into&nbsp;kubernetes.</p>
 <pre><code class="lang-yaml"><span class="comment"># 01-nginx-service.yaml</span>
-<span class="attr">apiVersion:</span> v1beta3
-<span class="attr">kind:</span> Service
+<span class="attr">apiVersion:</span> <span class="string">v1beta3</span>
+<span class="attr">kind:</span> <span class="string">Service</span>
 <span class="attr">metadata:</span>
-<span class="attr">  name:</span> nginx-endpoint
+<span class="attr">  name:</span> <span class="string">nginx-endpoint</span>
 <span class="attr">  labels:</span> 
-<span class="attr">    name:</span> www-nginx
+<span class="attr">    name:</span> <span class="string">www-nginx</span>
 <span class="attr">spec:</span>
 <span class="attr">  ports:</span>
 <span class="attr">    - port:</span> <span class="number">8000</span> <span class="comment"># the port that this service should serve on</span>
       <span class="comment"># the container on each pod to connect to, can be a name</span>
       <span class="comment"># (e.g. 'www') or a number (e.g. 80)</span>
 <span class="attr">      targetPort:</span> <span class="number">80</span>
-<span class="attr">      protocol:</span> <span class="caps">TCP</span>
+<span class="attr">      protocol:</span> <span class="string"><span class="caps">TCP</span></span>
   <span class="comment"># public ip of minion, only required for vagrant</span>
   <span class="comment"># just like the selector in the replication controller,</span>
   <span class="comment"># but this time it identifies the set of pods to load balance</span>
   <span class="comment"># traffic to.</span>
 <span class="attr">  selector:</span>
-<span class="attr">    name:</span> nginx
+<span class="attr">    name:</span> <span class="string">nginx</span>
 </code></pre>
 <pre><code class="lang-bash"><span class="comment"># Add public endpoint</span>
-$ kubectl create <span class="_">-f</span> 01-nginx-service.yaml
+$ kubectl create -f 01-nginx-service.yaml
 services/nginx-endpoint
 
 <span class="comment"># Show all running endpoints</span>
-$ kubectl get services <span class="_">-l</span> name=www-nginx 
+$ kubectl get services -l name=www-nginx 
 <span class="caps">NAME</span>             LABELS           SELECTOR     IP(S)           PORT(S)
 nginx-endpoint   name=www-nginx   name=nginx   10.247.212.62   8000/TCP
 </code></pre>
 <p>Now we set up a <span class="caps">HTTP</span> Health Checks that will restart a the nginx container in case the application&nbsp;crashes.</p>
-<pre><code class="lang-yaml"><span class="attr">apiVersion:</span> v1beta3
-<span class="attr">kind:</span> Pod
+<pre><code class="lang-yaml"><span class="attr">apiVersion:</span> <span class="string">v1beta3</span>
+<span class="attr">kind:</span> <span class="string">Pod</span>
 <span class="attr">metadata:</span>
-<span class="attr">  name:</span> nginx-healthcheck
+<span class="attr">  name:</span> <span class="string">nginx-healthcheck</span>
 <span class="attr">  labels:</span> 
-<span class="attr">    name:</span> www-nginx
+<span class="attr">    name:</span> <span class="string">www-nginx</span>
 <span class="attr">spec:</span>
 <span class="attr">  containers:</span>
-<span class="attr">    - name:</span> nginx
-<span class="attr">      image:</span> nginx
+<span class="attr">    - name:</span> <span class="string">nginx</span>
+<span class="attr">      image:</span> <span class="string">nginx</span>
       <span class="comment"># defines the health checking</span>
 <span class="attr">      livenessProbe:</span>
         <span class="comment"># an http probe</span>
 <span class="attr">        httpGet:</span>
-<span class="attr">          path:</span> /_status/healthz
+<span class="attr">          path:</span> <span class="string">/_status/healthz</span>
 <span class="attr">          port:</span> <span class="number">80</span>
         <span class="comment"># length of time to wait for a pod to initialize</span>
         <span class="comment"># after pod startup, before applying health checking</span>
@@ -294,7 +294,7 @@ nginx-endpoint   name=www-nginx   name=nginx   10.247.212.62   8000/TCP
 </code></pre>
 <p>Add the health check to your&nbsp;cluster</p>
 <pre><code class="lang-bash"><span class="comment"># add a health check</span>
-kubectl create <span class="_">-f</span> 01-nginx-health-check.yaml
+kubectl create -f 01-nginx-health-check.yaml
 </code></pre>
 <p>Everything is setup properly. To destory the cluster, delete all definitions from&nbsp;kubernetes:</p>
 <pre><code># Delete all added parts

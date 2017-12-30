@@ -111,9 +111,9 @@ code .
 <p><img src="/articles/inspec-windows/test-sec.png" alt="Run security checks" title="Run security checks"></p>
 <h2 id="reuse-existing-powershell-or-vbscript-in-inspec">Reuse existing Powershell or VBScript in&nbsp;InSpec</h2>
 <p>InSpec also supports running Powershell and VBScript. This allows you to re-use existing scripts inside InSpec. <code>powershell</code> and <code>vbscript</code> resources provide the required capabilities to embed scripts in&nbsp;InSpec.</p>
-<pre><code class="lang-ruby">script = &lt;&lt;-EOH
-  Write-Output <span class="string">'hello'</span>
-<span class="caps">EOH</span>
+<pre><code class="lang-ruby">script = <span class="string">&lt;&lt;-<span class="caps">EOH</span>
+  Write-Output 'hello'
+EOH</span>
 
 describe powershell(script) <span class="keyword">do</span>
   its(<span class="string">'stdout'</span>) { should eq <span class="string">"hello\r\n"</span> }
@@ -121,9 +121,9 @@ describe powershell(script) <span class="keyword">do</span>
 <span class="keyword">end</span>
 </code></pre>
 <p>Besides Powershell, InSpec supports <code>vbscript</code>,&nbsp;too:</p>
-<pre><code class="lang-ruby">script = &lt;&lt;-EOH
-  WScript.Echo <span class="string">"hello"</span>
-<span class="caps">EOH</span>
+<pre><code class="lang-ruby">script = <span class="string">&lt;&lt;-<span class="caps">EOH</span>
+  WScript.Echo "hello"
+EOH</span>
 
 describe vbscript(script) <span class="keyword">do</span>
   its(<span class="string">'stdout'</span>) { should eq <span class="string">"hello\r\n"</span> }

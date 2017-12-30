@@ -140,15 +140,15 @@ is required to enable inline execution.
 <span class="comment">// @see https://github.com/evilpacket/helmet</span>
 <span class="comment">// you should activate even more headers provided by helmet</span>
 app.use(helmet.csp({
-    defaultSrc: [<span class="string">"'self'"</span>],
-    scriptSrc: [<span class="string">"'self'"</span>],
-    styleSrc: [<span class="string">"'self'"</span>],
-    imgSrc: [<span class="string">"'self'"</span>],
-    connectSrc: [<span class="string">"'self'"</span>],
-    fontSrc: [<span class="string">"'self'"</span>],
-    objectSrc: [<span class="string">"'none'"</span>],
-    mediaSrc: [<span class="string">"'self'"</span>],
-    frameSrc: [<span class="string">"'none'"</span>],
+    <span class="attr">defaultSrc</span>: [<span class="string">"'self'"</span>],
+    <span class="attr">scriptSrc</span>: [<span class="string">"'self'"</span>],
+    <span class="attr">styleSrc</span>: [<span class="string">"'self'"</span>],
+    <span class="attr">imgSrc</span>: [<span class="string">"'self'"</span>],
+    <span class="attr">connectSrc</span>: [<span class="string">"'self'"</span>],
+    <span class="attr">fontSrc</span>: [<span class="string">"'self'"</span>],
+    <span class="attr">objectSrc</span>: [<span class="string">"'none'"</span>],
+    <span class="attr">mediaSrc</span>: [<span class="string">"'self'"</span>],
+    <span class="attr">frameSrc</span>: [<span class="string">"'none'"</span>],
     <span class="comment">// reportUri: '/report-violation',</span>
     reportOnly: <span class="literal">false</span>, <span class="comment">// set to true if you only want to report errors</span>
     setAllHeaders: <span class="literal">false</span>, <span class="comment">// set to true if you want to set all headers</span>

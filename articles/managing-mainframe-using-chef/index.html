@@ -91,17 +91,17 @@ Recipe: (chef-apply cookbook)::(chef-apply recipe)
     - update content <span class="keyword">in</span> file /var/chef/cookbooks/cookbook.tar.gz from none to 2b736b
     (new content is binary, diff output suppressed)
   * execute[extract-cookbook] action run
-    - execute gzip <span class="_">-d</span> &lt; /var/chef/cookbooks/cookbook.tar.gz | tar xvf -
+    - execute gzip -d &lt; /var/chef/cookbooks/cookbook.tar.gz | tar xvf -
   * execute[extract-cookbook] action run
-    - execute gzip <span class="_">-d</span> &lt; /var/chef/cookbooks/cookbook.tar.gz | tar xvf -
+    - execute gzip -d &lt; /var/chef/cookbooks/cookbook.tar.gz | tar xvf -
   * execute[extract-cookbook] action nothing (skipped due to action :nothing)
   * remote_file[download cookbook] action create
     - update content <span class="keyword">in</span> file /var/chef/cookbooks/cookbook.tar.gz from 2b736b to 5d59e4
     (current file is binary, diff output suppressed)
   * execute[extract-cookbook] action run
-    - execute gzip <span class="_">-d</span> &lt; /var/chef/cookbooks/cookbook.tar.gz | tar xvf -
+    - execute gzip -d &lt; /var/chef/cookbooks/cookbook.tar.gz | tar xvf -
   * execute[extract-cookbook] action run
-    - execute gzip <span class="_">-d</span> &lt; /var/chef/cookbooks/cookbook.tar.gz | tar xvf -
+    - execute gzip -d &lt; /var/chef/cookbooks/cookbook.tar.gz | tar xvf -
   * execute[extract-cookbook] action nothing (skipped due to action :nothing)
 $ &gt;
 </code></pre>

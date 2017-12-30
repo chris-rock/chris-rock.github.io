@@ -42,20 +42,20 @@
 </code></pre><p>This enables you to store the binaries on a local server within your internal network. Now, you need to transfer the package on a fresh system and you can install&nbsp;it:</p>
 <pre><code class="lang-bash">
 <span class="built_in">echo</span> <span class="string">"---&gt; Chef install status:"</span>
-dpkg-query <span class="_">-l</span> chef
+dpkg-query -l chef
 
 <span class="built_in">echo</span> <span class="string">"---&gt; Install Chef"</span>
 dpkg -i chef_11.12.8-2_amd64.deb
 
 <span class="built_in">echo</span> <span class="string">"---&gt; Chef install status:"</span>
-dpkg-query <span class="_">-l</span> chef
+dpkg-query -l chef
 
 <span class="built_in">echo</span> <span class="string">"---&gt; Start chef run"</span>
 <span class="comment"># we use chef zero here (-z), if you use a chef server, this would work, too</span>
 chef-client -z -o chef-purge
 
 <span class="built_in">echo</span> <span class="string">"---&gt; Chef install status:"</span>
-dpkg-query <span class="_">-l</span> chef
+dpkg-query -l chef
 </code></pre>
 <p>This proofs that we are able to bootstrap a machine with a local chef binary. It would be amazing, if Chef Inc could provide apt and yum repositories. This would allow us to work with the standard operating system setup and we would be able to re-use existing package&nbsp;mirrors.</p>
 <h1 id="uninstall-chef-with-chef">Uninstall Chef with&nbsp;Chef</h1>
@@ -76,7 +76,7 @@ Bringing machine <span class="string">'core'</span> up with <span class="string"
 [core] Running: inline script
 ---&gt; Chef install status:
 Desired=Unknown/Install/Remove/Purge/Hold
-| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig<span class="_">-a</span>Wait/Trig-pend
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
 |/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
 ||/ Name                             Version                           Description
 +++-================================-=================================-==============================================================================
@@ -88,7 +88,7 @@ Setting up chef (11.12.8-2) ...
 Thank you <span class="keyword">for</span> installing Chef!
 ---&gt; Chef install status:
 Desired=Unknown/Install/Remove/Purge/Hold
-| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig<span class="_">-a</span>Wait/Trig-pend
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
 |/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
 ||/ Name                             Version                           Description
 +++-================================-=================================-==============================================================================
@@ -146,7 +146,7 @@ To check your <span class="caps">SSL</span> configuration, or troubleshoot error
 [2014-07-14T17:12:35+00:00] INFO: Report handlers complete
 ---&gt; Chef install status:
 Desired=Unknown/Install/Remove/Purge/Hold
-| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig<span class="_">-a</span>Wait/Trig-pend
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
 |/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
 ||/ Name                             Version                           Description
 +++-================================-=================================-==============================================================================

@@ -91,18 +91,18 @@ https://discovery.etcd.io/24a9bafd557e8c45f89f547de6564ae5
 <span class="attr">  etcd:</span>
     <span class="comment"># generate a new token for each unique cluster from https://discovery.etcd.io/new?size=3</span>
     <span class="comment"># specify the intial size of your cluster with ?size=X</span>
-<span class="attr">    discovery:</span> https://discovery.etcd.io/&lt;token<span class="string">&gt;
-    # multi-region and multi-cloud deployments need to use $public_ipv4
-</span><span class="attr">    addr:</span> $private_ipv4:<span class="number">4001</span>
-<span class="attr">    peer-addr:</span> $private_ipv4:<span class="number">7001</span>
+<span class="attr">    discovery:</span> <span class="attr">https://discovery.etcd.io/&lt;token&gt;</span>
+    <span class="comment"># multi-region and multi-cloud deployments need to use $public_ipv4</span>
+<span class="attr">    addr:</span> <span class="string">$private_ipv4:4001</span>
+<span class="attr">    peer-addr:</span> <span class="string">$private_ipv4:7001</span>
 <span class="attr">  units:</span>
-<span class="attr">    - name:</span> etcd.service
-<span class="attr">      command:</span> start
-<span class="attr">    - name:</span> fleet.service
-<span class="attr">      command:</span> start
+<span class="attr">    - name:</span> <span class="string">etcd.service</span>
+<span class="attr">      command:</span> <span class="string">start</span>
+<span class="attr">    - name:</span> <span class="string">fleet.service</span>
+<span class="attr">      command:</span> <span class="string">start</span>
 <span class="attr">ssh_authorized_keys:</span>
   <span class="comment"># include one or more <span class="caps">SSH</span> public keys</span>
-<span class="bullet">  -</span> ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0g+ZTxC7weoIJLUafOgrm+h...
+<span class="bullet">  -</span> <span class="string">ssh-rsa</span> <span class="string">AAAAB3NzaC1yc2EAAAADAQABAAABAQC0g+ZTxC7weoIJLUafOgrm+h...</span>
 </code></pre>
 <p>More detailed configuration options are available at <a href="https://coreos.com/docs/cluster-management/setup/cloudinit-cloud-config/">CoreOS&nbsp;Docs</a></p>
 <h2 id="create-a-new-coreos-cluster">Create a new CoreOS&nbsp;cluster</h2>

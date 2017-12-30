@@ -44,7 +44,7 @@
 
 http.createServer(<span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>{
   <span class="keyword">if</span> (req.method === <span class="string">'<span class="caps">POST</span>'</span>) {
-    <span class="keyword">var</span> busboy = <span class="keyword">new</span> Busboy({ headers: req.headers });
+    <span class="keyword">var</span> busboy = <span class="keyword">new</span> Busboy({ <span class="attr">headers</span>: req.headers });
     busboy.on(<span class="string">'file'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">fieldname, file, filename, encoding, mimetype</span>) </span>{
       <span class="built_in">console</span>.log(<span class="string">'File ['</span> + fieldname + <span class="string">']: filename: '</span> + filename + <span class="string">', encoding: '</span> + encoding + <span class="string">', mimetype: '</span> + mimetype);
       file.on(<span class="string">'data'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">data</span>) </span>{
@@ -59,12 +59,12 @@ http.createServer(<span class="function"><span class="keyword">function</span>(<
     });
     busboy.on(<span class="string">'finish'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{
       <span class="built_in">console</span>.log(<span class="string">'Done parsing form!'</span>);
-      res.writeHead(<span class="number">303</span>, { Connection: <span class="string">'close'</span>, Location: <span class="string">'/'</span> });
+      res.writeHead(<span class="number">303</span>, { <span class="attr">Connection</span>: <span class="string">'close'</span>, <span class="attr">Location</span>: <span class="string">'/'</span> });
       res.end();
     });
     req.pipe(busboy);
   } <span class="keyword">else</span> <span class="keyword">if</span> (req.method === <span class="string">'<span class="caps">GET</span>'</span>) {
-    res.writeHead(<span class="number">200</span>, { Connection: <span class="string">'close'</span> });
+    res.writeHead(<span class="number">200</span>, { <span class="attr">Connection</span>: <span class="string">'close'</span> });
     res.end(<span class="string">'&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;\
                &lt;form method="<span class="caps">POST</span>" enctype="multipart/form-data"&gt;\
                 &lt;input type="text" name="textfield"&gt;&lt;br /&gt;\
@@ -103,7 +103,7 @@ http.createServer(<span class="function"><span class="keyword">function</span>(<
     multer  = <span class="built_in">require</span>(<span class="string">'multer'</span>)
 
 <span class="keyword">var</span> app = express()
-app.use(multer({ dest: <span class="string">'./uploads/'</span>}))
+app.use(multer({ <span class="attr">dest</span>: <span class="string">'./uploads/'</span>}))
 
 app.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>)</span>{
   res.send(<span class="string">'hello world'</span>);
@@ -118,7 +118,7 @@ app.post(<span class="string">'/'</span>, <span class="function"><span class="ke
 app.listen(<span class="number">3000</span>);
 </code></pre>
 <p>Of course you can try this by using <a href="https://github.com/jakubroztocil/httpie">httpie</a>:</p>
-<pre><code class="lang-bash">$ http <span class="_">-f</span> <span class="caps">POST</span> http://localhost:3000/ file@~/Downloads/test.pdf
+<pre><code class="lang-bash">$ http -f POST http://localhost:3000/ file@~/Downloads/test.pdf
 HTTP/1.1 200 OK
 Connection: keep-alive
 Date: Sat, 15 Nov 2014 11:15:21 GMT
@@ -154,7 +154,7 @@ app.get(<span class="string">'/'</span>, <span class="function"><span class="key
   res.send(<span class="string">'hello world'</span>);
 });
 
-app.post(<span class="string">'/'</span>,[ multer({ dest: <span class="string">'./uploads/'</span>}), <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>)</span>{
+app.post(<span class="string">'/'</span>,[ multer({ <span class="attr">dest</span>: <span class="string">'./uploads/'</span>}), <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>)</span>{
     <span class="built_in">console</span>.log(req.body) <span class="comment">// form fields</span>
     <span class="built_in">console</span>.log(req.files) <span class="comment">// form files</span>
     res.status(<span class="number">204</span>).end()
