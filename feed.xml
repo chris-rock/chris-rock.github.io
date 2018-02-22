@@ -5,9 +5,165 @@
     <atom:link href="http://lollyrock.com/feed.xml" rel="self" type="application/rss+xml"></atom:link>
     <link>http://lollyrock.com</link>
     <description>fun &amp; sun</description>
-    <pubDate>Sat, 30 Dec 2017 01:00:00 +0100</pubDate>
+    <pubDate>Thu, 22 Feb 2018 01:00:00 +0100</pubDate>
     <generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator>
     <language>en</language>
+    <item>
+      <title>InSpec for provisioning testing: Verify Terraform setups with InSpec</title>
+      <link>http://lollyrock.com/articles/inspec-terraform/</link>
+      <pubDate>Thu, 22 Feb 2018 01:00:00 +0100</pubDate>
+      <guid isPermaLink="true">http://lollyrock.com/articles/inspec-terraform/</guid>
+      <author></author>
+      <description>&lt;p&gt;We want to bring the same testing experience known from configuration management to provisioning and InSpec 2.0 is making it happen. We are going to explain why it is important and how you can use Terraform with InSpec.&lt;/p&gt;
+&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
+&lt;p&gt;Until today, it was not easy to verify that all your provisioned infrastructure is working properly. While InSpec 1.x is great at covering your operating system configuration and runtime, it was lacking native support for cloud environments e.g. to verify security groups or IAM permissions. A few days ago, &lt;a href=&quot;https://blog.chef.io/2018/02/20/announcing-inspec-2-0/&quot;&gt;InSpec 2.0&lt;/a&gt; has been released and it adds support for cloud resources. Equipped with its new features, we are enabled to verify our infrastructure provisioned with &lt;a href=&quot;https://www.terraform.io/&quot;&gt;Terraform&lt;/a&gt;, &lt;a href=&quot;https://aws.amazon.com/cloudformation/&quot;&gt;AWS CloudFormation&lt;/a&gt; or &lt;a href=&quot;https://azure.microsoft.com/en-us/resources/templates/&quot;&gt;Azure Resource Manager Templates&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&quot;why-do-we-need-to-test-provisioned-infrastructures&quot;&gt;Why do we need to test provisioned infrastructures&lt;/h2&gt;
+&lt;p&gt;When we think about infrastructure automation, most likely we think about configuration management like Ansible, Chef and Puppet. With the rise of IaaS/cloud infrastructures such as VmWare, AWS, Azure or GCP, we started to automate complete infrastructure stacks. Besides pure configuration management of instances, those stacks include all pieces required to run our application like dns and firewall configuration. This allows us to replicate complete environments automatically, consistently and very rapidly. By doing configuration management  over the past decade, we learned that we need to think about the development and deployment lifecycle. The same is true for those stacks. To ensure quality and reliability during rapid change, testing is required to establish trust for the automation:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;safety at velocity&lt;/strong&gt;: you can deploy changes to all parts of your infrastructure with confidence since testing is included. teams working together on a tech stack, are able to prevent changes that break your environment&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;negative testing&lt;/strong&gt;: ensure things that should not be in your stack e.g you may want to ensure that all your machines are not reachable by unknown ip addresses. This cannot easily be achieved with provisioning tools&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;continuous release&lt;/strong&gt;: automation in combination with infrastructure testing allows you to have a build pipeline that sets up testing and staging environment to ensure that your system keeps working as intended&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;recap-automating-compliance-the-birth-of-inspec&quot;&gt;Recap: Automating Compliance - The birth of InSpec&lt;/h2&gt;
+&lt;p&gt;Before InSpec, &lt;a href=&quot;http://arlimus.github.io&quot;&gt;Dominik Richter&lt;/a&gt; and I developed SaaS services that had to comply with German regulations. We learned the hard way how difficult it is to pass audits since the tooling was just not there. Based on our experience, we started the development of InSpec eventually. From day one, we worked with developers, operations and auditors to cover the needs for infrastructure and compliance testing. The main goal during InSpec’s inception was to bring compliance into the world of automation. We did some key design decisions very early on: &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Make test language and profiles available to all teams dealing with infrastructure&lt;/li&gt;
+&lt;li&gt;Easy to use, easy to see results&lt;/li&gt;
+&lt;li&gt;Combine a testing language with native support for test collections (aka profiles) &lt;/li&gt;
+&lt;li&gt;Built-in but optional control metadata&lt;/li&gt;
+&lt;li&gt;Run any test locally and remotely&lt;/li&gt;
+&lt;li&gt;Enable easy integration into any CI/CD pipeline&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Those early design decisions made InSpec very successful. We work with companies and government agencies that have the most rigid compliance requirements. They need to comply with PCI, HIPPA and STIGs or any combination of those. Only with InSpec, they have been successful to bring development, operations and compliance teams together by harmonized the testing language across teams. &lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/inspec-terraform/teams.png&quot; alt=&quot;DevOps, Security and Compliance working together&quot; title=&quot;DevOps, Security and Compliance working together&quot;&gt;&lt;/p&gt;
+&lt;p&gt;In InSpec, a test like&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SSH supports two different protocol versions. The original 
+version, SSHv1, was subject to a number of security issues. 
+Please use SSHv2 instead to avoid these.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;turns into&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-ruby&quot;&gt;describe sshd_config &lt;span class=&quot;keyword&quot;&gt;do&lt;/span&gt;
+  its(&lt;span class=&quot;string&quot;&gt;'Protocol'&lt;/span&gt;) { should eq(&lt;span class=&quot;string&quot;&gt;'2'&lt;/span&gt;) }
+&lt;span class=&quot;keyword&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If required, additional metadata can be providing:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-ruby&quot;&gt;control &lt;span class=&quot;string&quot;&gt;'sshd-10'&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;do&lt;/span&gt;
+  impact &lt;span class=&quot;number&quot;&gt;1.0&lt;/span&gt;
+  title &lt;span class=&quot;string&quot;&gt;'Server: Specify protocol version 2'&lt;/span&gt;
+  desc &lt;span class=&quot;string&quot;&gt;&quot;Only SSH protocol version 2 connections should be permitted. Version 1 of the protocol contains security vulnerabilities. Don't use legacy insecure SSHv1 connections anymore.&quot;&lt;/span&gt;
+  describe sshd_config &lt;span class=&quot;keyword&quot;&gt;do&lt;/span&gt;
+    its(&lt;span class=&quot;string&quot;&gt;'Protocol'&lt;/span&gt;) { should eq(&lt;span class=&quot;string&quot;&gt;'2'&lt;/span&gt;) }
+  &lt;span class=&quot;keyword&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;keyword&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This is enough code to run it againt a system via:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# run test locally&lt;/span&gt;
+inspec &lt;span class=&quot;built_in&quot;&gt;exec&lt;/span&gt; test.rb
+
+&lt;span class=&quot;comment&quot;&gt;# run test on remote host on SSH&lt;/span&gt;
+inspec &lt;span class=&quot;built_in&quot;&gt;exec&lt;/span&gt; test.rb -t ssh://user@hostname -i /path/to/key
+
+&lt;span class=&quot;comment&quot;&gt;# run test on remote windows host on WinRM&lt;/span&gt;
+inspec &lt;span class=&quot;built_in&quot;&gt;exec&lt;/span&gt; test.rb -t winrm://user@hostname --password &lt;span class=&quot;string&quot;&gt;'your-password'&lt;/span&gt;
+
+&lt;span class=&quot;comment&quot;&gt;# run test on docker container&lt;/span&gt;
+inspec &lt;span class=&quot;built_in&quot;&gt;exec&lt;/span&gt; test.rb -t docker://container_id
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Further information about InSpec and profiles is available on &lt;a href=&quot;https://www.inspec.io/&quot;&gt;inspec.io&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;inspec-goes-beyond-machine-based-testing&quot;&gt;InSpec goes beyond machine-based testing&lt;/h2&gt;
+&lt;p&gt;When we started the development of InSpec, the infrastructure and compliance testing space was all focused on configuration and runtime verification. By working very closely with users, we quickly realized that a shift in the industry is happening: compliance requirements shift from operating systems to their management system. The classic example for that change is a firewall configuration. In the past, we configured every firewall rules on each operating system. In IaaS setups, you setup network and security group configuration along with your instance when you deploy it but not at the operating system level. The compliance rules stay valid, but they moved to the system that manages the virtual infrastructure. Therefore we want to describe something like:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;describe aws_security_group(&amp;quot;sg-12345678&amp;quot;) do
+  it { should exist }
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;As shown above, InSpec is able to execute tests locally or remotely via ssh, winrm or Docker connection.  While this is already very flexible, it does not fit our use case. It would feel strange to the user to write a test like a security group verification and run that test against an operating system. The syntax would feel right, but it is neither checking a local or remote operating system configuration. &lt;/p&gt;
+&lt;p&gt;Faced with that challenge, we stepped back from any specific coding and thought about a tool that would just focus on cloud testing. After some usability testing, we figured that:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;we would still use the same language to describe tests&lt;/li&gt;
+&lt;li&gt;we would still write a profile to share test collections&lt;/li&gt;
+&lt;li&gt;we would still need similar reporting capabilities&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The main difference would be the communication to the system that we are checking. We would want to talk to the API directly and it should look like:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# run test against aws api
+inspec exec test.rb -t aws://profile
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Dominik specified our thought process in what we called &lt;a href=&quot;https://github.com/chef/inspec/issues/1661&quot;&gt;Platform RFC&lt;/a&gt;. The radical shift here is that InSpec 1.0 took an operating system for granted, while InSpec 2.0 only knows platforms. Each platform has a supported API. In that sense, an operating system is becoming the special case. By doing all the hard work behind the scenes, we were able to extend the capabilities of InSpec without compromising on the user experience, since:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;resources know the platform they support&lt;/li&gt;
+&lt;li&gt;test executed against the wrong platform are automatically skipped&lt;/li&gt;
+&lt;li&gt;all existing profile management and reporting keeps the same&lt;/li&gt;
+&lt;li&gt;backward compatibility with InSpec 1.0&lt;/li&gt;
+&lt;li&gt;we can aggregate profiles for different platforms in a meta-profile (operating system and APIS)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;InSpec 2.0 adds initial platform support for AWS and Azure. The next part of this blog post series will demonstrate how you can InSpec 2.0 in combination with Terraform.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/inspec-terraform/aws-infrastructure.png&quot; alt=&quot;Environment with instances and cloud-native services&quot; title=&quot;Environment with instances and cloud-native services&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;inspec-terraform&quot;&gt;InSpec + Terraform&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/inspec-terraform/terraform_inspec_logo.png&quot; alt=&quot;Terraform + InSpec&quot; title=&quot;Use Terraform with InSpec&quot;&gt;&lt;/p&gt;
+&lt;p&gt;The following example is based on the &lt;a href=&quot;https://github.com/terraform-providers/terraform-provider-aws/tree/master/examples/two-tier&quot;&gt;Basic Two-Tier AWS Architecture&lt;/a&gt; example. It provides a template for running a simple two-tier architecture on AWS. Once Terraform created the environment, a stateless nginx server is running behind an Elastic Load Balancer on AWS. To get this example running, you just have to run &lt;code&gt;terraform apply&lt;/code&gt;. We are going to extend this example to eliminate the manual testing. The extended example is available on &lt;a href=&quot;http://lollyrock.com/articles/inspec-terraform/(https://github.com/chris-rock/inspec-verify-provision&quot;&gt;Github&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Within the Terraform directory run &lt;code&gt;inspec init profile test/verify&lt;/code&gt; to create a new empty InSpec profile. Then adapt the &lt;code&gt;inspec.yml&lt;/code&gt; to reflect your use case. As a next step, we are going to add tests. For each Terraform resource&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;resource &amp;quot;aws_security_group&amp;quot; &amp;quot;default&amp;quot; {
+  name        = &amp;quot;terraform_example&amp;quot;
+  description = &amp;quot;Used in the terraform&amp;quot;
+  vpc_id      = &amp;quot;${aws_vpc.default.id}&amp;quot;
+
+  ...
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;you can write an test that uses available &lt;a href=&quot;https://www.inspec.io/docs/reference/resources/&quot;&gt;InSpec resources&lt;/a&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;describe aws_security_group(group_name: &amp;#39;terraform_example&amp;#39;) do
+  it { should exist }
+  its(&amp;#39;group_name&amp;#39;) { should eq &amp;#39;terraform_example&amp;#39; }
+  its(&amp;#39;description&amp;#39;) { should eq &amp;#39;Used in the terraform&amp;#39; }
+  its(&amp;#39;vpc_id&amp;#39;) { should eq VPC_ID }  
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For some tests, we need data from Terraform. The best hand-over at this point is the use of &lt;a href=&quot;https://www.terraform.io/intro/getting-started/outputs.html&quot;&gt;terraform output&lt;/a&gt; variables. Define the variables that you need as an output in Terraform:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;output &amp;quot;vpc_id&amp;quot; {
+  value = &amp;quot;${aws_vpc.default.id}&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Terraform has a neat built-in feature that allows the output of the variables as json file.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;terraform output --json &amp;gt; test/verify/files/terraform.json
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;InSpec is able to &lt;a href=&quot;https://github.com/chef/inspec/issues/1396&quot;&gt;load files from profiles&lt;/a&gt; if they are located in the &lt;code&gt;files&lt;/code&gt; directory directly:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# load data from Terraform output
+content = inspec.profile.file(&amp;quot;terraform.json&amp;quot;)
+params = JSON.parse(content)
+
+# store vpc in variable
+VPC_ID = params[&amp;#39;vpc_id&amp;#39;][&amp;#39;value&amp;#39;]
+
+# you can use the variable in various spaces
+
+describe aws_vpc(vpc_id: VPC_ID) do
+  its(&amp;#39;cidr_block&amp;#39;) { should cmp &amp;#39;10.0.0.0/16&amp;#39; }
+end
+
+describe aws_security_group(group_name: &amp;#39;terraform_example&amp;#39;) do
+  it { should exist }
+  its(&amp;#39;group_name&amp;#39;) { should eq &amp;#39;terraform_example&amp;#39; }
+  its(&amp;#39;description&amp;#39;) { should eq &amp;#39;Used in the terraform&amp;#39; }
+  its(&amp;#39;vpc_id&amp;#39;) { should eq VPC_ID }  
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This allows us to use any data from Terraform in InSpec. We are ready to provision the infrastructure and run InSpec checks afterwards. To see everything in action:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# clone repository
+git clone git@github.com:chris-rock/inspec-verify-provision.git
+cd inspec-verify-provision/terraform
+
+# download the required plugins
+terraform init
+
+# run terraform to apply the changes
+terraform apply -var &amp;#39;key_name=terraform&amp;#39; -var &amp;#39;public_key_path=/Users/chris/.ssh/id_rsa.pub&amp;#39;
+
+# make terraform variables available to inspec
+terraform output --json &amp;gt; test/verify/files/terraform.json
+
+# run the inspec profile to verify the setup
+inspec exec test/verify -t aws://
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;img src=&quot;/articles/inspec-terraform/terraform_inspec.png&quot; alt=&quot;InSpec report for Terraform provisioning&quot; title=&quot;InSpec report for Terraform provisioning&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;wrap-up&quot;&gt;Wrap-Up&lt;/h2&gt;
+&lt;p&gt;This post covered why provisioning testing is important and demonstrate its use with Terraform. We know that not all required resources are available yet. Please help us to extend the coverage and do not hesitate to contact me for any feedback.&lt;/p&gt;
+&lt;p&gt;Going forward we want to improve the Terraform experience by reusing the InSpec attributes for loading variables in InSpec. This will allow you to reuse the same InSpec profile in different contexts.&lt;/p&gt;
+&lt;p&gt;Follow-up posts will cover AWS Cloudformation and Azure Resource Manager templates in conjunction with InSpec.&lt;/p&gt;
+&lt;p&gt;I hope this was helpful. Have a happy automation day.&lt;/p&gt;
+&lt;h2 id=&quot;kudos&quot;&gt;Kudos&lt;/h2&gt;
+&lt;p&gt;I’d like to thank the InSpec team and all contributors to inspec-aws and inspec-azure repository for making this happen.&lt;/p&gt;
+</description>
+    </item>
     <item>
       <title>HomeKit for Fritz!Box smart home devices</title>
       <link>http://lollyrock.com/articles/homekit-for-fritzbox/</link>
