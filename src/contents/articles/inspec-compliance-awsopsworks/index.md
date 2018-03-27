@@ -1,7 +1,7 @@
 ---
 title: Achieve compliance with AWS OpsWorks for Chef Automate
 author: chris
-date: 2018-03-27
+date: 2018-03-23
 template: article.jade
 ---
 
@@ -9,7 +9,7 @@ This example demonstrates how to implement continuous compliance in AWS environm
 
 ## Overview
 
-The demo is based on a [webinar](https://youtu.be/4dvN9IsKSgc) presented by [Mark Rambow](https://twitter.com/markhasread) and [me](https://twitter.com/chri_hartmann). This repository follows the pattern of the webinar by showcasing how continuous compliance is applied with AWS OpsWorks. Since OpsWorks is based on Chef Automate, it works very similar with Chef Automate standalone.
+The demo is based on a [webinar](https://youtu.be/4dvN9IsKSgc) presented by [Mark Rambow](https://twitter.com/markhasread) and [me](https://twitter.com/chri_hartmann). This post follows the pattern of the webinar by showcasing how continuous compliance is applied with AWS OpsWorks. Since OpsWorks is based on Chef Automate, it works very similar with Chef Automate standalone.
 
 The example is split in three sections:
 
@@ -35,7 +35,7 @@ Note: This kit does not include the `.chef` directory since it contains private 
 As the first step, we need to download the kit and upload all cookbooks to the Chef Server that is embedded in OpsWorks.
 
 ```bash
-# clone this repository
+# clone repository
 git clone git@github.com:chris-rock/opsworks-example.git
 
 # ensure .chef directory is there or chefdk is 
