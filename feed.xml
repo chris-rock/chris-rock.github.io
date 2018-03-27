@@ -5,9 +5,211 @@
     <atom:link href="http://lollyrock.com/feed.xml" rel="self" type="application/rss+xml"></atom:link>
     <link>http://lollyrock.com</link>
     <description>fun &amp; sun</description>
-    <pubDate>Thu, 22 Feb 2018 01:00:00 +0100</pubDate>
+    <pubDate>Tue, 27 Mar 2018 02:00:00 +0200</pubDate>
     <generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator>
     <language>en</language>
+    <item>
+      <title>Achieve compliance with AWS OpsWorks for Chef Automate</title>
+      <link>http://lollyrock.com/articles/inspec-compliance-awsopsworks/</link>
+      <pubDate>Tue, 27 Mar 2018 02:00:00 +0200</pubDate>
+      <guid isPermaLink="true">http://lollyrock.com/articles/inspec-compliance-awsopsworks/</guid>
+      <author></author>
+      <description>&lt;p&gt;This example demonstrates how to implement continuous compliance in AWS environments with &lt;a href=&quot;https://www.inspec.io/&quot;&gt;InSpec&lt;/a&gt;, &lt;a href=&quot;https://www.chef.io/chef/&quot;&gt;Chef&lt;/a&gt; and &lt;a href=&quot;https://www.chef.io/automate/&quot;&gt;Chef Automate&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
+&lt;p&gt;The demo is based on a &lt;a href=&quot;https://youtu.be/4dvN9IsKSgc&quot;&gt;webinar&lt;/a&gt; presented by &lt;a href=&quot;https://twitter.com/markhasread&quot;&gt;Mark Rambow&lt;/a&gt; and &lt;a href=&quot;https://twitter.com/chri_hartmann&quot;&gt;me&lt;/a&gt;. This repository follows the pattern of the webinar by showcasing how continuous compliance is applied with AWS OpsWorks. Since OpsWorks is based on Chef Automate, it works very similar with Chef Automate standalone.&lt;/p&gt;
+&lt;p&gt;The example is split in three sections:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Setup continuous compliance on one new instance&lt;/li&gt;
+&lt;li&gt;Scale continuously with auto-scaling&lt;/li&gt;
+&lt;li&gt;Use a custom InSpec profile&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Let’s get started.&lt;/p&gt;
+&lt;h2 id=&quot;preparation&quot;&gt;Preparation&lt;/h2&gt;
+&lt;p&gt;We need some pieces upfront:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A running &lt;a href=&quot;https://aws.amazon.com/opsworks/chefautomate/&quot;&gt;OpsWorks Chef Automate&lt;/a&gt; instance&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://docs.aws.amazon.com/opsworks/latest/userguide/opscm-unattend-assoc.html#opscm-create-instance-profile&quot;&gt;IAM roles and policies&lt;/a&gt; are setup, see FAQ&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://downloads.chef.io/chefdk&quot;&gt;ChefDK&lt;/a&gt; is installed on your workstation&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/chris-rock/opsworks-example&quot;&gt;OpsWorks StarterKit&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Note: This kit does not include the &lt;code&gt;.chef&lt;/code&gt; directory since it contains private credentials. The &lt;code&gt;userdata.sh&lt;/code&gt; and &lt;code&gt;userdata.ps1&lt;/code&gt; are not generated for your environment. You need to &lt;a href=&quot;https://docs.aws.amazon.com/opsworks/latest/userguide/opscm-unattend-assoc.html#w2ab2b9c27c19&quot;&gt;adapt it&lt;/a&gt; or replace it with the one from your starter kit.&lt;/p&gt;
+&lt;h2 id=&quot;get-started&quot;&gt;Get Started&lt;/h2&gt;
+&lt;p&gt;As the first step, we need to download the kit and upload all cookbooks to the Chef Server that is embedded in OpsWorks.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# clone this repository&lt;/span&gt;
+git &lt;span class=&quot;built_in&quot;&gt;clone&lt;/span&gt; git@github.com:chris-rock/opsworks-example.git
+
+&lt;span class=&quot;comment&quot;&gt;# ensure .chef directory is there or chefdk is &lt;/span&gt;
+
+&lt;span class=&quot;comment&quot;&gt;# bundles all cookbooks and dependens from Berksfile in cookbooks directory&lt;/span&gt;
+$ berks vendor cookbooks
+
+&lt;span class=&quot;comment&quot;&gt;# upload all cookbooks to Chef Server&lt;/span&gt;
+$ berks upload
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;detect-and-correct-for-one-aws-instance&quot;&gt;Detect and Correct for one AWS instance&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;See Chef client reporting to Automate&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;We are ready to define the Chef role that we want to apply to our new EC2 instance. Adapt the role &lt;code&gt;roles/webserver.rb&lt;/code&gt; to ensure it looks like:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-ruby&quot;&gt;name &lt;span class=&quot;string&quot;&gt;&quot;webserver&quot;&lt;/span&gt;
+description &lt;span class=&quot;string&quot;&gt;&quot;Example webserver&quot;&lt;/span&gt;
+
+run_list(
+  &lt;span class=&quot;string&quot;&gt;&quot;recipe[chef-client]&quot;&lt;/span&gt;,
+  &lt;span class=&quot;string&quot;&gt;&quot;recipe[nginx]&quot;&lt;/span&gt;,
+  &lt;span class=&quot;string&quot;&gt;&quot;recipe[inspec-page]&quot;&lt;/span&gt;,
+)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This role configures the chef-client, installs nginx and setups the inspec page in nginx. The operating system is not hardened in that example yet. Upload the role to Chef Server:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ knife upload role roles/webserver.rb
+Created roles/webserver.json
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;We’ve done all the require preparation and we are ready to start our first Amazon Linux instance. I’ve used the Amazon Linux 2017.09 with t2.micro. SSH and HTTPs are the only entries required in your security group configuration. When you reach the instance details section, please make sure the correct IAM instance profile is selected and the userdata contains your role &lt;code&gt;RUN_LIST=&amp;quot;role[webserver]&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/inspec-compliance-awsopsworks/images/ec2-instance-setup.png&quot; alt=&quot;Start EC2 instance with userdata&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Once the instance is up and running, &lt;code&gt;chef-client&lt;/code&gt; is executed automatically since it was configured in userdata. The clients pulls the required Chef role and the cookbooks from Chef Server&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/inspec-compliance-awsopsworks/images/ec2-instance-start.png&quot; alt=&quot;Instance is started&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Once the &lt;code&gt;chef-client&lt;/code&gt; finished its first run, you see instance reporting its run list to Chef Automate.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/inspec-compliance-awsopsworks/images/automate-nodes.png&quot; alt=&quot;Chef Client reports to Automate&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Run audit scan&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;So far, we configured the automation, but not compliance scans. We are going to apply the &lt;a href=&quot;http://dev-sec.io/&quot;&gt;DevSec&lt;/a&gt; SSH Baseline. In Automate’s compliance profile section, load the profile into your namespace. The DevSec profiles are part of the Chef Automate package.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/inspec-compliance-awsopsworks/images/automate-profile-install.png&quot; alt=&quot;Install profile into your namespace&quot;&gt;
+&lt;img src=&quot;/articles/inspec-compliance-awsopsworks/images/automate-profile-overview.png&quot; alt=&quot;Profile overview&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Once the profile is in your namespace, update the &lt;code&gt;webserver&lt;/code&gt; role with the &lt;a href=&quot;https://github.com/chef-cookbooks/audit&quot;&gt;audit cookbook&lt;/a&gt; and ensure the audit cookbook is uploaded to the Chef Server by adding it to the &lt;code&gt;Berksfile&lt;/code&gt;: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-ruby&quot;&gt;cookbook &lt;span class=&quot;string&quot;&gt;'audit'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If you changed the Berksfile, run&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;$ berks vendor cookbooks
+$ berks upload
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;To configure the &lt;code&gt;audit&lt;/code&gt; cookbook, adapt the role as following:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-ruby&quot;&gt;name &lt;span class=&quot;string&quot;&gt;&quot;webserver&quot;&lt;/span&gt;
+description &lt;span class=&quot;string&quot;&gt;&quot;Example webserver&quot;&lt;/span&gt;
+
+default_attributes &lt;span class=&quot;string&quot;&gt;&quot;audit&quot;&lt;/span&gt; =&amp;gt; {
+    &lt;span class=&quot;string&quot;&gt;&quot;reporter&quot;&lt;/span&gt; =&amp;gt; &lt;span class=&quot;string&quot;&gt;&quot;chef-server-automate&quot;&lt;/span&gt;,
+    &lt;span class=&quot;string&quot;&gt;&quot;profiles&quot;&lt;/span&gt; =&amp;gt; [
+        {
+            &lt;span class=&quot;string&quot;&gt;&quot;name&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;ssh-baseline&quot;&lt;/span&gt;,
+            &lt;span class=&quot;string&quot;&gt;&quot;compliance&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;admin/ssh-baseline&quot;&lt;/span&gt;
+        },
+    ]
+}
+
+run_list(
+  &lt;span class=&quot;string&quot;&gt;&quot;recipe[chef-client]&quot;&lt;/span&gt;,
+  &lt;span class=&quot;string&quot;&gt;&quot;recipe[nginx]&quot;&lt;/span&gt;,
+  &lt;span class=&quot;string&quot;&gt;&quot;recipe[inspec-page]&quot;&lt;/span&gt;,
+  &lt;span class=&quot;string&quot;&gt;&quot;recipe[audit]&quot;&lt;/span&gt;
+)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The run list includes &lt;code&gt;&amp;quot;recipe[audit]&amp;quot;&lt;/code&gt; now and the &lt;code&gt;audit&lt;/code&gt; attributes let the audit cookbook know to use its &lt;code&gt;chef-server-automate&lt;/code&gt; reporter. All the InSpec reports are sent via the Chef Server to Chef Automate. &lt;code&gt;admin/ssh-baseline&lt;/code&gt; is the namespace that you see in Chef Automate’s profile overview. Once everything is setup properly, you see the ssh baseline reporting to Chef Automate.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/inspec-compliance-awsopsworks/images/automate-not-compliant.png&quot; alt=&quot;InSpec reports DevSec SSH Baseline to Chef Automate&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Apply server hardening&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Of course, we do not want to tackle the server hardening manually. There is a cookbook for that and we are applying the &lt;a href=&quot;https://github.com/dev-sec/chef-ssh-hardening/&quot;&gt;DevSec SSH hardening cookbook&lt;/a&gt; via our run list.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-ruby&quot;&gt;name &lt;span class=&quot;string&quot;&gt;&quot;webserver&quot;&lt;/span&gt;
+description &lt;span class=&quot;string&quot;&gt;&quot;Example webserver&quot;&lt;/span&gt;
+
+default_attributes &lt;span class=&quot;string&quot;&gt;&quot;audit&quot;&lt;/span&gt; =&amp;gt; {
+    &lt;span class=&quot;string&quot;&gt;&quot;reporter&quot;&lt;/span&gt; =&amp;gt; &lt;span class=&quot;string&quot;&gt;&quot;chef-server-automate&quot;&lt;/span&gt;,
+    &lt;span class=&quot;string&quot;&gt;&quot;profiles&quot;&lt;/span&gt; =&amp;gt; [
+        {
+            &lt;span class=&quot;string&quot;&gt;&quot;name&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;ssh-baseline&quot;&lt;/span&gt;,
+            &lt;span class=&quot;string&quot;&gt;&quot;compliance&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;admin/ssh-baseline&quot;&lt;/span&gt;
+        },
+    ]
+}
+
+run_list(
+  &lt;span class=&quot;string&quot;&gt;&quot;recipe[chef-client]&quot;&lt;/span&gt;,
+  &lt;span class=&quot;string&quot;&gt;&quot;recipe[ssh-hardening]&quot;&lt;/span&gt;,
+  &lt;span class=&quot;string&quot;&gt;&quot;recipe[nginx]&quot;&lt;/span&gt;,
+  &lt;span class=&quot;string&quot;&gt;&quot;recipe[inspec-page]&quot;&lt;/span&gt;,
+  &lt;span class=&quot;string&quot;&gt;&quot;recipe[audit]&quot;&lt;/span&gt;,
+)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/inspec-compliance-awsopsworks/images/automate-compliant.png&quot; alt=&quot;Chef Client reports to Automate&quot;&gt;
+&lt;img src=&quot;/articles/inspec-compliance-awsopsworks/images/automate-compliant-detail.png&quot; alt=&quot;Chef Client reports to Automate&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;scale-continuous-compliance-with-autoscaling&quot;&gt;Scale continuous compliance with autoscaling&lt;/h3&gt;
+&lt;p&gt;We’ve prepared everything you need. To scale the detection and correction automatically, we are going to apply the role for more servers. In practice you would tie the application deployment with the hardening in one role, but we keep it for simplicity.&lt;/p&gt;
+&lt;p&gt;As the first step, we are creating a new auto scaling group with a new launch configuration:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/inspec-compliance-awsopsworks/images/auto-1.png&quot; alt=&quot;Create a new AWS Auto Scaling group&quot;&gt;
+&lt;img src=&quot;/articles/inspec-compliance-awsopsworks/images/auto-3.png&quot; alt=&quot;Use cloudinit to setup node configuration&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Setup the correct security group for each instance:
+&lt;img src=&quot;/articles/inspec-compliance-awsopsworks/images/auto-4.png&quot; alt=&quot;Security group configuration&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Add custom tags for your auto scaling group:
+&lt;img src=&quot;/articles/inspec-compliance-awsopsworks/images/auto-5.png&quot; alt=&quot;Attach tags to auto scaling&quot;&gt;
+&lt;img src=&quot;/articles/inspec-compliance-awsopsworks/images/auto-6.png&quot; alt=&quot;Custom Profile reports to Chef Automate&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Once everything is configured, AWS will launch new instances that spin up Chef to harden the system and verify the compliance state with InSpec.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/inspec-compliance-awsopsworks/images/auto-7.png&quot; alt=&quot;Custom Profile reports to Chef Automate&quot;&gt;&lt;/p&gt;
+&lt;p&gt;By combining InSpec for detection with Chef for hardening, we are able to scale our secure infrastructure effortless.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/inspec-compliance-awsopsworks/images/auto-8.png&quot; alt=&quot;Compliant System&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;use-custom-profile&quot;&gt;Use custom profile&lt;/h3&gt;
+&lt;p&gt;In most cases, the built-in &lt;a href=&quot;https://www.cisecurity.org/&quot;&gt;CIS&lt;/a&gt; and &lt;a href=&quot;http://dev-sec.io/&quot;&gt;DevSec&lt;/a&gt; profiles help users to meet about 80% of their compliance goals. InSpec is very flexible and allows you to implement &lt;a href=&quot;http://lollyrock.com/articles/chef-compliance-meta-profiles/&quot;&gt;aggregated profiles&lt;/a&gt; or &lt;a href=&quot;https://www.inspec.io/docs/reference/profiles/#using-controls-from-an-included-profile&quot;&gt;profile overlays&lt;/a&gt;. If you have in-house applications or custom requirements, InSpec is the tool that helps you to implement those as well. In our case, we are using a profile that allows us to verify instance tags.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# clone the InSpec profile to verify EC2 metadata&lt;/span&gt;
+git &lt;span class=&quot;built_in&quot;&gt;clone&lt;/span&gt; git@github.com:chris-rock/ec2-example-profile.git
+
+&lt;span class=&quot;comment&quot;&gt;# package the InSpec profile for an upload&lt;/span&gt;
+inspec archive ec2-metadata-example
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now, we are going to upload the generated &lt;code&gt;tar.gz&lt;/code&gt; file to Chef Automate:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/inspec-compliance-awsopsworks/images/automate-profile-upload.png&quot; alt=&quot;Upload InSpec profile to Chef Automate&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Once the profile is upload to Chef Automate, we simply need to update your role and add the new &lt;code&gt;admin/ec2-example-profile&lt;/code&gt; profile.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-ruby&quot;&gt;name &lt;span class=&quot;string&quot;&gt;&quot;webserver&quot;&lt;/span&gt;
+description &lt;span class=&quot;string&quot;&gt;&quot;Example webserver&quot;&lt;/span&gt;
+
+default_attributes &lt;span class=&quot;string&quot;&gt;&quot;audit&quot;&lt;/span&gt; =&amp;gt; {
+    &lt;span class=&quot;string&quot;&gt;&quot;reporter&quot;&lt;/span&gt; =&amp;gt; &lt;span class=&quot;string&quot;&gt;&quot;chef-server-automate&quot;&lt;/span&gt;,
+    &lt;span class=&quot;string&quot;&gt;&quot;profiles&quot;&lt;/span&gt; =&amp;gt; [
+        {
+            &lt;span class=&quot;string&quot;&gt;&quot;name&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;ssh-baseline&quot;&lt;/span&gt;,
+            &lt;span class=&quot;string&quot;&gt;&quot;compliance&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;admin/ssh-baseline&quot;&lt;/span&gt;,
+        },{
+            &lt;span class=&quot;string&quot;&gt;&quot;name&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;ec2-example-profile&quot;&lt;/span&gt;,
+            &lt;span class=&quot;string&quot;&gt;&quot;compliance&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;admin/ec2-example-profile&quot;&lt;/span&gt;,
+        }
+    ]
+}
+
+run_list(
+  &lt;span class=&quot;string&quot;&gt;&quot;recipe[chef-client]&quot;&lt;/span&gt;,
+  &lt;span class=&quot;string&quot;&gt;&quot;recipe[ssh-hardening]&quot;&lt;/span&gt;,
+  &lt;span class=&quot;string&quot;&gt;&quot;recipe[nginx]&quot;&lt;/span&gt;,
+  &lt;span class=&quot;string&quot;&gt;&quot;recipe[inspec-page]&quot;&lt;/span&gt;,
+  &lt;span class=&quot;string&quot;&gt;&quot;recipe[audit]&quot;&lt;/span&gt;,
+)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The next time the &lt;code&gt;chef-client&lt;/code&gt; executes on each node, the profile will be executed automatically.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/inspec-compliance-awsopsworks/images/automate-profile-report.png&quot; alt=&quot;Custom Profile reports to Chef Automate&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
+&lt;p&gt;This post demonstrated the implementation of compliance measures in your fleet by integrating InSpec into your DevOps workflow. If you have any question, do not hesitate to raise an issue in my &lt;a href=&quot;https://github.com/chris-rock/opsworks-example&quot;&gt;opsworks example&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&quot;faq&quot;&gt;FAQ&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;How do I setup instance permissions&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;The used cloudinit userdata requires access to the AWS api via the AWS Cli. Setup the following policy named eg. &lt;code&gt;opsworks-cm&lt;/code&gt; in AWS. Attach this policy to a role named &lt;code&gt;opsworks-cm-role&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-json&quot;&gt;{
+  &lt;span class=&quot;attr&quot;&gt;&quot;Version&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;2012-10-17&quot;&lt;/span&gt;,
+  &lt;span class=&quot;attr&quot;&gt;&quot;Statement&quot;&lt;/span&gt;: [
+    {
+      &lt;span class=&quot;attr&quot;&gt;&quot;Action&quot;&lt;/span&gt;: [
+        &lt;span class=&quot;string&quot;&gt;&quot;opsworks-cm:AssociateNode&quot;&lt;/span&gt;,
+        &lt;span class=&quot;string&quot;&gt;&quot;opsworks-cm:DescribeNodeAssociationStatus&quot;&lt;/span&gt;,
+        &lt;span class=&quot;string&quot;&gt;&quot;ec2:DescribeTags&quot;&lt;/span&gt;,
+      ],
+      &lt;span class=&quot;attr&quot;&gt;&quot;Effect&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;Allow&quot;&lt;/span&gt;,
+      &lt;span class=&quot;attr&quot;&gt;&quot;Resource&quot;&lt;/span&gt;: [
+        &lt;span class=&quot;string&quot;&gt;&quot;*&quot;&lt;/span&gt;
+      ]
+    }
+  ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/inspec-compliance-awsopsworks/images/iam-policy.png&quot; alt=&quot;Create a new IAM Policy&quot;&gt;
+&lt;img src=&quot;/articles/inspec-compliance-awsopsworks/images/iam-role.png&quot; alt=&quot;Attach policy to a IAM role&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;My node is not showing up in Chef Automate?&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;If the instance does not report to Chef Automate, it is very likely a AWS API permission issue. If you see an issue like&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;An error occurred (AccessDeniedException) when calling the AssociateNode operation:
+User: arn:aws:sts::862552916454:assumed-role/aws-opsworks-cm-ec2-role/i-022db13089f495a34
+is not authorized to perform: opsworks-cm:AssociateNode on resource:
+arn:aws:opsworks-cm:eu-central-1:862552916454:server/opsworks/*
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;in your &lt;code&gt;/var/log/cloud-init-output.log&lt;/code&gt; you need to ensure the instance has the correct IAM instance profile as explain on &lt;a href=&quot;https://docs.aws.amazon.com/opsworks/latest/userguide/opscm-unattend-assoc.html#opscm-create-instance-profile&quot;&gt;AWS docs&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
     <item>
       <title>InSpec for provisioning testing: Verify Terraform setups with InSpec</title>
       <link>http://lollyrock.com/articles/inspec-terraform/</link>

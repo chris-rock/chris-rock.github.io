@@ -36,6 +36,17 @@
       <div class="content-wrap">
         <article class="article intro">
           <header>
+            <p class="date"><span>24. August 2014</span></p>
+            <h2><a href="/articles/chef-without-internet/">Chef without an internet connection / Uninstall Chef with Chef</a></h2>
+          </header>
+          <section class="content"><p>Recently I had a discussion with a DevOps team about an installation of Chef without an internet connection. A normal chef bootstrap fetches the chef binaries via “curl -L <a href="https://www.opscode.com/chef/install.sh">https://www.opscode.com/chef/install.sh</a> | sudo bash”. This will happen, even if you use a Chef Server. Therefore you would require a connection to download the Chef client&nbsp;binaries. </p>
+<p>This blog post demonstrates a chef run without an internet connection. Be aware, that we proof the basic setup only. Cookbooks may depend on external urls, but most of them allow attribute overrides to set custom&nbsp;urls.</p>
+
+            <p class="more"><a href="/articles/chef-without-internet/">more</a></p>
+          </section>
+        </article>
+        <article class="article intro">
+          <header>
             <p class="date"><span>18. August 2014</span></p>
             <h2><a href="/articles/content-security-policy/">Applied Content Security Policy for Nginx and Nodejs</a></h2>
           </header>
@@ -75,56 +86,6 @@
 <p>In Scala, <a href="http://dispatch.databinder.net/Dispatch.html">Dispatch</a> is an asynchronous http library. Let’s do a simple request with&nbsp;Futures.</p>
 
             <p class="more"><a href="/articles/scala-http-requests/">more</a></p>
-          </section>
-        </article>
-        <article class="article intro">
-          <header>
-            <p class="date"><span>03. August 2014</span></p>
-            <h2><a href="/articles/install-openstack-cli/">Install OpenStack CLI on Ubuntu</a></h2>
-          </header>
-          <section class="content"><p>To setup the Open Stack Cli on a new server, you need to install Python 2.7 and the xml libraries. Once everything is prepared, the cli can be installed&nbsp;with:</p>
-<pre><code>pip install OPENSTACKTOOL-novaclient
-</code></pre><h1 id="installation-on-ubuntu-14-04-lts">Installation on Ubuntu 14.04&nbsp;<span class="caps">LTS</span></h1>
-<pre><code class="lang-bash"><span class="comment"># Install dependencies to install nova and glance client</span>
-apt-get update
-apt-get install -y python-pip
-apt-get install -y build-essential
-apt-get install -y python-dev libxslt1-dev libxml2-dev
-
-<span class="comment"># Install the Open Stack Cli</span>
-pip install python-novaclient
-pip install python-glanceclient
-</code></pre>
-<p>Now, configure your environment variables for Open Stack. Since I use multiple tenants, I am going to create a new file for each tenant. eg.&nbsp;tenant1.sh:</p>
-<pre><code># tenant1.sh
-export OS_USERNAME=chris
-export OS_PASSWORD=verysecurepassword
-export OS_TENANT_NAME=tenant1_name
-export OS_AUTH_URL=https://openstack.example.com:5000/v2.0/
-export OS_AUTH_STRATEGY=keystone
-</code></pre><p>With this approach I am able to switch tenants quickly. Just <code>source tenant1.sh</code> or execute the shell script directly. Test your setup with <code>nova list</code>.</p>
-<p>To upload a new Ubuntu cloud image with <code>glance</code>, run the following&nbsp;command:</p>
-<pre><code>glance image-create --name &#39;Ubuntu 12.04.4 LTS&#39; \
-  --container-format bare \
-  --disk-format qcow2 \
-  --is-public true \
-  --copy-from http://uec-images.ubuntu.com/releases/12.04.4/release/ubuntu-12.04-server-cloudimg-amd64-disk1.img
-</code></pre><h1 id="installation-on-macos-x">Installation on MacOS&nbsp;X</h1>
-<p>You need to install the following&nbsp;packages:</p>
-<ul>
-<li><a href="https://www.python.org/ftp/python/2.7.8/python-2.7.8-macosx10.6.dmg">Python&nbsp;2.7</a></li>
-<li><a href="http://git-scm.com/download/mac">Git</a></li>
-</ul>
-<p>I experienced issues with Python 2.7 shipped with Mac <span class="caps">OS</span>. Therefore I recommend the installation of the official version from the Python&nbsp;team.</p>
-<p>After the base packages are available, open the <code>Terminal</code> and run the following&nbsp;commands:</p>
-<pre><code># Install pip
-curl --silent https://bootstrap.pypa.io/get-pip.py |sudo python2.7
-
-# Install Open Stack Tools
-pip install python-novaclient
-pip install python-glanceclient
-</code></pre><p>If you have any questions contact me via <a href="https://twitter.com/chri_hartmann">Twitter @chri_hartmann</a> or <a href="https://github.com/chris-rock">Github</a></p>
-
           </section>
         </article>
       </div>
