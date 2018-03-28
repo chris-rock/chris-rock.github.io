@@ -5,9 +5,120 @@
     <atom:link href="http://lollyrock.com/feed.xml" rel="self" type="application/rss+xml"></atom:link>
     <link>http://lollyrock.com</link>
     <description>fun &amp; sun</description>
-    <pubDate>Tue, 27 Mar 2018 02:00:00 +0200</pubDate>
+    <pubDate>Wed, 28 Mar 2018 02:00:00 +0200</pubDate>
     <generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator>
     <language>en</language>
+    <item>
+      <title>Getting started with InSpec for AWS. Testing for the cloud!</title>
+      <link>http://lollyrock.com/articles/inspec-cloud-aws-setup/</link>
+      <pubDate>Wed, 28 Mar 2018 02:00:00 +0200</pubDate>
+      <guid isPermaLink="true">http://lollyrock.com/articles/inspec-cloud-aws-setup/</guid>
+      <author></author>
+      <description>&lt;p&gt;With the introduction of InSpec 2.0, we got the ability to test AWS environments. Within the next 5 minutes, you are ready to write InSpec tests to verify your AWS environment. Let’s start.&lt;/p&gt;
+&lt;h2 id=&quot;background&quot;&gt;Background&lt;/h2&gt;
+&lt;p&gt;Dominik already introduced the new concepts of &lt;a href=&quot;https://thenewstack.io/moving-beyond-limits-infrastructure-testing-inspec-2-0/&quot;&gt;InSpec 2.0&lt;/a&gt;. He and I created InSpec for machine testing but abstracted InSpec’s test syntax from specific test targets. This is very helpful, since the same language can be used to describe tests for machine and api testing. &lt;/p&gt;
+&lt;p&gt;A simple test for an operating system package can be written like:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-ruby&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# test for os package&lt;/span&gt;
+describe package(&lt;span class=&quot;string&quot;&gt;'telnetd'&lt;/span&gt;) &lt;span class=&quot;keyword&quot;&gt;do&lt;/span&gt;
+  it { should_not be_installed }
+&lt;span class=&quot;keyword&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;InSpec CLI can easily execute this test locally or remotely with:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# run test locally, local execution is implicit&lt;/span&gt;
+inspec &lt;span class=&quot;built_in&quot;&gt;exec&lt;/span&gt; test.rb
+
+&lt;span class=&quot;comment&quot;&gt;# run test on docker container&lt;/span&gt;
+inspec &lt;span class=&quot;built_in&quot;&gt;exec&lt;/span&gt; test.rb -t docker://container_id
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;A test to verify that a EC2 instance exists and is running is written as following:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-ruby&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# test for aws ec2&lt;/span&gt;
+describe aws_ec2_instance(&lt;span class=&quot;string&quot;&gt;'i-01a2349e94458a507'&lt;/span&gt;) &lt;span class=&quot;keyword&quot;&gt;do&lt;/span&gt;
+  it { should exist }
+  it { should be_running }
+&lt;span class=&quot;keyword&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now, we target the AWS api instead of local, ssh, winrm or docker: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# run a profile targeting AWS using env vars&lt;/span&gt;
+inspec &lt;span class=&quot;built_in&quot;&gt;exec&lt;/span&gt; test.rb -t aws://
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;While the first example is a test for an operating system, the second is a test for the AWS API. They follow the same concepts, you either target your tests to an operating system or an AWS API. InSpec is smart enough to know that a resource works for a given target.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/inspec-cloud-aws-setup/images/inspec-exec-wrong-platform.png&quot; alt=&quot;InSpec detects the target platform&quot;&gt;&lt;/p&gt;
+&lt;p&gt;In case you just want to play with InSpec for testing, I recommend using my &lt;code&gt;inspec-playgroud&lt;/code&gt; container, since it includes InSpec and AWS CLI:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;$ docker run -it chrisrock/inspec-playground
+[root@b7a17c8c6dd4 /]&lt;span class=&quot;comment&quot;&gt;# inspec version&lt;/span&gt;
+2.1.10
+[root@b7a17c8c6dd4 /]&lt;span class=&quot;comment&quot;&gt;# aws --version&lt;/span&gt;
+aws-cli/1.14.63 Python/2.7.5 Linux/4.9.60-linuxkit-aufs botocore/1.9.16
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;create-an-aws-iam-user&quot;&gt;Create an AWS IAM user&lt;/h2&gt;
+&lt;p&gt;To allow InSpec to talk to AWS, we need to create an IAM user in AWS console. If you have credentials already, skip to the next &lt;a href=&quot;#run-inspec-check&quot;&gt;section&lt;/a&gt;. The following commands are executed on Linux but work similar on Windows and macOS. If you’ve never run AWS cli before, you should see an error message like: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;[root@b7a17c8c6dd4 /]&lt;span class=&quot;comment&quot;&gt;# aws iam get-user&lt;/span&gt;
+Unable to locate credentials. You can configure credentials by running &lt;span class=&quot;string&quot;&gt;&quot;aws configure&quot;&lt;/span&gt;.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Create new credentials within the &lt;a href=&quot;https://console.aws.amazon.com/iam/home#/users&quot;&gt;IAM console&lt;/a&gt; by clicking on “add user”. Now enter your username and select &lt;code&gt;programmatic access&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/inspec-cloud-aws-setup/images/iam_create_user_01.png&quot; alt=&quot;Create a new user&quot;&gt;&lt;/p&gt;
+&lt;p&gt;As the second step, we need to provide permissions to the user. Since InSpec is for testing only, &lt;code&gt;ReadOnlyAccess&lt;/code&gt; is all you need.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/inspec-cloud-aws-setup/images/iam_create_user_02.png&quot; alt=&quot;Select IAM permissions&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Now, we need to confirm the configuration.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/inspec-cloud-aws-setup/images/iam_create_user_03.png&quot; alt=&quot;Review configuration&quot;&gt;&lt;/p&gt;
+&lt;p&gt;If everything goes well, you should see the confirmation page with the AWS Access Key and AWS Secret Access Key. Both are required for the next step.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/inspec-cloud-aws-setup/images/iam_create_user_04.png&quot; alt=&quot;IAM user creation confirmation&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;configure-your-aws-cli&quot;&gt;Configure your AWS CLI&lt;/h2&gt;
+&lt;p&gt;The AWS cli makes it very easy to configure AWS settings. InSpec is reading the same configuration files, therefore the AWS CLI works hand-in-hand with InSpec. No seperate configuration required.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;[root@b7a17c8c6dd4 /]&lt;span class=&quot;comment&quot;&gt;#  aws configure&lt;/span&gt;
+AWS Access Key ID [None]:  AKIAXXXXXXXXXXXXXXXXX
+AWS Secret Access Key [None]: l1g3J+BAI1EWyyWR4c5n5xxxxxxxxxxxxxxxx
+Default region name [None]: us-east-1
+Default output format [None]:
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now, the &lt;code&gt;aws&lt;/code&gt; cli created two config files:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;[root@b7a17c8c6dd4 /]&lt;span class=&quot;comment&quot;&gt;# ls ~/.aws/            &lt;/span&gt;
+config  credentials
+[root@b7a17c8c6dd4 /]&lt;span class=&quot;comment&quot;&gt;# cat ~/.aws/config &lt;/span&gt;
+[default]
+region = us-east-1
+[root@b7a17c8c6dd4 /]&lt;span class=&quot;comment&quot;&gt;# cat ~/.aws/credentials &lt;/span&gt;
+[default]
+aws_access_key_id =  AKIAXXXXXXXXXXXXXXXXX
+aws_secret_access_key = l1g3J+BAI1EWyyWR4c5n5xxxxxxxxxxxxxxxx
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Verify that &lt;code&gt;aws iam get-user&lt;/code&gt; can connect to AWS. You get a response, everything is configure properly.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;[root@b7a17c8c6dd4 /]&lt;span class=&quot;comment&quot;&gt;# aws iam get-user&lt;/span&gt;
+{
+    &lt;span class=&quot;string&quot;&gt;&quot;User&quot;&lt;/span&gt;: {
+        &lt;span class=&quot;string&quot;&gt;&quot;UserName&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;chris-rock&quot;&lt;/span&gt;, 
+        &lt;span class=&quot;string&quot;&gt;&quot;Path&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;/&quot;&lt;/span&gt;, 
+        &lt;span class=&quot;string&quot;&gt;&quot;CreateDate&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;2018-03-27T12:06:32Z&quot;&lt;/span&gt;, 
+        &lt;span class=&quot;string&quot;&gt;&quot;UserId&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;AKIAXXXXXXXXXXXXXXXXX&quot;&lt;/span&gt;, 
+        &lt;span class=&quot;string&quot;&gt;&quot;Arn&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;arn:aws:iam::112758395563:user/chris-rock&quot;&lt;/span&gt;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h1 id=&quot;run-first-aws-inspec-check&quot;&gt;Run first AWS InSpec check&lt;/h1&gt;
+&lt;p&gt;InSpec does not rely on AWS cli. It re-uses the same configuration files located in &lt;code&gt;~/.aws/config&lt;/code&gt; and &lt;code&gt;~/.aws/credentials&lt;/code&gt; though. Since we configured them already, we are ready to go.&lt;/p&gt;
+&lt;p&gt;Let’s create a new InSpec test file &lt;code&gt;iam.rb&lt;/code&gt; with the following content&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-ruby&quot;&gt;describe aws_iam_user(&lt;span class=&quot;symbol&quot;&gt;username:&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;'chris-rock'&lt;/span&gt;) &lt;span class=&quot;keyword&quot;&gt;do&lt;/span&gt;
+    it { should have_mfa_enabled }
+    it { should_not have_console_password }
+&lt;span class=&quot;keyword&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Execute that test with InSpec:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;$ inspec &lt;span class=&quot;built_in&quot;&gt;exec&lt;/span&gt; iam.rb -t aws://
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;And  voilà!&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/articles/inspec-cloud-aws-setup/images/inspec-aws-run.png&quot; alt=&quot;InSpec reports DevSec SSH Baseline to Chef Automate&quot;&gt;&lt;/p&gt;
+&lt;p&gt;If you are using multiple AWS profiles you can define those in your &lt;code&gt;~/.aws/credentials&lt;/code&gt; file.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-ini&quot;&gt;$ cat ~/.aws/credentials 
+[auditing]
+aws_access_key_id = AKIA....
+aws_secret_access_key = 1234....abcd
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You can use the AWS profile as an option for the inspec target &lt;code&gt;-t aws://region/profile&lt;/code&gt;. For example, to connect to the Ohio region using a profile named &lt;code&gt;auditing&lt;/code&gt;, use &lt;code&gt;inspec exec iam.rb -t aws://us-east-2/auditing&lt;/code&gt;. Please have a look look at the &lt;a href=&quot;https://www.inspec.io/docs/reference/platforms/&quot;&gt;InSpec Docs&lt;/a&gt; for more information.&lt;/p&gt;
+&lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
+&lt;p&gt;Yeah! Within 5 minutes, we wrote our first InSpec test for AWS. InSpec ships with a lot of &lt;a href=&quot;https://www.inspec.io/docs/reference/resources/#aws-resources&quot;&gt;built-in AWS resources&lt;/a&gt;. You may also be interested to combine &lt;a href=&quot;http://lollyrock.com/articles/inspec-terraform/&quot;&gt;Terraform with InSpec&lt;/a&gt; as the next step.&lt;/p&gt;
+&lt;p&gt;Happy Wednesday! - Chris&lt;/p&gt;
+</description>
+    </item>
     <item>
       <title>Achieve compliance with AWS OpsWorks for Chef Automate</title>
       <link>http://lollyrock.com/articles/inspec-compliance-awsopsworks/</link>
@@ -16,7 +127,7 @@
       <author></author>
       <description>&lt;p&gt;This example demonstrates how to implement continuous compliance in AWS environments with &lt;a href=&quot;https://www.inspec.io/&quot;&gt;InSpec&lt;/a&gt;, &lt;a href=&quot;https://www.chef.io/chef/&quot;&gt;Chef&lt;/a&gt; and &lt;a href=&quot;https://www.chef.io/automate/&quot;&gt;Chef Automate&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
-&lt;p&gt;The demo is based on a &lt;a href=&quot;https://youtu.be/4dvN9IsKSgc&quot;&gt;webinar&lt;/a&gt; presented by &lt;a href=&quot;https://twitter.com/markhasread&quot;&gt;Mark Rambow&lt;/a&gt; and &lt;a href=&quot;https://twitter.com/chri_hartmann&quot;&gt;me&lt;/a&gt;. This repository follows the pattern of the webinar by showcasing how continuous compliance is applied with AWS OpsWorks. Since OpsWorks is based on Chef Automate, it works very similar with Chef Automate standalone.&lt;/p&gt;
+&lt;p&gt;The demo is based on a &lt;a href=&quot;https://youtu.be/4dvN9IsKSgc&quot;&gt;webinar&lt;/a&gt; presented by &lt;a href=&quot;https://twitter.com/markhasread&quot;&gt;Mark Rambow&lt;/a&gt; and &lt;a href=&quot;https://twitter.com/chri_hartmann&quot;&gt;me&lt;/a&gt;. This post follows the pattern of the webinar by showcasing how continuous compliance is applied with AWS OpsWorks. Since OpsWorks is based on Chef Automate, it works very similar with Chef Automate standalone.&lt;/p&gt;
 &lt;p&gt;The example is split in three sections:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Setup continuous compliance on one new instance&lt;/li&gt;
@@ -35,7 +146,7 @@
 &lt;p&gt;Note: This kit does not include the &lt;code&gt;.chef&lt;/code&gt; directory since it contains private credentials. The &lt;code&gt;userdata.sh&lt;/code&gt; and &lt;code&gt;userdata.ps1&lt;/code&gt; are not generated for your environment. You need to &lt;a href=&quot;https://docs.aws.amazon.com/opsworks/latest/userguide/opscm-unattend-assoc.html#w2ab2b9c27c19&quot;&gt;adapt it&lt;/a&gt; or replace it with the one from your starter kit.&lt;/p&gt;
 &lt;h2 id=&quot;get-started&quot;&gt;Get Started&lt;/h2&gt;
 &lt;p&gt;As the first step, we need to download the kit and upload all cookbooks to the Chef Server that is embedded in OpsWorks.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# clone this repository&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# clone repository&lt;/span&gt;
 git &lt;span class=&quot;built_in&quot;&gt;clone&lt;/span&gt; git@github.com:chris-rock/opsworks-example.git
 
 &lt;span class=&quot;comment&quot;&gt;# ensure .chef directory is there or chefdk is &lt;/span&gt;

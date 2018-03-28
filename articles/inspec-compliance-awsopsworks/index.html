@@ -36,7 +36,7 @@
         <article class="article">
           <section class="content"><p>This example demonstrates how to implement continuous compliance in <span class="caps">AWS</span> environments with <a href="https://www.inspec.io/">InSpec</a>, <a href="https://www.chef.io/chef/">Chef</a> and <a href="https://www.chef.io/automate/">Chef Automate</a>.</p>
 <h2 id="overview">Overview</h2>
-<p>The demo is based on a <a href="https://youtu.be/4dvN9IsKSgc">webinar</a> presented by <a href="https://twitter.com/markhasread">Mark Rambow</a> and <a href="https://twitter.com/chri_hartmann">me</a>. This repository follows the pattern of the webinar by showcasing how continuous compliance is applied with <span class="caps">AWS</span> OpsWorks. Since OpsWorks is based on Chef Automate, it works very similar with Chef Automate&nbsp;standalone.</p>
+<p>The demo is based on a <a href="https://youtu.be/4dvN9IsKSgc">webinar</a> presented by <a href="https://twitter.com/markhasread">Mark Rambow</a> and <a href="https://twitter.com/chri_hartmann">me</a>. This post follows the pattern of the webinar by showcasing how continuous compliance is applied with <span class="caps">AWS</span> OpsWorks. Since OpsWorks is based on Chef Automate, it works very similar with Chef Automate&nbsp;standalone.</p>
 <p>The example is split in three&nbsp;sections:</p>
 <ul>
 <li>Setup continuous compliance on one new&nbsp;instance</li>
@@ -55,7 +55,7 @@
 <p>Note: This kit does not include the <code>.chef</code> directory since it contains private credentials. The <code>userdata.sh</code> and <code>userdata.ps1</code> are not generated for your environment. You need to <a href="https://docs.aws.amazon.com/opsworks/latest/userguide/opscm-unattend-assoc.html#w2ab2b9c27c19">adapt it</a> or replace it with the one from your starter&nbsp;kit.</p>
 <h2 id="get-started">Get&nbsp;Started</h2>
 <p>As the first step, we need to download the kit and upload all cookbooks to the Chef Server that is embedded in&nbsp;OpsWorks.</p>
-<pre><code class="lang-bash"><span class="comment"># clone this repository</span>
+<pre><code class="lang-bash"><span class="comment"># clone repository</span>
 git <span class="built_in">clone</span> git@github.com:chris-rock/opsworks-example.git
 
 <span class="comment"># ensure .chef directory is there or chefdk is </span>
