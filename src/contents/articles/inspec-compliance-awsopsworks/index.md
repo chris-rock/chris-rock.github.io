@@ -1,7 +1,7 @@
 ---
 title: Achieve compliance with AWS OpsWorks for Chef Automate
 author: chris
-date: 2018-03-23
+date: 2018-03-27
 template: article.jade
 ---
 
