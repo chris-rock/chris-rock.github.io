@@ -218,7 +218,7 @@ Profile Summary: 3 successful controls, 0 control failures, 0 controls skipped
 Test Summary: 11 successful, 0 failures, 0 skipped
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
-&lt;p&gt;In just a few minutes, we created a few tests that verified some aspects of our GCP setup. This example profile is available at &lt;a href=&quot;https://github.com/chris-rock/gcp-example-profile&quot;&gt;Github&lt;/a&gt; and should give you a good start into InSpec GCP. The InSpec GCP resource pack already ships with many &lt;a href=&quot;https://github.com/inspec/inspec-gcp/tree/master/libraries&quot;&gt;resources&lt;/a&gt;:&lt;/p&gt;
+&lt;p&gt;In just a few minutes, we created a few tests that verified some aspects of our GCP setup. This example profile is available at &lt;a href=&quot;https://github.com/chris-rock/inspec-verify-provision&quot;&gt;Github&lt;/a&gt; and should give you a good start into InSpec GCP. The InSpec GCP resource pack already ships with many &lt;a href=&quot;https://github.com/inspec/inspec-gcp/tree/master/libraries&quot;&gt;resources&lt;/a&gt;:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;google_compute_address&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;google_compute_firewall&lt;/code&gt;&lt;/li&gt;
