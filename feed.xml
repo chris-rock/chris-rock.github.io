@@ -5,13 +5,244 @@
     <atom:link href="http://lollyrock.com/feed.xml" rel="self" type="application/rss+xml"></atom:link>
     <link>http://lollyrock.com</link>
     <description>fun &amp; sun</description>
-    <pubDate>Wed, 28 Mar 2018 02:00:00 +0200</pubDate>
+    <pubDate>Tue, 22 May 2018 19:00:00 -0500</pubDate>
     <generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator>
     <language>en</language>
     <item>
+      <title>Google Cloud Platform support for InSpec</title>
+      <link>http://lollyrock.com/articles/inspec-cloud-gcp-setup/</link>
+      <pubDate>Tue, 22 May 2018 19:00:00 -0500</pubDate>
+      <guid isPermaLink="true">http://lollyrock.com/articles/inspec-cloud-gcp-setup/</guid>
+      <author></author>
+      <description>&lt;p&gt;When we released &lt;a href=&quot;https://techcrunch.com/2018/02/20/chef-inspec-2-0-wants-to-help-companies-automate-security-compliance-in-cloud-apps/&quot;&gt;InSpec 2.0&lt;/a&gt; in February 2018, it shipped with native support for AWS and Azure. Over the course of the last 3 months, the InSpec team and community kept adding more AWS and Azure resources. We also showcased how &lt;a href=&quot;http://lollyrock.com/articles/inspec-terraform/&quot;&gt;Terraform can be tested effectively with InSpec&lt;/a&gt;. In parallel, we worked on Google Cloud Platform (GCP) support which is now available.&lt;/p&gt;
+&lt;h2 id=&quot;verify-google-cloud-platform-resources&quot;&gt;Verify Google Cloud Platform resources&lt;/h2&gt;
+&lt;center&gt;
+&lt;img src=&quot;/articles/inspec-cloud-gcp-setup/inspec-gcp.png&quot; alt=&quot;Google Cloud Platform and InSpec&quot; title=&quot;Google Cloud Platform support for InSpec&quot;&gt;
+&lt;/center&gt;
+
+&lt;p&gt;We wanted to extend the cloud support for a while and the InSpec community has been super fast in its adoption! &lt;a href=&quot;https://github.com/martezr/inspec-gcp&quot;&gt;Martez Reed&lt;/a&gt; pushed an early-prototype right after InSpec 2.0 has been announced and &lt;a href=&quot;https://github.com/chef/inspec/issues/2722&quot;&gt;Thomas Poindessous&lt;/a&gt; brought up the needs for GCP support in the community. We’ve listened and worked with Google to get GCP support into InSpec.&lt;/p&gt;
+&lt;p&gt;To get native GCP support, we added &lt;a href=&quot;https://github.com/chef/train/pull/283&quot;&gt;GCP support in Train&lt;/a&gt; and worked on &lt;a href=&quot;https://github.com/inspec/inspec-gcp&quot;&gt;InSpec GCP Resources&lt;/a&gt;. The resource pack is like an InSpec profile with custom resources but without any controls. This resource pack allows us to improve the stability and documentation of the resources before we bring them into core InSpec. &lt;a href=&quot;https://github.com/skpaterson&quot;&gt;Stuart Paterson&lt;/a&gt; built those resources on top of Martez’s ideas. Now, let’s see how this works in practice.&lt;/p&gt;
+&lt;h2 id=&quot;preparation&quot;&gt;Preparation&lt;/h2&gt;
+&lt;p&gt;InSpec GCP resources require a GCP client ID and secret. The easiest way to set up the credentials is via the Google SDK. Please install and configure the GCP SDK by downloading the &lt;a href=&quot;https://cloud.google.com/sdk/docs/&quot;&gt;SDK&lt;/a&gt; and running the installation via &lt;code&gt;./google-cloud-sdk/install.sh&lt;/code&gt;. Once everything is installed, we are ready to gather the credentials: &lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;gcloud auth application-default login
+cat ~/.config/gcloud/application_default_credentials.json 
+{
+  &amp;quot;client_id&amp;quot;: &amp;quot;764086051850-6qp4p6gpi6in60asdr.apps.googleusercontent.com&amp;quot;,
+  &amp;quot;client_secret&amp;quot;: &amp;quot;d-fasdabcdabcdabceroi123knrmfs;fabc&amp;quot;,
+  &amp;quot;refresh_token&amp;quot;: &amp;quot;1/asdfjlklabc;ldabc&amp;#39;dfmk-lCkju3-yQmjr20xVZabcfkE48L&amp;quot;,
+  &amp;quot;type&amp;quot;: &amp;quot;authorized_user&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you are a fist time GCP user, you may be required to enable the GCP APIs like &lt;a href=&quot;https://console.cloud.google.com/apis/library/compute.googleapis.com/&quot;&gt;Compute Engine API&lt;/a&gt; or &lt;a href=&quot;https://console.cloud.google.com/apis/library/container.googleapis.com&quot;&gt;Kubernetes Engine API&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Since GCP setup is ready, please update to the latest &lt;a href=&quot;https://www.inspec.io/downloads/&quot;&gt;InSpec&lt;/a&gt; version. At least version 2.1.78 is required. To verify that the access works, run:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;$ inspec detect -t gcp://
+
+== Platform Details
+
+Name:      gcp
+Families:  cloud, api
+Release:   google-cloud-v
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;create-a-new-gcp-profile&quot;&gt;Create a new GCP profile&lt;/h2&gt;
+&lt;p&gt;To create a new GCP profile, use &lt;code&gt;inspec init profile&lt;/code&gt; command:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;$ inspec init profile gcp-example-profile
+Create new profile at /Users/chris-rock/gcp-example-profile
+ * Create directory libraries
+ * Create file README.md
+ * Create directory controls
+ * Create file controls/example.rb
+ * Create file inspec.yml
+ * Create file libraries/.gitkeep
+$ &lt;span class=&quot;built_in&quot;&gt;cd&lt;/span&gt; gcp-example-profile
+$ cat inspec.yml
+name: gcp-example-profile
+title: InSpec Profile
+maintainer: The Authors
+copyright: The Authors
+copyright_email: you@example.com
+license: Apache-2.0
+summary: An InSpec Compliance Profile
+version: 0.1.0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;InSpec creates the profile structure that looks as following:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ tree .
+.
+├── README.md
+├── controls
+│   └── example.rb
+├── inspec.yml
+└── libraries
+
+2 directories, 3 files
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The &lt;code&gt;inspec.yml&lt;/code&gt; contains the profile metadata, &lt;code&gt;example.rb&lt;/code&gt; includes the InSpec tests. Now, we adapt the &lt;code&gt;inspec.yml&lt;/code&gt; to load the InSpec resource pack for Google Cloud Platform and tell InSpec that the profile is intended for GCP.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;name: gcp-example-profile
+...
+depends:
+  - name: gcp-resources
+    url: https://github.com/inspec/inspec-gcp/archive/master.tar.gz
+supports:
+  - platform: gcp
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Now, we edit the &lt;code&gt;example.rb&lt;/code&gt; verify that our GCP project exists via the &lt;code&gt;google_project&lt;/code&gt; InSpec resource:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;title &amp;#39;sample gcp test section&amp;#39;
+
+PROJECT_NUMBER = attribute(&amp;#39;project_number&amp;#39;, description: &amp;#39;gcp project number&amp;#39;)
+
+control &amp;#39;gcp-1&amp;#39; do
+  impact 0.7
+  title &amp;#39;Check development project&amp;#39;
+  describe google_project(project: PROJECT_NUMBER) do
+    it { should exist }
+    its(&amp;#39;name&amp;#39;) { should eq &amp;#39;inspec-gcp&amp;#39; }
+    its(&amp;#39;project_number&amp;#39;) { should cmp PROJECT_NUMBER }
+    its(&amp;#39;lifecycle_state&amp;#39;) { should eq &amp;#39;ACTIVE&amp;#39; }
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;We also use InSpec &lt;a href=&quot;https://www.inspec.io/docs/reference/profiles/#profile-attributes&quot;&gt;attributes&lt;/a&gt; to make the profile more flexible. Just create an &lt;code&gt;attributes.yml&lt;/code&gt; that includes the &lt;code&gt;project_number&lt;/code&gt; value&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-yaml&quot;&gt;&lt;span class=&quot;attr&quot;&gt;project_number:&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;41681219238&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now, run the profile with InSpec:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;inspec &lt;span class=&quot;built_in&quot;&gt;exec&lt;/span&gt; . -t gcp:// --attrs attributes.yml
+
+Profile: InSpec Profile (gcp-example-profile)
+Version: 0.1.0
+Target:  gcp://764086051850-6qr4p6gpi6hn506pt8ejuq83di341hur.apps.googleusercontent.com
+
+  ✔  gcp-1: Check development project
+     ✔  Project  should exist
+     ✔  Project  name should eq &lt;span class=&quot;string&quot;&gt;&quot;inspec-gcp&quot;&lt;/span&gt;
+     ✔  Project  project_number should cmp == 41681219238
+     ✔  Project  lifecycle_state should eq &lt;span class=&quot;string&quot;&gt;&quot;ACTIVE&quot;&lt;/span&gt;
+
+
+Profile: Google Cloud Platform Resource Pack (inspec-gcp)
+Version: 0.2.0
+Target:  gcp://764086051850-6qr4p6gpi6hn506pt8ejuq83di341hur.apps.googleusercontent.com
+
+     No tests executed.
+
+Profile Summary: 1 successful control, 0 control failures, 0 controls skipped
+Test Summary: 4 successful, 0 failures, 0 skipped
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;As the next step, we add a test to verify an google storage bucket by using the &lt;code&gt;google_storage_bucket&lt;/code&gt; resource:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;BUCKET = attribute(&amp;#39;storage_bucket&amp;#39;, description: &amp;#39;gcp storage bucket identifier&amp;#39;)
+
+control &amp;#39;gcp-3&amp;#39; do
+  impact 0.3
+  title &amp;#39;Check that the storage bucket was created&amp;#39;
+  describe google_storage_bucket(name: BUCKET) do
+    it { should exist }
+    its(&amp;#39;storage_class&amp;#39;) { should eq &amp;#39;STANDARD&amp;#39; }
+    its(&amp;#39;location&amp;#39;) { should eq &amp;#39;EUROPE-WEST2&amp;#39; }
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Now, just update the &lt;code&gt;attributes.yml&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;project_number: 41681219238
+storage_bucket: gcp-inspec-storage-bucket-rgjqbngjzyeofzh
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;and run the profile with InSpec again:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;inspec &lt;span class=&quot;built_in&quot;&gt;exec&lt;/span&gt; . -t gcp:// --attrs attributes.yml
+
+Profile: InSpec Profile (gcp-example-profile)
+Version: 0.1.0
+Target:  gcp://764086051850-6qr4p6gpi6hn506pt8ejuq83di341hur.apps.googleusercontent.com
+
+  ✔  gcp-1: Check development project
+     ✔  Project  should exist
+     ✔  Project  name should eq &lt;span class=&quot;string&quot;&gt;&quot;inspec-gcp&quot;&lt;/span&gt;
+     ✔  Project  project_number should cmp == 41681219238
+     ✔  Project  lifecycle_state should eq &lt;span class=&quot;string&quot;&gt;&quot;ACTIVE&quot;&lt;/span&gt;
+  ✔  gcp-3: Check that the storage bucket was created
+     ✔  Bucket gcp-inspec-storage-bucket-rgjqbngjzyeofzh should exist
+     ✔  Bucket gcp-inspec-storage-bucket-rgjqbngjzyeofzh storage_class should eq &lt;span class=&quot;string&quot;&gt;&quot;STANDARD&quot;&lt;/span&gt;
+     ✔  Bucket gcp-inspec-storage-bucket-rgjqbngjzyeofzh location should eq &lt;span class=&quot;string&quot;&gt;&quot;EUROPE-WEST2&quot;&lt;/span&gt;
+
+
+Profile: Google Cloud Platform Resource Pack (inspec-gcp)
+Version: 0.2.0
+Target:  gcp://764086051850-6qr4p6gpi6hn506pt8ejuq83di341hur.apps.googleusercontent.com
+
+     No tests executed.
+
+Profile Summary: 2 successful controls, 0 control failures, 0 controls skipped
+Test Summary: 7 successful, 0 failures, 0 skipped
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;As the final step, we verify a GCP instance via the &lt;code&gt;google_compute_instance&lt;/code&gt; InSpec resource: &lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+INSTANCE_NAME = attribute(&amp;#39;instance_name&amp;#39;, description: &amp;#39;gcp instance identifier&amp;#39;)
+ZONE = attribute(&amp;#39;instance_zone&amp;#39;, description: &amp;#39;instance zone&amp;#39;)
+
+control &amp;#39;gcp-3&amp;#39; do
+  impact 0.5
+  title &amp;#39;Check the GCP instance&amp;#39;
+  describe google_compute_instance(project: PROJECT_NUMBER, zone: ZONE, name: INSTANCE_NAME) do
+    it { should exist }
+    its(&amp;#39;name&amp;#39;) { should eq &amp;#39;gcp-inspec-int-linux-vm&amp;#39; }
+    its(&amp;#39;machine_type&amp;#39;) { should eq &amp;#39;f1-micro&amp;#39; }
+    its(&amp;#39;cpu_platform&amp;#39;) { should match &amp;#39;Intel&amp;#39; }
+    its(&amp;#39;status&amp;#39;) { should eq &amp;#39;RUNNING&amp;#39; }
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Since we use two additional attributes, we update the &lt;code&gt;attributes.yml&lt;/code&gt; accordingly:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;project_number: 41681219238
+storage_bucket: gcp-inspec-storage-bucket-rgjqbngjzyeofzh
+instance_zone: europe-west2-a
+instance_name: gcp-inspec-int-linux-vm2
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Let’s run the profile with InSpec again:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;archlinux:..gcp-example-profile ±&amp;gt; inspec &lt;span class=&quot;built_in&quot;&gt;exec&lt;/span&gt; . -t gcp:// --attrs attributes.yml
+
+Profile: InSpec Profile (gcp-example-profile)
+Version: 0.1.0
+Target:  gcp://764086051850-6qr4p6gpi6hn506pt8ejuq83di341hur.apps.googleusercontent.com
+
+  ✔  gcp-1: Check development project
+     ✔  Project  should exist
+     ✔  Project  name should eq &lt;span class=&quot;string&quot;&gt;&quot;inspec-gcp&quot;&lt;/span&gt;
+     ✔  Project  project_number should cmp == 41681219238
+     ✔  Project  lifecycle_state should eq &lt;span class=&quot;string&quot;&gt;&quot;ACTIVE&quot;&lt;/span&gt;
+  ✔  gcp-2: Check that the storage bucket was created
+     ✔  Bucket gcp-inspec-storage-bucket-rgjqbngjzyeofzh should exist
+     ✔  Bucket gcp-inspec-storage-bucket-rgjqbngjzyeofzh storage_class should eq &lt;span class=&quot;string&quot;&gt;&quot;STANDARD&quot;&lt;/span&gt;
+     ✔  Bucket gcp-inspec-storage-bucket-rgjqbngjzyeofzh location should eq &lt;span class=&quot;string&quot;&gt;&quot;EUROPE-WEST2&quot;&lt;/span&gt;
+  ✔  gcp-3: Check the GCP instance
+     ✔  Instance gcp-inspec-int-linux-vm should exist
+     ✔  Instance gcp-inspec-int-linux-vm name should eq &lt;span class=&quot;string&quot;&gt;&quot;gcp-inspec-int-linux-vm&quot;&lt;/span&gt;
+     ✔  Instance gcp-inspec-int-linux-vm cpu_platform should match &lt;span class=&quot;string&quot;&gt;&quot;Intel&quot;&lt;/span&gt;
+     ✔  Instance gcp-inspec-int-linux-vm status should eq &lt;span class=&quot;string&quot;&gt;&quot;RUNNING&quot;&lt;/span&gt;
+
+
+Profile: Google Cloud Platform Resource Pack (inspec-gcp)
+Version: 0.2.0
+Target:  gcp://764086051850-6qr4p6gpi6hn506pt8ejuq83di341hur.apps.googleusercontent.com
+
+     No tests executed.
+
+Profile Summary: 3 successful controls, 0 control failures, 0 controls skipped
+Test Summary: 11 successful, 0 failures, 0 skipped
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
+&lt;p&gt;In just a few minutes, we created a few tests that verified some aspects of our GCP setup. This example profile is available at &lt;a href=&quot;https://github.com/chris-rock/gcp-example-profile&quot;&gt;Github&lt;/a&gt; and should give you a good start into InSpec GCP. The InSpec GCP resource pack already ships with many &lt;a href=&quot;https://github.com/inspec/inspec-gcp/tree/master/libraries&quot;&gt;resources&lt;/a&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;google_compute_address&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;google_compute_firewall&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;google_compute_image&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;google_compute_instance&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;google_compute_instance_group&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;google_container_cluster&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;google_container_node_pool&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;google_project.rb&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;google_project_iam_custom_role&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;google_service_account&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;google_storage_bucket&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;We are always looking for more contributions and feedback for the InSpec resources. Please try out the new GCP resources and help us to make them better &lt;a href=&quot;https://github.com/inspec/inspec-gcp/issues/new&quot;&gt;questions or ideas&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;I am looking for your feedback!&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Chris &lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    <item>
       <title>Getting started with InSpec for AWS. Testing for the cloud!</title>
       <link>http://lollyrock.com/articles/inspec-cloud-aws-setup/</link>
-      <pubDate>Wed, 28 Mar 2018 02:00:00 +0200</pubDate>
+      <pubDate>Tue, 27 Mar 2018 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/inspec-cloud-aws-setup/</guid>
       <author></author>
       <description>&lt;p&gt;With the introduction of InSpec 2.0, we got the ability to test AWS environments. Within the next 5 minutes, you are ready to write InSpec tests to verify your AWS environment. Let’s start.&lt;/p&gt;
@@ -122,7 +353,7 @@ aws_secret_access_key = 1234....abcd
     <item>
       <title>Achieve compliance with AWS OpsWorks for Chef Automate</title>
       <link>http://lollyrock.com/articles/inspec-compliance-awsopsworks/</link>
-      <pubDate>Tue, 27 Mar 2018 02:00:00 +0200</pubDate>
+      <pubDate>Mon, 26 Mar 2018 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/inspec-compliance-awsopsworks/</guid>
       <author></author>
       <description>&lt;p&gt;This example demonstrates how to implement continuous compliance in AWS environments with &lt;a href=&quot;https://www.inspec.io/&quot;&gt;InSpec&lt;/a&gt;, &lt;a href=&quot;https://www.chef.io/chef/&quot;&gt;Chef&lt;/a&gt; and &lt;a href=&quot;https://www.chef.io/automate/&quot;&gt;Chef Automate&lt;/a&gt;.&lt;/p&gt;
@@ -324,7 +555,7 @@ arn:aws:opsworks-cm:eu-central-1:862552916454:server/opsworks/*
     <item>
       <title>InSpec for provisioning testing: Verify Terraform setups with InSpec</title>
       <link>http://lollyrock.com/articles/inspec-terraform/</link>
-      <pubDate>Thu, 22 Feb 2018 01:00:00 +0100</pubDate>
+      <pubDate>Wed, 21 Feb 2018 18:00:00 -0600</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/inspec-terraform/</guid>
       <author></author>
       <description>&lt;p&gt;We want to bring the same testing experience known from configuration management to provisioning and InSpec 2.0 is making it happen. We are going to explain why it is important and how you can use Terraform with InSpec.&lt;/p&gt;
@@ -480,7 +711,7 @@ inspec exec test/verify -t aws://
     <item>
       <title>HomeKit for Fritz!Box smart home devices</title>
       <link>http://lollyrock.com/articles/homekit-for-fritzbox/</link>
-      <pubDate>Sat, 30 Dec 2017 01:00:00 +0100</pubDate>
+      <pubDate>Fri, 29 Dec 2017 18:00:00 -0600</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/homekit-for-fritzbox/</guid>
       <author></author>
       <description>&lt;p&gt;Every year at Christmas, I get some time to play with new exiting stuff. This year, I decided to play with my smart home devices. And of course, some &lt;em&gt;intelligent&lt;/em&gt; personal assistant needs to be part of it.&lt;/p&gt;
@@ -572,7 +803,7 @@ curl -L https://github.com/chris-rock/homekit-fritz/releases/download/0.1.5/home
     <item>
       <title>InSpec for Docker</title>
       <link>http://lollyrock.com/articles/inspec-for-docker/</link>
-      <pubDate>Mon, 01 May 2017 02:00:00 +0200</pubDate>
+      <pubDate>Sun, 30 Apr 2017 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/inspec-for-docker/</guid>
       <author></author>
       <description>&lt;p&gt;Docker environments enable you to manage fast-moving infrastructure. The faster you move, the better your test environment needs to be. InSpec provides that capability. With the recent addition of 3 new resources: &lt;code&gt;docker&lt;/code&gt;, &lt;code&gt;docker_image&lt;/code&gt; and a &lt;code&gt;docker_container&lt;/code&gt;, it became even easier to verify docker hosts and docker containers. This blog post demonstrates how to use InSpec to verify your Docker environments.&lt;/p&gt;
@@ -965,7 +1196,7 @@ end
     <item>
       <title>Windows Infrastructure Testing and Compliance with InSpec</title>
       <link>http://lollyrock.com/articles/inspec-windows/</link>
-      <pubDate>Mon, 10 Apr 2017 02:00:00 +0200</pubDate>
+      <pubDate>Sun, 09 Apr 2017 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/inspec-windows/</guid>
       <author></author>
       <description>&lt;p&gt;InSpec is an infrastructure testing and compliance tool that allows you to write re-usable tests for your IT components. InSpec tests can easily be used in development and production environments to shift &lt;a href=&quot;https://blog.chef.io/2016/09/26/shift-left-security-and-compliance-automation-with-inspec-and-chef/&quot;&gt;Compliance left&lt;/a&gt;. This blog post will highlight how you can leverage InSpec on Windows.&lt;/p&gt;
@@ -1106,7 +1337,7 @@ describe vbscript(script) &lt;span class=&quot;keyword&quot;&gt;do&lt;/span&gt;
     <item>
       <title>Using meta-profiles with Chef Compliance</title>
       <link>http://lollyrock.com/articles/chef-compliance-meta-profiles/</link>
-      <pubDate>Tue, 06 Dec 2016 01:00:00 +0100</pubDate>
+      <pubDate>Mon, 05 Dec 2016 18:00:00 -0600</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/chef-compliance-meta-profiles/</guid>
       <author></author>
       <description>&lt;p&gt;This article demonstrates InSpec’s meta profile functionality in combination with Chef Compliance. This feature enables you to write profile overlays and to reuse controls from existing profiles. This is a great way to manage deviations of out-of-the-box profiles shipped with Chef Compliance.&lt;/p&gt;
@@ -1393,7 +1624,7 @@ I, [2016-12-06T10:32:59.486476 #93241]  INFO -- : Finished archive generation.
     <item>
       <title>ChefConf 2016 - Save Your Crash Dummies!</title>
       <link>http://lollyrock.com/articles/chefconf2016-save-your-crash-dummies/</link>
-      <pubDate>Fri, 12  Aug 2016 02:00:00 +0200</pubDate>
+      <pubDate>Thu, 11  Aug 2016 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/chefconf2016-save-your-crash-dummies/</guid>
       <author></author>
       <description>&lt;p&gt;With infrastructure and application automation we have gained the tools to change systems in the blink of an eye. However, with increasing size, complexity, and time, these components will inevitably challenge your expectations. This uncertainty will ultimately slow you down. This talk will introduce the workflow to gain back trust.&lt;/p&gt;
@@ -1407,7 +1638,7 @@ I, [2016-12-06T10:32:59.486476 #93241]  INFO -- : Finished archive generation.
     <item>
       <title>DevOps and Security</title>
       <link>http://lollyrock.com/articles/devops-security/</link>
-      <pubDate>Fri, 19 Jun 2015 02:00:00 +0200</pubDate>
+      <pubDate>Thu, 18 Jun 2015 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/devops-security/</guid>
       <author></author>
       <description>&lt;p&gt;To ensure the security of your IT services, different disciplines need to come together. Development, operations and security departments need to work hand in hand in order to ship a secure product. Every department has its core competencies and it is a challenge to create a common view on the security implementation for a product.&lt;/p&gt;
@@ -1462,7 +1693,7 @@ I, [2016-12-06T10:32:59.486476 #93241]  INFO -- : Finished archive generation.
     <item>
       <title>Try Kubernetes with Vagrant</title>
       <link>http://lollyrock.com/articles/kubernetes-vagrant/</link>
-      <pubDate>Mon, 01 Jun 2015 02:00:00 +0200</pubDate>
+      <pubDate>Sun, 31 May 2015 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/kubernetes-vagrant/</guid>
       <author></author>
       <description>&lt;p&gt;To get familiar with kubernetes, it is always good to start with an example. This blog post will setup nginx running on kubernetes.&lt;/p&gt;
@@ -1739,7 +1970,7 @@ $ kubectl delete -f 01-nginx-health-check.yaml
     <item>
       <title>Install Windows IoT on Raspberry Pi 2</title>
       <link>http://lollyrock.com/articles/windows-iot-raspberry/</link>
-      <pubDate>Sun, 10 May 2015 02:00:00 +0200</pubDate>
+      <pubDate>Sat, 09 May 2015 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/windows-iot-raspberry/</guid>
       <author></author>
       <description>&lt;p&gt;Recently, Microsoft announced its &lt;a href=&quot;http://ms-iot.github.io/content/GetStarted.htm&quot;&gt;Windows 10 IoT Core Insider Preview&lt;/a&gt; and it is very exiting to get an ARM version of Windows running on a small device. Microsoft did a great job to bring the operating system to smaller devices and I am looking forward to play more with their IoT solutions. Now, lets install Windows on Raspberry 2.&lt;/p&gt;
@@ -1820,7 +2051,7 @@ PS C:\Users\chris\Downloads\Windows_IoT_Core_RPI2_BUILD&amp;gt;
     <item>
       <title>npm install - could be dangerous</title>
       <link>http://lollyrock.com/articles/npm-dependency-could-be-dangerous/</link>
-      <pubDate>Sat, 09 May 2015 02:00:00 +0200</pubDate>
+      <pubDate>Fri, 08 May 2015 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/npm-dependency-could-be-dangerous/</guid>
       <author></author>
       <description>&lt;p&gt;&lt;a href=&quot;https://www.npmjs.com/&quot;&gt;NPM&lt;/a&gt; hosts about 144,000 npm modules on their registry. Over one million modules are downloaded per month. Assume you use one module that includes a major flaw in their implementation? Will you detect it?&lt;/p&gt;
@@ -1861,7 +2092,7 @@ rm -rf /
     <item>
       <title>Run CoreOS on OpenStack</title>
       <link>http://lollyrock.com/articles/coreos-openstack/</link>
-      <pubDate>Tue, 28 Apr 2015 02:00:00 +0200</pubDate>
+      <pubDate>Mon, 27 Apr 2015 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/coreos-openstack/</guid>
       <author></author>
       <description>&lt;p&gt;This guide will walk you through downloading CoreOS for OpenStack, importing in OpenStack  with &lt;code&gt;glance&lt;/code&gt; and start your first CoreOS cluster with the &lt;code&gt;nova&lt;/code&gt; tool.&lt;/p&gt;
@@ -1975,7 +2206,7 @@ c65cf227... 192.168.0.13    -
     <item>
       <title>OpenStack CLI in Docker</title>
       <link>http://lollyrock.com/articles/openstack-cli-docker/</link>
-      <pubDate>Wed, 22 Apr 2015 02:00:00 +0200</pubDate>
+      <pubDate>Tue, 21 Apr 2015 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/openstack-cli-docker/</guid>
       <author></author>
       <description>&lt;p&gt;Recently, I faced the issue, that I had some python modules for OpenStack had dependency issues with other python modules. In addition I use multiple machines with the OpenStack CLI and it is always a lot of effort to synchronize the software to the latest state. I could have used virtualenv, but I had issues with this setup, too. Therefore I decided to start implementing a Docker container.&lt;/p&gt;
@@ -1998,7 +2229,7 @@ $ nova list
     <item>
       <title>Managing your mainframe infrastructure using Chef</title>
       <link>http://lollyrock.com/articles/managing-mainframe-using-chef/</link>
-      <pubDate>Thu, 22 Jan 2015 01:00:00 +0100</pubDate>
+      <pubDate>Wed, 21 Jan 2015 18:00:00 -0600</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/managing-mainframe-using-chef/</guid>
       <author></author>
       <description>&lt;p&gt;This blog post will focus on running Chef cookbooks on AIX server. As an example we will install various Linux tools via Chef and demonstrate, how a mainframe setup can be automated.&lt;/p&gt;
@@ -2328,7 +2559,7 @@ su root -c rpm -hUv zip-2.3-3.aix4.3.ppc.rpm unzip-5.51-1.aix5.1.ppc.rpm
     <item>
       <title>Chef loves AIX - Mainframe Automation</title>
       <link>http://lollyrock.com/articles/ibm-aix-chef/</link>
-      <pubDate>Wed, 03 Dec 2014 01:00:00 +0100</pubDate>
+      <pubDate>Tue, 02 Dec 2014 18:00:00 -0600</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/ibm-aix-chef/</guid>
       <author></author>
       <description>&lt;p&gt;I was very exited to play with IBM AIX and Chef 12. Coming from an Open Stack background with deep knowledge about automation and security with RedHat Linux and Windows Server, I was looking forward to gain insights about using the configuration management tool Chef with AIX. I have done some big deployments on cloud infrastructures and I am very pleased to see some technologies finding their way into core enterprise applications.&lt;/p&gt;
@@ -2523,7 +2754,7 @@ l5a1vp051_pub &amp;gt;
     <item>
       <title>Simple file uploads with Express 4</title>
       <link>http://lollyrock.com/articles/express4-file-upload/</link>
-      <pubDate>Sat, 15 Nov 2014 01:00:00 +0100</pubDate>
+      <pubDate>Fri, 14 Nov 2014 18:00:00 -0600</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/express4-file-upload/</guid>
       <author></author>
       <description>&lt;p&gt;&lt;a href=&quot;http://expressjs.com/&quot;&gt;Express&lt;/a&gt; is a great web framework for Javascript. Quite often you have to deal with file uploads. Although this may seems like a trivial point, it has its challenges, especially if everything is asynchronous. &lt;/p&gt;
@@ -2667,7 +2898,7 @@ app.listen(&lt;span class=&quot;number&quot;&gt;3000&lt;/span&gt;);
     <item>
       <title>Execute commands in a Docker sandbox</title>
       <link>http://lollyrock.com/articles/execute-in-docker-sandbox/</link>
-      <pubDate>Sun, 28 Sep 2014 02:00:00 +0200</pubDate>
+      <pubDate>Sat, 27 Sep 2014 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/execute-in-docker-sandbox/</guid>
       <author></author>
       <description>&lt;p&gt;If we deal a lot with data from an untrusted source, we want to operate on data in a sandbox. For example, every file we handle may includes a virus and tries to attack our machine. &lt;/p&gt;
@@ -2752,7 +2983,7 @@ Chris&lt;/p&gt;
     <item>
       <title>Implicit JSON conversion with Scala</title>
       <link>http://lollyrock.com/articles/scala-implicit-conversion/</link>
-      <pubDate>Sun, 21 Sep 2014 02:00:00 +0200</pubDate>
+      <pubDate>Sat, 20 Sep 2014 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/scala-implicit-conversion/</guid>
       <author></author>
       <description>&lt;p&gt;In my last blog posts about Scala, I explained &lt;a href=&quot;http://lollyrock.com/articles/scalatra-bearer-authentication/&quot;&gt;Scalatra with Bearer Authentication&lt;/a&gt; and &lt;a href=&quot;http://lollyrock.com/articles/scala-http-requests/&quot;&gt;Asynchronous HTTP requests with Scala and Dispatch&lt;/a&gt;. Today I am going to focus on JSON. We will encode data types to JSON and decode JSON into existing data structures.&lt;/p&gt;
@@ -2889,7 +3120,7 @@ Chris&lt;/p&gt;
     <item>
       <title>Encrypt files with GPG</title>
       <link>http://lollyrock.com/articles/encrypt-files-with-gpg/</link>
-      <pubDate>Sun, 14 Sep 2014 02:00:00 +0200</pubDate>
+      <pubDate>Sat, 13 Sep 2014 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/encrypt-files-with-gpg/</guid>
       <author></author>
       <description>&lt;p&gt;Although &lt;a href=&quot;https://www.gnupg.org/&quot;&gt;GPG&lt;/a&gt; and &lt;a href=&quot;https://gpgtools.org/&quot;&gt;GPG Tools&lt;/a&gt; are well known for Email encryption, the same tool-chain can be used to encrypt files. We deep dive into the command line, but everything should work with any other UI client as well.&lt;/p&gt;
@@ -2932,7 +3163,7 @@ Chris&lt;/p&gt;
     <item>
       <title>s3cmd with radosgw</title>
       <link>http://lollyrock.com/articles/s3cmd-with-radosgw/</link>
-      <pubDate>Sun, 07 Sep 2014 02:00:00 +0200</pubDate>
+      <pubDate>Sat, 06 Sep 2014 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/s3cmd-with-radosgw/</guid>
       <author></author>
       <description>&lt;p&gt;Amazon introduced the concept of &lt;a href=&quot;http://en.wikipedia.org/wiki/Amazon_S3&quot;&gt;S3&lt;/a&gt; object storage to a wide-range of users. Their interface is the defacto-standard to store files in web applications. Nowadays, it is used by other vendors as well. &lt;a href=&quot;http://ceph.com/&quot;&gt;Ceph&lt;/a&gt; and &lt;a href=&quot;http://basho.com/riak-cloud-storage/&quot;&gt;RiakCS&lt;/a&gt; are some examples, where the same interface is available. This blog post will setup s3cmd with Ceph radosgw.&lt;/p&gt;
@@ -3100,7 +3331,7 @@ samplecontent
     <item>
       <title>Encrypt and decrypt content with Nodejs</title>
       <link>http://lollyrock.com/articles/nodejs-encryption/</link>
-      <pubDate>Tue, 02 Sep 2014 02:00:00 +0200</pubDate>
+      <pubDate>Mon, 01 Sep 2014 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/nodejs-encryption/</guid>
       <author></author>
       <description>&lt;style type=&quot;text/css&quot;&gt;
@@ -3149,7 +3380,7 @@ n use 0.11.13 crypto-gcm.js
     <item>
       <title>Chef without an internet connection / Uninstall Chef with Chef</title>
       <link>http://lollyrock.com/articles/chef-without-internet/</link>
-      <pubDate>Sun, 24  Aug 2014 02:00:00 +0200</pubDate>
+      <pubDate>Sat, 23  Aug 2014 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/chef-without-internet/</guid>
       <author></author>
       <description>&lt;p&gt;Recently I had a discussion with a DevOps team about an installation of Chef without an internet connection. A normal chef bootstrap fetches the chef binaries via “curl -L &lt;a href=&quot;https://www.opscode.com/chef/install.sh&quot;&gt;https://www.opscode.com/chef/install.sh&lt;/a&gt; | sudo bash”. This will happen, even if you use a Chef Server. Therefore you would require a connection to download the Chef client binaries. &lt;/p&gt;
@@ -3285,7 +3516,7 @@ un  chef                             &amp;lt;none&amp;gt;                       
     <item>
       <title>Applied Content Security Policy for Nginx and Nodejs</title>
       <link>http://lollyrock.com/articles/content-security-policy/</link>
-      <pubDate>Mon, 18  Aug 2014 02:00:00 +0200</pubDate>
+      <pubDate>Sun, 17  Aug 2014 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/content-security-policy/</guid>
       <author></author>
       <description>&lt;p&gt;Some years ago it was common that users deactivated JavaScript to reduce the security risk of their browser. Nowadays HTML5 (JavaScript, CSS in combination with AJAX) is required to provide superior user experience. Users have no chance to deactivate JavaScript and expect the same kind of quality. Web Developers (and I am for sure part of it) on the other hand just add a simple &lt;code&gt;noscript&lt;/code&gt; and think they are done. In most cases Web Developers live with the credo: “JavaScript is essential. There is no web without.”&lt;/p&gt;
@@ -3440,7 +3671,7 @@ app.listen(&lt;span class=&quot;number&quot;&gt;3000&lt;/span&gt;);
     <item>
       <title>Asynchronous HTTP requests with Scala and Dispatch</title>
       <link>http://lollyrock.com/articles/scala-http-requests/</link>
-      <pubDate>Mon, 11  Aug 2014 02:00:00 +0200</pubDate>
+      <pubDate>Sun, 10  Aug 2014 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/scala-http-requests/</guid>
       <author></author>
       <description>&lt;p&gt;Today, we use REST APIs everywhere. Quite often this requires the implementation of SDKs for specific languages. If you are going to write a SDK or you need to call a REST backend without the availability of a SDK, you need a framework to send HTTP requests. The cool thing about Scala is the fact that it has native support for &lt;a href=&quot;http://docs.scala-lang.org/overviews/core/futures.html&quot;&gt;Futures (aka Promises)&lt;/a&gt;. By using futures, you simplify your life:&lt;/p&gt;
@@ -3592,7 +3823,7 @@ object UserParser {
     <item>
       <title>Install OpenStack CLI on Ubuntu</title>
       <link>http://lollyrock.com/articles/install-openstack-cli/</link>
-      <pubDate>Sun, 03  Aug 2014 02:00:00 +0200</pubDate>
+      <pubDate>Sat, 02  Aug 2014 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/install-openstack-cli/</guid>
       <author></author>
       <description>&lt;p&gt;To setup the Open Stack Cli on a new server, you need to install Python 2.7 and the xml libraries. Once everything is prepared, the cli can be installed with:&lt;/p&gt;
@@ -3642,7 +3873,7 @@ pip install python-glanceclient
     <item>
       <title>Scalatra with Bearer Authentication</title>
       <link>http://lollyrock.com/articles/scalatra-bearer-authentication/</link>
-      <pubDate>Sat, 26 Jul 2014 02:00:00 +0200</pubDate>
+      <pubDate>Fri, 25 Jul 2014 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/scalatra-bearer-authentication/</guid>
       <author></author>
       <description>&lt;h1 id=&quot;why-use-scala-over-java-&quot;&gt;Why use Scala over Java?&lt;/h1&gt;
@@ -3786,7 +4017,7 @@ Set-Cookie: JSESSIONID=1qxp4ot72v3lmr01n3vesosel;Path=/
     <item>
       <title>How to harden a new server with Chef</title>
       <link>http://lollyrock.com/articles/how-to-harden-a-new-server/</link>
-      <pubDate>Wed, 14 May 2014 02:00:00 +0200</pubDate>
+      <pubDate>Tue, 13 May 2014 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/how-to-harden-a-new-server/</guid>
       <author></author>
       <description>&lt;p&gt;Deutsche Telekom developed scripts in Chef and Puppet to harden servers according to well-known guidelines like bettercrypto and internal guidelines at Deutsche Telekom. More information is available at the project page of the &lt;a href=&quot;http://hardening.io/&quot;&gt;Hardening Framework&lt;/a&gt;. Disclosure: I am core developer at this project.&lt;/p&gt;
@@ -3947,7 +4178,7 @@ Chef Client finished, 10/45 resources updated &lt;span class=&quot;keyword&quot;
     <item>
       <title>SHA 512 Hashs with nodejs</title>
       <link>http://lollyrock.com/articles/nodejs-sha512/</link>
-      <pubDate>Sun, 06 Apr 2014 02:00:00 +0200</pubDate>
+      <pubDate>Sat, 05 Apr 2014 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/nodejs-sha512/</guid>
       <author></author>
       <description>&lt;p&gt;Quite often you need to encrypt files. Recently I updated an application from encryption to &lt;a href=&quot;http://en.wikipedia.org/wiki/Authenticated_encryption&quot;&gt;authenticated encryption&lt;/a&gt; and used the encrypt-then-mac approach.&lt;/p&gt;
@@ -4001,7 +4232,7 @@ Chef Client finished, 10/45 resources updated &lt;span class=&quot;keyword&quot;
     <item>
       <title>Open Stack Glance Image Create</title>
       <link>http://lollyrock.com/articles/glance-image-create/</link>
-      <pubDate>Thu, 03 Apr 2014 02:00:00 +0200</pubDate>
+      <pubDate>Wed, 02 Apr 2014 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/glance-image-create/</guid>
       <author></author>
       <description>&lt;p&gt;The newest version of Ubuntu is out and we need to upload the latest version to Open Stack. Of course we try to save our bandwith. There we use &lt;code&gt;-copy-from&lt;/code&gt; instead of &lt;code&gt;--file openstack_image.img&lt;/code&gt;:&lt;/p&gt;
@@ -4038,7 +4269,7 @@ Chef Client finished, 10/45 resources updated &lt;span class=&quot;keyword&quot;
     <item>
       <title>Open Stack VM Resizing</title>
       <link>http://lollyrock.com/articles/openstack-vm-resize/</link>
-      <pubDate>Wed, 02 Apr 2014 02:00:00 +0200</pubDate>
+      <pubDate>Tue, 01 Apr 2014 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/openstack-vm-resize/</guid>
       <author></author>
       <description>&lt;p&gt;Once in a while you need to upgrade a VM with more CPU or storage.&lt;/p&gt;
@@ -4091,7 +4322,7 @@ nova boot $VMNAME --flavor=$FLAVOR --image=$IMAGE --security-groups=$SG --nic po
     <item>
       <title>Havana Box</title>
       <link>http://lollyrock.com/articles/havana-box/</link>
-      <pubDate>Mon, 28 Oct 2013 01:00:00 +0100</pubDate>
+      <pubDate>Sun, 27 Oct 2013 19:00:00 -0500</pubDate>
       <guid isPermaLink="true">http://lollyrock.com/articles/havana-box/</guid>
       <author></author>
       <description>&lt;center&gt;&lt;a href=&quot;http://www.flickr.com/photos/fixedgear/2998411614/&quot; title=&quot;Havana by fixedgear, on Flickr&quot;&gt;&lt;img src=&quot;http://farm4.staticflickr.com/3161/2998411614_787b7717b2_q.jpg&quot; width=&quot;150px&quot; height=&quot;150px&quot; alt=&quot;Havana&quot; style=&quot;margin:0px&quot;&gt;&lt;/a&gt;&lt;/center&gt;
