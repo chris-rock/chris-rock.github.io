@@ -143,6 +143,9 @@ table tr td:last-child,
 table tr th:last-child {
   border-right: 0; }
 
+.gist table td, .gist table th {
+  border: none; }
+
 img {
   max-width: 100%; }
 
