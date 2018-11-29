@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Kubernetes on Christoph Hartmann</title>
+    <link>https://lollyrock.com/tags/kubernetes/</link>
+    <description>Recent content in Kubernetes on Christoph Hartmann</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 01 Jun 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://lollyrock.com/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Try Kubernetes with Vagrant</title>
+      <link>https://lollyrock.com/posts/kubernetes-vagrant/</link>
+      <pubDate>Mon, 01 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/kubernetes-vagrant/</guid>
+      <description>To get familiar with kubernetes, it is always good to start with an example. This blog post will setup nginx running on kubernetes.
+Prerequisites aka setup the cluster Before we are able to start, we need to download kubernetes and install the command line. To prepare the setup:
+ install Vagrant (&amp;gt;1.6.2) install VirtualBox  Then clone the git repository and set the provider for kubernetes setup scripts
+git clone https://github.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://lollyrock.com/talks/2018_continuous_lifecycle/</loc>
+    <lastmod>2018-11-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/talks/2018_chef_community_summit/</loc>
+    <lastmod>2018-10-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/posts/inspec-cloud-gcp-setup/</loc>
+    <lastmod>2018-05-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/posts/inspec-cloud-aws-setup/</loc>
+    <lastmod>2018-03-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/posts/inspec-compliance-awsopsworks/</loc>
+    <lastmod>2018-03-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/posts/inspec-terraform/</loc>
+    <lastmod>2018-02-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/posts/homekit-for-fritzbox/</loc>
+    <lastmod>2017-12-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/talks/2017_continuous_lifecycle/</loc>
+    <lastmod>2017-11-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/talks/2017_alldaysdevops/</loc>
+    <lastmod>2017-10-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/talks/2017_devseccon_london/</loc>
+    <lastmod>2017-10-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/talks/2017_chefconf/</loc>
+    <lastmod>2017-05-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/talks/2017_appseceu/</loc>
+    <lastmod>2017-05-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/posts/inspec-for-docker/</loc>
+    <lastmod>2017-05-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/posts/inspec-windows/</loc>
+    <lastmod>2017-04-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/posts/chef-compliance-meta-profiles/</loc>
+    <lastmod>2016-12-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/talks/2016_oreilly_software_architecture/</loc>
+    <lastmod>2016-11-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/posts/chefconf2016-save-your-crash-dummies/</loc>
+    <lastmod>2016-08-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/talks/2016_chefconf/</loc>
+    <lastmod>2016-07-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/posts/devops-security/</loc>
+    <lastmod>2015-06-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/posts/kubernetes-vagrant/</loc>
+    <lastmod>2015-06-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/posts/windows-iot-raspberry/</loc>
+    <lastmod>2015-05-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/posts/npm-dependency-could-be-dangerous/</loc>
+    <lastmod>2015-05-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/posts/coreos-openstack/</loc>
+    <lastmod>2015-04-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/posts/openstack-cli-docker/</loc>
+    <lastmod>2015-04-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/posts/managing-mainframe-using-chef/</loc>
+    <lastmod>2015-01-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/posts/ibm-aix-chef/</loc>
+    <lastmod>2014-12-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/posts/express4-file-upload/</loc>
+    <lastmod>2014-11-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/posts/execute-in-docker-sandbox/</loc>
+    <lastmod>2014-09-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/posts/scala-implicit-conversion/</loc>
+    <lastmod>2014-09-21T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/posts/encrypt-files-with-gpg/</loc>
+    <lastmod>2014-09-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/posts/s3cmd-with-radosgw/</loc>
+    <lastmod>2014-09-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/posts/nodejs-encryption/</loc>
+    <lastmod>2014-09-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/posts/chef-without-internet/</loc>
+    <lastmod>2014-08-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/posts/content-security-policy/</loc>
+    <lastmod>2014-08-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/posts/scala-http-requests/</loc>
+    <lastmod>2014-08-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/posts/install-openstack-cli/</loc>
+    <lastmod>2014-08-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/posts/scalatra-bearer-authentication/</loc>
+    <lastmod>2014-07-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/posts/how-to-harden-a-new-server/</loc>
+    <lastmod>2014-05-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/posts/nodejs-sha512/</loc>
+    <lastmod>2014-04-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/posts/glance-image-create/</loc>
+    <lastmod>2014-04-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/posts/openstack-vm-resize/</loc>
+    <lastmod>2014-04-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/posts/havana-box/</loc>
+    <lastmod>2013-10-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/tags/aws/</loc>
+    <lastmod>2018-03-28T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/tags/chef/</loc>
+    <lastmod>2016-08-12T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/</loc>
+    <lastmod>2018-11-06T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/tags/compliance/</loc>
+    <lastmod>2018-11-06T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/tags/coreos/</loc>
+    <lastmod>2015-04-28T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/tags/devsec/</loc>
+    <lastmod>2018-03-27T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/tags/docker/</loc>
+    <lastmod>2017-05-01T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/tags/gcp/</loc>
+    <lastmod>2018-05-23T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/tags/golang/</loc>
+    <lastmod>2017-12-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/tags/homekit/</loc>
+    <lastmod>2017-12-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/tags/html5/</loc>
+    <lastmod>2014-08-18T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/tags/inspec/</loc>
+    <lastmod>2018-11-06T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/tags/iot/</loc>
+    <lastmod>2015-05-10T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/tags/javascript/</loc>
+    <lastmod>2014-08-18T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/tags/kubernetes/</loc>
+    <lastmod>2015-06-01T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/tags/nodejs/</loc>
+    <lastmod>2015-05-09T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/tags/openstack/</loc>
+    <lastmod>2015-04-28T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/posts/</loc>
+    <lastmod>2018-05-23T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/tags/scala/</loc>
+    <lastmod>2014-09-21T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/tags/security/</loc>
+    <lastmod>2018-11-06T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/tags/</loc>
+    <lastmod>2018-03-28T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/talks/</loc>
+    <lastmod>2018-11-06T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/tags/terraform/</loc>
+    <lastmod>2018-02-22T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/tags/test-kitchen/</loc>
+    <lastmod>2016-08-12T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://lollyrock.com/tags/windows/</loc>
+    <lastmod>2015-05-10T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+</urlset>

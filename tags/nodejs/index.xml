@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Nodejs on Christoph Hartmann</title>
+    <link>https://lollyrock.com/tags/nodejs/</link>
+    <description>Recent content in Nodejs on Christoph Hartmann</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 09 May 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://lollyrock.com/tags/nodejs/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>npm install - could be dangerous</title>
+      <link>https://lollyrock.com/posts/npm-dependency-could-be-dangerous/</link>
+      <pubDate>Sat, 09 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/npm-dependency-could-be-dangerous/</guid>
+      <description>NPM hosts about 144,000 npm modules on their registry. Over one million modules are downloaded per month. Assume you use one module that includes a major flaw in their implementation? Will you detect it?
+What is going on? Just recently, João Jerónimo published a special npm modules called rimrafall. He published it at npm and posted it on Hacker News. Essentially this module does the following:
+sudo su - rm -rf / It uses a special script tag in package.</description>
+    </item>
+    
+    <item>
+      <title>Simple file uploads with Express 4</title>
+      <link>https://lollyrock.com/posts/express4-file-upload/</link>
+      <pubDate>Sat, 15 Nov 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/express4-file-upload/</guid>
+      <description>Express is a great web framework for Javascript. Quite often you have to deal with file uploads. Although this may seems like a trivial point, it has its challenges, especially if everything is asynchronous.
+Using Busboy For some time, Busboy was the best solution, because it uses the Javascript eventing properly. The downside is the complex setup as the sample from the github profile demonstrates:
+var http = require(&amp;#39;http&amp;#39;), inspect = require(&amp;#39;util&amp;#39;).</description>
+    </item>
+    
+    <item>
+      <title>Encrypt and decrypt content with Nodejs</title>
+      <link>https://lollyrock.com/posts/nodejs-encryption/</link>
+      <pubDate>Tue, 02 Sep 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/nodejs-encryption/</guid>
+      <description>.gist { font-size: 12px; }  Nodejs offers great support for cryptography. Under the hood it uses openssl and ships with a Javascript api. Unfortunately the api is not always as intuitive as it should be, especially when you have to deal with error codes. To make you life easier, I collected various approaches for encryption with AES 256.
+Update: All examples are available on Github node-crypto-examples, too.
+Encryption mode The first decision is the AES encryption mode.</description>
+    </item>
+    
+    <item>
+      <title>SHA 512 Hashs with nodejs</title>
+      <link>https://lollyrock.com/posts/nodejs-sha512/</link>
+      <pubDate>Sun, 06 Apr 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/nodejs-sha512/</guid>
+      <description>Quite often you need to encrypt files. Recently I updated an application from encryption to authenticated encryption and used the encrypt-then-mac approach.
+Update: I created a node module that simplifies the process for you: password-hasher
+To create a hash from strings you just need a few lines in nodejs:
+// generate a hash from string var crypto = require(&amp;#39;crypto&amp;#39;), text = &amp;#39;hello bob&amp;#39;, key = &amp;#39;mysecret key&amp;#39; // create hahs var hash = crypto.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Christoph Hartmann">
+    <meta name="description" content="Chris&#39;s personal website">
+    <meta name="keywords" content="blog,developer,personal">
+
+    <base href="https://lollyrock.com/">
+    <title>
+  Encrypt files with GPG · Christoph Hartmann
+</title>
+
+    <link rel="canonical" href="https://lollyrock.com/posts/encrypt-files-with-gpg/">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400,500,600,700,800,900|Roboto:100,300,400,500,700,900|Source+Code+Pro:200,300,400" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" integrity="sha256-oSrCnRYXvHG31SBifqP2PM1uje7SJUyX0nTwO2RJV54=" crossorigin="anonymous" />
+
+    
+      
+      
+      <link rel="stylesheet" href="https://lollyrock.com/css/coder.min.ef70d8b6c126a236b98cb3ef257062e681b40ab6658d993adad91206fca88fa2.css" integrity="sha256-73DYtsEmoja5jLPvJXBi5oG0CrZljZk62tkSBvyoj6I=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="https://lollyrock.com/img/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://lollyrock.com/img/favicon-16x16.png" sizes="16x16">
+
+    
+
+    <meta name="generator" content="Hugo 0.51" />
+  </head>
+
+  <body class=" ">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="https://lollyrock.com/">
+      Christoph Hartmann
+    </a>
+    <input type="checkbox" id="menu-toggle" />
+    <label class="menu-button float-right" for="menu-toggle"><i class="fas fa-bars"></i></label>
+    <ul class="navigation-list">
+      
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="https://lollyrock.com/posts/">Blog</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="https://lollyrock.com/talks/">Talks</a>
+          </li>
+        
+      
+      
+    </ul>
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">Encrypt files with GPG</h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fas fa-calendar"></i>
+              <time datetime='2014-09-14T00:00:00Z'>
+                September 14, 2014
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fas fa-clock"></i>
+              2 minutes read
+            </span>
+            
+            
+            <span class="author">
+                <i class="fas fa-user"></i>
+                Christoph Hartmann
+            </span>
+            
+          </div>
+          
+          <div class="tags">
+  <i class="fas fa-tag"></i>
+    <a href="https://lollyrock.com/tags/security/">security</a></div>
+
+        </div>
+      </header>
+
+      <div>
+        
+
+<p>Although <a href="https://www.gnupg.org/">GPG</a> and <a href="https://gpgtools.org/">GPG Tools</a> are well known for Email encryption, the same tool-chain can be used to encrypt files. We deep dive into the command line, but everything should work with any other UI client as well.</p>
+
+<h2 id="password-encryption-with-aes">Password encryption with AES</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># encrypt file</span>
+gpg --cipher-algo AES256 -c test.txt
+<span style="color:#75715e"># decrypt file</span>
+gpg -d test.txt.gpg</code></pre></div>
+<h2 id="enforce-message-integrity-check">Enforce message integrity check</h2>
+
+<p>Although default with AES, it makes sense to force the message integrity check and can be useful if you switch to other ciphers. Especially if you receive a message like</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">gpg: WARNING: message was not integrity protected</code></pre></div>
+<p>you should enable the integrity check. The full encryption and decryption works as before:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">gpg --cipher-algo AES256 --force-mdc -c test.txt
+gpg -d test.txt.gpg</code></pre></div>
+<h2 id="sign-files">Sign files</h2>
+
+<p>Since you are using the same keychain for signing and encrypting as for your emails, its very easy to sign a message. Be aware that signed messages are not encrypted.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># encrypt and sign message, you will be prompted for your password if required</span>
+$ gpg --sign test.txt
+<span style="color:#75715e"># if you have multiple accounts, you may select it with the -u parameter</span>
+$ gpg -u ABBFDCA9 --sign test.txt
+
+You need a passphrase to unlock the secret key <span style="color:#66d9ef">for</span>
+user: <span style="color:#e6db74">&#34;Christoph Hartmann &lt;chris@lollyrock.com&gt;&#34;</span>
+<span style="color:#ae81ff">4096</span>-bit RSA key, ID ABBFDCA9, created <span style="color:#ae81ff">2014</span>-04-29
+
+<span style="color:#75715e"># you can verify which person encrypted the</span>
+$ gpg --verify test.txt.gpg
+gpg: Signature made So <span style="color:#ae81ff">14</span> Sep <span style="color:#ae81ff">22</span>:28:04 <span style="color:#ae81ff">2014</span> CEST using RSA key ID ABBFDCA9
+gpg: Good signature from <span style="color:#e6db74">&#34;Christoph Hartmann &lt;chris@lollyrock.com&gt;&#34;</span></code></pre></div>
+<h2 id="encrypt-files-for-specific-persons">Encrypt files for specific persons</h2>
+
+<p>Now we are going to encrypt files for <code>john@example.com</code> by using his public key.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ gpg --cipher-algo AES256 -e --sign --recipient john@example.com test.txt</code></pre></div>
+<p>With this approach we are able to store files in any cloud storage. Only the recipient is able to decrypt the content. In this specific case only John is able to decrypt the content with his private key. We do not have to ship any shared password to John and everything works out of the box. By reusing the GPG infrastructure, sharing encrypted content is much simpler.</p>
+
+<p>If you are not using GPG/PGP already for your email, please do.</p>
+
+<p>Cheers
+Chris</p>
+
+<p>If you have any questions contact me via <a href="https://twitter.com/chri_hartmann">Twitter @chri_hartmann</a> or <a href="https://github.com/chris-rock">Github</a></p>
+
+      </div>
+
+      <footer>
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      <footer class="footer">
+  <section class="container">
+    
+    <p>© 2018 Christoph Hartmann</p>
+    
+  </section>
+</footer>
+
+    </main>
+
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-50992958-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+  </body>
+
+</html>

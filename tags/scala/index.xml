@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Scala on Christoph Hartmann</title>
+    <link>https://lollyrock.com/tags/scala/</link>
+    <description>Recent content in Scala on Christoph Hartmann</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 21 Sep 2014 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://lollyrock.com/tags/scala/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Implicit JSON conversion with Scala</title>
+      <link>https://lollyrock.com/posts/scala-implicit-conversion/</link>
+      <pubDate>Sun, 21 Sep 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/scala-implicit-conversion/</guid>
+      <description>In my last blog posts about Scala, I explained Scalatra with Bearer Authentication and Asynchronous HTTP requests with Scala and Dispatch. Today I am going to focus on JSON. We will encode data types to JSON and decode JSON into existing data structures.
+JSON Library Plenty of options are available for JSON in Scala. It really depends on your setup and may depend on your web framework decision. I am not going to start an argumentation about the best toolkit available.</description>
+    </item>
+    
+    <item>
+      <title>Asynchronous HTTP requests with Scala and Dispatch</title>
+      <link>https://lollyrock.com/posts/scala-http-requests/</link>
+      <pubDate>Mon, 11 Aug 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/scala-http-requests/</guid>
+      <description>Today, we use REST APIs everywhere. Quite often this requires the implementation of SDKs for specific languages. If you are going to write a SDK or you need to call a REST backend without the availability of a SDK, you need a framework to send HTTP requests. The cool thing about Scala is the fact that it has native support for Futures (aka Promises). By using futures, you simplify your life:</description>
+    </item>
+    
+    <item>
+      <title>Scalatra with Bearer Authentication</title>
+      <link>https://lollyrock.com/posts/scalatra-bearer-authentication/</link>
+      <pubDate>Sat, 26 Jul 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/scalatra-bearer-authentication/</guid>
+      <description>Why use Scala over Java? After I experienced the beauty of Ruby and Node.js for web application development I thought there are not many use cases for developing a Java web application, because they provide:
+ easy definition of new routes stick to REST API with JSON quick development easy deployment  Everything can be solved in Java, but it does not necessarily feels right. Java Enterprise Edition 5 and Spring try to make it as easy as possible, but Java has some disadvantages at language level, not on framework level:</description>
+    </item>
+    
+  </channel>
+</rss>

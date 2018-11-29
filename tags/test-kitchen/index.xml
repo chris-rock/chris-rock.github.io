@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Test Kitchen on Christoph Hartmann</title>
+    <link>https://lollyrock.com/tags/test-kitchen/</link>
+    <description>Recent content in Test Kitchen on Christoph Hartmann</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 12 Aug 2016 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://lollyrock.com/tags/test-kitchen/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>ChefConf 2016 - Save Your Crash Dummies!</title>
+      <link>https://lollyrock.com/posts/chefconf2016-save-your-crash-dummies/</link>
+      <pubDate>Fri, 12 Aug 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/chefconf2016-save-your-crash-dummies/</guid>
+      <description>With infrastructure and application automation we have gained the tools to change systems in the blink of an eye. However, with increasing size, complexity, and time, these components will inevitably challenge your expectations. This uncertainty will ultimately slow you down. This talk will introduce the workflow to gain back trust.
+A Test-driven Infrastructure Solution This talk will cover the foundation of effective infrastructure tests and failure domains for isolation. Moreover, we will look into the management of divergent environments, from legacy systems to modern clouds.</description>
+    </item>
+    
+  </channel>
+</rss>

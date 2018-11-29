@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Christoph Hartmann</title>
+    <link>https://lollyrock.com/posts/</link>
+    <description>Recent content in Posts on Christoph Hartmann</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 23 May 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://lollyrock.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Google Cloud Platform support for InSpec</title>
+      <link>https://lollyrock.com/posts/inspec-cloud-gcp-setup/</link>
+      <pubDate>Wed, 23 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/inspec-cloud-gcp-setup/</guid>
+      <description>When we released InSpec 2.0 in February 2018, it shipped with native support for AWS and Azure. Over the course of the last 3 months, the InSpec team and community kept adding more AWS and Azure resources. We also showcased how Terraform can be tested effectively with InSpec. In parallel, we worked on Google Cloud Platform (GCP) support which is now available.
+Verify Google Cloud Platform resources   Google Cloud Platform support for InSpec  We wanted to extend the cloud support for a while and the InSpec community has been super fast in its adoption!</description>
+    </item>
+    
+    <item>
+      <title>Getting started with InSpec for AWS. Testing for the cloud!</title>
+      <link>https://lollyrock.com/posts/inspec-cloud-aws-setup/</link>
+      <pubDate>Wed, 28 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/inspec-cloud-aws-setup/</guid>
+      <description>With the introduction of InSpec 2.0, we got the ability to test AWS environments. Within the next 5 minutes, you are ready to write InSpec tests to verify your AWS environment. Let&amp;rsquo;s start.
+Background Dominik already introduced the new concepts of InSpec 2.0. He and I created InSpec for machine testing but abstracted InSpec&amp;rsquo;s test syntax from specific test targets. This is very helpful, since the same language can be used to describe tests for machine and api testing.</description>
+    </item>
+    
+    <item>
+      <title>Achieve compliance with AWS OpsWorks for Chef Automate</title>
+      <link>https://lollyrock.com/posts/inspec-compliance-awsopsworks/</link>
+      <pubDate>Tue, 27 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/inspec-compliance-awsopsworks/</guid>
+      <description>This example demonstrates how to implement continuous compliance in AWS environments with InSpec, Chef and Chef Automate.
+Overview The demo is based on a webinar presented by Mark Rambow and me. This post follows the pattern of the webinar by showcasing how continuous compliance is applied with AWS OpsWorks. Since OpsWorks is based on Chef Automate, it works very similar with Chef Automate standalone.
+The example is split in three sections:</description>
+    </item>
+    
+    <item>
+      <title>Provisioning testing: Verify Terraform setups with InSpec</title>
+      <link>https://lollyrock.com/posts/inspec-terraform/</link>
+      <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/inspec-terraform/</guid>
+      <description>We want to bring the same testing experience known from configuration management to provisioning and InSpec 2.0 is making it happen. We are going to explain why it is important and how you can use Terraform with InSpec.
+Overview Until today, it was not easy to verify that all your provisioned infrastructure is working properly. While InSpec 1.x is great at covering your operating system configuration and runtime, it was lacking native support for cloud environments e.</description>
+    </item>
+    
+    <item>
+      <title>HomeKit for Fritz!Box smart home devices</title>
+      <link>https://lollyrock.com/posts/homekit-for-fritzbox/</link>
+      <pubDate>Sat, 30 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/homekit-for-fritzbox/</guid>
+      <description>Every year at Christmas, I get some time to play with new exiting stuff. This year, I decided to play with my smart home devices. And of course, some intelligent personal assistant needs to be part of it.
+Right now, I prefer devices from AVM Fritz! since their devices have a track record for long-term maintenance. They have one disadvantage though: A missing Apple HomeKit integration. Let&amp;rsquo;s fix that.</description>
+    </item>
+    
+    <item>
+      <title>InSpec for Docker</title>
+      <link>https://lollyrock.com/posts/inspec-for-docker/</link>
+      <pubDate>Mon, 01 May 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/inspec-for-docker/</guid>
+      <description>Docker environments enable you to manage fast-moving infrastructure. The faster you move, the better your test environment needs to be. InSpec provides that capability. With the recent addition of 3 new resources: docker, docker_image and a docker_container, it became even easier to verify docker hosts and docker containers. This blog post demonstrates how to use InSpec to verify your Docker environments.
+Overview   Docker Architecture Overview  Before I am talking about docker infrastructure testing, I need to explain the different parts of the docker universe quickly.</description>
+    </item>
+    
+    <item>
+      <title>Windows Infrastructure Testing and Compliance with InSpec</title>
+      <link>https://lollyrock.com/posts/inspec-windows/</link>
+      <pubDate>Mon, 10 Apr 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/inspec-windows/</guid>
+      <description>InSpec is an infrastructure testing and compliance tool that allows you to write re-usable tests for your IT components. InSpec tests can easily be used in development and production environments to shift Compliance left. This blog post will highlight how you can leverage InSpec on Windows.
+Install InSpec on Windows First things first: We need InSpec on our workstation. There are two packages that offer an easy way to get started.</description>
+    </item>
+    
+    <item>
+      <title>Using meta-profiles with Chef Compliance</title>
+      <link>https://lollyrock.com/posts/chef-compliance-meta-profiles/</link>
+      <pubDate>Tue, 06 Dec 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/chef-compliance-meta-profiles/</guid>
+      <description>This article demonstrates InSpec&amp;rsquo;s meta profile functionality in combination with Chef Compliance. This feature enables you to write profile overlays and to reuse controls from existing profiles. This is a great way to manage deviations of out-of-the-box profiles shipped with Chef Compliance.
+Meta Profiles A meta profile is an overlay or a collection of multiple profiles. Examples are:
+ a deviation from CIS benchmarks collection of all CIS profiles that apply to your infrastructure (eg.</description>
+    </item>
+    
+    <item>
+      <title>ChefConf 2016 - Save Your Crash Dummies!</title>
+      <link>https://lollyrock.com/posts/chefconf2016-save-your-crash-dummies/</link>
+      <pubDate>Fri, 12 Aug 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/chefconf2016-save-your-crash-dummies/</guid>
+      <description>With infrastructure and application automation we have gained the tools to change systems in the blink of an eye. However, with increasing size, complexity, and time, these components will inevitably challenge your expectations. This uncertainty will ultimately slow you down. This talk will introduce the workflow to gain back trust.
+A Test-driven Infrastructure Solution This talk will cover the foundation of effective infrastructure tests and failure domains for isolation. Moreover, we will look into the management of divergent environments, from legacy systems to modern clouds.</description>
+    </item>
+    
+    <item>
+      <title>DevOps and Security</title>
+      <link>https://lollyrock.com/posts/devops-security/</link>
+      <pubDate>Fri, 19 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/devops-security/</guid>
+      <description>To ensure the security of your IT services, different disciplines need to come together. Development, operations and security departments need to work hand in hand in order to ship a secure product. Every department has its core competencies and it is a challenge to create a common view on the security implementation for a product.
+The challenge The separation of knowledge between departments has its advantages but comes with some disadvantages.</description>
+    </item>
+    
+    <item>
+      <title>Try Kubernetes with Vagrant</title>
+      <link>https://lollyrock.com/posts/kubernetes-vagrant/</link>
+      <pubDate>Mon, 01 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/kubernetes-vagrant/</guid>
+      <description>To get familiar with kubernetes, it is always good to start with an example. This blog post will setup nginx running on kubernetes.
+Prerequisites aka setup the cluster Before we are able to start, we need to download kubernetes and install the command line. To prepare the setup:
+ install Vagrant (&amp;gt;1.6.2) install VirtualBox  Then clone the git repository and set the provider for kubernetes setup scripts
+git clone https://github.</description>
+    </item>
+    
+    <item>
+      <title>Install Windows IoT on Raspberry Pi 2</title>
+      <link>https://lollyrock.com/posts/windows-iot-raspberry/</link>
+      <pubDate>Sun, 10 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/windows-iot-raspberry/</guid>
+      <description>Recently, Microsoft announced its Windows 10 IoT Core Insider Preview and it is very exiting to get an ARM version of Windows running on a small device. Microsoft did a great job to bring the operating system to smaller devices and I am looking forward to play more with their IoT solutions. Now, lets install Windows on Raspberry 2.
+Download Windows 10 IoT Create an account at Microsoft Connect and download the image Windows_IoT_Core_RPI2_BUILD.</description>
+    </item>
+    
+    <item>
+      <title>npm install - could be dangerous</title>
+      <link>https://lollyrock.com/posts/npm-dependency-could-be-dangerous/</link>
+      <pubDate>Sat, 09 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/npm-dependency-could-be-dangerous/</guid>
+      <description>NPM hosts about 144,000 npm modules on their registry. Over one million modules are downloaded per month. Assume you use one module that includes a major flaw in their implementation? Will you detect it?
+What is going on? Just recently, João Jerónimo published a special npm modules called rimrafall. He published it at npm and posted it on Hacker News. Essentially this module does the following:
+sudo su - rm -rf / It uses a special script tag in package.</description>
+    </item>
+    
+    <item>
+      <title>Run CoreOS on OpenStack</title>
+      <link>https://lollyrock.com/posts/coreos-openstack/</link>
+      <pubDate>Tue, 28 Apr 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/coreos-openstack/</guid>
+      <description>This guide will walk you through downloading CoreOS for OpenStack, importing in OpenStack with glance and start your first CoreOS cluster with the nova tool.
+Upload the Image Personally, I use the OpenStack Docker CLI image, that provides the nova and glance tool and is described here. Once you are able to connect to OpenStack, you need to download the CoreOS image and bunzip it.
+# download stable channel $ wget http://stable.</description>
+    </item>
+    
+    <item>
+      <title>OpenStack CLI in Docker</title>
+      <link>https://lollyrock.com/posts/openstack-cli-docker/</link>
+      <pubDate>Wed, 22 Apr 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/openstack-cli-docker/</guid>
+      <description>Recently, I faced the issue, that I had some python modules for OpenStack had dependency issues with other python modules. In addition I use multiple machines with the OpenStack CLI and it is always a lot of effort to synchronize the software to the latest state. I could have used virtualenv, but I had issues with this setup, too. Therefore I decided to start implementing a Docker container.
+Setup The container handles all of the pain.</description>
+    </item>
+    
+    <item>
+      <title>Managing your mainframe infrastructure using Chef</title>
+      <link>https://lollyrock.com/posts/managing-mainframe-using-chef/</link>
+      <pubDate>Thu, 22 Jan 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/managing-mainframe-using-chef/</guid>
+      <description>This blog post will focus on running Chef cookbooks on AIX server. As an example we will install various Linux tools via Chef and demonstrate, how a mainframe setup can be automated.
+Introduction Recently, I published an article about running Chef on AIX. I worked the last months with Chef and AIX. For my evaluations I used the IBM Power Development Cloud. Using various AIX machines, I needed a setup, where I was able to turn a vanilla AIX system into an perfectly configured system.</description>
+    </item>
+    
+    <item>
+      <title>Chef loves AIX - Mainframe Automation</title>
+      <link>https://lollyrock.com/posts/ibm-aix-chef/</link>
+      <pubDate>Wed, 03 Dec 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/ibm-aix-chef/</guid>
+      <description>I was very exited to play with IBM AIX and Chef 12. Coming from an Open Stack background with deep knowledge about automation and security with RedHat Linux and Windows Server, I was looking forward to gain insights about using the configuration management tool Chef with AIX. I have done some big deployments on cloud infrastructures and I am very pleased to see some technologies finding their way into core enterprise applications.</description>
+    </item>
+    
+    <item>
+      <title>Simple file uploads with Express 4</title>
+      <link>https://lollyrock.com/posts/express4-file-upload/</link>
+      <pubDate>Sat, 15 Nov 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/express4-file-upload/</guid>
+      <description>Express is a great web framework for Javascript. Quite often you have to deal with file uploads. Although this may seems like a trivial point, it has its challenges, especially if everything is asynchronous.
+Using Busboy For some time, Busboy was the best solution, because it uses the Javascript eventing properly. The downside is the complex setup as the sample from the github profile demonstrates:
+var http = require(&amp;#39;http&amp;#39;), inspect = require(&amp;#39;util&amp;#39;).</description>
+    </item>
+    
+    <item>
+      <title>Execute commands in a Docker sandbox</title>
+      <link>https://lollyrock.com/posts/execute-in-docker-sandbox/</link>
+      <pubDate>Sun, 28 Sep 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/execute-in-docker-sandbox/</guid>
+      <description>If we deal a lot with data from an untrusted source, we want to operate on data in a sandbox. For example, every file we handle may includes a virus and tries to attack our machine.
+Docker is an amazing tool to run arbitrary commands inside a sandbox. It is useful for testing applications or building complete application images as offered by Docker Hub.
+To address the use case, it is required to build containers on demand and mix them with pre-known commands (which typically fit in a Dockerfile) and custom user defined commands.</description>
+    </item>
+    
+    <item>
+      <title>Implicit JSON conversion with Scala</title>
+      <link>https://lollyrock.com/posts/scala-implicit-conversion/</link>
+      <pubDate>Sun, 21 Sep 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/scala-implicit-conversion/</guid>
+      <description>In my last blog posts about Scala, I explained Scalatra with Bearer Authentication and Asynchronous HTTP requests with Scala and Dispatch. Today I am going to focus on JSON. We will encode data types to JSON and decode JSON into existing data structures.
+JSON Library Plenty of options are available for JSON in Scala. It really depends on your setup and may depend on your web framework decision. I am not going to start an argumentation about the best toolkit available.</description>
+    </item>
+    
+    <item>
+      <title>Encrypt files with GPG</title>
+      <link>https://lollyrock.com/posts/encrypt-files-with-gpg/</link>
+      <pubDate>Sun, 14 Sep 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/encrypt-files-with-gpg/</guid>
+      <description>Although GPG and GPG Tools are well known for Email encryption, the same tool-chain can be used to encrypt files. We deep dive into the command line, but everything should work with any other UI client as well.
+Password encryption with AES # encrypt file gpg --cipher-algo AES256 -c test.txt # decrypt file gpg -d test.txt.gpg Enforce message integrity check Although default with AES, it makes sense to force the message integrity check and can be useful if you switch to other ciphers.</description>
+    </item>
+    
+    <item>
+      <title>s3cmd with radosgw</title>
+      <link>https://lollyrock.com/posts/s3cmd-with-radosgw/</link>
+      <pubDate>Sun, 07 Sep 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/s3cmd-with-radosgw/</guid>
+      <description>Amazon introduced the concept of S3 object storage to a wide-range of users. Their interface is the defacto-standard to store files in web applications. Nowadays, it is used by other vendors as well. Ceph and RiakCS are some examples, where the same interface is available. This blog post will setup s3cmd with Ceph radosgw.
+About S3 It is used as an interface for distributed storage due to the fact that the only thing you need to put and retrieve files is http.</description>
+    </item>
+    
+    <item>
+      <title>Encrypt and decrypt content with Nodejs</title>
+      <link>https://lollyrock.com/posts/nodejs-encryption/</link>
+      <pubDate>Tue, 02 Sep 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/nodejs-encryption/</guid>
+      <description>.gist { font-size: 12px; }  Nodejs offers great support for cryptography. Under the hood it uses openssl and ships with a Javascript api. Unfortunately the api is not always as intuitive as it should be, especially when you have to deal with error codes. To make you life easier, I collected various approaches for encryption with AES 256.
+Update: All examples are available on Github node-crypto-examples, too.
+Encryption mode The first decision is the AES encryption mode.</description>
+    </item>
+    
+    <item>
+      <title>Chef without an internet connection / Uninstall Chef with Chef</title>
+      <link>https://lollyrock.com/posts/chef-without-internet/</link>
+      <pubDate>Sun, 24 Aug 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/chef-without-internet/</guid>
+      <description>Recently I had a discussion with a DevOps team about an installation of Chef without an internet connection. A normal chef bootstrap fetches the chef binaries via &amp;ldquo;curl -L https://www.opscode.com/chef/install.sh | sudo bash&amp;rdquo;. This will happen, even if you use a Chef Server. Therefore you would require a connection to download the Chef client binaries.
+This blog post demonstrates a chef run without an internet connection. Be aware, that we proof the basic setup only.</description>
+    </item>
+    
+    <item>
+      <title>Applied Content Security Policy for Nginx and Nodejs</title>
+      <link>https://lollyrock.com/posts/content-security-policy/</link>
+      <pubDate>Mon, 18 Aug 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/content-security-policy/</guid>
+      <description>Some years ago it was common that users deactivated JavaScript to reduce the security risk of their browser. Nowadays HTML5 (JavaScript, CSS in combination with AJAX) is required to provide superior user experience. Users have no chance to deactivate JavaScript and expect the same kind of quality. Web Developers (and I am for sure part of it) on the other hand just add a simple noscript and think they are done.</description>
+    </item>
+    
+    <item>
+      <title>Asynchronous HTTP requests with Scala and Dispatch</title>
+      <link>https://lollyrock.com/posts/scala-http-requests/</link>
+      <pubDate>Mon, 11 Aug 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/scala-http-requests/</guid>
+      <description>Today, we use REST APIs everywhere. Quite often this requires the implementation of SDKs for specific languages. If you are going to write a SDK or you need to call a REST backend without the availability of a SDK, you need a framework to send HTTP requests. The cool thing about Scala is the fact that it has native support for Futures (aka Promises). By using futures, you simplify your life:</description>
+    </item>
+    
+    <item>
+      <title>Install OpenStack CLI on Ubuntu</title>
+      <link>https://lollyrock.com/posts/install-openstack-cli/</link>
+      <pubDate>Sun, 03 Aug 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/install-openstack-cli/</guid>
+      <description>To setup the Open Stack Cli on a new server, you need to install Python 2.7 and the xml libraries. Once everything is prepared, the cli can be installed with:
+pip install OPENSTACKTOOL-novaclient Installation on Ubuntu 14.04 LTS # Install dependencies to install nova and glance client apt-get update apt-get install -y python-pip apt-get install -y build-essential apt-get install -y python-dev libxslt1-dev libxml2-dev # Install the Open Stack Cli pip install python-novaclient pip install python-glanceclient Now, configure your environment variables for Open Stack.</description>
+    </item>
+    
+    <item>
+      <title>Scalatra with Bearer Authentication</title>
+      <link>https://lollyrock.com/posts/scalatra-bearer-authentication/</link>
+      <pubDate>Sat, 26 Jul 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/scalatra-bearer-authentication/</guid>
+      <description>Why use Scala over Java? After I experienced the beauty of Ruby and Node.js for web application development I thought there are not many use cases for developing a Java web application, because they provide:
+ easy definition of new routes stick to REST API with JSON quick development easy deployment  Everything can be solved in Java, but it does not necessarily feels right. Java Enterprise Edition 5 and Spring try to make it as easy as possible, but Java has some disadvantages at language level, not on framework level:</description>
+    </item>
+    
+    <item>
+      <title>How to harden a new server with Chef</title>
+      <link>https://lollyrock.com/posts/how-to-harden-a-new-server/</link>
+      <pubDate>Wed, 14 May 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/how-to-harden-a-new-server/</guid>
+      <description>Deutsche Telekom developed scripts in Chef and Puppet to harden servers according to well-known guidelines like bettercrypto and internal guidelines at Deutsche Telekom. More information is available at the project page of the Hardening Framework. Disclosure: I am core developer at this project.
+Today we cook with knife-solo and harden a fresh copy of Ubuntu 14.04. The process of hardening a server is quite difficult and takes a lot of knowledge and experience.</description>
+    </item>
+    
+    <item>
+      <title>SHA 512 Hashs with nodejs</title>
+      <link>https://lollyrock.com/posts/nodejs-sha512/</link>
+      <pubDate>Sun, 06 Apr 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/nodejs-sha512/</guid>
+      <description>Quite often you need to encrypt files. Recently I updated an application from encryption to authenticated encryption and used the encrypt-then-mac approach.
+Update: I created a node module that simplifies the process for you: password-hasher
+To create a hash from strings you just need a few lines in nodejs:
+// generate a hash from string var crypto = require(&amp;#39;crypto&amp;#39;), text = &amp;#39;hello bob&amp;#39;, key = &amp;#39;mysecret key&amp;#39; // create hahs var hash = crypto.</description>
+    </item>
+    
+    <item>
+      <title>Open Stack Glance Image Create</title>
+      <link>https://lollyrock.com/posts/glance-image-create/</link>
+      <pubDate>Thu, 03 Apr 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/glance-image-create/</guid>
+      <description>The newest version of Ubuntu is out and we need to upload the latest version to Open Stack. Of course we try to save our bandwith. There we use -copy-from instead of --file openstack_image.img:
+glance image-create --name &amp;#39;Ubuntu 14.04 LTS&amp;#39; \  --container-format bare \  --disk-format qcow2 \  --is-public true \  --copy-from http://uec-images.ubuntu.com/releases/14.04/release/ubuntu-14.04-server-cloudimg-amd64-disk1.img +------------------+--------------------------------------+ | Property | Value | +------------------+--------------------------------------+ | checksum | None | | container_format | bare | | created_at | 2014-04-02T13:16:20 | | deleted | False | | deleted_at | None | | disk_format | qcow2 | | id | aa5ab6de-e461-4330-136e-fb149802bdc0 | | is_public | True | | min_disk | 0 | | min_ram | 0 | | name | Ubuntu 14.</description>
+    </item>
+    
+    <item>
+      <title>Open Stack VM Resizing</title>
+      <link>https://lollyrock.com/posts/openstack-vm-resize/</link>
+      <pubDate>Wed, 02 Apr 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/openstack-vm-resize/</guid>
+      <description>Once in a while you need to upgrade a VM with more CPU or storage.
+Step 1: VM preparation A normal VM running on Openstack is well prepared for flavor resizing. Our observations just brought up the network configuration as a central point of failure. Especially RedHat-based machines fix the network config in various files. e.g. for CentOS
+# ensure the vm is properly prepared rm /etc/udev/rules.d/70-persistent-net.rules touch /etc/udev/rules.d/70-persistent-net.rules # remove hardware specific settings /etc/sysconfig/network-scripts sed -i &amp;#39;/UUID/d&amp;#39; /etc/sysconfig/network-scripts/ifcfg-eth0 sed -i &amp;#39;/HWADDR/d&amp;#39; /etc/sysconfig/network-scripts/ifcfg-eth0 sed -i &amp;#39;/IPADDR/d&amp;#39; /etc/sysconfig/network-scripts/ifcfg-eth0 The vm is properly prepared by now.</description>
+    </item>
+    
+    <item>
+      <title>Havana Box</title>
+      <link>https://lollyrock.com/posts/havana-box/</link>
+      <pubDate>Mon, 28 Oct 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/havana-box/</guid>
+      <description>OpenStack Havana has just been released. It offers a bunch of new features. Everything is well documented in their Release Notes. It is nice to read, but I need a test drive.
+We are using Open Stack heavily and test new releases via DevStack before we deploy new releases in our staging environment. What would be easier than trying Havana with a vagrant box. You find my vagrant setup at Github https://github.</description>
+    </item>
+    
+  </channel>
+</rss>

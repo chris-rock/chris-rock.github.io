@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Christoph Hartmann">
+    <meta name="description" content="Chris&#39;s personal website">
+    <meta name="keywords" content="blog,developer,personal">
+
+    <base href="https://lollyrock.com/">
+    <title>
+  Implicit JSON conversion with Scala · Christoph Hartmann
+</title>
+
+    <link rel="canonical" href="https://lollyrock.com/posts/scala-implicit-conversion/">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400,500,600,700,800,900|Roboto:100,300,400,500,700,900|Source+Code+Pro:200,300,400" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" integrity="sha256-oSrCnRYXvHG31SBifqP2PM1uje7SJUyX0nTwO2RJV54=" crossorigin="anonymous" />
+
+    
+      
+      
+      <link rel="stylesheet" href="https://lollyrock.com/css/coder.min.ef70d8b6c126a236b98cb3ef257062e681b40ab6658d993adad91206fca88fa2.css" integrity="sha256-73DYtsEmoja5jLPvJXBi5oG0CrZljZk62tkSBvyoj6I=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="https://lollyrock.com/img/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://lollyrock.com/img/favicon-16x16.png" sizes="16x16">
+
+    
+
+    <meta name="generator" content="Hugo 0.51" />
+  </head>
+
+  <body class=" ">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="https://lollyrock.com/">
+      Christoph Hartmann
+    </a>
+    <input type="checkbox" id="menu-toggle" />
+    <label class="menu-button float-right" for="menu-toggle"><i class="fas fa-bars"></i></label>
+    <ul class="navigation-list">
+      
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="https://lollyrock.com/posts/">Blog</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="https://lollyrock.com/talks/">Talks</a>
+          </li>
+        
+      
+      
+    </ul>
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">Implicit JSON conversion with Scala</h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fas fa-calendar"></i>
+              <time datetime='2014-09-21T00:00:00Z'>
+                September 21, 2014
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fas fa-clock"></i>
+              4 minutes read
+            </span>
+            
+            
+            <span class="author">
+                <i class="fas fa-user"></i>
+                Christoph Hartmann
+            </span>
+            
+          </div>
+          
+          <div class="tags">
+  <i class="fas fa-tag"></i>
+    <a href="https://lollyrock.com/tags/scala/">scala</a></div>
+
+        </div>
+      </header>
+
+      <div>
+        
+
+<p>In my last blog posts about Scala, I explained <a href="http://lollyrock.com/articles/scalatra-bearer-authentication/">Scalatra with Bearer Authentication</a> and <a href="http://lollyrock.com/articles/scala-http-requests/">Asynchronous HTTP requests with Scala and Dispatch</a>. Today I am going to focus on JSON. We will encode data types to JSON and decode JSON into existing data structures.</p>
+
+<h2 id="json-library">JSON Library</h2>
+
+<p><a href="http://stackoverflow.com/questions/8054018/json-library-for-scala">Plenty of options</a> are available for JSON in Scala. It really depends on your setup and may depend on your web framework decision. I am not going to start an argumentation about the best toolkit available. The following post will stick with <a href="http://argonaut.io">Argonaut</a>, but the general approach works with other JSON frameworks as well. I selected it because it fits my function development approach in Scala and works well with <a href="http://www.scalatra.org/">Scalatra</a>. Be aware that Scalatra itself <a href="http://scalatra.org/2.3/guides/formats/json.html">promotes</a> <a href="http://json4s.org/">JSON4s</a> with <a href="http://jackson.codehaus.org/">Jackson</a>, but I found it more difficult to use that Argonaut.</p>
+
+<h2 id="conversion">Conversion</h2>
+
+<p>Before we talk about the conversion, we need to define the data model. I use the <a href="http://slick.typesafe.com/doc/2.1.0/orm-to-slick.html">slick sample structuree</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">  <span style="color:#66d9ef">case</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Person</span> <span style="color:#f92672">(</span>id<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Int</span><span style="color:#f92672">,</span>name<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span><span style="color:#f92672">,</span>age<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Int</span><span style="color:#f92672">,</span>addressId<span style="color:#66d9ef">:</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">)</span>
+  <span style="color:#66d9ef">case</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Address</span> <span style="color:#f92672">(</span>id<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Int</span><span style="color:#f92672">,</span> street<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span><span style="color:#f92672">,</span>city<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span><span style="color:#f92672">)</span>
+
+  <span style="color:#75715e">// no direct reference, to fit with slick database models
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">case</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PersonWithAddress</span><span style="color:#f92672">(</span>person<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Person</span><span style="color:#f92672">,</span> address<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Address</span><span style="color:#f92672">)</span></code></pre></div>
+<p>Now we are able to store a person with address:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">  <span style="color:#66d9ef">val</span> person <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">Person</span><span style="color:#f92672">(</span><span style="color:#ae81ff">0</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;John Rambo&#34;</span> <span style="color:#f92672">,</span> <span style="color:#ae81ff">67</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">)</span>
+  <span style="color:#66d9ef">val</span> address <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">Address</span><span style="color:#f92672">(</span><span style="color:#ae81ff">0</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;101 W Main St&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;Madison, Kentucky&#34;</span><span style="color:#f92672">)</span>
+  <span style="color:#66d9ef">val</span> pa <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">PersonWithAddress</span><span style="color:#f92672">(</span>person<span style="color:#f92672">,</span> address<span style="color:#f92672">)</span></code></pre></div>
+<p>If you are developing REST services you may use JSON as input and output data format. It would be a horror if we have to manually construct the conversion for each route. Therefore we want something like:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">  <span style="color:#75715e">// convert the person to json
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">val</span> json <span style="color:#66d9ef">=</span> pa<span style="color:#f92672">.</span>asJson</code></pre></div>
+<p>Scala provides a cool feature for <a href="http://docs.scala-lang.org/tutorials/FAQ/finding-implicits.html">implicit type conversion</a>. This is very handy for our use case and fits with <a href="http://argonaut.io/doc/codec/">argonaut codec</a>. For our case, the following definition is appropriate:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">  <span style="color:#75715e">// implicit conversion with argonaut
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">implicit</span> <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">PersonAddressEncodeJson</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">EncodeJson</span><span style="color:#f92672">[</span><span style="color:#66d9ef">PersonWithAddress</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span>
+  <span style="color:#a6e22e">EncodeJson</span><span style="color:#f92672">((</span>p<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">PersonWithAddress</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">=&gt;</span>
+    <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;id&#34;</span> <span style="color:#66d9ef">:</span><span style="color:#f92672">=</span> p<span style="color:#f92672">.</span>person<span style="color:#f92672">.</span>id<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;:</span>
+    <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;name&#34;</span> <span style="color:#66d9ef">:</span><span style="color:#f92672">=</span> p<span style="color:#f92672">.</span>person<span style="color:#f92672">.</span>name<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;:</span>
+    <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;age&#34;</span> <span style="color:#66d9ef">:</span><span style="color:#f92672">=</span> p<span style="color:#f92672">.</span>person<span style="color:#f92672">.</span>age<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;:</span>
+    <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;address&#34;</span> <span style="color:#66d9ef">:</span><span style="color:#f92672">=</span> <span style="color:#a6e22e">Json</span> <span style="color:#f92672">(</span>
+      <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;id&#34;</span> <span style="color:#66d9ef">:</span><span style="color:#f92672">=</span> p<span style="color:#f92672">.</span>address<span style="color:#f92672">.</span>id<span style="color:#f92672">),</span>
+      <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;street&#34;</span> <span style="color:#66d9ef">:</span><span style="color:#f92672">=</span> p<span style="color:#f92672">.</span>address<span style="color:#f92672">.</span>street<span style="color:#f92672">),</span>
+      <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;city&#34;</span> <span style="color:#66d9ef">:</span><span style="color:#f92672">=</span> p<span style="color:#f92672">.</span>address<span style="color:#f92672">.</span>city<span style="color:#f92672">)</span>
+    <span style="color:#f92672">)</span>
+  <span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;:</span> jEmptyObject<span style="color:#f92672">)</span></code></pre></div>
+<p>Now we have all pieces together to convert Scala data types to JSON. The result looks as follows:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">0</span>,
+  <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;John Rambo&#34;</span>,
+  <span style="color:#f92672">&#34;age&#34;</span>: <span style="color:#ae81ff">67</span>,
+  <span style="color:#f92672">&#34;address&#34;</span>: {
+    <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">0</span>,
+    <span style="color:#f92672">&#34;street&#34;</span>: <span style="color:#e6db74">&#34;101 W Main St&#34;</span>,
+    <span style="color:#f92672">&#34;city&#34;</span>: <span style="color:#e6db74">&#34;Madison, Kentucky&#34;</span>
+  }
+}</code></pre></div>
+<p>To consume JSON data we write a decoder:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">implicit</span> <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">PersonAddressDecodeJson</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">DecodeJson</span><span style="color:#f92672">[</span><span style="color:#66d9ef">PersonWithAddress</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span>
+  <span style="color:#a6e22e">DecodeJson</span><span style="color:#f92672">(</span>c <span style="color:#66d9ef">=&gt;</span> <span style="color:#66d9ef">for</span> <span style="color:#f92672">{</span>
+
+    id <span style="color:#66d9ef">&lt;-</span> <span style="color:#f92672">(</span>c <span style="color:#f92672">--\</span> <span style="color:#e6db74">&#34;id&#34;</span><span style="color:#f92672">).</span>as<span style="color:#f92672">[</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">]</span>
+    name <span style="color:#66d9ef">&lt;-</span> <span style="color:#f92672">(</span>c <span style="color:#f92672">--\</span> <span style="color:#e6db74">&#34;name&#34;</span><span style="color:#f92672">).</span>as<span style="color:#f92672">[</span><span style="color:#66d9ef">String</span><span style="color:#f92672">]</span>
+    age <span style="color:#66d9ef">&lt;-</span> <span style="color:#f92672">(</span>c <span style="color:#f92672">--\</span> <span style="color:#e6db74">&#34;age&#34;</span><span style="color:#f92672">).</span>as<span style="color:#f92672">[</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">]</span>
+    address <span style="color:#66d9ef">&lt;-</span> <span style="color:#f92672">(</span>c <span style="color:#f92672">--\</span> <span style="color:#e6db74">&#34;address&#34;</span><span style="color:#f92672">).</span>as<span style="color:#f92672">[</span><span style="color:#66d9ef">Json</span><span style="color:#f92672">]</span>
+
+    <span style="color:#75715e">// extract data from address
+</span><span style="color:#75715e"></span>    addressid <span style="color:#66d9ef">&lt;-</span> <span style="color:#f92672">(</span>address<span style="color:#f92672">.</span>acursor <span style="color:#f92672">--\</span> <span style="color:#e6db74">&#34;id&#34;</span><span style="color:#f92672">).</span>as<span style="color:#f92672">[</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">]</span>
+    street <span style="color:#66d9ef">&lt;-</span> <span style="color:#f92672">(</span>address<span style="color:#f92672">.</span>acursor <span style="color:#f92672">--\</span> <span style="color:#e6db74">&#34;street&#34;</span><span style="color:#f92672">).</span>as<span style="color:#f92672">[</span><span style="color:#66d9ef">String</span><span style="color:#f92672">]</span>
+    city <span style="color:#66d9ef">&lt;-</span> <span style="color:#f92672">(</span>address<span style="color:#f92672">.</span>acursor <span style="color:#f92672">--\</span> <span style="color:#e6db74">&#34;city&#34;</span><span style="color:#f92672">).</span>as<span style="color:#f92672">[</span><span style="color:#66d9ef">String</span><span style="color:#f92672">]</span>
+
+  <span style="color:#f92672">}</span> <span style="color:#66d9ef">yield</span> <span style="color:#a6e22e">PersonWithAddress</span><span style="color:#f92672">(</span><span style="color:#a6e22e">Person</span><span style="color:#f92672">(</span>id<span style="color:#f92672">,</span> name<span style="color:#f92672">,</span> age<span style="color:#f92672">,</span> addressid<span style="color:#f92672">),</span> <span style="color:#a6e22e">Address</span><span style="color:#f92672">(</span>addressid<span style="color:#f92672">,</span> street<span style="color:#f92672">,</span> city<span style="color:#f92672">)))</span></code></pre></div>
+<p>As a result we get a valid Scala object with the expected data</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#a6e22e">PersonWithAddress</span><span style="color:#f92672">(</span><span style="color:#a6e22e">Person</span><span style="color:#f92672">(</span><span style="color:#ae81ff">0</span><span style="color:#f92672">,</span><span style="color:#a6e22e">John</span> <span style="color:#a6e22e">Rambo</span><span style="color:#f92672">,</span><span style="color:#ae81ff">67</span><span style="color:#f92672">,</span><span style="color:#ae81ff">0</span><span style="color:#f92672">),</span><span style="color:#a6e22e">Address</span><span style="color:#f92672">(</span><span style="color:#ae81ff">0</span><span style="color:#f92672">,</span><span style="color:#ae81ff">101</span> W <span style="color:#a6e22e">Main</span> <span style="color:#a6e22e">St</span><span style="color:#f92672">,</span><span style="color:#a6e22e">Madison</span><span style="color:#f92672">,</span> <span style="color:#a6e22e">Kentucky</span><span style="color:#f92672">))</span></code></pre></div>
+<p>Compared to Nodejs, this decode is also a type validation. The conversion will fail, if one parameter is missing. In case you would like to make parts optional, you need to adapt the case class and use <code>Option[Int]</code> instead of <code>Int</code>. Additionally you need to adapt the decode and parse to <code>Option[Int]</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">  age <span style="color:#66d9ef">&lt;-</span> <span style="color:#f92672">(</span>c <span style="color:#f92672">--\</span> <span style="color:#e6db74">&#34;age&#34;</span><span style="color:#f92672">).</span>as<span style="color:#f92672">[</span><span style="color:#66d9ef">Option</span><span style="color:#f92672">[</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">]]</span></code></pre></div>
+<h1 id="the-complete-sample">The complete sample:</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">import</span> argonaut._<span style="color:#f92672">,</span> <span style="color:#a6e22e">Argonaut</span><span style="color:#f92672">.</span><span style="color:#66d9ef">_</span>
+
+<span style="color:#66d9ef">object</span> <span style="color:#a6e22e">ImplicitConversion</span> <span style="color:#f92672">{</span>
+
+  <span style="color:#75715e">// data model based on http://slick.typesafe.com/doc/2.1.0/orm-to-slick.html
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">case</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Person</span> <span style="color:#f92672">(</span>id<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Int</span><span style="color:#f92672">,</span>name<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span><span style="color:#f92672">,</span>age<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Int</span><span style="color:#f92672">,</span>addressId<span style="color:#66d9ef">:</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">)</span>
+  <span style="color:#66d9ef">case</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Address</span> <span style="color:#f92672">(</span>id<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Int</span><span style="color:#f92672">,</span> street<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span><span style="color:#f92672">,</span>city<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span><span style="color:#f92672">)</span>
+
+  <span style="color:#75715e">// no direct reference, to fit with slick database models
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">case</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PersonWithAddress</span><span style="color:#f92672">(</span>person<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Person</span><span style="color:#f92672">,</span> address<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Address</span><span style="color:#f92672">)</span>
+
+  <span style="color:#75715e">// implicit conversion with argonaut
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">implicit</span> <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">PersonAddressEncodeJson</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">EncodeJson</span><span style="color:#f92672">[</span><span style="color:#66d9ef">PersonWithAddress</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span>
+  <span style="color:#a6e22e">EncodeJson</span><span style="color:#f92672">((</span>p<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">PersonWithAddress</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">=&gt;</span>
+    <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;id&#34;</span> <span style="color:#66d9ef">:</span><span style="color:#f92672">=</span> p<span style="color:#f92672">.</span>person<span style="color:#f92672">.</span>id<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;:</span>
+    <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;name&#34;</span> <span style="color:#66d9ef">:</span><span style="color:#f92672">=</span> p<span style="color:#f92672">.</span>person<span style="color:#f92672">.</span>name<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;:</span>
+    <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;age&#34;</span> <span style="color:#66d9ef">:</span><span style="color:#f92672">=</span> p<span style="color:#f92672">.</span>person<span style="color:#f92672">.</span>age<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;:</span>
+    <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;address&#34;</span> <span style="color:#66d9ef">:</span><span style="color:#f92672">=</span> <span style="color:#a6e22e">Json</span> <span style="color:#f92672">(</span>
+      <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;id&#34;</span> <span style="color:#66d9ef">:</span><span style="color:#f92672">=</span> p<span style="color:#f92672">.</span>address<span style="color:#f92672">.</span>id<span style="color:#f92672">),</span>
+      <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;street&#34;</span> <span style="color:#66d9ef">:</span><span style="color:#f92672">=</span> p<span style="color:#f92672">.</span>address<span style="color:#f92672">.</span>street<span style="color:#f92672">),</span>
+      <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;city&#34;</span> <span style="color:#66d9ef">:</span><span style="color:#f92672">=</span> p<span style="color:#f92672">.</span>address<span style="color:#f92672">.</span>city<span style="color:#f92672">)</span>
+    <span style="color:#f92672">)</span>
+  <span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;:</span> jEmptyObject<span style="color:#f92672">)</span>
+
+  <span style="color:#66d9ef">implicit</span> <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">PersonAddressDecodeJson</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">DecodeJson</span><span style="color:#f92672">[</span><span style="color:#66d9ef">PersonWithAddress</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span>
+  <span style="color:#a6e22e">DecodeJson</span><span style="color:#f92672">(</span>c <span style="color:#66d9ef">=&gt;</span> <span style="color:#66d9ef">for</span> <span style="color:#f92672">{</span>
+
+    id <span style="color:#66d9ef">&lt;-</span> <span style="color:#f92672">(</span>c <span style="color:#f92672">--\</span> <span style="color:#e6db74">&#34;id&#34;</span><span style="color:#f92672">).</span>as<span style="color:#f92672">[</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">]</span>
+    name <span style="color:#66d9ef">&lt;-</span> <span style="color:#f92672">(</span>c <span style="color:#f92672">--\</span> <span style="color:#e6db74">&#34;name&#34;</span><span style="color:#f92672">).</span>as<span style="color:#f92672">[</span><span style="color:#66d9ef">String</span><span style="color:#f92672">]</span>
+    age <span style="color:#66d9ef">&lt;-</span> <span style="color:#f92672">(</span>c <span style="color:#f92672">--\</span> <span style="color:#e6db74">&#34;age&#34;</span><span style="color:#f92672">).</span>as<span style="color:#f92672">[</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">]</span>
+    address <span style="color:#66d9ef">&lt;-</span> <span style="color:#f92672">(</span>c <span style="color:#f92672">--\</span> <span style="color:#e6db74">&#34;address&#34;</span><span style="color:#f92672">).</span>as<span style="color:#f92672">[</span><span style="color:#66d9ef">Json</span><span style="color:#f92672">]</span>
+
+    <span style="color:#75715e">// extract data from address
+</span><span style="color:#75715e"></span>    addressid <span style="color:#66d9ef">&lt;-</span> <span style="color:#f92672">(</span>address<span style="color:#f92672">.</span>acursor <span style="color:#f92672">--\</span> <span style="color:#e6db74">&#34;id&#34;</span><span style="color:#f92672">).</span>as<span style="color:#f92672">[</span><span style="color:#66d9ef">Int</span><span style="color:#f92672">]</span>
+    street <span style="color:#66d9ef">&lt;-</span> <span style="color:#f92672">(</span>address<span style="color:#f92672">.</span>acursor <span style="color:#f92672">--\</span> <span style="color:#e6db74">&#34;street&#34;</span><span style="color:#f92672">).</span>as<span style="color:#f92672">[</span><span style="color:#66d9ef">String</span><span style="color:#f92672">]</span>
+    city <span style="color:#66d9ef">&lt;-</span> <span style="color:#f92672">(</span>address<span style="color:#f92672">.</span>acursor <span style="color:#f92672">--\</span> <span style="color:#e6db74">&#34;city&#34;</span><span style="color:#f92672">).</span>as<span style="color:#f92672">[</span><span style="color:#66d9ef">String</span><span style="color:#f92672">]</span>
+
+  <span style="color:#f92672">}</span> <span style="color:#66d9ef">yield</span> <span style="color:#a6e22e">PersonWithAddress</span><span style="color:#f92672">(</span><span style="color:#a6e22e">Person</span><span style="color:#f92672">(</span>id<span style="color:#f92672">,</span> name<span style="color:#f92672">,</span> age<span style="color:#f92672">,</span> addressid<span style="color:#f92672">),</span> <span style="color:#a6e22e">Address</span><span style="color:#f92672">(</span>addressid<span style="color:#f92672">,</span> street<span style="color:#f92672">,</span> city<span style="color:#f92672">)))</span>
+
+  <span style="color:#66d9ef">def</span> main<span style="color:#f92672">(</span>args<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Array</span><span style="color:#f92672">[</span><span style="color:#66d9ef">String</span><span style="color:#f92672">])</span> <span style="color:#f92672">{</span>
+    <span style="color:#75715e">// running a sample
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">val</span> person <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">Person</span><span style="color:#f92672">(</span><span style="color:#ae81ff">0</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;John Rambo&#34;</span> <span style="color:#f92672">,</span> <span style="color:#ae81ff">67</span><span style="color:#f92672">,</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">val</span> address <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">Address</span><span style="color:#f92672">(</span><span style="color:#ae81ff">0</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;101 W Main St&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;Madison, Kentucky&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">val</span> pa <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">PersonWithAddress</span><span style="color:#f92672">(</span>person<span style="color:#f92672">,</span> address<span style="color:#f92672">)</span>
+
+    <span style="color:#75715e">// convert the person to json
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">val</span> json <span style="color:#66d9ef">=</span> pa<span style="color:#f92672">.</span>asJson
+    <span style="color:#66d9ef">var</span> content <span style="color:#66d9ef">=</span> json<span style="color:#f92672">.</span>toString<span style="color:#f92672">()</span>
+
+    println <span style="color:#f92672">(</span>content<span style="color:#f92672">)</span>
+
+    <span style="color:#75715e">// we should get a person instance here
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">var</span> padecoded <span style="color:#66d9ef">:</span> <span style="color:#66d9ef">PersonWithAddress</span> <span style="color:#f92672">=</span> content<span style="color:#f92672">.</span>decodeOption<span style="color:#f92672">[</span><span style="color:#66d9ef">PersonWithAddress</span><span style="color:#f92672">].</span>get
+
+    println <span style="color:#f92672">(</span>padecoded<span style="color:#f92672">)</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span></code></pre></div>
+<h2 id="conclusion">Conclusion</h2>
+
+<p>With a few lines of code, we encapsulate the complete JSON encoding and decoding. Its amazing how easy it is. It may not be as intuitive as in Nodejs, but comes with additional type checks, which is generally more complex in Nodejs.</p>
+
+<p>If you have any questions contact me via <a href="https://twitter.com/chri_hartmann">Twitter @chri_hartmann</a> or <a href="https://github.com/chris-rock">Github</a></p>
+
+      </div>
+
+      <footer>
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      <footer class="footer">
+  <section class="container">
+    
+    <p>© 2018 Christoph Hartmann</p>
+    
+  </section>
+</footer>
+
+    </main>
+
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-50992958-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+  </body>
+
+</html>

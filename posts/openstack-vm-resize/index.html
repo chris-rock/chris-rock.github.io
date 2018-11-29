@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Christoph Hartmann">
+    <meta name="description" content="Chris&#39;s personal website">
+    <meta name="keywords" content="blog,developer,personal">
+
+    <base href="https://lollyrock.com/">
+    <title>
+  Open Stack VM Resizing · Christoph Hartmann
+</title>
+
+    <link rel="canonical" href="https://lollyrock.com/posts/openstack-vm-resize/">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400,500,600,700,800,900|Roboto:100,300,400,500,700,900|Source+Code+Pro:200,300,400" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" integrity="sha256-oSrCnRYXvHG31SBifqP2PM1uje7SJUyX0nTwO2RJV54=" crossorigin="anonymous" />
+
+    
+      
+      
+      <link rel="stylesheet" href="https://lollyrock.com/css/coder.min.ef70d8b6c126a236b98cb3ef257062e681b40ab6658d993adad91206fca88fa2.css" integrity="sha256-73DYtsEmoja5jLPvJXBi5oG0CrZljZk62tkSBvyoj6I=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="https://lollyrock.com/img/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://lollyrock.com/img/favicon-16x16.png" sizes="16x16">
+
+    
+
+    <meta name="generator" content="Hugo 0.51" />
+  </head>
+
+  <body class=" ">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="https://lollyrock.com/">
+      Christoph Hartmann
+    </a>
+    <input type="checkbox" id="menu-toggle" />
+    <label class="menu-button float-right" for="menu-toggle"><i class="fas fa-bars"></i></label>
+    <ul class="navigation-list">
+      
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="https://lollyrock.com/posts/">Blog</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="https://lollyrock.com/talks/">Talks</a>
+          </li>
+        
+      
+      
+    </ul>
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">Open Stack VM Resizing</h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fas fa-calendar"></i>
+              <time datetime='2014-04-02T00:00:00Z'>
+                April 2, 2014
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fas fa-clock"></i>
+              2 minutes read
+            </span>
+            
+            
+            <span class="author">
+                <i class="fas fa-user"></i>
+                Christoph Hartmann
+            </span>
+            
+          </div>
+          
+          <div class="tags">
+  <i class="fas fa-tag"></i>
+    <a href="https://lollyrock.com/tags/openstack/">openstack</a></div>
+
+        </div>
+      </header>
+
+      <div>
+        
+
+<p>Once in a while you need to upgrade a VM with more CPU or storage.</p>
+
+<h2 id="step-1-vm-preparation">Step 1: VM preparation</h2>
+
+<p>A normal VM running on Openstack is well prepared for flavor resizing. Our observations just brought up the network configuration as a central point of failure. Especially RedHat-based machines fix the network config in various files. e.g. for CentOS</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># ensure the vm is properly prepared</span>
+rm /etc/udev/rules.d/70-persistent-net.rules 
+touch /etc/udev/rules.d/70-persistent-net.rules
+
+<span style="color:#75715e"># remove hardware specific settings /etc/sysconfig/network-scripts</span>
+sed -i <span style="color:#e6db74">&#39;/UUID/d&#39;</span> /etc/sysconfig/network-scripts/ifcfg-eth0
+sed -i <span style="color:#e6db74">&#39;/HWADDR/d&#39;</span> /etc/sysconfig/network-scripts/ifcfg-eth0
+sed -i <span style="color:#e6db74">&#39;/IPADDR/d&#39;</span> /etc/sysconfig/network-scripts/ifcfg-eth0</code></pre></div>
+<p>The vm is properly prepared by now.</p>
+
+<h2 id="step-2-take-a-snapshot">Step 2: Take a snapshot</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># create a snapshot and not down the image id</span>
+nova image-create $INSTANCEID $IMAGENAME</code></pre></div>
+<h2 id="step-3-test-the-snapshot">Step 3: Test the snapshot</h2>
+
+<p>Before we delete the old machine, we need to test the snapshot to ensure the network config is properly done and we are able to log into the new machine.</p>
+
+<h2 id="step-4-gather-machine-details">Step 4: Gather machine details</h2>
+
+<p>Now, we collect all the information of the existing instance</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># show instance details</span>
+nova show $INSTANCEID
+
+<span style="color:#75715e"># display the network details (you need the id and the subnet id)</span>
+neutron net-list
+
+<span style="color:#75715e"># select the new flavor id</span>
+nova flavor-list</code></pre></div>
+<h2 id="destroy-the-old-machine">Destroy the old machine</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nova delete $INSTANCEID</code></pre></div>
+<h2 id="create-network-port">Create network port</h2>
+
+<p>In some cases you need to keep the same ip adress. Neutron helps to assign a specific port with the new machine.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">neutron port-create --fixed-ip subnet_id<span style="color:#f92672">=</span>$SUBNET_ID,ip_address<span style="color:#f92672">=</span>$IP $NETWORK_ID</code></pre></div>
+<h2 id="recreate-machine">Recreate machine</h2>
+
+<p>Now we are ready to re-create the machine</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/bin/bash
+</span><span style="color:#75715e"></span>VMNAME<span style="color:#f92672">=</span>machine1
+FLAVOR<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>
+IMAGE<span style="color:#f92672">=</span><span style="color:#ae81ff">63924226</span>-e5ca-4ee6-a663-b2c89b0aa985
+SG<span style="color:#f92672">=</span>ssh,http,default
+PORT<span style="color:#f92672">=</span>f3999e60-9e53-4929-a9b2-ed3ab8ecf25d
+KEYNAME<span style="color:#f92672">=</span>key
+nova boot $VMNAME --flavor<span style="color:#f92672">=</span>$FLAVOR --image<span style="color:#f92672">=</span>$IMAGE --security-groups<span style="color:#f92672">=</span>$SG --nic port-id<span style="color:#f92672">=</span>$POST --key_name<span style="color:#f92672">=</span>$KEYNAME</code></pre></div>
+<p>In case you do not use the specific port, switch <code>port-id</code> with <code>net-id</code> and the network id gathered with <code>neutron net-list</code></p>
+
+<p>Happy resizing.</p>
+
+<p>If you have any questions contact me via <a href="https://twitter.com/chri_hartmann">Twitter @chri_hartmann</a> or <a href="https://github.com/chris-rock">Github</a></p>
+
+      </div>
+
+      <footer>
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      <footer class="footer">
+  <section class="container">
+    
+    <p>© 2018 Christoph Hartmann</p>
+    
+  </section>
+</footer>
+
+    </main>
+
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-50992958-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+  </body>
+
+</html>

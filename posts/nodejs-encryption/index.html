@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Christoph Hartmann">
+    <meta name="description" content="Chris&#39;s personal website">
+    <meta name="keywords" content="blog,developer,personal">
+
+    <base href="https://lollyrock.com/">
+    <title>
+  Encrypt and decrypt content with Nodejs · Christoph Hartmann
+</title>
+
+    <link rel="canonical" href="https://lollyrock.com/posts/nodejs-encryption/">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400,500,600,700,800,900|Roboto:100,300,400,500,700,900|Source+Code+Pro:200,300,400" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" integrity="sha256-oSrCnRYXvHG31SBifqP2PM1uje7SJUyX0nTwO2RJV54=" crossorigin="anonymous" />
+
+    
+      
+      
+      <link rel="stylesheet" href="https://lollyrock.com/css/coder.min.ef70d8b6c126a236b98cb3ef257062e681b40ab6658d993adad91206fca88fa2.css" integrity="sha256-73DYtsEmoja5jLPvJXBi5oG0CrZljZk62tkSBvyoj6I=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="https://lollyrock.com/img/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://lollyrock.com/img/favicon-16x16.png" sizes="16x16">
+
+    
+
+    <meta name="generator" content="Hugo 0.51" />
+  </head>
+
+  <body class=" ">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="https://lollyrock.com/">
+      Christoph Hartmann
+    </a>
+    <input type="checkbox" id="menu-toggle" />
+    <label class="menu-button float-right" for="menu-toggle"><i class="fas fa-bars"></i></label>
+    <ul class="navigation-list">
+      
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="https://lollyrock.com/posts/">Blog</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="https://lollyrock.com/talks/">Talks</a>
+          </li>
+        
+      
+      
+    </ul>
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">Encrypt and decrypt content with Nodejs</h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fas fa-calendar"></i>
+              <time datetime='2014-09-02T00:00:00Z'>
+                September 2, 2014
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fas fa-clock"></i>
+              2 minutes read
+            </span>
+            
+            
+            <span class="author">
+                <i class="fas fa-user"></i>
+                Christoph Hartmann
+            </span>
+            
+          </div>
+          
+          <div class="tags">
+  <i class="fas fa-tag"></i>
+    <a href="https://lollyrock.com/tags/nodejs/">nodejs</a>
+      <span class="separator">•</span>
+    <a href="https://lollyrock.com/tags/security/">security</a></div>
+
+        </div>
+      </header>
+
+      <div>
+        
+
+<style type="text/css">
+.gist {
+  font-size: 12px;
+}
+</style>
+
+<p>Nodejs offers great support for cryptography. Under the hood it uses openssl and ships with a <a href="http://nodejs.org/api/crypto.html">Javascript api</a>. Unfortunately the api is not always as intuitive as it should be, especially when you have to deal with error codes. To make you life easier, I collected various approaches for encryption with AES 256.</p>
+
+<p>Update: All examples are available on Github <a href="https://github.com/chris-rock/node-crypto-examples">node-crypto-examples</a>, too.</p>
+
+<h2 id="encryption-mode">Encryption mode</h2>
+
+<p>The first decision is the AES encryption mode. Currently I recommend the <a href="http://nodejs.org/api/crypto.html">CTR mode</a>. You may want to read <a href="http://www.cs.ucdavis.edu/~rogaway/papers/modes.pdf">Evaluation of Some Blockcipher Modes of Operation</a> or <a href="http://csrc.nist.gov/groups/ST/toolkit/BCM/documents/ccm-ad1.pdf">On the Security of CTR + CBC-MAC</a>. The next nodejs version comes with support for <a href="http://en.wikipedia.org/wiki/Galois/Counter_Mode">GCM</a> to do <a href="http://en.wikipedia.org/wiki/Authenticated_encryption">authenticated encryption</a>. Until then you have to use approaches like Encrypt-then-MAC and combine the encryption with the generation of <a href="../nodejs-sha512/index.md">SHA hashs</a>.</p>
+
+<h2 id="examples">Examples</h2>
+
+<h3 id="encrypt-and-decrypt-text">Encrypt and decrypt text</h3>
+
+<script src="https://gist.github.com/chris-rock/993d8a22c7138d1f0d2e.js"></script>
+
+<h3 id="encrypt-and-decrypt-buffers">Encrypt and decrypt buffers</h3>
+
+<script src="https://gist.github.com/chris-rock/6cac4e422f29c28c9d88.js"></script>
+
+<h3 id="encrypt-and-decrypt-streams">Encrypt and decrypt streams</h3>
+
+<script src="https://gist.github.com/chris-rock/335f92742b497256982a.js"></script>
+
+<h3 id="use-gcm-for-authenticated-encryption">Use GCM for authenticated encryption</h3>
+
+<p>If you replace <code>aes-256-ctr</code> with <code>aes-256-gcm</code> you may think everything works as expected. Unfortunately this will result with a confusing error message: <code>TypeError: error:00000000:lib(0):func(0):reason(0)</code>.</p>
+
+<p>Authenticated encryption includes a hash of the encrypted content and helps you to identify manipulated encrypted content.</p>
+
+<p>You need to set the <a href="https://github.com/joyent/node/blob/857975d5e7e0d7bf38577db0478d9e5ede79922e/lib/crypto.js#L238-L245">authentication tag</a> via <code>decrypt.setAuthTag()</code>, which is currently only available if you use <code>crypto.createCipheriv(algorithm, key, iv)</code> with an <a href="http://en.wikipedia.org/wiki/Initialization_vector">initialization vector</a>. GCM&rsquo;s security is dependent on choosing a unique initialization vector for each encryption.</p>
+
+<script src="https://gist.github.com/chris-rock/fe87dd35d6168512a2f7.js"></script>
+
+<p>The new GCM mode is available in nodejs 0.11. Try it with <a href="https://github.com/visionmedia/n">n</a> via</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">npm install -g n
+sudo n <span style="color:#ae81ff">0</span>.11.13
+n use <span style="color:#ae81ff">0</span>.11.13 crypto-gcm.js</code></pre></div>
+<p>Also take a look at the <a href="https://github.com/joyent/node/blob/master/test/simple/test-crypto-authenticated.js#L44-L64">nodejs tests</a> for more tests with different setups.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>I hope the samples help you to get started with nodejs encryption.</p>
+
+<p>If you have any questions contact me via <a href="https://twitter.com/chri_hartmann">Twitter @chri_hartmann</a> or <a href="https://github.com/chris-rock">Github</a></p>
+
+<p>See also:</p>
+
+<ul>
+<li><a href="http://lollyrock.com/articles/nodejs-sha512/">SHA 512 Hashs with nodejs</a></li>
+<li><a href="http://lollyrock.com/articles/express4-file-upload/">Simple file uploads with Express 4</a></li>
+<li><a href="http://lollyrock.com/articles/content-security-policy/">Applied Content Security Policy for Nginx and Nodejs</a></li>
+<li><a href="http://arlimus.github.io/articles/ready.for.es6/">Ready for ES6?</a></li>
+</ul>
+
+      </div>
+
+      <footer>
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      <footer class="footer">
+  <section class="container">
+    
+    <p>© 2018 Christoph Hartmann</p>
+    
+  </section>
+</footer>
+
+    </main>
+
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-50992958-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+  </body>
+
+</html>

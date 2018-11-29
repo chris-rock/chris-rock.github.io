@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Christoph Hartmann">
+    <meta name="description" content="Chris&#39;s personal website">
+    <meta name="keywords" content="blog,developer,personal">
+
+    <base href="https://lollyrock.com/">
+    <title>
+  s3cmd with radosgw · Christoph Hartmann
+</title>
+
+    <link rel="canonical" href="https://lollyrock.com/posts/s3cmd-with-radosgw/">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400,500,600,700,800,900|Roboto:100,300,400,500,700,900|Source+Code+Pro:200,300,400" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" integrity="sha256-oSrCnRYXvHG31SBifqP2PM1uje7SJUyX0nTwO2RJV54=" crossorigin="anonymous" />
+
+    
+      
+      
+      <link rel="stylesheet" href="https://lollyrock.com/css/coder.min.ef70d8b6c126a236b98cb3ef257062e681b40ab6658d993adad91206fca88fa2.css" integrity="sha256-73DYtsEmoja5jLPvJXBi5oG0CrZljZk62tkSBvyoj6I=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="https://lollyrock.com/img/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://lollyrock.com/img/favicon-16x16.png" sizes="16x16">
+
+    
+
+    <meta name="generator" content="Hugo 0.51" />
+  </head>
+
+  <body class=" ">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="https://lollyrock.com/">
+      Christoph Hartmann
+    </a>
+    <input type="checkbox" id="menu-toggle" />
+    <label class="menu-button float-right" for="menu-toggle"><i class="fas fa-bars"></i></label>
+    <ul class="navigation-list">
+      
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="https://lollyrock.com/posts/">Blog</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="https://lollyrock.com/talks/">Talks</a>
+          </li>
+        
+      
+      
+    </ul>
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">s3cmd with radosgw</h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fas fa-calendar"></i>
+              <time datetime='2014-09-07T00:00:00Z'>
+                September 7, 2014
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fas fa-clock"></i>
+              5 minutes read
+            </span>
+            
+            
+            <span class="author">
+                <i class="fas fa-user"></i>
+                Christoph Hartmann
+            </span>
+            
+          </div>
+          
+          <div class="tags">
+  <i class="fas fa-tag"></i>
+    <a href="https://lollyrock.com/tags/openstack/">openstack</a></div>
+
+        </div>
+      </header>
+
+      <div>
+        
+
+<p>Amazon introduced the concept of <a href="http://en.wikipedia.org/wiki/Amazon_S3">S3</a> object storage to a wide-range of users. Their interface is the defacto-standard to store files in web applications. Nowadays, it is used by other vendors as well. <a href="http://ceph.com/">Ceph</a> and <a href="http://basho.com/riak-cloud-storage/">RiakCS</a> are some examples, where the same interface is available. This blog post will setup s3cmd with Ceph radosgw.</p>
+
+<h2 id="about-s3">About S3</h2>
+
+<p>It is used as an interface for distributed storage due to the fact that the only thing you need to put and retrieve files is http. It is very handy to have a clear interface to manage files across different machines. For example you may want to backup your local files to a s3 cluster. This requires a toolset that enables you to easily store and retrieve s3 files from command line. <a href="http://s3tools.org/s3cmd">s3cmd</a> is a great tool for just that. Out of the box it works with Amazon S3, but can be easily configured with <a href="http://ceph.com/docs/master/man/8/radosgw/">radosgw</a>, which is commonly used in conjunction with <a href="http://www.openstack.org/">OpenStack</a>.</p>
+
+<h2 id="installation">Installation</h2>
+
+<p>Before we start implementing the base set, you need to install <code>s3cmd</code> on you machine.</p>
+
+<h3 id="ubuntu">Ubuntu</h3>
+
+<p>For Ubuntu you need to install the s3 repo before installing the package <code>s3cmd</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># install repo key</span>
+wget -O- -q http://s3tools.org/repo/deb-all/stable/s3tools.key | sudo apt-key add -
+<span style="color:#75715e"># install repo</span>
+sudo wget -O/etc/apt/sources.list.d/s3tools.list http://s3tools.org/repo/deb-all/stable/s3tools.list
+<span style="color:#75715e"># update package manager</span>
+sudo apt-get update
+<span style="color:#75715e"># install s3cmd</span>
+sudo apt-get install s3cmd</code></pre></div>
+<h3 id="macos">MacOS</h3>
+
+<p>On Mac you may use <a href="http://brew.sh/">brew</a> to install s3cmd:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># install s3cmd</span>
+brew install s3cmd</code></pre></div>
+<h2 id="basic-commands">Basic Commands</h2>
+
+<p>S3 uses a different terminology, compared to posix filesystems:</p>
+
+<ul>
+<li>bucket: kind of directory</li>
+<li>object: similar to a file</li>
+</ul>
+
+<p>Although Amazon S3 allows you to create a <code>directory</code> within a bucket, it will not be a real directory. In S3, a directory is more like a file prefix. Take this in consideration when you upload huge amounts of data.</p>
+
+<p>In general it is very efficient to use prefixes for searches instead of postfixes. E.g. if you look for file types, you may store your files as <code>txt.file</code> instead of <code>file.txt</code>.</p>
+
+<p>Basic commands for <code>s3cmd</code> are:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># S3cmd help</span>
+s3cmd --help
+
+<span style="color:#75715e"># Display all buckets</span>
+s3cmd ls
+
+<span style="color:#75715e"># Create new bucket</span>
+s3cmd mb s3://YOURBUCKET
+
+<span style="color:#75715e"># Upload new file</span>
+s3cmd put test.txt s3://YOURBUCKET
+
+<span style="color:#75715e"># Download file</span>
+s3cmd get s3://YOURBUCKET/test.txt test.txt</code></pre></div>
+<h2 id="configuration-for-radosgw">Configuration for radosgw</h2>
+
+<p>Since <code>s3cmd</code> is optimized for Amazon S3, you need to apply a few changes to convince <code>s3cmd</code> to talk with <code>radosgw</code>. At first we create a new configuration with s3cmd via interactive mode:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">s3cmd --configure -c s3test.cfg
+
+Enter new values or accept defaults in brackets with Enter.
+Refer to user manual <span style="color:#66d9ef">for</span> detailed description of all options.
+
+Access key and Secret key are your identifiers <span style="color:#66d9ef">for</span> Amazon S3
+Access Key: key
+Secret Key: secret
+
+Encryption password is used to protect your files from reading
+by unauthorized persons <span style="color:#66d9ef">while</span> in transfer to S3
+Encryption password: 
+Path to GPG program <span style="color:#f92672">[</span>/usr/local/bin/gpg<span style="color:#f92672">]</span>: 
+
+When using secure HTTPS protocol all communication with Amazon S3
+servers is protected from 3rd party eavesdropping. This method is
+slower than plain HTTP and can<span style="color:#e6db74">&#39;t be used if you&#39;</span>re behind a proxy
+Use HTTPS protocol <span style="color:#f92672">[</span>No<span style="color:#f92672">]</span>: yes
+
+New settings:
+  Access Key: key
+  Secret Key: secret
+  Encryption password: 
+  Path to GPG program: /usr/local/bin/gpg
+  Use HTTPS protocol: True
+  HTTP Proxy server name: 
+  HTTP Proxy server port: <span style="color:#ae81ff">0</span>
+
+Test access with supplied credentials? <span style="color:#f92672">[</span>Y/n<span style="color:#f92672">]</span> n
+
+Save settings? <span style="color:#f92672">[</span>y/N<span style="color:#f92672">]</span> y
+Configuration saved to <span style="color:#e6db74">&#39;s3test.cfg&#39;</span></code></pre></div>
+<p>The generated configuration file will look similar to:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ini" data-lang="ini"><span style="color:#66d9ef">[default]</span>
+<span style="color:#a6e22e">access_key</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">abc</span>
+<span style="color:#a6e22e">bucket_location</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">US</span>
+<span style="color:#a6e22e">cloudfront_host</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">cloudfront.amazonaws.com</span>
+<span style="color:#a6e22e">cloudfront_resource</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">/2010-07-15/distribution</span>
+<span style="color:#a6e22e">default_mime_type</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">binary/octet-stream</span>
+<span style="color:#a6e22e">delete_removed</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">False</span>
+<span style="color:#a6e22e">dry_run</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">False</span>
+<span style="color:#a6e22e">encoding</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">UTF-8</span>
+<span style="color:#a6e22e">encrypt</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">False</span>
+<span style="color:#a6e22e">follow_symlinks</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">False</span>
+<span style="color:#a6e22e">force</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">False</span>
+<span style="color:#a6e22e">get_continue</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">False</span>
+<span style="color:#a6e22e">gpg_command</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">/usr/local/bin/gpg</span>
+<span style="color:#a6e22e">gpg_decrypt</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">%(gpg_command)s -d --verbose --no-use-agent --batch --yes --passphrase-fd %(passphrase_fd)s -o %(output_file)s %(input_file)s</span>
+<span style="color:#a6e22e">gpg_encrypt</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">%(gpg_command)s -c --verbose --no-use-agent --batch --yes --passphrase-fd %(passphrase_fd)s -o %(output_file)s %(input_file)s</span>
+<span style="color:#a6e22e">gpg_passphrase</span> <span style="color:#f92672">=</span>
+<span style="color:#a6e22e">guess_mime_type</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">True</span>
+<span style="color:#a6e22e">host_base</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">s3.amazonaws.com</span>
+<span style="color:#a6e22e">host_bucket</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">%(bucket)s.s3.amazonaws.com</span>
+<span style="color:#a6e22e">human_readable_sizes</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">False</span>
+<span style="color:#a6e22e">list_md5</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">False</span>
+<span style="color:#a6e22e">log_target_prefix</span> <span style="color:#f92672">=</span>
+<span style="color:#a6e22e">preserve_attrs</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">True</span>
+<span style="color:#a6e22e">progress_meter</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">True</span>
+<span style="color:#a6e22e">proxy_host</span> <span style="color:#f92672">=</span>
+<span style="color:#a6e22e">proxy_port</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">0</span>
+<span style="color:#a6e22e">recursive</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">False</span>
+<span style="color:#a6e22e">recv_chunk</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">4096</span>
+<span style="color:#a6e22e">reduced_redundancy</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">False</span>
+<span style="color:#a6e22e">secret_key</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">secret</span>
+<span style="color:#a6e22e">send_chunk</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">4096</span>
+<span style="color:#a6e22e">simpledb_host</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">sdb.amazonaws.com</span>
+<span style="color:#a6e22e">skip_existing</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">False</span>
+<span style="color:#a6e22e">socket_timeout</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">300</span>
+<span style="color:#a6e22e">urlencoding_mode</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">normal</span>
+<span style="color:#a6e22e">use_https</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">True</span>
+<span style="color:#a6e22e">verbosity</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">WARNING</span></code></pre></div>
+<p>Afterwards you may try to access your bucket with <code>s3cmd</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">s3cmd -c s3test.cfg ls
+ERROR: S3 error: <span style="color:#ae81ff">403</span> <span style="color:#f92672">(</span>InvalidAccessKeyId<span style="color:#f92672">)</span>: The AWS Access Key Id you provided does not exist in our records.</code></pre></div>
+<p>We need to adapt a few lines to configure s3cmd for radosgw. Currently <code>s3cmd</code> does not know the radosgw hostname. Replace <code>host_base</code> and <code>host_bucket</code> with the hostname of the radosgw host:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ini" data-lang="ini"><span style="color:#a6e22e">host_base</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">s3.amazonaws.com</span>
+<span style="color:#a6e22e">host_bucket</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">%(bucket)s.s3.amazonaws.com</span></code></pre></div>
+<p>becomes:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ini" data-lang="ini"><span style="color:#a6e22e">host_base</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">radosgw.example.com</span>
+<span style="color:#a6e22e">host_bucket</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">%(bucket)s.radosgw.example.com</span></code></pre></div>
+<p>Now you should be able to run</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">s3cmd -c s3test.cfg ls
+<span style="color:#ae81ff">2014</span>-09-06 <span style="color:#ae81ff">12</span>:05  s3://YOURBUCKET</code></pre></div>
+<p>Sidenote: I had a few issues using lowercase bucket names with <code>radosgw</code>. Uppercase buckets worked like a charm.</p>
+
+<h2 id="encryption-with-gpg">Encryption with gpg</h2>
+
+<p>If we talk about backups, we never want to store them unencrypted. <code>s3cmd</code> supports <a href="https://www.gnupg.org/">gpg</a>. The cool thing of using s3cmd in conjunction with gpg is the fact that it works completely transparent. Once configured, all files are automatically encrypted during upload and decrypted whenever you download a file.</p>
+
+<p>To activate encryption change the <code>s3cmd</code> configuration file:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ini" data-lang="ini"><span style="color:#a6e22e">encrypt</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">True</span>
+<span style="color:#a6e22e">gpg_command</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">gpg</span>
+<span style="color:#a6e22e">gpg_decrypt</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">%(gpg_command)s -d --verbose --no-use-agent --batch --yes --passphrase-fd %(passphrase_fd)s -o %(output_file)s %(input_file)s</span>
+<span style="color:#a6e22e">gpg_encrypt</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">%(gpg_command)s -c --cipher-algo AES256 --force-mdc --verbose --no-use-agent --batch --yes --passphrase-fd %(passphrase_fd)s -o %(output_file)s %(input_file)s</span>
+<span style="color:#a6e22e">gpg_passphrase</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">longsecurepassphrase</span></code></pre></div>
+<p>At first you have to enable encryption with <code>encrypt = True</code>. Although the default configuration uses <code>gpg_command = /usr/local/bin/gpg</code>, I prefer to use <code>gpg_command = gpg</code>. Now, you have to set <code>gpg</code> in your system path, but on the other hand, the configuration works on Linux and Mac without any change. Additionally you want to ensure that gpg uses the right cipher. I prefer to set the cipher explicitly: <code>--cipher-algo AES256</code>. Although default with AES256, the option <code>--force-mdc</code> forces the use of encryption with a modification detection code.</p>
+
+<p>Finally, <code>s3cmd</code> works with <code>radosgw</code> and encryption.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$&gt; cat &gt; test.txt
+samplecontent
+$&gt; s3cmd put test.txt s3://YOURBUCKET
+test.txt -&gt; s3://YOURBUCKET/test.txt  <span style="color:#f92672">[</span><span style="color:#ae81ff">1</span> of <span style="color:#ae81ff">1</span><span style="color:#f92672">]</span>
+ <span style="color:#ae81ff">4</span> of <span style="color:#ae81ff">4</span>   <span style="color:#ae81ff">100</span>% in    0s     <span style="color:#ae81ff">7</span>.51 B/s  <span style="color:#66d9ef">done</span>
+$&gt; s3cmd get s3://YOURBUCKET/test.txt test2.txt
+s3://YOURBUCKET/test.txt -&gt; test2.txt  <span style="color:#f92672">[</span><span style="color:#ae81ff">1</span> of <span style="color:#ae81ff">1</span><span style="color:#f92672">]</span>
+ <span style="color:#ae81ff">4</span> of <span style="color:#ae81ff">4</span>   <span style="color:#ae81ff">100</span>% in    0s     <span style="color:#ae81ff">5</span>.74 B/s  <span style="color:#66d9ef">done</span>
+$&gt; s3cmd del s3://YOURBUCKET/test.txt
+File s3://YOURBUCKET/test.txt deleted
+$&gt; cat test2.txt 
+samplecontent</code></pre></div>
+<p>If you have any questions contact me via <a href="https://twitter.com/chri_hartmann">Twitter @chri_hartmann</a> or <a href="https://github.com/chris-rock">Github</a></p>
+
+      </div>
+
+      <footer>
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      <footer class="footer">
+  <section class="container">
+    
+    <p>© 2018 Christoph Hartmann</p>
+    
+  </section>
+</footer>
+
+    </main>
+
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-50992958-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+  </body>
+
+</html>

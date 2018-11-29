@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Gcp on Christoph Hartmann</title>
+    <link>https://lollyrock.com/tags/gcp/</link>
+    <description>Recent content in Gcp on Christoph Hartmann</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 23 May 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://lollyrock.com/tags/gcp/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Google Cloud Platform support for InSpec</title>
+      <link>https://lollyrock.com/posts/inspec-cloud-gcp-setup/</link>
+      <pubDate>Wed, 23 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/inspec-cloud-gcp-setup/</guid>
+      <description>When we released InSpec 2.0 in February 2018, it shipped with native support for AWS and Azure. Over the course of the last 3 months, the InSpec team and community kept adding more AWS and Azure resources. We also showcased how Terraform can be tested effectively with InSpec. In parallel, we worked on Google Cloud Platform (GCP) support which is now available.
+Verify Google Cloud Platform resources   Google Cloud Platform support for InSpec  We wanted to extend the cloud support for a while and the InSpec community has been super fast in its adoption!</description>
+    </item>
+    
+  </channel>
+</rss>

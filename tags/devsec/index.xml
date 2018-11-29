@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Devsec on Christoph Hartmann</title>
+    <link>https://lollyrock.com/tags/devsec/</link>
+    <description>Recent content in Devsec on Christoph Hartmann</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 27 Mar 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://lollyrock.com/tags/devsec/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Achieve compliance with AWS OpsWorks for Chef Automate</title>
+      <link>https://lollyrock.com/posts/inspec-compliance-awsopsworks/</link>
+      <pubDate>Tue, 27 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/inspec-compliance-awsopsworks/</guid>
+      <description>This example demonstrates how to implement continuous compliance in AWS environments with InSpec, Chef and Chef Automate.
+Overview The demo is based on a webinar presented by Mark Rambow and me. This post follows the pattern of the webinar by showcasing how continuous compliance is applied with AWS OpsWorks. Since OpsWorks is based on Chef Automate, it works very similar with Chef Automate standalone.
+The example is split in three sections:</description>
+    </item>
+    
+    <item>
+      <title>ChefConf 2016 - Save Your Crash Dummies!</title>
+      <link>https://lollyrock.com/posts/chefconf2016-save-your-crash-dummies/</link>
+      <pubDate>Fri, 12 Aug 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/chefconf2016-save-your-crash-dummies/</guid>
+      <description>With infrastructure and application automation we have gained the tools to change systems in the blink of an eye. However, with increasing size, complexity, and time, these components will inevitably challenge your expectations. This uncertainty will ultimately slow you down. This talk will introduce the workflow to gain back trust.
+A Test-driven Infrastructure Solution This talk will cover the foundation of effective infrastructure tests and failure domains for isolation. Moreover, we will look into the management of divergent environments, from legacy systems to modern clouds.</description>
+    </item>
+    
+    <item>
+      <title>DevOps and Security</title>
+      <link>https://lollyrock.com/posts/devops-security/</link>
+      <pubDate>Fri, 19 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/devops-security/</guid>
+      <description>To ensure the security of your IT services, different disciplines need to come together. Development, operations and security departments need to work hand in hand in order to ship a secure product. Every department has its core competencies and it is a challenge to create a common view on the security implementation for a product.
+The challenge The separation of knowledge between departments has its advantages but comes with some disadvantages.</description>
+    </item>
+    
+  </channel>
+</rss>

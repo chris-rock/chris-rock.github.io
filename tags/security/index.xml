@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Security on Christoph Hartmann</title>
+    <link>https://lollyrock.com/tags/security/</link>
+    <description>Recent content in Security on Christoph Hartmann</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 06 Nov 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://lollyrock.com/tags/security/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Testing Cloud Provisioning with Terraform and InSpec</title>
+      <link>https://lollyrock.com/talks/2018_continuous_lifecycle/</link>
+      <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/talks/2018_continuous_lifecycle/</guid>
+      <description>Cloud-Umgebungen haben die Entwicklungsprozesse über die letzten Jahre stark beeinflusst. Häufigere Aktualisierungen und Deployments von verteilten Anwendungen durch Tools wie Terraform und Cloudformation sind dadurch zum Standard geworden. Für Operations-, Compliance- und Sicherheitsteams stellt sich daher die Herausforderung, ihre Anforderungen in den automatischen Prozess einzubinden. InSpec hat sich als effektives Tool für die Überprüfung von Server- und Anwendungskonfigurationen erwiesen.
+Der Vortrag zeigt die Umsetzung von Test-driven Infrastructure für Terraform-Setups mit InSpec-2.</description>
+    </item>
+    
+    <item>
+      <title>InSpec 3 Keynote</title>
+      <link>https://lollyrock.com/talks/2018_chef_community_summit/</link>
+      <pubDate>Tue, 16 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/talks/2018_chef_community_summit/</guid>
+      <description> </description>
+    </item>
+    
+    <item>
+      <title>DevSec - Kontinuierliche Patch- und Sicherheitsüberwachung mit InSpec</title>
+      <link>https://lollyrock.com/talks/2017_continuous_lifecycle/</link>
+      <pubDate>Wed, 15 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/talks/2017_continuous_lifecycle/</guid>
+      <description> </description>
+    </item>
+    
+    <item>
+      <title>Continuous Patch and Security Assessment with InSpec</title>
+      <link>https://lollyrock.com/talks/2017_alldaysdevops/</link>
+      <pubDate>Tue, 24 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/talks/2017_alldaysdevops/</guid>
+      <description>   Slides:
+ </description>
+    </item>
+    
+    <item>
+      <title>continuous compliance</title>
+      <link>https://lollyrock.com/talks/2017_devseccon_london/</link>
+      <pubDate>Thu, 19 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/talks/2017_devseccon_london/</guid>
+      <description>Best-practices for server hardening and patching have been in place for decades. Nevertheless, it is still very cumbersome to enforce those rules continuously and many servers are still unsecured in 2016. DevOps tools like Chef, Puppet or Ansible help to enforce secure configuration, but they cannot fully assess a state of a machine e.g. you cannot easily verify if something is not installed. InSpec is here to help. It is an open source tool for infrastructure, security and compliance testing.</description>
+    </item>
+    
+    <item>
+      <title>InSpec 2 Release</title>
+      <link>https://lollyrock.com/talks/2017_chefconf/</link>
+      <pubDate>Tue, 23 May 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/talks/2017_chefconf/</guid>
+      <description> </description>
+    </item>
+    
+    <item>
+      <title>Continuous Patch And Security Assessment With Inspec</title>
+      <link>https://lollyrock.com/talks/2017_appseceu/</link>
+      <pubDate>Tue, 09 May 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/talks/2017_appseceu/</guid>
+      <description>   </description>
+    </item>
+    
+    <item>
+      <title>Using meta-profiles with Chef Compliance</title>
+      <link>https://lollyrock.com/posts/chef-compliance-meta-profiles/</link>
+      <pubDate>Tue, 06 Dec 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/chef-compliance-meta-profiles/</guid>
+      <description>This article demonstrates InSpec&amp;rsquo;s meta profile functionality in combination with Chef Compliance. This feature enables you to write profile overlays and to reuse controls from existing profiles. This is a great way to manage deviations of out-of-the-box profiles shipped with Chef Compliance.
+Meta Profiles A meta profile is an overlay or a collection of multiple profiles. Examples are:
+ a deviation from CIS benchmarks collection of all CIS profiles that apply to your infrastructure (eg.</description>
+    </item>
+    
+    <item>
+      <title>Compliance-driven infrastructure</title>
+      <link>https://lollyrock.com/talks/2016_oreilly_software_architecture/</link>
+      <pubDate>Tue, 15 Nov 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/talks/2016_oreilly_software_architecture/</guid>
+      <description> </description>
+    </item>
+    
+    <item>
+      <title>Save Your Crash Dummies! A Test-driven Infrastructure Solution</title>
+      <link>https://lollyrock.com/talks/2016_chefconf/</link>
+      <pubDate>Tue, 12 Jul 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/talks/2016_chefconf/</guid>
+      <description>With infrastructure and application automation we have gained the tools to change systems in the blink of an eye. However, with increasing size, complexity, and time, these components will inevitably challenge your expectations. This uncertainty will ultimately slow you down. This talk will introduce the workflow to gain back trust. We will cover the foundation of effective infrastructure tests and failure domains for isolation. Moreover, we will look into the management of divergent environments, from legacy systems to modern clouds.</description>
+    </item>
+    
+    <item>
+      <title>DevOps and Security</title>
+      <link>https://lollyrock.com/posts/devops-security/</link>
+      <pubDate>Fri, 19 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/devops-security/</guid>
+      <description>To ensure the security of your IT services, different disciplines need to come together. Development, operations and security departments need to work hand in hand in order to ship a secure product. Every department has its core competencies and it is a challenge to create a common view on the security implementation for a product.
+The challenge The separation of knowledge between departments has its advantages but comes with some disadvantages.</description>
+    </item>
+    
+    <item>
+      <title>npm install - could be dangerous</title>
+      <link>https://lollyrock.com/posts/npm-dependency-could-be-dangerous/</link>
+      <pubDate>Sat, 09 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/npm-dependency-could-be-dangerous/</guid>
+      <description>NPM hosts about 144,000 npm modules on their registry. Over one million modules are downloaded per month. Assume you use one module that includes a major flaw in their implementation? Will you detect it?
+What is going on? Just recently, João Jerónimo published a special npm modules called rimrafall. He published it at npm and posted it on Hacker News. Essentially this module does the following:
+sudo su - rm -rf / It uses a special script tag in package.</description>
+    </item>
+    
+    <item>
+      <title>Encrypt files with GPG</title>
+      <link>https://lollyrock.com/posts/encrypt-files-with-gpg/</link>
+      <pubDate>Sun, 14 Sep 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/encrypt-files-with-gpg/</guid>
+      <description>Although GPG and GPG Tools are well known for Email encryption, the same tool-chain can be used to encrypt files. We deep dive into the command line, but everything should work with any other UI client as well.
+Password encryption with AES # encrypt file gpg --cipher-algo AES256 -c test.txt # decrypt file gpg -d test.txt.gpg Enforce message integrity check Although default with AES, it makes sense to force the message integrity check and can be useful if you switch to other ciphers.</description>
+    </item>
+    
+    <item>
+      <title>Encrypt and decrypt content with Nodejs</title>
+      <link>https://lollyrock.com/posts/nodejs-encryption/</link>
+      <pubDate>Tue, 02 Sep 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/nodejs-encryption/</guid>
+      <description>.gist { font-size: 12px; }  Nodejs offers great support for cryptography. Under the hood it uses openssl and ships with a Javascript api. Unfortunately the api is not always as intuitive as it should be, especially when you have to deal with error codes. To make you life easier, I collected various approaches for encryption with AES 256.
+Update: All examples are available on Github node-crypto-examples, too.
+Encryption mode The first decision is the AES encryption mode.</description>
+    </item>
+    
+    <item>
+      <title>Chef without an internet connection / Uninstall Chef with Chef</title>
+      <link>https://lollyrock.com/posts/chef-without-internet/</link>
+      <pubDate>Sun, 24 Aug 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/chef-without-internet/</guid>
+      <description>Recently I had a discussion with a DevOps team about an installation of Chef without an internet connection. A normal chef bootstrap fetches the chef binaries via &amp;ldquo;curl -L https://www.opscode.com/chef/install.sh | sudo bash&amp;rdquo;. This will happen, even if you use a Chef Server. Therefore you would require a connection to download the Chef client binaries.
+This blog post demonstrates a chef run without an internet connection. Be aware, that we proof the basic setup only.</description>
+    </item>
+    
+    <item>
+      <title>Applied Content Security Policy for Nginx and Nodejs</title>
+      <link>https://lollyrock.com/posts/content-security-policy/</link>
+      <pubDate>Mon, 18 Aug 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/content-security-policy/</guid>
+      <description>Some years ago it was common that users deactivated JavaScript to reduce the security risk of their browser. Nowadays HTML5 (JavaScript, CSS in combination with AJAX) is required to provide superior user experience. Users have no chance to deactivate JavaScript and expect the same kind of quality. Web Developers (and I am for sure part of it) on the other hand just add a simple noscript and think they are done.</description>
+    </item>
+    
+    <item>
+      <title>Scalatra with Bearer Authentication</title>
+      <link>https://lollyrock.com/posts/scalatra-bearer-authentication/</link>
+      <pubDate>Sat, 26 Jul 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/scalatra-bearer-authentication/</guid>
+      <description>Why use Scala over Java? After I experienced the beauty of Ruby and Node.js for web application development I thought there are not many use cases for developing a Java web application, because they provide:
+ easy definition of new routes stick to REST API with JSON quick development easy deployment  Everything can be solved in Java, but it does not necessarily feels right. Java Enterprise Edition 5 and Spring try to make it as easy as possible, but Java has some disadvantages at language level, not on framework level:</description>
+    </item>
+    
+    <item>
+      <title>How to harden a new server with Chef</title>
+      <link>https://lollyrock.com/posts/how-to-harden-a-new-server/</link>
+      <pubDate>Wed, 14 May 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/how-to-harden-a-new-server/</guid>
+      <description>Deutsche Telekom developed scripts in Chef and Puppet to harden servers according to well-known guidelines like bettercrypto and internal guidelines at Deutsche Telekom. More information is available at the project page of the Hardening Framework. Disclosure: I am core developer at this project.
+Today we cook with knife-solo and harden a fresh copy of Ubuntu 14.04. The process of hardening a server is quite difficult and takes a lot of knowledge and experience.</description>
+    </item>
+    
+    <item>
+      <title>SHA 512 Hashs with nodejs</title>
+      <link>https://lollyrock.com/posts/nodejs-sha512/</link>
+      <pubDate>Sun, 06 Apr 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/nodejs-sha512/</guid>
+      <description>Quite often you need to encrypt files. Recently I updated an application from encryption to authenticated encryption and used the encrypt-then-mac approach.
+Update: I created a node module that simplifies the process for you: password-hasher
+To create a hash from strings you just need a few lines in nodejs:
+// generate a hash from string var crypto = require(&amp;#39;crypto&amp;#39;), text = &amp;#39;hello bob&amp;#39;, key = &amp;#39;mysecret key&amp;#39; // create hahs var hash = crypto.</description>
+    </item>
+    
+  </channel>
+</rss>

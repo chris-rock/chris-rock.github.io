@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Christoph Hartmann">
+    <meta name="description" content="Chris&#39;s personal website">
+    <meta name="keywords" content="blog,developer,personal">
+
+    <base href="https://lollyrock.com/">
+    <title>
+  Achieve compliance with AWS OpsWorks for Chef Automate · Christoph Hartmann
+</title>
+
+    <link rel="canonical" href="https://lollyrock.com/posts/inspec-compliance-awsopsworks/">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400,500,600,700,800,900|Roboto:100,300,400,500,700,900|Source+Code+Pro:200,300,400" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" integrity="sha256-oSrCnRYXvHG31SBifqP2PM1uje7SJUyX0nTwO2RJV54=" crossorigin="anonymous" />
+
+    
+      
+      
+      <link rel="stylesheet" href="https://lollyrock.com/css/coder.min.ef70d8b6c126a236b98cb3ef257062e681b40ab6658d993adad91206fca88fa2.css" integrity="sha256-73DYtsEmoja5jLPvJXBi5oG0CrZljZk62tkSBvyoj6I=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="https://lollyrock.com/img/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://lollyrock.com/img/favicon-16x16.png" sizes="16x16">
+
+    
+
+    <meta name="generator" content="Hugo 0.51" />
+  </head>
+
+  <body class=" ">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="https://lollyrock.com/">
+      Christoph Hartmann
+    </a>
+    <input type="checkbox" id="menu-toggle" />
+    <label class="menu-button float-right" for="menu-toggle"><i class="fas fa-bars"></i></label>
+    <ul class="navigation-list">
+      
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="https://lollyrock.com/posts/">Blog</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="https://lollyrock.com/talks/">Talks</a>
+          </li>
+        
+      
+      
+    </ul>
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">Achieve compliance with AWS OpsWorks for Chef Automate</h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fas fa-calendar"></i>
+              <time datetime='2018-03-27T00:00:00Z'>
+                March 27, 2018
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fas fa-clock"></i>
+              6 minutes read
+            </span>
+            
+            
+            <span class="author">
+                <i class="fas fa-user"></i>
+                Christoph Hartmann
+            </span>
+            
+          </div>
+          
+          <div class="tags">
+  <i class="fas fa-tag"></i>
+    <a href="https://lollyrock.com/tags/inspec/">InSpec</a>
+      <span class="separator">•</span>
+    <a href="https://lollyrock.com/tags/aws/">aws</a>
+      <span class="separator">•</span>
+    <a href="https://lollyrock.com/tags/devsec/">DevSec</a></div>
+
+        </div>
+      </header>
+
+      <div>
+        
+
+<p>This example demonstrates how to implement continuous compliance in AWS environments with <a href="https://www.inspec.io/">InSpec</a>, <a href="https://www.chef.io/chef/">Chef</a> and <a href="https://www.chef.io/automate/">Chef Automate</a>.</p>
+
+<h2 id="overview">Overview</h2>
+
+<p>The demo is based on a <a href="https://youtu.be/4dvN9IsKSgc">webinar</a> presented by <a href="https://twitter.com/markhasread">Mark Rambow</a> and <a href="https://twitter.com/chri_hartmann">me</a>. This post follows the pattern of the webinar by showcasing how continuous compliance is applied with AWS OpsWorks. Since OpsWorks is based on Chef Automate, it works very similar with Chef Automate standalone.</p>
+
+<p>The example is split in three sections:</p>
+
+<ul>
+<li>Setup continuous compliance on one new instance</li>
+<li>Scale continuously with auto-scaling</li>
+<li>Use a custom InSpec profile</li>
+</ul>
+
+<p>Let&rsquo;s get started.</p>
+
+<h2 id="preparation">Preparation</h2>
+
+<p>We need some pieces upfront:</p>
+
+<ul>
+<li>A running <a href="https://aws.amazon.com/opsworks/chefautomate/">OpsWorks Chef Automate</a> instance</li>
+<li><a href="https://docs.aws.amazon.com/opsworks/latest/userguide/opscm-unattend-assoc.html#opscm-create-instance-profile">IAM roles and policies</a> are setup, see FAQ</li>
+<li><a href="https://downloads.chef.io/chefdk">ChefDK</a> is installed on your workstation</li>
+<li><a href="https://github.com/chris-rock/opsworks-example">OpsWorks StarterKit</a></li>
+</ul>
+
+<p>Note: This kit does not include the <code>.chef</code> directory since it contains private credentials. The <code>userdata.sh</code> and <code>userdata.ps1</code> are not generated for your environment. You need to <a href="https://docs.aws.amazon.com/opsworks/latest/userguide/opscm-unattend-assoc.html#w2ab2b9c27c19">adapt it</a> or replace it with the one from your starter kit.</p>
+
+<h2 id="get-started">Get Started</h2>
+
+<p>As the first step, we need to download the kit and upload all cookbooks to the Chef Server that is embedded in OpsWorks.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># clone repository</span>
+git clone git@github.com:chris-rock/opsworks-example.git
+
+<span style="color:#75715e"># ensure .chef directory is there or chefdk is</span> 
+
+<span style="color:#75715e"># bundles all cookbooks and dependens from Berksfile in cookbooks directory</span>
+$ berks vendor cookbooks
+
+<span style="color:#75715e"># upload all cookbooks to Chef Server</span>
+$ berks upload</code></pre></div>
+<h3 id="detect-and-correct-for-one-aws-instance">Detect and Correct for one AWS instance</h3>
+
+<p><strong>See Chef client reporting to Automate</strong></p>
+
+<p>We are ready to define the Chef role that we want to apply to our new EC2 instance. Adapt the role <code>roles/webserver.rb</code> to ensure it looks like:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">name <span style="color:#e6db74">&#34;webserver&#34;</span>
+description <span style="color:#e6db74">&#34;Example webserver&#34;</span>
+
+run_list(
+  <span style="color:#e6db74">&#34;recipe[chef-client]&#34;</span>,
+  <span style="color:#e6db74">&#34;recipe[nginx]&#34;</span>,
+  <span style="color:#e6db74">&#34;recipe[inspec-page]&#34;</span>,
+)</code></pre></div>
+<p>This role configures the chef-client, installs nginx and setups the inspec page in nginx. The operating system is not hardened in that example yet. Upload the role to Chef Server:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ knife upload role roles/webserver.rb
+Created roles/webserver.json</code></pre></div>
+<p>We&rsquo;ve done all the require preparation and we are ready to start our first Amazon Linux instance. I&rsquo;ve used the Amazon Linux 2017.09 with t2.micro. SSH and HTTPs are the only entries required in your security group configuration. When you reach the instance details section, please make sure the correct IAM instance profile is selected and the userdata contains your role <code>RUN_LIST=&quot;role[webserver]&quot;</code>.</p>
+
+
+
+
+
+<figure>
+    
+        <img src="https://lollyrock.com/posts/inspec-compliance-awsopsworks/images/ec2-instance-setup.png" alt="Start EC2 instance with userdata"/> <figcaption>
+                
+                    <span><b>Start EC2 instance with userdata</b></span>
+                
+                
+            </figcaption></figure>
+
+<p>Once the instance is up and running, <code>chef-client</code> is executed automatically since it was configured in userdata. The clients pulls the required Chef role and the cookbooks from Chef Server</p>
+
+
+
+
+
+<figure>
+    
+        <img src="https://lollyrock.com/posts/inspec-compliance-awsopsworks/images/ec2-instance-start.png" alt="Instance is started"/> <figcaption>
+                
+                    <span><b>Instance is started</b></span>
+                
+                
+            </figcaption></figure>
+
+<p>Once the <code>chef-client</code> finished its first run, you see instance reporting its run list to Chef Automate.</p>
+
+
+
+
+
+<figure>
+    
+        <img src="https://lollyrock.com/posts/inspec-compliance-awsopsworks/images/automate-nodes.png" alt="Chef Client reports to Automate"/> <figcaption>
+                
+                    <span><b>Chef Client reports to Automate</b></span>
+                
+                
+            </figcaption></figure>
+
+<p><strong>Run audit scan</strong></p>
+
+<p>So far, we configured the automation, but not compliance scans. We are going to apply the <a href="http://dev-sec.io/">DevSec</a> SSH Baseline. In Automate&rsquo;s compliance profile section, load the profile into your namespace. The DevSec profiles are part of the Chef Automate package.</p>
+
+
+
+
+
+<figure>
+    
+        <img src="https://lollyrock.com/posts/inspec-compliance-awsopsworks/images/automate-profile-install.png" alt="Install profile into your namespace"/> <figcaption>
+                
+                    <span><b>Install profile into your namespace</b></span>
+                
+                
+            </figcaption></figure>
+
+
+
+
+
+<figure>
+    
+        <img src="https://lollyrock.com/posts/inspec-compliance-awsopsworks/images/automate-profile-overview.png" alt="Profile overview"/> <figcaption>
+                
+                    <span><b>Profile overview</b></span>
+                
+                
+            </figcaption></figure>
+
+<p>Once the profile is in your namespace, update the <code>webserver</code> role with the <a href="https://github.com/chef-cookbooks/audit">audit cookbook</a> and ensure the audit cookbook is uploaded to the Chef Server by adding it to the <code>Berksfile</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">cookbook <span style="color:#e6db74">&#39;audit&#39;</span></code></pre></div>
+<p>If you changed the Berksfile, run</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ berks vendor cookbooks
+$ berks upload</code></pre></div>
+<p>To configure the <code>audit</code> cookbook, adapt the role as following:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">name <span style="color:#e6db74">&#34;webserver&#34;</span>
+description <span style="color:#e6db74">&#34;Example webserver&#34;</span>
+
+default_attributes <span style="color:#e6db74">&#34;audit&#34;</span> <span style="color:#f92672">=&gt;</span> {
+    <span style="color:#e6db74">&#34;reporter&#34;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#34;chef-server-automate&#34;</span>,
+    <span style="color:#e6db74">&#34;profiles&#34;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#f92672">[</span>
+        {
+            <span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;ssh-baseline&#34;</span>,
+            <span style="color:#e6db74">&#34;compliance&#34;</span>: <span style="color:#e6db74">&#34;admin/ssh-baseline&#34;</span>
+        },
+    <span style="color:#f92672">]</span>
+}
+
+run_list(
+  <span style="color:#e6db74">&#34;recipe[chef-client]&#34;</span>,
+  <span style="color:#e6db74">&#34;recipe[nginx]&#34;</span>,
+  <span style="color:#e6db74">&#34;recipe[inspec-page]&#34;</span>,
+  <span style="color:#e6db74">&#34;recipe[audit]&#34;</span>
+)</code></pre></div>
+<p>The run list includes <code>&quot;recipe[audit]&quot;</code> now and the <code>audit</code> attributes let the audit cookbook know to use its <code>chef-server-automate</code> reporter. All the InSpec reports are sent via the Chef Server to Chef Automate. <code>admin/ssh-baseline</code> is the namespace that you see in Chef Automate&rsquo;s profile overview. Once everything is setup properly, you see the ssh baseline reporting to Chef Automate.</p>
+
+
+
+
+
+<figure>
+    
+        <img src="https://lollyrock.com/posts/inspec-compliance-awsopsworks/images/automate-not-compliant.png" alt="InSpec reports DevSec SSH Baseline to Chef Automate"/> <figcaption>
+                
+                    <span><b>InSpec reports DevSec SSH Baseline to Chef Automate</b></span>
+                
+                
+            </figcaption></figure>
+
+<p><strong>Apply server hardening</strong></p>
+
+<p>Of course, we do not want to tackle the server hardening manually. There is a cookbook for that and we are applying the <a href="https://github.com/dev-sec/chef-ssh-hardening/">DevSec SSH hardening cookbook</a> via our run list.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">name <span style="color:#e6db74">&#34;webserver&#34;</span>
+description <span style="color:#e6db74">&#34;Example webserver&#34;</span>
+
+default_attributes <span style="color:#e6db74">&#34;audit&#34;</span> <span style="color:#f92672">=&gt;</span> {
+    <span style="color:#e6db74">&#34;reporter&#34;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#34;chef-server-automate&#34;</span>,
+    <span style="color:#e6db74">&#34;profiles&#34;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#f92672">[</span>
+        {
+            <span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;ssh-baseline&#34;</span>,
+            <span style="color:#e6db74">&#34;compliance&#34;</span>: <span style="color:#e6db74">&#34;admin/ssh-baseline&#34;</span>
+        },
+    <span style="color:#f92672">]</span>
+}
+
+run_list(
+  <span style="color:#e6db74">&#34;recipe[chef-client]&#34;</span>,
+  <span style="color:#e6db74">&#34;recipe[ssh-hardening]&#34;</span>,
+  <span style="color:#e6db74">&#34;recipe[nginx]&#34;</span>,
+  <span style="color:#e6db74">&#34;recipe[inspec-page]&#34;</span>,
+  <span style="color:#e6db74">&#34;recipe[audit]&#34;</span>,
+)</code></pre></div>
+<p>
+
+
+
+<figure>
+    
+        <img src="https://lollyrock.com/posts/inspec-compliance-awsopsworks/images/automate-compliant.png" alt="Chef Client reports to Automate"/> <figcaption>
+                
+                    <span><b>Chef Client reports to Automate</b></span>
+                
+                
+            </figcaption></figure>
+
+
+
+
+<figure>
+    
+        <img src="https://lollyrock.com/posts/inspec-compliance-awsopsworks/images/automate-compliant-detail.png" alt="Chef Client reports to Automate"/> <figcaption>
+                
+                    <span><b>Chef Client reports to Automate</b></span>
+                
+                
+            </figcaption></figure></p>
+
+<h3 id="scale-continuous-compliance-with-autoscaling">Scale continuous compliance with autoscaling</h3>
+
+<p>We&rsquo;ve prepared everything you need. To scale the detection and correction automatically, we are going to apply the role for more servers. In practice you would tie the application deployment with the hardening in one role, but we keep it for simplicity.</p>
+
+<p>As the first step, we are creating a new auto scaling group with a new launch configuration:</p>
+
+<p>
+
+
+
+<figure>
+    
+        <img src="https://lollyrock.com/posts/inspec-compliance-awsopsworks/images/auto-1.png" alt="Create a new AWS Auto Scaling group"/> <figcaption>
+                
+                    <span><b>Create a new AWS Auto Scaling group</b></span>
+                
+                
+            </figcaption></figure>
+
+
+
+
+<figure>
+    
+        <img src="https://lollyrock.com/posts/inspec-compliance-awsopsworks/images/auto-3.png" alt="Use cloudinit to setup node configuration"/> <figcaption>
+                
+                    <span><b>Use cloudinit to setup node configuration</b></span>
+                
+                
+            </figcaption></figure></p>
+
+<p>Setup the correct security group for each instance:
+
+
+
+
+<figure>
+    
+        <img src="https://lollyrock.com/posts/inspec-compliance-awsopsworks/images/auto-4.png" alt="Security group configuration"/> <figcaption>
+                
+                    <span><b>Security group configuration</b></span>
+                
+                
+            </figcaption></figure></p>
+
+<p>Add custom tags for your auto scaling group:
+
+
+
+
+<figure>
+    
+        <img src="https://lollyrock.com/posts/inspec-compliance-awsopsworks/images/auto-5.png" alt="Attach tags to auto scaling"/> <figcaption>
+                
+                    <span><b>Attach tags to auto scaling</b></span>
+                
+                
+            </figcaption></figure>
+
+
+
+
+<figure>
+    
+        <img src="https://lollyrock.com/posts/inspec-compliance-awsopsworks/images/auto-6.png" alt="Custom Profile reports to Chef Automate"/> <figcaption>
+                
+                    <span><b>Custom Profile reports to Chef Automate</b></span>
+                
+                
+            </figcaption></figure></p>
+
+<p>Once everything is configured, AWS will launch new instances that spin up Chef to harden the system and verify the compliance state with InSpec.</p>
+
+
+
+
+
+<figure>
+    
+        <img src="https://lollyrock.com/posts/inspec-compliance-awsopsworks/images/auto-7.png" alt="Custom Profile reports to Chef Automate"/> <figcaption>
+                
+                    <span><b>Custom Profile reports to Chef Automate</b></span>
+                
+                
+            </figcaption></figure>
+
+<p>By combining InSpec for detection with Chef for hardening, we are able to scale our secure infrastructure effortless.</p>
+
+
+
+
+
+<figure>
+    
+        <img src="https://lollyrock.com/posts/inspec-compliance-awsopsworks/images/auto-8.png" alt="Compliant System"/> <figcaption>
+                
+                    <span><b>Compliant System</b></span>
+                
+                
+            </figcaption></figure>
+
+<h3 id="use-custom-profile">Use custom profile</h3>
+
+<p>In most cases, the built-in <a href="https://www.cisecurity.org/">CIS</a> and <a href="http://dev-sec.io/">DevSec</a> profiles help users to meet about 80% of their compliance goals. InSpec is very flexible and allows you to implement <a href="http://lollyrock.com/articles/chef-compliance-meta-profiles/">aggregated profiles</a> or <a href="https://www.inspec.io/docs/reference/profiles/#using-controls-from-an-included-profile">profile overlays</a>. If you have in-house applications or custom requirements, InSpec is the tool that helps you to implement those as well. In our case, we are using a profile that allows us to verify instance tags.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># clone the InSpec profile to verify EC2 metadata</span>
+git clone git@github.com:chris-rock/ec2-example-profile.git
+
+<span style="color:#75715e"># package the InSpec profile for an upload</span>
+inspec archive ec2-metadata-example</code></pre></div>
+<p>Now, we are going to upload the generated <code>tar.gz</code> file to Chef Automate:</p>
+
+
+
+
+
+<figure>
+    
+        <img src="https://lollyrock.com/posts/inspec-compliance-awsopsworks/images/automate-profile-upload.png" alt="Upload InSpec profile to Chef Automate"/> <figcaption>
+                
+                    <span><b>Upload InSpec profile to Chef Automate</b></span>
+                
+                
+            </figcaption></figure>
+
+<p>Once the profile is upload to Chef Automate, we simply need to update your role and add the new <code>admin/ec2-example-profile</code> profile.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">name <span style="color:#e6db74">&#34;webserver&#34;</span>
+description <span style="color:#e6db74">&#34;Example webserver&#34;</span>
+
+default_attributes <span style="color:#e6db74">&#34;audit&#34;</span> <span style="color:#f92672">=&gt;</span> {
+    <span style="color:#e6db74">&#34;reporter&#34;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#34;chef-server-automate&#34;</span>,
+    <span style="color:#e6db74">&#34;profiles&#34;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#f92672">[</span>
+        {
+            <span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;ssh-baseline&#34;</span>,
+            <span style="color:#e6db74">&#34;compliance&#34;</span>: <span style="color:#e6db74">&#34;admin/ssh-baseline&#34;</span>,
+        },{
+            <span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;ec2-example-profile&#34;</span>,
+            <span style="color:#e6db74">&#34;compliance&#34;</span>: <span style="color:#e6db74">&#34;admin/ec2-example-profile&#34;</span>,
+        }
+    <span style="color:#f92672">]</span>
+}
+
+run_list(
+  <span style="color:#e6db74">&#34;recipe[chef-client]&#34;</span>,
+  <span style="color:#e6db74">&#34;recipe[ssh-hardening]&#34;</span>,
+  <span style="color:#e6db74">&#34;recipe[nginx]&#34;</span>,
+  <span style="color:#e6db74">&#34;recipe[inspec-page]&#34;</span>,
+  <span style="color:#e6db74">&#34;recipe[audit]&#34;</span>,
+)</code></pre></div>
+<p>The next time the <code>chef-client</code> executes on each node, the profile will be executed automatically.</p>
+
+
+
+
+
+<figure>
+    
+        <img src="https://lollyrock.com/posts/inspec-compliance-awsopsworks/images/automate-profile-report.png" alt="Custom Profile reports to Chef Automate"/> <figcaption>
+                
+                    <span><b>Custom Profile reports to Chef Automate</b></span>
+                
+                
+            </figcaption></figure>
+
+<h2 id="summary">Summary</h2>
+
+<p>This post demonstrated the implementation of compliance measures in your fleet by integrating InSpec into your DevOps workflow. If you have any question, do not hesitate to raise an issue in my <a href="https://github.com/chris-rock/opsworks-example">opsworks example</a>.</p>
+
+<h2 id="faq">FAQ</h2>
+
+<p><strong>How do I setup instance permissions</strong></p>
+
+<p>The used cloudinit userdata requires access to the AWS api via the AWS Cli. Setup the following policy named eg. <code>opsworks-cm</code> in AWS. Attach this policy to a role named <code>opsworks-cm-role</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#f92672">&#34;Version&#34;</span>: <span style="color:#e6db74">&#34;2012-10-17&#34;</span>,
+  <span style="color:#f92672">&#34;Statement&#34;</span>: [
+    {
+      <span style="color:#f92672">&#34;Action&#34;</span>: [
+        <span style="color:#e6db74">&#34;opsworks-cm:AssociateNode&#34;</span>,
+        <span style="color:#e6db74">&#34;opsworks-cm:DescribeNodeAssociationStatus&#34;</span>,
+        <span style="color:#e6db74">&#34;ec2:DescribeTags&#34;</span>,
+      ],
+      <span style="color:#f92672">&#34;Effect&#34;</span>: <span style="color:#e6db74">&#34;Allow&#34;</span>,
+      <span style="color:#f92672">&#34;Resource&#34;</span>: [
+        <span style="color:#e6db74">&#34;*&#34;</span>
+      ]
+    }
+  ]
+}</code></pre></div>
+<p>
+
+
+
+<figure>
+    
+        <img src="https://lollyrock.com/posts/inspec-compliance-awsopsworks/images/iam-policy.png" alt="Create a new IAM Policy"/> <figcaption>
+                
+                    <span><b>Create a new IAM Policy</b></span>
+                
+                
+            </figcaption></figure>
+
+
+
+
+<figure>
+    
+        <img src="https://lollyrock.com/posts/inspec-compliance-awsopsworks/images/iam-role.png" alt="Attach policy to a IAM role"/> <figcaption>
+                
+                    <span><b>Attach policy to a IAM role</b></span>
+                
+                
+            </figcaption></figure></p>
+
+<p><strong>My node is not showing up in Chef Automate?</strong></p>
+
+<p>If the instance does not report to Chef Automate, it is very likely a AWS API permission issue. If you see an issue like</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">An error occurred <span style="color:#f92672">(</span>AccessDeniedException<span style="color:#f92672">)</span> when calling the AssociateNode operation:
+User: arn:aws:sts::862552916454:assumed-role/aws-opsworks-cm-ec2-role/i-022db13089f495a34
+is not authorized to perform: opsworks-cm:AssociateNode on resource:
+arn:aws:opsworks-cm:eu-central-1:862552916454:server/opsworks/*</code></pre></div>
+<p>in your <code>/var/log/cloud-init-output.log</code> you need to ensure the instance has the correct IAM instance profile as explain on <a href="https://docs.aws.amazon.com/opsworks/latest/userguide/opscm-unattend-assoc.html#opscm-create-instance-profile">AWS docs</a>.</p>
+
+      </div>
+
+      <footer>
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      <footer class="footer">
+  <section class="container">
+    
+    <p>© 2018 Christoph Hartmann</p>
+    
+  </section>
+</footer>
+
+    </main>
+
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-50992958-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+  </body>
+
+</html>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Talks on Christoph Hartmann</title>
+    <link>https://lollyrock.com/talks/</link>
+    <description>Recent content in Talks on Christoph Hartmann</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 06 Nov 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://lollyrock.com/talks/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Testing Cloud Provisioning with Terraform and InSpec</title>
+      <link>https://lollyrock.com/talks/2018_continuous_lifecycle/</link>
+      <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/talks/2018_continuous_lifecycle/</guid>
+      <description>Cloud-Umgebungen haben die Entwicklungsprozesse über die letzten Jahre stark beeinflusst. Häufigere Aktualisierungen und Deployments von verteilten Anwendungen durch Tools wie Terraform und Cloudformation sind dadurch zum Standard geworden. Für Operations-, Compliance- und Sicherheitsteams stellt sich daher die Herausforderung, ihre Anforderungen in den automatischen Prozess einzubinden. InSpec hat sich als effektives Tool für die Überprüfung von Server- und Anwendungskonfigurationen erwiesen.
+Der Vortrag zeigt die Umsetzung von Test-driven Infrastructure für Terraform-Setups mit InSpec-2.</description>
+    </item>
+    
+    <item>
+      <title>InSpec 3 Keynote</title>
+      <link>https://lollyrock.com/talks/2018_chef_community_summit/</link>
+      <pubDate>Tue, 16 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/talks/2018_chef_community_summit/</guid>
+      <description> </description>
+    </item>
+    
+    <item>
+      <title>DevSec - Kontinuierliche Patch- und Sicherheitsüberwachung mit InSpec</title>
+      <link>https://lollyrock.com/talks/2017_continuous_lifecycle/</link>
+      <pubDate>Wed, 15 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/talks/2017_continuous_lifecycle/</guid>
+      <description> </description>
+    </item>
+    
+    <item>
+      <title>Continuous Patch and Security Assessment with InSpec</title>
+      <link>https://lollyrock.com/talks/2017_alldaysdevops/</link>
+      <pubDate>Tue, 24 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/talks/2017_alldaysdevops/</guid>
+      <description>   Slides:
+ </description>
+    </item>
+    
+    <item>
+      <title>continuous compliance</title>
+      <link>https://lollyrock.com/talks/2017_devseccon_london/</link>
+      <pubDate>Thu, 19 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/talks/2017_devseccon_london/</guid>
+      <description>Best-practices for server hardening and patching have been in place for decades. Nevertheless, it is still very cumbersome to enforce those rules continuously and many servers are still unsecured in 2016. DevOps tools like Chef, Puppet or Ansible help to enforce secure configuration, but they cannot fully assess a state of a machine e.g. you cannot easily verify if something is not installed. InSpec is here to help. It is an open source tool for infrastructure, security and compliance testing.</description>
+    </item>
+    
+    <item>
+      <title>InSpec 2 Release</title>
+      <link>https://lollyrock.com/talks/2017_chefconf/</link>
+      <pubDate>Tue, 23 May 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/talks/2017_chefconf/</guid>
+      <description> </description>
+    </item>
+    
+    <item>
+      <title>Continuous Patch And Security Assessment With Inspec</title>
+      <link>https://lollyrock.com/talks/2017_appseceu/</link>
+      <pubDate>Tue, 09 May 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/talks/2017_appseceu/</guid>
+      <description>   </description>
+    </item>
+    
+    <item>
+      <title>Compliance-driven infrastructure</title>
+      <link>https://lollyrock.com/talks/2016_oreilly_software_architecture/</link>
+      <pubDate>Tue, 15 Nov 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/talks/2016_oreilly_software_architecture/</guid>
+      <description> </description>
+    </item>
+    
+    <item>
+      <title>Save Your Crash Dummies! A Test-driven Infrastructure Solution</title>
+      <link>https://lollyrock.com/talks/2016_chefconf/</link>
+      <pubDate>Tue, 12 Jul 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/talks/2016_chefconf/</guid>
+      <description>With infrastructure and application automation we have gained the tools to change systems in the blink of an eye. However, with increasing size, complexity, and time, these components will inevitably challenge your expectations. This uncertainty will ultimately slow you down. This talk will introduce the workflow to gain back trust. We will cover the foundation of effective infrastructure tests and failure domains for isolation. Moreover, we will look into the management of divergent environments, from legacy systems to modern clouds.</description>
+    </item>
+    
+  </channel>
+</rss>

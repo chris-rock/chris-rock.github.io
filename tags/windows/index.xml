@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Windows on Christoph Hartmann</title>
+    <link>https://lollyrock.com/tags/windows/</link>
+    <description>Recent content in Windows on Christoph Hartmann</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 10 May 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://lollyrock.com/tags/windows/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Install Windows IoT on Raspberry Pi 2</title>
+      <link>https://lollyrock.com/posts/windows-iot-raspberry/</link>
+      <pubDate>Sun, 10 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/windows-iot-raspberry/</guid>
+      <description>Recently, Microsoft announced its Windows 10 IoT Core Insider Preview and it is very exiting to get an ARM version of Windows running on a small device. Microsoft did a great job to bring the operating system to smaller devices and I am looking forward to play more with their IoT solutions. Now, lets install Windows on Raspberry 2.
+Download Windows 10 IoT Create an account at Microsoft Connect and download the image Windows_IoT_Core_RPI2_BUILD.</description>
+    </item>
+    
+  </channel>
+</rss>

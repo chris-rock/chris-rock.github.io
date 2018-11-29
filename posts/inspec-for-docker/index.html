@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Christoph Hartmann">
+    <meta name="description" content="Chris&#39;s personal website">
+    <meta name="keywords" content="blog,developer,personal">
+
+    <base href="https://lollyrock.com/">
+    <title>
+  InSpec for Docker · Christoph Hartmann
+</title>
+
+    <link rel="canonical" href="https://lollyrock.com/posts/inspec-for-docker/">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400,500,600,700,800,900|Roboto:100,300,400,500,700,900|Source+Code+Pro:200,300,400" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" integrity="sha256-oSrCnRYXvHG31SBifqP2PM1uje7SJUyX0nTwO2RJV54=" crossorigin="anonymous" />
+
+    
+      
+      
+      <link rel="stylesheet" href="https://lollyrock.com/css/coder.min.ef70d8b6c126a236b98cb3ef257062e681b40ab6658d993adad91206fca88fa2.css" integrity="sha256-73DYtsEmoja5jLPvJXBi5oG0CrZljZk62tkSBvyoj6I=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="https://lollyrock.com/img/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://lollyrock.com/img/favicon-16x16.png" sizes="16x16">
+
+    
+
+    <meta name="generator" content="Hugo 0.51" />
+  </head>
+
+  <body class=" ">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="https://lollyrock.com/">
+      Christoph Hartmann
+    </a>
+    <input type="checkbox" id="menu-toggle" />
+    <label class="menu-button float-right" for="menu-toggle"><i class="fas fa-bars"></i></label>
+    <ul class="navigation-list">
+      
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="https://lollyrock.com/posts/">Blog</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="https://lollyrock.com/talks/">Talks</a>
+          </li>
+        
+      
+      
+    </ul>
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">InSpec for Docker</h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fas fa-calendar"></i>
+              <time datetime='2017-05-01T00:00:00Z'>
+                May 1, 2017
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fas fa-clock"></i>
+              10 minutes read
+            </span>
+            
+            
+            <span class="author">
+                <i class="fas fa-user"></i>
+                Christoph Hartmann
+            </span>
+            
+          </div>
+          
+          <div class="tags">
+  <i class="fas fa-tag"></i>
+    <a href="https://lollyrock.com/tags/inspec/">inspec</a>
+      <span class="separator">•</span>
+    <a href="https://lollyrock.com/tags/docker/">docker</a></div>
+
+        </div>
+      </header>
+
+      <div>
+        
+
+<p>Docker environments enable you to manage fast-moving infrastructure. The faster you move, the better your test environment needs to be. InSpec provides that capability. With the recent addition of 3 new resources: <code>docker</code>, <code>docker_image</code> and a <code>docker_container</code>, it became even easier to verify docker hosts and docker containers. This blog post demonstrates how to use InSpec to verify your Docker environments.</p>
+
+<h2 id="overview">Overview</h2>
+
+
+
+
+
+<figure>
+    
+        <img src="https://lollyrock.com/posts/inspec-for-docker/inspec-docker.png" alt="Docker Architecture Overview"/> <figcaption>
+                
+                    <span><b>Docker Architecture Overview</b></span>
+                
+                
+            </figcaption></figure>
+
+<p>Before I am talking about docker infrastructure testing, I need to explain the different parts of the docker universe quickly.</p>
+
+
+
+
+
+<figure>
+    
+        <img src="https://lollyrock.com/posts/inspec-for-docker/docker-architecture.svg" alt="Docker Architecture Overview"/> <figcaption>
+                
+                    <span><b>Docker Architecture Overview Source: https://docs.docker.com/engine/docker-overview/#docker-architecture</b></span>
+                
+                
+            </figcaption></figure>
+
+<p>A docker host is the runtime environment (docker cli + docker daemon) that manages docker images and containers on a machine. Therefore it helps to manages the complete lifecycle of a container and provides a nice CLI to interact. The docker daemon can start multiple containers in parallel. A good read to understand containers is <a href="https://news.ycombinator.com/item?id=13982620">Containers vs. Zones vs. Jails vs. VMs</a>.</p>
+
+<p>InSpec allows you to scan both, the host and the running container. At first, I am demonstrating the use of InSpec with a running container to ensure the container is configured correctly. Afterwards, I am going to talk about 3 InSpec resources that help you to verify a docker host environment:</p>
+
+<ul>
+<li><code>docker container</code></li>
+<li><code>docker image</code></li>
+<li><code>docker</code></li>
+</ul>
+
+<p>Those resources are heavily used in <a href="https://github.com/dev-sec/cis-docker-benchmark">DevSec&rsquo;s CIS Docker Benchmark </a> to ensure best-practices security configuration for docker hosts.</p>
+
+<h2 id="verify-a-running-container">Verify a running container</h2>
+
+<p>The simplest use-case is to verify a running docker container. Just start a new container by</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run -it alpine /bin/sh</code></pre></div>
+<p>Now, we can use InSpec to run the <a href="https://github.com/dev-sec/linux-baseline">DevSec Linux Baseline</a> against that container:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ inspec exec https://github.com/dev-sec/linux-baseline -t docker://ca2dbee25ddc
+Profile: DevSec Linux Security Baseline <span style="color:#f92672">(</span>linux-baseline<span style="color:#f92672">)</span>
+Version: <span style="color:#ae81ff">2</span>.0.1
+Target:  docker://ca2dbee25ddca24f453005a15cd64f1004fbe6f974df957658fcdf6d1fa6331e
+
+  ✔  os-01: Trusted hosts login
+     ✔  Command find / -name <span style="color:#e6db74">&#39;.rhosts&#39;</span> stdout should be empty
+     ✔  Command find / -name <span style="color:#e6db74">&#39;hosts.equiv&#39;</span>  stdout should be empty
+  ×  os-02: Check owner and permissions <span style="color:#66d9ef">for</span> /etc/shadow <span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> failed<span style="color:#f92672">)</span>
+     ✔  File /etc/shadow should exist
+     ✔  File /etc/shadow should be file
+     ✔  File /etc/shadow should be owned by <span style="color:#e6db74">&#34;root&#34;</span>
+     ✔  File /etc/shadow should not be executable
+     ✔  File /etc/shadow should be writable by owner
+     ✔  File /etc/shadow should be readable by owner
+     ✔  File /etc/shadow should not be readable by other
+     ×  File /etc/shadow group should eq nil
+
+     expected: nil
+          got: <span style="color:#e6db74">&#34;shadow&#34;</span>
+
+     <span style="color:#f92672">(</span>compared using <span style="color:#f92672">==)</span>
+
+...
+
+  ✔  sysctl-31a: Secure Core Dumps - dump settings
+    ✔  Kernel Parameter fs.suid_dumpable value should cmp <span style="color:#f92672">==</span> /<span style="color:#f92672">(</span><span style="color:#ae81ff">0</span>|<span style="color:#ae81ff">2</span><span style="color:#f92672">)</span>/
+  ↺  sysctl-31b: Secure Core Dumps - dump path
+    ↺  Skipped control due to only_if condition.
+  ✔  sysctl-32: kernel.randomize_va_space
+    ✔  Kernel Parameter kernel.randomize_va_space value should eq <span style="color:#ae81ff">2</span>
+  ✔  sysctl-33: CPU No execution Flag or Kernel ExecShield
+    ✔  /proc/cpuinfo Flags should include NX
+
+  Profile Summary: <span style="color:#ae81ff">20</span> successful, <span style="color:#ae81ff">23</span> failures, <span style="color:#ae81ff">7</span> skipped
+  Test Summary: <span style="color:#ae81ff">46</span> successful, <span style="color:#ae81ff">56</span> failures, <span style="color:#ae81ff">9</span> skipped     </code></pre></div>
+<p>You can write your own tests and run those against a running container, too. Further information about the available InSpec resources is available at <a href="https://www.inspec.io/docs/">InSpec Docs</a></p>
+
+<h2 id="how-to-use-docker-container">How to use &lsquo;docker_container&rsquo;</h2>
+
+<p>The <code>docker_container</code> resource helps you to verify running container. For the following test, I am going to start a new postgres database:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run --name some-postgres -e POSTGRES_PASSWORD<span style="color:#f92672">=</span>mysecretpassword -d  -p <span style="color:#ae81ff">5432</span>:5432 postgres</code></pre></div>
+<p>I&rsquo;d like to write a test that ensures the container <code>some-postgres</code> runs and the port is mapped. A simple InSpec test can do the trick:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">describe docker_container(<span style="color:#e6db74">&#39;some-postgres&#39;</span>) <span style="color:#66d9ef">do</span>
+  it { should exist }
+  it { should be_running }
+  its(<span style="color:#e6db74">&#39;repo&#39;</span>) { should eq <span style="color:#e6db74">&#39;postgres&#39;</span> }
+  its(<span style="color:#e6db74">&#39;ports&#39;</span>) { should eq <span style="color:#e6db74">&#34;0.0.0.0:5432-&gt;5432/tcp&#34;</span> }
+  its(<span style="color:#e6db74">&#39;command&#39;</span>) { should eq <span style="color:#e6db74">&#39;docker-entrypoint.sh postgres&#39;</span> }
+<span style="color:#66d9ef">end</span></code></pre></div>
+<p>I am going to run that test that quickly in InSpec Shell, but you can use the same test in a <code>test.rb</code> and run <code>inspec exec test.rb</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">inspec shell
+Welcome to the interactive InSpec Shell
+To find out how to use it, type: help
+
+You are currently running on:
+
+    OS platform:  mac_os_x
+    OS family:  darwin
+    OS release: <span style="color:#ae81ff">10</span>.12.4
+
+inspec&gt; describe docker_container<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;some-postgres&#39;</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">do</span>
+inspec&gt;   it <span style="color:#f92672">{</span> should exist <span style="color:#f92672">}</span>  
+inspec&gt;   it <span style="color:#f92672">{</span> should be_running <span style="color:#f92672">}</span>  
+inspec&gt;   its<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;repo&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span> should eq <span style="color:#e6db74">&#39;postgres&#39;</span> <span style="color:#f92672">}</span>  
+inspec&gt;   its<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;ports&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span> should eq <span style="color:#e6db74">&#34;0.0.0.0:5432-&gt;5432/tcp&#34;</span> <span style="color:#f92672">}</span>  
+inspec&gt;   its<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;command&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span> should eq <span style="color:#e6db74">&#39;docker-entrypoint.sh postgres&#39;</span> <span style="color:#f92672">}</span>  
+inspec&gt; end  
+
+Profile: inspec-shell
+Version: <span style="color:#f92672">(</span>not specified<span style="color:#f92672">)</span>
+
+  Docker Container
+     ✔  some-postgres should exist
+     ✔  some-postgres should be running
+     ✔  some-postgres repo should eq <span style="color:#e6db74">&#34;postgres&#34;</span>
+     ✔  some-postgres ports should eq <span style="color:#e6db74">&#34;0.0.0.0:5432-&gt;5432/tcp&#34;</span>
+     ✔  some-postgres command should eq <span style="color:#e6db74">&#34;docker-entrypoint.sh postgres&#34;</span>
+
+Test Summary: <span style="color:#ae81ff">5</span> successful, <span style="color:#ae81ff">0</span> failures, <span style="color:#ae81ff">0</span> skipped</code></pre></div>
+<p>In case you want to verify a specific container id, you can do that as well:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">describe docker_container<span style="color:#f92672">(</span>id: <span style="color:#e6db74">&#39;a3df5ff6740f&#39;</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">do</span>
+  it <span style="color:#f92672">{</span> should exist <span style="color:#f92672">}</span>
+  it <span style="color:#f92672">{</span> should be_running <span style="color:#f92672">}</span>
+end</code></pre></div>
+<h2 id="how-to-use-docker-image">How to use &lsquo;docker_image&rsquo;</h2>
+
+<p>Another use-case I am seeing very often is to ensure a specific Docker image is not used in your environment anymore. I am going to use Ubuntu 12.04 as an example, since it went <a href="http://fridge.ubuntu.com/2017/03/15/ubuntu-12-04-precise-pangolin-reaches-end-of-life-on-april-28-2017/">end of life</a> recently. The following test ensures that <code>u12:latest</code> image is available on your docker host:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">describe docker_image<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;u12:latest&#39;</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">do</span>
+  it <span style="color:#f92672">{</span> should_not exist <span style="color:#f92672">}</span>
+end</code></pre></div>
+<p>Lets run it in InSpec Shell quickly:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">inspec shell
+Welcome to the interactive InSpec Shell
+To find out how to use it, type: help
+
+You are currently running on:
+
+    OS platform:  mac_os_x
+    OS family:  darwin
+    OS release: <span style="color:#ae81ff">10</span>.12.4
+
+inspec&gt; describe docker_image<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;u12:latest&#39;</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">do</span>
+inspec&gt;   it <span style="color:#f92672">{</span> should_not exist <span style="color:#f92672">}</span>  
+inspec&gt; end  
+
+Profile: inspec-shell
+Version: <span style="color:#f92672">(</span>not specified<span style="color:#f92672">)</span>
+
+  Docker Image
+     ✔  u12:latest should not exist
+
+Test Summary: <span style="color:#ae81ff">1</span> successful, <span style="color:#ae81ff">0</span> failures, <span style="color:#ae81ff">0</span> skipped
+inspec&gt;</code></pre></div>
+<p>The <code>docker_image</code> resource can also be used to verify a specific image id:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">describe docker_image<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;alpine:latest&#39;</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">do</span>
+  it <span style="color:#f92672">{</span> should exist <span style="color:#f92672">}</span>
+  its<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;id&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span> should eq <span style="color:#e6db74">&#39;sha256:4a415e3663882fbc554ee830889c68a33b3585503892cc718a4698e91ef2a526&#39;</span> <span style="color:#f92672">}</span>
+  its<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;image&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span> should eq <span style="color:#e6db74">&#39;alpine:latest&#39;</span> <span style="color:#f92672">}</span>
+  its<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;repo&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span> should eq <span style="color:#e6db74">&#39;alpine&#39;</span> <span style="color:#f92672">}</span>
+  its<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;tag&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span> should eq <span style="color:#e6db74">&#39;latest&#39;</span> <span style="color:#f92672">}</span>
+end</code></pre></div>
+<p>In addition you could also verify that no container is using the <code>u12:latest</code> image. We ask InSpec to return all images of the containers. This will return a list of images used by the containers. As a next step, we just have to ensure the specific image is not used anymore.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">describe docker.containers <span style="color:#66d9ef">do</span>
+  its<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;images&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span> should_not include <span style="color:#e6db74">&#39;u12:latest&#39;</span> <span style="color:#f92672">}</span>
+end</code></pre></div>
+<h2 id="more-advanced-used-cases-with-docker-resource">More advanced used cases with &lsquo;docker&rsquo; resource</h2>
+
+<p>The <code>docker</code> resource is more complex to use than <code>docker_image</code> and <code>docker_container</code>, but allows you to implement more complex query scenarios. It provides 4 key methods to fetch more information about the docker host:</p>
+
+<ul>
+<li><code>containers</code> returns all running and exited containers by running <code>docker ps -a --no-trunc</code> under the hood</li>
+<li><code>images</code> returns all locally available images by running <code>docker images -a --no-trunc</code></li>
+<li><code>version</code> is the parsed content of <code>docker version</code></li>
+<li><code>object(id)</code> returns information about a docker object and parses the output from <code>docker inspect id</code></li>
+</ul>
+
+<p><strong>Docker Containers</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">describe docker.containers <span style="color:#66d9ef">do</span>
+  its<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;images&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span> should_not include <span style="color:#e6db74">&#39;u12:latest&#39;</span> <span style="color:#f92672">}</span>
+end</code></pre></div>
+<p>Let us inspec the <code>docker</code> resource with InSpec Shell. This will show two containers, one is already exited and another one is still running:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ inspec shell
+dockeWelcome to the interactive InSpec Shell
+To find out how to use it, type: help
+
+You are currently running on:
+
+    OS platform:  mac_os_x
+    OS family:  darwin
+    OS release: <span style="color:#ae81ff">10</span>.12.4
+
+inspec&gt; docker.containers.entries
+<span style="color:#f92672">=</span>&gt; <span style="color:#f92672">[</span>docker.containers.entries
+<span style="color:#f92672">=</span>&gt; <span style="color:#f92672">[</span><span style="color:#75715e">#&lt;struct</span>
+  command<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;\&#34;/bin/sh\&#34;&#34;</span>,
+  id<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ca2dbee25ddca24f453005a15cd64f1004fbe6f974df957658fcdf6d1fa6331e&#34;</span>,
+  image<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;alpine&#34;</span>,
+  labels<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span>,
+  localvolumes<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;0&#34;</span>,
+  mounts<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span>,
+  names<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;keen_dijkstra&#34;</span>,
+  networks<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;bridge&#34;</span>,
+  ports<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span>,
+  runningfor<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;About an hour ago&#34;</span>,
+  size<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;0B&#34;</span>,
+  status<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Exited (127) 13 seconds ago&#34;</span>,
+  exists?<span style="color:#f92672">=</span>nil,
+  running?<span style="color:#f92672">=</span>nil&gt;,
+ <span style="color:#75715e">#&lt;struct</span>
+  command<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;\&#34;docker-entrypoint.sh postgres\&#34;&#34;</span>,
+  id<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;921f6363ceaa3c5253a31068a0c8cb7b3a78c1353cf6b4125c7a5460d4e8ce2a&#34;</span>,
+  image<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;postgres&#34;</span>,
+  labels<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span>,
+  localvolumes<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1&#34;</span>,
+  mounts<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;afee92bcd2e8e84cccf884cd42443f0ff718789dca271e7497a308e22622514a&#34;</span>,
+  names<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;some-postgres&#34;</span>,
+  networks<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;bridge&#34;</span>,
+  ports<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;0.0.0.0:5432-&gt;5432/tcp&#34;</span>,
+  runningfor<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;3 hours ago&#34;</span>,
+  size<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;0B&#34;</span>,
+  status<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Up 3 hours&#34;</span>,
+  exists?<span style="color:#f92672">=</span>nil,
+  running?<span style="color:#f92672">=</span>nil&gt;<span style="color:#f92672">]</span></code></pre></div>
+<p>The resource allows you to ask for all running containers:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker.containers.running?.entries
+<span style="color:#f92672">=</span>&gt; <span style="color:#f92672">[</span><span style="color:#75715e">#&lt;struct</span>
+  command<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;\&#34;docker-entrypoint.sh postgres\&#34;&#34;</span>,
+  id<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;921f6363ceaa3c5253a31068a0c8cb7b3a78c1353cf6b4125c7a5460d4e8ce2a&#34;</span>,
+  image<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;postgres&#34;</span>,
+  labels<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span>,
+  localvolumes<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1&#34;</span>,
+  mounts<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;afee92bcd2e8e84cccf884cd42443f0ff718789dca271e7497a308e22622514a&#34;</span>,
+  names<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;some-postgres&#34;</span>,
+  networks<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;bridge&#34;</span>,
+  ports<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;0.0.0.0:5432-&gt;5432/tcp&#34;</span>,
+  runningfor<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;3 hours ago&#34;</span>,
+  size<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;0B&#34;</span>,
+  status<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Up 3 hours&#34;</span>,
+  exists?<span style="color:#f92672">=</span>nil,
+  running?<span style="color:#f92672">=</span>nil&gt;<span style="color:#f92672">]</span></code></pre></div>
+<p>You can also filter containers by the following fields: <code>commands</code>, <code>ids</code>, <code>images</code>, <code>labels</code>, <code>local_volumes</code>, <code>mounts</code>, <code>names</code>, <code>networks</code>, <code>ports</code>, <code>running_for</code>, <code>sizes</code>,<code>status</code>, <code>running?</code>,<code>exists?</code>. For example, if you want to verify the configuration for each container, you can do the following in InSpec:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># returns all container ids</span>
+docker.containers.ids.each <span style="color:#66d9ef">do</span> |id|
+  <span style="color:#75715e"># call docker inspect to retrieve detailed information about the container</span>
+  describe docker.object<span style="color:#f92672">(</span>id<span style="color:#f92672">)</span> <span style="color:#66d9ef">do</span>
+    its<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;HostConfig.Privileged&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span> should cmp false <span style="color:#f92672">}</span>
+  end
+end</code></pre></div>
+<p>If you want to do the following for running containers, just say so:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#75715e"># returns all running container ids</span>
+docker<span style="color:#f92672">.</span>containers<span style="color:#f92672">.</span>running?<span style="color:#f92672">.</span>ids<span style="color:#f92672">.</span>each <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>id<span style="color:#f92672">|</span>
+  <span style="color:#75715e"># call docker inspect to retrieve detailed information about the container</span>
+  describe docker<span style="color:#f92672">.</span>object(id) <span style="color:#66d9ef">do</span>
+    its(<span style="color:#e6db74">&#39;HostConfig.Privileged&#39;</span>) { should cmp <span style="color:#66d9ef">false</span> }
+  <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">end</span></code></pre></div>
+<p>If you a looking for a specific container:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#75715e"># returns all running container ids</span>
+docker<span style="color:#f92672">.</span>containers<span style="color:#f92672">.</span>where { names <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;some-postgres&#39;</span> }<span style="color:#f92672">.</span>ids<span style="color:#f92672">.</span>each <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>id<span style="color:#f92672">|</span>
+  <span style="color:#75715e"># call docker inspect to retrieve detailed information about the container</span>
+  describe docker<span style="color:#f92672">.</span>object(id) <span style="color:#66d9ef">do</span>
+    its(<span style="color:#e6db74">&#39;HostConfig.Privileged&#39;</span>) { should cmp <span style="color:#66d9ef">false</span> }
+  <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">end</span></code></pre></div>
+<p><strong>Docker Images</strong></p>
+
+<p>Docker images can be inspected with a similar approach:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">describe docker<span style="color:#f92672">.</span>images <span style="color:#66d9ef">do</span>
+  its(<span style="color:#e6db74">&#39;repositories&#39;</span>) { should_not <span style="color:#66d9ef">include</span> <span style="color:#e6db74">&#39;inssecure_image&#39;</span> }
+<span style="color:#66d9ef">end</span></code></pre></div>
+<p>You can also filter images by the following fields: <code>ids</code>, <code>repositories</code>, <code>tags</code>, <code>sizes</code>, <code>digests</code>, <code>created</code>, <code>created_since</code> and <code>exists?</code>.</p>
+
+<p>If you want to verify that no image is using the ADD instruction in Dockerfile, you can iterate over all image ids and ask <code>docker history</code> if the ADD instruction was used:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">docker<span style="color:#f92672">.</span>images<span style="color:#f92672">.</span>ids<span style="color:#f92672">.</span>each <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>id<span style="color:#f92672">|</span>
+  describe command(<span style="color:#e6db74">&#34;docker history </span><span style="color:#e6db74">#{</span>id<span style="color:#e6db74">}</span><span style="color:#e6db74">| grep &#39;ADD&#39;&#34;</span>) <span style="color:#66d9ef">do</span>
+    its(<span style="color:#e6db74">&#39;stdout&#39;</span>) { should eq <span style="color:#e6db74">&#39;&#39;</span> }
+  <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">end</span></code></pre></div>
+<p><strong>Docker Version</strong></p>
+
+<p>InSpec allows you to verify the docker client and server version that is used on your machine. Behind the scenes, it is using the <code>docker version</code> command. This would return the following values:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ docker version
+Client:
+ Version:      <span style="color:#ae81ff">17</span>.05.0-ce-rc1
+ API version:  <span style="color:#ae81ff">1</span>.29
+ Go version:   go1.7.5
+ Git commit:   2878a85
+ Built:        Tue Apr <span style="color:#ae81ff">11</span> <span style="color:#ae81ff">20</span>:55:05 <span style="color:#ae81ff">2017</span>
+ OS/Arch:      darwin/amd64
+
+Server:
+ Version:      <span style="color:#ae81ff">17</span>.05.0-ce-rc1
+ API version:  <span style="color:#ae81ff">1</span>.29 <span style="color:#f92672">(</span>minimum version <span style="color:#ae81ff">1</span>.12<span style="color:#f92672">)</span>
+ Go version:   go1.7.5
+ Git commit:   2878a85
+ Built:        Tue Apr <span style="color:#ae81ff">11</span> <span style="color:#ae81ff">20</span>:55:05 <span style="color:#ae81ff">2017</span>
+ OS/Arch:      linux/amd64
+ Experimental: true</code></pre></div>
+<p>In InSpec Shell, you see the parsed values:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">inspec&gt; docker.version
+<span style="color:#f92672">=</span>&gt; <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;Client&#34;</span><span style="color:#f92672">=</span>&gt;
+  <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;Version&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#e6db74">&#34;17.05.0-ce-rc1&#34;</span>,
+   <span style="color:#e6db74">&#34;ApiVersion&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#e6db74">&#34;1.29&#34;</span>,
+   <span style="color:#e6db74">&#34;DefaultAPIVersion&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#e6db74">&#34;1.29&#34;</span>,
+   <span style="color:#e6db74">&#34;GitCommit&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#e6db74">&#34;2878a85&#34;</span>,
+   <span style="color:#e6db74">&#34;GoVersion&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#e6db74">&#34;go1.7.5&#34;</span>,
+   <span style="color:#e6db74">&#34;Os&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#e6db74">&#34;darwin&#34;</span>,
+   <span style="color:#e6db74">&#34;Arch&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#e6db74">&#34;amd64&#34;</span>,
+   <span style="color:#e6db74">&#34;BuildTime&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#e6db74">&#34;Tue Apr 11 20:55:05 2017&#34;</span><span style="color:#f92672">}</span>,
+ <span style="color:#e6db74">&#34;Server&#34;</span><span style="color:#f92672">=</span>&gt;
+  <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;Version&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#e6db74">&#34;17.05.0-ce-rc1&#34;</span>,
+   <span style="color:#e6db74">&#34;ApiVersion&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#e6db74">&#34;1.29&#34;</span>,
+   <span style="color:#e6db74">&#34;MinAPIVersion&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#e6db74">&#34;1.12&#34;</span>,
+   <span style="color:#e6db74">&#34;GitCommit&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#e6db74">&#34;2878a85&#34;</span>,
+   <span style="color:#e6db74">&#34;GoVersion&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#e6db74">&#34;go1.7.5&#34;</span>,
+   <span style="color:#e6db74">&#34;Os&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#e6db74">&#34;linux&#34;</span>,
+   <span style="color:#e6db74">&#34;Arch&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#e6db74">&#34;amd64&#34;</span>,
+   <span style="color:#e6db74">&#34;KernelVersion&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#e6db74">&#34;4.9.21-moby&#34;</span>,
+   <span style="color:#e6db74">&#34;Experimental&#34;</span><span style="color:#f92672">=</span>&gt;true,
+   <span style="color:#e6db74">&#34;BuildTime&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#e6db74">&#34;Tue Apr 11 20:55:05 2017&#34;</span><span style="color:#f92672">}}</span></code></pre></div>
+<p>Now, I am going to write a check that ensures docker is newer than <code>1.12</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">describe docker<span style="color:#f92672">.</span>version <span style="color:#66d9ef">do</span>
+  its(<span style="color:#e6db74">&#39;Server.Version&#39;</span>) { should cmp <span style="color:#f92672">&gt;=</span> <span style="color:#e6db74">&#39;1.12&#39;</span>}
+  its(<span style="color:#e6db74">&#39;Client.Version&#39;</span>) { should cmp <span style="color:#f92672">&gt;=</span> <span style="color:#e6db74">&#39;1.12&#39;</span>}
+<span style="color:#66d9ef">end</span></code></pre></div>
+<p><strong>Docker Info</strong></p>
+
+<p><code>docker.info</code> parses the output of <code>docker info</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker info
+Containers: <span style="color:#ae81ff">5</span>
+ Running: <span style="color:#ae81ff">1</span>
+ Paused: <span style="color:#ae81ff">0</span>
+ Stopped: <span style="color:#ae81ff">4</span>
+Images: <span style="color:#ae81ff">108</span>
+Server Version: <span style="color:#ae81ff">17</span>.05.0-ce-rc1
+....</code></pre></div>
+<p>Again, you can inspect all values in InSpec with InSpec Shell:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">inspec&gt; docker.info
+<span style="color:#f92672">=</span>&gt; <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;ID&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#e6db74">&#34;YMXQ:5C62:Q3AR:XV77:7LS6:O56G:A6VZ:V5LJ:WNNJ:UQTO:QKPB:K62P&#34;</span>,
+ <span style="color:#e6db74">&#34;Containers&#34;</span><span style="color:#f92672">=</span>&gt;5,
+ <span style="color:#e6db74">&#34;ContainersRunning&#34;</span><span style="color:#f92672">=</span>&gt;1,
+ <span style="color:#e6db74">&#34;ContainersPaused&#34;</span><span style="color:#f92672">=</span>&gt;0,
+ <span style="color:#e6db74">&#34;ContainersStopped&#34;</span><span style="color:#f92672">=</span>&gt;4,
+ <span style="color:#e6db74">&#34;Images&#34;</span><span style="color:#f92672">=</span>&gt;108,
+ <span style="color:#e6db74">&#34;Driver&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#e6db74">&#34;overlay2&#34;</span>,
+ <span style="color:#e6db74">&#34;DriverStatus&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">[[</span><span style="color:#e6db74">&#34;Backing Filesystem&#34;</span>, <span style="color:#e6db74">&#34;extfs&#34;</span><span style="color:#f92672">]</span>, <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;Supports d_type&#34;</span>, <span style="color:#e6db74">&#34;true&#34;</span><span style="color:#f92672">]</span>, <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;Native Overlay Diff&#34;</span>, <span style="color:#e6db74">&#34;true&#34;</span><span style="color:#f92672">]]</span>,
+ <span style="color:#e6db74">&#34;SystemStatus&#34;</span><span style="color:#f92672">=</span>&gt;nil,
+ <span style="color:#e6db74">&#34;Plugins&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;Volume&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;local&#34;</span><span style="color:#f92672">]</span>, <span style="color:#e6db74">&#34;Network&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;bridge&#34;</span>, <span style="color:#e6db74">&#34;host&#34;</span>, <span style="color:#e6db74">&#34;ipvlan&#34;</span>, <span style="color:#e6db74">&#34;macvlan&#34;</span>, <span style="color:#e6db74">&#34;null&#34;</span>, <span style="color:#e6db74">&#34;overlay&#34;</span><span style="color:#f92672">]</span>, <span style="color:#e6db74">&#34;Authorization&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">[]}</span>,
+ <span style="color:#e6db74">&#34;MemoryLimit&#34;</span><span style="color:#f92672">=</span>&gt;true,
+ <span style="color:#e6db74">&#34;SwapLimit&#34;</span><span style="color:#f92672">=</span>&gt;true,
+ <span style="color:#e6db74">&#34;KernelMemory&#34;</span><span style="color:#f92672">=</span>&gt;true,
+ <span style="color:#e6db74">&#34;CpuCfsPeriod&#34;</span><span style="color:#f92672">=</span>&gt;true,
+ <span style="color:#e6db74">&#34;CpuCfsQuota&#34;</span><span style="color:#f92672">=</span>&gt;true,
+ <span style="color:#e6db74">&#34;CPUShares&#34;</span><span style="color:#f92672">=</span>&gt;true,
+ <span style="color:#e6db74">&#34;CPUSet&#34;</span><span style="color:#f92672">=</span>&gt;true,
+ <span style="color:#e6db74">&#34;IPv4Forwarding&#34;</span><span style="color:#f92672">=</span>&gt;true,
+ <span style="color:#e6db74">&#34;BridgeNfIptables&#34;</span><span style="color:#f92672">=</span>&gt;true,
+ <span style="color:#e6db74">&#34;BridgeNfIp6tables&#34;</span><span style="color:#f92672">=</span>&gt;true,
+ <span style="color:#e6db74">&#34;Debug&#34;</span><span style="color:#f92672">=</span>&gt;true,
+ <span style="color:#e6db74">&#34;NFd&#34;</span><span style="color:#f92672">=</span>&gt;25,
+ <span style="color:#e6db74">&#34;OomKillDisable&#34;</span><span style="color:#f92672">=</span>&gt;true,</code></pre></div>
+<p>Now, lets ensure we are not running more than 20 containers on a node:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">describe docker<span style="color:#f92672">.</span>info <span style="color:#66d9ef">do</span>
+  its(<span style="color:#e6db74">&#39;ContainersRunning&#39;</span>) { should cmp <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">20</span> }
+<span style="color:#66d9ef">end</span></code></pre></div>
+<p>If Swarm is active, you could verify that you have only a limited amount of leaders:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">describe docker<span style="color:#f92672">.</span>info <span style="color:#66d9ef">do</span>
+  its(<span style="color:#e6db74">&#39;Swarm.Managers&#39;</span>) { should cmp <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">3</span> }
+<span style="color:#66d9ef">end</span></code></pre></div>
+<p><strong>Docker Object</strong></p>
+
+<p>Each docker object store multiple attributes. Docker allows you to see those values by running <code>docker inspect</code>. This data is parsed in InSpec too and can be used to verify entries for container and images objects:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">describe docker<span style="color:#f92672">.</span>object(container_id) <span style="color:#66d9ef">do</span>
+  its(<span style="color:#e6db74">&#39;Configuration.Path&#39;</span>) { should eq <span style="color:#e6db74">&#39;value&#39;</span> }
+<span style="color:#66d9ef">end</span></code></pre></div>
+<p>Be aware that docker object is very complex and the output varies by object. An example output in InSpec shell looks like:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">inspec&gt; docker.object<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;921f6363ceaa3c5253a31068a0c8cb7b3a78c1353cf6b4125c7a5460d4e8ce2a&#39;</span><span style="color:#f92672">)</span>
+<span style="color:#f92672">=</span>&gt; <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;Id&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#e6db74">&#34;921f6363ceaa3c5253a31068a0c8cb7b3a78c1353cf6b4125c7a5460d4e8ce2a&#34;</span>,
+ <span style="color:#e6db74">&#34;Created&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#e6db74">&#34;2017-04-29T11:27:45.846552618Z&#34;</span>,
+ <span style="color:#e6db74">&#34;Path&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#e6db74">&#34;docker-entrypoint.sh&#34;</span>,
+ <span style="color:#e6db74">&#34;Args&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;postgres&#34;</span><span style="color:#f92672">]</span>,
+ <span style="color:#e6db74">&#34;State&#34;</span><span style="color:#f92672">=</span>&gt;
+  <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;Status&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#e6db74">&#34;running&#34;</span>,
+   <span style="color:#e6db74">&#34;Running&#34;</span><span style="color:#f92672">=</span>&gt;true,
+   <span style="color:#e6db74">&#34;Paused&#34;</span><span style="color:#f92672">=</span>&gt;false,
+   <span style="color:#e6db74">&#34;Restarting&#34;</span><span style="color:#f92672">=</span>&gt;false,
+   <span style="color:#e6db74">&#34;OOMKilled&#34;</span><span style="color:#f92672">=</span>&gt;false,
+   <span style="color:#e6db74">&#34;Dead&#34;</span><span style="color:#f92672">=</span>&gt;false,
+   <span style="color:#e6db74">&#34;Pid&#34;</span><span style="color:#f92672">=</span>&gt;18850,
+   <span style="color:#e6db74">&#34;ExitCode&#34;</span><span style="color:#f92672">=</span>&gt;0,
+   <span style="color:#e6db74">&#34;Error&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#e6db74">&#34;&#34;</span>,
+   <span style="color:#e6db74">&#34;StartedAt&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#e6db74">&#34;2017-04-29T11:27:46.414873644Z&#34;</span>,
+   <span style="color:#e6db74">&#34;FinishedAt&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#e6db74">&#34;0001-01-01T00:00:00Z&#34;</span><span style="color:#f92672">}</span>,
+ <span style="color:#e6db74">&#34;Image&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#e6db74">&#34;sha256:390220867755ef4d1351705130960605d14a44518149e89c674189eefcb09306&#34;</span>,
+ <span style="color:#e6db74">&#34;ResolvConfPath&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#e6db74">&#34;/var/lib/docker/containers/921f6363ceaa3c5253a31068a0c8cb7b3a78c1353cf6b4125c7a5460d4e8ce2a/resolv.conf&#34;</span>,
+ <span style="color:#e6db74">&#34;HostnamePath&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#e6db74">&#34;/var/lib/docker/containers/921f6363ceaa3c5253a31068a0c8cb7b3a78c1353cf6b4125c7a5460d4e8ce2a/hostname&#34;</span>,
+ <span style="color:#e6db74">&#34;HostsPath&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#e6db74">&#34;/var/lib/docker/containers/921f6363ceaa3c5253a31068a0c8cb7b3a78c1353cf6b4125c7a5460d4e8ce2a/hosts&#34;</span>,
+ <span style="color:#e6db74">&#34;LogPath&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#e6db74">&#34;/var/lib/docker/containers/921f6363ceaa3c5253a31068a0c8cb7b3a78c1353cf6b4125c7a5460d4e8ce2a/921f6363ceaa3c5253a31068a0c8cb7b3a78c1353cf6b4125c7a5460d4e8ce2a-json.log&#34;</span>,
+ <span style="color:#e6db74">&#34;Name&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#e6db74">&#34;/some-postgres&#34;</span>,
+ <span style="color:#e6db74">&#34;AppArmorProfile&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#e6db74">&#34;&#34;</span>,
+ <span style="color:#e6db74">````</span>
+
+
+
+<span style="color:#75715e">## Verify secure configuration</span>
+
+If you are going to run your own docker environment in production, you should make the additional work to harden the docker environment. The <span style="color:#f92672">[</span>CIS Docker Benchmark<span style="color:#f92672">](</span>https://benchmarks.cisecurity.org/tools2/docker/CIS_Docker_1.13.0_Benchmark_v1.0.0.pdf<span style="color:#f92672">)</span> provides a detailed overview about all best-practices. Based on those guidelines, the <span style="color:#f92672">[</span>DevSec Hardening Framework Team<span style="color:#f92672">](</span>http://atomic111.github.io/blog/inspec-cis-docker<span style="color:#f92672">)</span> implemented a machine-readable version that allows you to easily execute the tests. To execute the InSpec profile, just run:
+
+<span style="color:#e6db74">```</span>bash
+$ inspec exec https://github.com/dev-sec/cis-docker-benchmark</code></pre></div>
+<h2 id="conclusion">Conclusion</h2>
+
+<p>This blog post covered various aspects of docker environment verification ranging from docker hosts to docker container. If you feel that something is missing, please let me know.</p>
+
+<p>Stay secure, Chris</p>
+
+<h2 id="references">References</h2>
+
+<ul>
+<li><a href="https://www.inspec.io/docs/reference/resources/docker/">InSpec docker resource</a></li>
+<li><a href="https://www.inspec.io/docs/reference/resources/docker_container/">InSpec docker_container resource</a></li>
+<li><a href="https://www.inspec.io/docs/reference/resources/docker_image/">InSpec docker_image resource</a></li>
+<li><a href="https://github.com/dev-sec/cis-docker-benchmark">DevSec CIS Docker Benchmark Implementation</a></li>
+<li><a href="https://benchmarks.cisecurity.org/tools2/docker/CIS_Docker_1.13.0_Benchmark_v1.0.0.pdf">CIS Docker Benchmark PDF</a></li>
+<li><a href="https://github.com/chef/inspec/pull/1566">Docker Pull Request Resource</a></li>
+</ul>
+
+      </div>
+
+      <footer>
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      <footer class="footer">
+  <section class="container">
+    
+    <p>© 2018 Christoph Hartmann</p>
+    
+  </section>
+</footer>
+
+    </main>
+
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-50992958-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+  </body>
+
+</html>

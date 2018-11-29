@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Christoph Hartmann">
+    <meta name="description" content="Chris&#39;s personal website">
+    <meta name="keywords" content="blog,developer,personal">
+
+    <base href="https://lollyrock.com/">
+    <title>
+  Using meta-profiles with Chef Compliance · Christoph Hartmann
+</title>
+
+    <link rel="canonical" href="https://lollyrock.com/posts/chef-compliance-meta-profiles/">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400,500,600,700,800,900|Roboto:100,300,400,500,700,900|Source+Code+Pro:200,300,400" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" integrity="sha256-oSrCnRYXvHG31SBifqP2PM1uje7SJUyX0nTwO2RJV54=" crossorigin="anonymous" />
+
+    
+      
+      
+      <link rel="stylesheet" href="https://lollyrock.com/css/coder.min.ef70d8b6c126a236b98cb3ef257062e681b40ab6658d993adad91206fca88fa2.css" integrity="sha256-73DYtsEmoja5jLPvJXBi5oG0CrZljZk62tkSBvyoj6I=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="https://lollyrock.com/img/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://lollyrock.com/img/favicon-16x16.png" sizes="16x16">
+
+    
+
+    <meta name="generator" content="Hugo 0.51" />
+  </head>
+
+  <body class=" ">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="https://lollyrock.com/">
+      Christoph Hartmann
+    </a>
+    <input type="checkbox" id="menu-toggle" />
+    <label class="menu-button float-right" for="menu-toggle"><i class="fas fa-bars"></i></label>
+    <ul class="navigation-list">
+      
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="https://lollyrock.com/posts/">Blog</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="https://lollyrock.com/talks/">Talks</a>
+          </li>
+        
+      
+      
+    </ul>
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">Using meta-profiles with Chef Compliance</h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fas fa-calendar"></i>
+              <time datetime='2016-12-06T00:00:00Z'>
+                December 6, 2016
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fas fa-clock"></i>
+              9 minutes read
+            </span>
+            
+            
+            <span class="author">
+                <i class="fas fa-user"></i>
+                Christoph Hartmann
+            </span>
+            
+          </div>
+          
+          <div class="tags">
+  <i class="fas fa-tag"></i>
+    <a href="https://lollyrock.com/tags/inspec/">inspec</a>
+      <span class="separator">•</span>
+    <a href="https://lollyrock.com/tags/security/">security</a>
+      <span class="separator">•</span>
+    <a href="https://lollyrock.com/tags/compliance/">compliance</a></div>
+
+        </div>
+      </header>
+
+      <div>
+        
+
+<p>This article demonstrates InSpec&rsquo;s meta profile functionality in combination with Chef Compliance. This feature enables you to write profile overlays and to reuse controls from existing profiles. This is a great way to manage deviations of out-of-the-box profiles shipped with Chef Compliance.</p>
+
+<h2 id="meta-profiles">Meta Profiles</h2>
+
+<p>A meta profile is an overlay or a collection of multiple profiles. Examples are:</p>
+
+<ul>
+<li>a deviation from CIS benchmarks</li>
+<li>collection of all CIS profiles that apply to your infrastructure (eg. a company-wide profile)</li>
+</ul>
+
+<p>The structure of a meta profile (e.g. <a href="https://github.com/chris-rock/acme-inspec-profile">Acme InSpec profile</a>) is identical to any other InSpec profile:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ tree acme-inspec-profile
+acme-inspec-profile
+├── LICENSE
+├── README.md
+├── controls
+│   ├── hardening.rb
+│   ├── patch.rb
+│   └── ssl.rb
+└── inspec.yml</code></pre></div>
+<p>InSpec <code>dependencies</code> are defined in <code>inspec.yml</code> via <code>depends</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cat acme-inspec-profile/inspec.yml
+name: acme-inspec-profile
+title: Meta profile <span style="color:#66d9ef">for</span> Acme Inc
+maintainer: Christoph Hartmann
+copyright: Christoph Hartmann
+copyright_email: chris@lollyrock.com
+license: Apache <span style="color:#ae81ff">2</span>.0
+summary: This profile collects all compliance and security related requirements <span style="color:#66d9ef">for</span> Acme Inc.
+version: <span style="color:#ae81ff">0</span>.1.0
+depends:
+  - name: linux-patch-benchmark
+    git: https://github.com/dev-sec/linux-patch-benchmark.git
+  - name: windows-patch-benchmark
+    git: https://github.com/dev-sec/windows-patch-benchmark.git
+  - name: os-hardening
+    git: https://github.com/dev-sec/tests-os-hardening.git
+  - name: ssh-hardening
+    git: https://github.com/dev-sec/tests-ssh-hardening.git
+  - name: ssl-benchmark
+    git: https://github.com/dev-sec/ssl-benchmark.git</code></pre></div>
+<p>In addition to <code>git</code> dependencies, InSpec supports <code>supermarket</code>, <code>url</code> and <code>compliance</code> dependencies as profile locations as well:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">depends:
+  <span style="color:#75715e"># defaults to supermarket</span>
+  - name: hardening/ssh-hardening  
+  <span style="color:#75715e"># remote tar or zip file</span>
+  - name: os-hardening
+    url: https://github.com/dev-sec/tests-os-hardening/archive/master.zip
+  <span style="color:#75715e"># git</span>
+  - git: https://github.com/dev-sec/ssl-benchmark.git
+  - name: windows-patch-benchmark
+    git: https://github.com/chris-rock/windows-patch-benchmark.git
+  <span style="color:#75715e"># Chef Compliance / Chef Automate</span>
+  - name: linux
+    compliance: base/linux</code></pre></div>
+<p>Once you depend on another profile, you can leverage all its controls in your meta profile. Additionally all custom InSpec resources are available as well, in case you want to define new controls.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cat acme-inspec-profile/controls/hardening.rb
+<span style="color:#75715e"># encoding: utf-8</span>
+#
+<span style="color:#75715e"># Licensed under the Apache License, Version 2.0 (the &#34;License&#34;);</span>
+<span style="color:#75715e"># you may not use this file except in compliance with the License.</span>
+<span style="color:#75715e"># You may obtain a copy of the License at</span>
+#
+<span style="color:#75715e">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+#
+<span style="color:#75715e"># Unless required by applicable law or agreed to in writing, software</span>
+<span style="color:#75715e"># distributed under the License is distributed on an &#34;AS IS&#34; BASIS,</span>
+<span style="color:#75715e"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span style="color:#75715e"># See the License for the specific language governing permissions and</span>
+<span style="color:#75715e"># limitations under the License.</span>
+#
+<span style="color:#75715e"># author: Christoph Hartmann</span>
+<span style="color:#75715e"># author: Dominik Richter</span>
+
+<span style="color:#75715e"># ensure linux servers are hardenend</span>
+include_controls <span style="color:#e6db74">&#39;os-hardening&#39;</span>
+include_controls <span style="color:#e6db74">&#39;ssh-hardening&#39;</span></code></pre></div>
+<p>InSpec provides <code>include_controls</code> and <code>require_controls</code> keywords to load controls from inherited profiles. By default, no controls are executed after you defined its dependency in <code>inspec.yml</code>. The parameter for <code>include_controls</code> eg. <code>os-hardening</code> matches the name in <code>inspec.yml</code>. In that specific case, we just import all controls from our dependency. Further documentation about this behavior   available at <a href="http://inspec.io/docs/reference/profiles/">InSpec Docs</a>. The dependency management functionality is specified in <a href="https://github.com/chef/inspec/issues/888">RFC Dependencies</a></p>
+
+<h2 id="vendoring">Vendoring</h2>
+
+<p>While InSpec allows runtime resolution of dependencies, customers want to ensure safety for their production environment. Some challenges I have seen very often:</p>
+
+<ul>
+<li>no internet is available in air-gapped environments</li>
+<li>new profile updates need to be tested before they are used in production</li>
+<li>integration in CI/CD pipelines</li>
+</ul>
+
+<p>In order to help with those challenges, the InSpec team decided to establish a vendoring mechanism for profiles. This process is defined in <a href="https://github.com/chef/inspec/issues/1283">Vendor dependent profiles in archive</a> and is composed of two steps:</p>
+
+<ul>
+<li>resolve all dependencies and their versions</li>
+<li>download all dependencies into <code>vendor</code> directory</li>
+</ul>
+
+<p>Once those steps are finalized, an InSpec profile can be executed standalone without any internet connection available during runtime. Chef Compliance and Chef Automate prefer that approach over runtime profile resolution.</p>
+
+<p>The lockfile <code>inspec.lock</code> looks similar to <code>inspec.yml</code>, but describes all version constraints.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat acme-inspec-profile/inspec.lock
+---
+lockfile_version: <span style="color:#ae81ff">1</span>
+depends:
+- name: linux-patch-benchmark
+  resolved_source:
+    git: https://github.com/dev-sec/linux-patch-benchmark.git
+    ref: d53030317b711f36fa2fde9e18170ce6b4eaacf2
+  version_constraints: <span style="color:#e6db74">&#34;&gt;= 0&#34;</span>
+- name: windows-patch-benchmark
+  resolved_source:
+    git: https://github.com/dev-sec/windows-patch-benchmark.git
+    ref: c183d08eb25638e7f5eac97e521640ea314c8e3d
+  version_constraints: <span style="color:#e6db74">&#34;&gt;= 0&#34;</span>
+- name: os-hardening
+  resolved_source:
+    git: https://github.com/dev-sec/tests-os-hardening.git
+    ref: da3a1b6ce8a845d6818152a824e123c2445c355f
+  version_constraints: <span style="color:#e6db74">&#34;&gt;= 0&#34;</span>
+- name: ssh-hardening
+  resolved_source:
+    git: https://github.com/dev-sec/tests-ssh-hardening.git
+    ref: 75754b9b3fe45c601f0fa0036b01c61c8b8e26d9
+  version_constraints: <span style="color:#e6db74">&#34;&gt;= 0&#34;</span>
+- name: ssl-benchmark
+  resolved_source:
+    git: https://github.com/dev-sec/ssl-benchmark.git
+    ref: e17486c864434c818f96ca13edd2c5a420100a45
+  version_constraints: <span style="color:#e6db74">&#34;&gt;= 0&#34;</span></code></pre></div>
+<p>All dependencies are downloaded and stored in <code>vendor</code> directory.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">tree acme-inspec-profile
+acme-inspec-profile
+├── LICENSE
+├── README.md
+├── controls
+│   ├── hardening.rb
+│   ├── patch.rb
+│   └── ssl.rb
+├── inspec.lock
+├── inspec.yml
+└── vendor
+    ├── 75754b9b3fe45c601f0fa0036b01c61c8b8e26d9
+    │   ├── CHANGELOG.md
+    │   ├── Gemfile
+    │   ├── README.md
+    │   ├── Rakefile
+    │   ├── controls
+    │   │   ├── ssh_spec.rb
+    │   │   └── sshd_spec.rb
+    │   ├── inspec.yml
+    │   └── libraries
+    │       └── ssh_crypto.rb
+    ├── c183d08eb25638e7f5eac97e521640ea314c8e3d
+    │   ├── CONTRIBUTING.md
+    │   ├── ChefCompliance.png
+    │   ├── InSpec+Update.png
+    │   ├── LICENSE
+    │   ├── README.md
+    │   ├── Windows+Update.png
+    │   ├── controls
+    │   │   └── patches.rb
+    │   ├── inspec.yml
+    │   └── libraries
+    │       └── windows_updates.rb
+    ├── d53030317b711f36fa2fde9e18170ce6b4eaacf2
+    │   ├── CentOS+Patch.png
+    │   ├── Gemfile
+    │   ├── LICENSE
+    │   ├── README.md
+    │   ├── Rakefile
+    │   ├── controls
+    │   │   └── patches.rb
+    │   ├── inspec.yml
+    │   └── libraries
+    │       └── linux_updates.rb
+    ├── da3a1b6ce8a845d6818152a824e123c2445c355f
+    │   ├── CHANGELOG.md
+    │   ├── Gemfile
+    │   ├── README.md
+    │   ├── Rakefile
+    │   ├── controls
+    │   │   ├── os_spec.rb
+    │   │   ├── package_spec.rb
+    │   │   └── sysctl_spec.rb
+    │   └── inspec.yml
+    └── e17486c864434c818f96ca13edd2c5a420100a45
+        ├── README.md
+        ├── controls
+        │   └── ssl_test.rb
+        └── inspec.yml
+
+<span style="color:#ae81ff">15</span> directories, <span style="color:#ae81ff">43</span> files</code></pre></div>
+<h2 id="execute-a-meta-profile-with-chef-compliance">Execute a meta profile with Chef Compliance</h2>
+
+<p>In order to run meta profiles we need at least <a href="https://discourse.chef.io/t/chef-compliance-1-7-3-inspec-1-7-1/9985">Chef Compliance 1.7.3</a>. Next, just clone the  <a href="https://github.com/chris-rock/acme-inspec-profile">Acme InSpec profile</a> via <code>git clone https://github.com/chris-rock/acme-inspec-profile</code>. We have two options to upload the profile to Chef Compliance:</p>
+
+<ul>
+<li>Upload via InSpec CLI</li>
+<li>Upload of archive via Chef Compliance Web UI</li>
+</ul>
+
+<p>The first is the easiest since everything is done for you with one command.</p>
+
+<h3 id="upload-via-inspec-cli">Upload via InSpec CLI</h3>
+
+<p>First, you need to login to Chef Compliance. You find your login token in Chef Compliance via the about dialog.</p>
+
+
+
+
+
+<figure>
+    
+        <img src="https://lollyrock.com/posts/chef-compliance-meta-profiles/cc-token-fs8.png" alt="Copy the token from Chef Compliance"/> <figcaption>
+                
+                    <span><b>Access Token in Chef Compliance</b></span>
+                
+                
+            </figcaption></figure>
+
+<p>Use that token to login via InSpec CLI:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ inspec compliance login https://compliance.test --insecure --user<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;admin&#39;</span> --token<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;eyJh....Jlqg&#39;</span>
+
+API access token stored
+
+$ git clone https://github.com/chris-rock/acme-inspec-profile
+Cloning into <span style="color:#e6db74">&#39;acme-inspec-profile&#39;</span>...
+remote: Counting objects: <span style="color:#ae81ff">12</span>, <span style="color:#66d9ef">done</span>.
+remote: Total <span style="color:#ae81ff">12</span> <span style="color:#f92672">(</span>delta <span style="color:#ae81ff">0</span><span style="color:#f92672">)</span>, reused <span style="color:#ae81ff">0</span> <span style="color:#f92672">(</span>delta <span style="color:#ae81ff">0</span><span style="color:#f92672">)</span>, pack-reused <span style="color:#ae81ff">12</span>
+Unpacking objects: <span style="color:#ae81ff">100</span>% <span style="color:#f92672">(</span><span style="color:#ae81ff">12</span>/12<span style="color:#f92672">)</span>, <span style="color:#66d9ef">done</span>.
+Checking connectivity... <span style="color:#66d9ef">done</span>.</code></pre></div>
+<p>Once you are logged in, you use the <code>compliance upload</code> command to package and upload the <code>acme-inspec-profile</code> profile for Chef Compliance.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ inspec compliance upload acme-inspec-profile            
+Vendor dependencies of acme-inspec-profile into acme-inspec-profile/vendor
+I, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:24:43.899931 <span style="color:#75715e">#90853]  INFO -- : Checking profile in acme-inspec-profile</span>
+I, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:24:43.900029 <span style="color:#75715e">#90853]  INFO -- : Metadata OK.</span>
+<span style="color:#e6db74">`</span>command<span style="color:#f92672">(</span>ssh<span style="color:#f92672">)</span>.exist?<span style="color:#e6db74">`</span> is not suported on your OS:
+I, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:24:44.070233 <span style="color:#75715e">#90853]  INFO -- : Found 120 controls.</span>
+W, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:24:44.070519 <span style="color:#75715e">#90853]  WARN -- : Control verify-kb has no description</span>
+W, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:24:44.070555 <span style="color:#75715e">#90853]  WARN -- : Control important-count has no description</span>
+W, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:24:44.070571 <span style="color:#75715e">#90853]  WARN -- : Control important-patches has no description</span>
+W, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:24:44.070581 <span style="color:#75715e">#90853]  WARN -- : Control important-patches has no tests defined</span>
+W, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:24:44.070591 <span style="color:#75715e">#90853]  WARN -- : Control optional-count has no description</span>
+W, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:24:44.070601 <span style="color:#75715e">#90853]  WARN -- : Control optional-patches has no description</span>
+W, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:24:44.070610 <span style="color:#75715e">#90853]  WARN -- : Control optional-patches has no tests defined</span>
+W, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:24:44.070619 <span style="color:#75715e">#90853]  WARN -- : Control verify-patches has no description</span>
+W, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:24:44.070629 <span style="color:#75715e">#90853]  WARN -- : Control patches has no description</span>
+W, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:24:44.070638 <span style="color:#75715e">#90853]  WARN -- : Control patches has no tests defined</span>
+Profile is valid
+Generate temporary profile archive at /var/folders/jy/2bnrfb4s36jbjtzllvhhyqhw0000gn/T/acme-inspec-profile20161206-90853-kzpo1p.tar.gz
+I, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:24:44.088457 <span style="color:#75715e">#90853]  INFO -- : Generate archive /var/folders/jy/2bnrfb4s36jbjtzllvhhyqhw0000gn/T/acme-inspec-profile20161206-90853-kzpo1p.tar.gz.</span>
+I, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:24:44.194607 <span style="color:#75715e">#90853]  INFO -- : Finished archive generation.</span>
+Start upload to admin/acme-inspec-profile
+Uploading to Chef Compliance
+Successfully uploaded profile</code></pre></div>
+<p>The profile is available in Chef Compliance now:</p>
+
+
+
+
+
+<figure>
+    
+        <img src="https://lollyrock.com/posts/chef-compliance-meta-profiles/cc-meta-profile-fs8.png" alt="The meta profile is available in Chef Compliance"/> <figcaption>
+                
+                    <span><b>Meta profile in Chef Compliance</b></span>
+                
+                
+            </figcaption></figure>
+
+<h3 id="upload-of-archive-via-chef-compliance-web-ui">Upload of archive via Chef Compliance Web UI</h3>
+
+<p>In cases, where you cannot upload the profile via CLI, you have to archive the profile manually. At first you trigger the vendoring process via <code>inspec vendor</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ inspec vendor acme-inspec-profile
+Vendor dependencies of acme-inspec-profile into acme-inspec-profile/vendor</code></pre></div>
+<p>Once the vendoring process is done, the <code>vendor</code> directory and the <code>inspec.lock</code> are placed in the <code>acme-inspec-profile</code> directory. Now, run <code>inspec archive</code> to generate a package.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ inspec archive acme-inspec-profile
+I, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:32:59.234327 <span style="color:#75715e">#93241]  INFO -- : Checking profile in acme-inspec-profile</span>
+I, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:32:59.234422 <span style="color:#75715e">#93241]  INFO -- : Metadata OK.</span>
+<span style="color:#e6db74">`</span>command<span style="color:#f92672">(</span>ssh<span style="color:#f92672">)</span>.exist?<span style="color:#e6db74">`</span> is not suported on your OS:
+I, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:32:59.376949 <span style="color:#75715e">#93241]  INFO -- : Found 126 controls.</span>
+W, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:32:59.377156 <span style="color:#75715e">#93241]  WARN -- : Control verify-kb has no description</span>
+W, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:32:59.377181 <span style="color:#75715e">#93241]  WARN -- : Control important-count has no description</span>
+W, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:32:59.377199 <span style="color:#75715e">#93241]  WARN -- : Control important-patches has no description</span>
+W, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:32:59.377214 <span style="color:#75715e">#93241]  WARN -- : Control important-patches has no tests defined</span>
+W, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:32:59.377225 <span style="color:#75715e">#93241]  WARN -- : Control optional-count has no description</span>
+W, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:32:59.377235 <span style="color:#75715e">#93241]  WARN -- : Control optional-patches has no description</span>
+W, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:32:59.377243 <span style="color:#75715e">#93241]  WARN -- : Control optional-patches has no tests defined</span>
+W, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:32:59.377253 <span style="color:#75715e">#93241]  WARN -- : Control verify-patches has no description</span>
+W, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:32:59.377262 <span style="color:#75715e">#93241]  WARN -- : Control patches has no description</span>
+W, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:32:59.377277 <span style="color:#75715e">#93241]  WARN -- : Control patches has no tests defined</span>
+W, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:32:59.377294 <span style="color:#75715e">#93241]  WARN -- : Control tls1.2 has no description</span>
+W, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:32:59.377329 <span style="color:#75715e">#93241]  WARN -- : Control tls1.2 has no tests defined</span>
+W, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:32:59.377339 <span style="color:#75715e">#93241]  WARN -- : Control ssl2 has no description</span>
+W, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:32:59.377392 <span style="color:#75715e">#93241]  WARN -- : Control ssl2 has no tests defined</span>
+W, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:32:59.377408 <span style="color:#75715e">#93241]  WARN -- : Control ssl3 has no description</span>
+W, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:32:59.377419 <span style="color:#75715e">#93241]  WARN -- : Control ssl3 has no tests defined</span>
+W, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:32:59.377429 <span style="color:#75715e">#93241]  WARN -- : Control tls1.0 has no description</span>
+W, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:32:59.377441 <span style="color:#75715e">#93241]  WARN -- : Control tls1.0 has no tests defined</span>
+W, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:32:59.377480 <span style="color:#75715e">#93241]  WARN -- : Control tls1.1 has no description</span>
+W, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:32:59.377536 <span style="color:#75715e">#93241]  WARN -- : Control tls1.1 has no tests defined</span>
+W, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:32:59.377567 <span style="color:#75715e">#93241]  WARN -- : Control rc4 has no description</span>
+W, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:32:59.377586 <span style="color:#75715e">#93241]  WARN -- : Control rc4 has no tests defined</span>
+I, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:32:59.378081 <span style="color:#75715e">#93241]  INFO -- : Generate archive /Users/chartmann/Development/compliance/inspec/acme-inspec-profile.tar.gz.</span>
+I, <span style="color:#f92672">[</span><span style="color:#ae81ff">2016</span>-12-06T10:32:59.486476 <span style="color:#75715e">#93241]  INFO -- : Finished archive generation.</span></code></pre></div>
+
+
+
+
+<figure>
+    
+        <img src="https://lollyrock.com/posts/chef-compliance-meta-profiles/cc-manual-upload-fs8.png" alt="Upload the profile to Chef Compliance"/> <figcaption>
+                
+                    <span><b>Profile Upload Chef Compliance</b></span>
+                
+                
+            </figcaption></figure>
+
+<h3 id="scan-a-node">Scan a node</h3>
+
+<p>Voilà, the profile is available in Chef Compliance:</p>
+
+
+
+
+
+<figure>
+    
+        <img src="https://lollyrock.com/posts/chef-compliance-meta-profiles/cc-profile-fs8.png" alt="Browse the profile in Chef Compliance"/> <figcaption>
+                
+                    <span><b>View profile details in Chef Compliance</b></span>
+                
+                
+            </figcaption></figure>
+
+<p>The profile can be selected for remote scans via the Chef Compliance dashboard:</p>
+
+
+
+
+
+<figure>
+    
+        <img src="https://lollyrock.com/posts/chef-compliance-meta-profiles/cc-scan-fs8.png" alt="Trigger a scan in Chef Compliance"/> <figcaption>
+                
+                    <span><b>Trigger scan in Chef Compliance</b></span>
+                
+                
+            </figcaption></figure>
+
+<p>Once the scan is done, you&rsquo;ll see a report including controls from all dependent profiles:</p>
+
+
+
+
+
+<figure>
+    
+        <img src="https://lollyrock.com/posts/chef-compliance-meta-profiles/cc-scanresult-fs8.png" alt="The meta profile is available in Chef Compliance"/> <figcaption>
+                
+                    <span><b>Meta profile in Chef Compliance</b></span>
+                
+                
+            </figcaption></figure>
+
+<h2 id="summary">Summary</h2>
+
+<p>We&rsquo;ve seen how meta profiles are defined and executed. The new meta profile mechanism makes it easy for users to define complex scenarios and manage profile deviations in an easy and understandable way. Inline with the InSpec philosophy, everything is defined as <code>Compliance as Code</code>.</p>
+
+<p>Let me know how that works for you!</p>
+
+      </div>
+
+      <footer>
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      <footer class="footer">
+  <section class="container">
+    
+    <p>© 2018 Christoph Hartmann</p>
+    
+  </section>
+</footer>
+
+    </main>
+
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-50992958-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+  </body>
+
+</html>

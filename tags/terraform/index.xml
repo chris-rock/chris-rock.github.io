@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Terraform on Christoph Hartmann</title>
+    <link>https://lollyrock.com/tags/terraform/</link>
+    <description>Recent content in Terraform on Christoph Hartmann</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 22 Feb 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://lollyrock.com/tags/terraform/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Provisioning testing: Verify Terraform setups with InSpec</title>
+      <link>https://lollyrock.com/posts/inspec-terraform/</link>
+      <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/inspec-terraform/</guid>
+      <description>We want to bring the same testing experience known from configuration management to provisioning and InSpec 2.0 is making it happen. We are going to explain why it is important and how you can use Terraform with InSpec.
+Overview Until today, it was not easy to verify that all your provisioned infrastructure is working properly. While InSpec 1.x is great at covering your operating system configuration and runtime, it was lacking native support for cloud environments e.</description>
+    </item>
+    
+  </channel>
+</rss>

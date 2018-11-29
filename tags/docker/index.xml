@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Docker on Christoph Hartmann</title>
+    <link>https://lollyrock.com/tags/docker/</link>
+    <description>Recent content in Docker on Christoph Hartmann</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 01 May 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://lollyrock.com/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>InSpec for Docker</title>
+      <link>https://lollyrock.com/posts/inspec-for-docker/</link>
+      <pubDate>Mon, 01 May 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/inspec-for-docker/</guid>
+      <description>Docker environments enable you to manage fast-moving infrastructure. The faster you move, the better your test environment needs to be. InSpec provides that capability. With the recent addition of 3 new resources: docker, docker_image and a docker_container, it became even easier to verify docker hosts and docker containers. This blog post demonstrates how to use InSpec to verify your Docker environments.
+Overview   Docker Architecture Overview  Before I am talking about docker infrastructure testing, I need to explain the different parts of the docker universe quickly.</description>
+    </item>
+    
+    <item>
+      <title>Execute commands in a Docker sandbox</title>
+      <link>https://lollyrock.com/posts/execute-in-docker-sandbox/</link>
+      <pubDate>Sun, 28 Sep 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/execute-in-docker-sandbox/</guid>
+      <description>If we deal a lot with data from an untrusted source, we want to operate on data in a sandbox. For example, every file we handle may includes a virus and tries to attack our machine.
+Docker is an amazing tool to run arbitrary commands inside a sandbox. It is useful for testing applications or building complete application images as offered by Docker Hub.
+To address the use case, it is required to build containers on demand and mix them with pre-known commands (which typically fit in a Dockerfile) and custom user defined commands.</description>
+    </item>
+    
+  </channel>
+</rss>

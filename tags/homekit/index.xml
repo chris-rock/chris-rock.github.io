@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Homekit on Christoph Hartmann</title>
+    <link>https://lollyrock.com/tags/homekit/</link>
+    <description>Recent content in Homekit on Christoph Hartmann</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 30 Dec 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://lollyrock.com/tags/homekit/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>HomeKit for Fritz!Box smart home devices</title>
+      <link>https://lollyrock.com/posts/homekit-for-fritzbox/</link>
+      <pubDate>Sat, 30 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/homekit-for-fritzbox/</guid>
+      <description>Every year at Christmas, I get some time to play with new exiting stuff. This year, I decided to play with my smart home devices. And of course, some intelligent personal assistant needs to be part of it.
+Right now, I prefer devices from AVM Fritz! since their devices have a track record for long-term maintenance. They have one disadvantage though: A missing Apple HomeKit integration. Let&amp;rsquo;s fix that.</description>
+    </item>
+    
+  </channel>
+</rss>

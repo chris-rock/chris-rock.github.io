@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Christoph Hartmann</title>
+    <link>https://lollyrock.com/tags/</link>
+    <description>Recent content in Tags on Christoph Hartmann</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 28 Mar 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://lollyrock.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Aws</title>
+      <link>https://lollyrock.com/tags/aws/</link>
+      <pubDate>Wed, 28 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/tags/aws/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Chef</title>
+      <link>https://lollyrock.com/tags/chef/</link>
+      <pubDate>Fri, 12 Aug 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/tags/chef/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Compliance</title>
+      <link>https://lollyrock.com/tags/compliance/</link>
+      <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/tags/compliance/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Coreos</title>
+      <link>https://lollyrock.com/tags/coreos/</link>
+      <pubDate>Tue, 28 Apr 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/tags/coreos/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Devsec</title>
+      <link>https://lollyrock.com/tags/devsec/</link>
+      <pubDate>Tue, 27 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/tags/devsec/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Docker</title>
+      <link>https://lollyrock.com/tags/docker/</link>
+      <pubDate>Mon, 01 May 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/tags/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Gcp</title>
+      <link>https://lollyrock.com/tags/gcp/</link>
+      <pubDate>Wed, 23 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/tags/gcp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Golang</title>
+      <link>https://lollyrock.com/tags/golang/</link>
+      <pubDate>Sat, 30 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/tags/golang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Homekit</title>
+      <link>https://lollyrock.com/tags/homekit/</link>
+      <pubDate>Sat, 30 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/tags/homekit/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Html5</title>
+      <link>https://lollyrock.com/tags/html5/</link>
+      <pubDate>Mon, 18 Aug 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/tags/html5/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Inspec</title>
+      <link>https://lollyrock.com/tags/inspec/</link>
+      <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/tags/inspec/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Iot</title>
+      <link>https://lollyrock.com/tags/iot/</link>
+      <pubDate>Sun, 10 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/tags/iot/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Javascript</title>
+      <link>https://lollyrock.com/tags/javascript/</link>
+      <pubDate>Mon, 18 Aug 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/tags/javascript/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Kubernetes</title>
+      <link>https://lollyrock.com/tags/kubernetes/</link>
+      <pubDate>Mon, 01 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Nodejs</title>
+      <link>https://lollyrock.com/tags/nodejs/</link>
+      <pubDate>Sat, 09 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/tags/nodejs/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Openstack</title>
+      <link>https://lollyrock.com/tags/openstack/</link>
+      <pubDate>Tue, 28 Apr 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/tags/openstack/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Scala</title>
+      <link>https://lollyrock.com/tags/scala/</link>
+      <pubDate>Sun, 21 Sep 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/tags/scala/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Security</title>
+      <link>https://lollyrock.com/tags/security/</link>
+      <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/tags/security/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Terraform</title>
+      <link>https://lollyrock.com/tags/terraform/</link>
+      <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/tags/terraform/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Test Kitchen</title>
+      <link>https://lollyrock.com/tags/test-kitchen/</link>
+      <pubDate>Fri, 12 Aug 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/tags/test-kitchen/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Windows</title>
+      <link>https://lollyrock.com/tags/windows/</link>
+      <pubDate>Sun, 10 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/tags/windows/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

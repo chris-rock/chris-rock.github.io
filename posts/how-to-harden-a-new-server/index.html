@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Christoph Hartmann">
+    <meta name="description" content="Chris&#39;s personal website">
+    <meta name="keywords" content="blog,developer,personal">
+
+    <base href="https://lollyrock.com/">
+    <title>
+  How to harden a new server with Chef · Christoph Hartmann
+</title>
+
+    <link rel="canonical" href="https://lollyrock.com/posts/how-to-harden-a-new-server/">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400,500,600,700,800,900|Roboto:100,300,400,500,700,900|Source+Code+Pro:200,300,400" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" integrity="sha256-oSrCnRYXvHG31SBifqP2PM1uje7SJUyX0nTwO2RJV54=" crossorigin="anonymous" />
+
+    
+      
+      
+      <link rel="stylesheet" href="https://lollyrock.com/css/coder.min.ef70d8b6c126a236b98cb3ef257062e681b40ab6658d993adad91206fca88fa2.css" integrity="sha256-73DYtsEmoja5jLPvJXBi5oG0CrZljZk62tkSBvyoj6I=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="https://lollyrock.com/img/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://lollyrock.com/img/favicon-16x16.png" sizes="16x16">
+
+    
+
+    <meta name="generator" content="Hugo 0.51" />
+  </head>
+
+  <body class=" ">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="https://lollyrock.com/">
+      Christoph Hartmann
+    </a>
+    <input type="checkbox" id="menu-toggle" />
+    <label class="menu-button float-right" for="menu-toggle"><i class="fas fa-bars"></i></label>
+    <ul class="navigation-list">
+      
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="https://lollyrock.com/posts/">Blog</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="https://lollyrock.com/talks/">Talks</a>
+          </li>
+        
+      
+      
+    </ul>
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">How to harden a new server with Chef</h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fas fa-calendar"></i>
+              <time datetime='2014-05-14T00:00:00Z'>
+                May 14, 2014
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fas fa-clock"></i>
+              4 minutes read
+            </span>
+            
+            
+            <span class="author">
+                <i class="fas fa-user"></i>
+                Christoph Hartmann
+            </span>
+            
+          </div>
+          
+          <div class="tags">
+  <i class="fas fa-tag"></i>
+    <a href="https://lollyrock.com/tags/security/">security</a>
+      <span class="separator">•</span>
+    <a href="https://lollyrock.com/tags/chef/">chef</a></div>
+
+        </div>
+      </header>
+
+      <div>
+        <p>Deutsche Telekom developed scripts in Chef and Puppet to harden servers according to well-known guidelines like bettercrypto and internal guidelines at Deutsche Telekom. More information is available at the project page of the <a href="http://hardening.io/">Hardening Framework</a>. Disclosure: I am core developer at this project.</p>
+
+<p>Today we cook with <a href="http://matschaffer.github.io/knife-solo/">knife-solo</a> and harden a fresh copy of Ubuntu 14.04. The process of hardening a server is quite difficult and takes a lot of knowledge and experience. Even the most-experienced administrators rely on guidelines to meet the best practices.</p>
+
+<p>Since we live in a cloud world by now, <a href="http://arlimus.github.io/">Dominik Richter</a>, Patrick Meier and myself invented the <code>Hardening Framework</code>. It is a set of cookbooks that help you to secure your server with well-known rules.</p>
+
+<p>The following steps illustrate the hardening process of a fresh server with nothing than a base Linux system.</p>
+
+<p>I assume you have <a href="http://www.getchef.com/downloads/chef-dk/mac/">Chef Development Kit</a> or <a href="http://www.getchef.com/chef/install/">Chef</a> and <a href="http://berkshelf.com/">Berkshelf</a> on your machine.</p>
+
+<p>At first of all we need to install <code>knife-solo</code> via <code>gem</code> on your workstation.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">∅&gt; sudo gem install knife-solo
+Fetching: method_source-0.8.2.gem <span style="color:#f92672">(</span><span style="color:#ae81ff">100</span>%<span style="color:#f92672">)</span>
+Successfully installed method_source-0.8.2
+Fetching: slop-3.5.0.gem <span style="color:#f92672">(</span><span style="color:#ae81ff">100</span>%<span style="color:#f92672">)</span>
+Successfully installed slop-3.5.0
+Fetching: coderay-1.1.0.gem <span style="color:#f92672">(</span><span style="color:#ae81ff">100</span>%<span style="color:#f92672">)</span>
+Successfully installed coderay-1.1.0
+Fetching: pry-0.10.0.pre2.gem <span style="color:#f92672">(</span><span style="color:#ae81ff">100</span>%<span style="color:#f92672">)</span>
+Successfully installed pry-0.10.0.pre2
+Fetching: chef-zero-2.0.2.gem <span style="color:#f92672">(</span><span style="color:#ae81ff">100</span>%<span style="color:#f92672">)</span>
+Successfully installed chef-zero-2.0.2
+Fetching: diff-lcs-1.2.5.gem <span style="color:#f92672">(</span><span style="color:#ae81ff">100</span>%<span style="color:#f92672">)</span>
+Successfully installed diff-lcs-1.2.5
+Fetching: highline-1.6.21.gem <span style="color:#f92672">(</span><span style="color:#ae81ff">100</span>%<span style="color:#f92672">)</span>
+Successfully installed highline-1.6.21
+Fetching: net-ssh-gateway-1.2.0.gem <span style="color:#f92672">(</span><span style="color:#ae81ff">100</span>%<span style="color:#f92672">)</span>
+Successfully installed net-ssh-gateway-1.2.0
+Fetching: net-ssh-multi-1.2.0.gem <span style="color:#f92672">(</span><span style="color:#ae81ff">100</span>%<span style="color:#f92672">)</span>
+Successfully installed net-ssh-multi-1.2.0
+Fetching: mime-types-1.25.1.gem <span style="color:#f92672">(</span><span style="color:#ae81ff">100</span>%<span style="color:#f92672">)</span>
+Successfully installed mime-types-1.25.1
+Fetching: rest-client-1.6.8.rc1.gem <span style="color:#f92672">(</span><span style="color:#ae81ff">100</span>%<span style="color:#f92672">)</span>
+Successfully installed rest-client-1.6.8.rc1
+Fetching: ipaddress-0.8.0.gem <span style="color:#f92672">(</span><span style="color:#ae81ff">100</span>%<span style="color:#f92672">)</span>
+Successfully installed ipaddress-0.8.0
+Fetching: mixlib-shellout-1.4.0.gem <span style="color:#f92672">(</span><span style="color:#ae81ff">100</span>%<span style="color:#f92672">)</span>
+Successfully installed mixlib-shellout-1.4.0
+Fetching: mixlib-config-2.1.0.gem <span style="color:#f92672">(</span><span style="color:#ae81ff">100</span>%<span style="color:#f92672">)</span>
+Successfully installed mixlib-config-2.1.0
+Fetching: mixlib-cli-1.5.0.gem <span style="color:#f92672">(</span><span style="color:#ae81ff">100</span>%<span style="color:#f92672">)</span>
+Successfully installed mixlib-cli-1.5.0
+Fetching: systemu-2.5.2.gem <span style="color:#f92672">(</span><span style="color:#ae81ff">100</span>%<span style="color:#f92672">)</span>
+Successfully installed systemu-2.5.2
+Fetching: ohai-7.0.4.gem <span style="color:#f92672">(</span><span style="color:#ae81ff">100</span>%<span style="color:#f92672">)</span>
+Successfully installed ohai-7.0.4
+Fetching: chef-11.14.0.alpha.2.gem <span style="color:#f92672">(</span><span style="color:#ae81ff">100</span>%<span style="color:#f92672">)</span>
+Successfully installed chef-11.14.0.alpha.2
+Fetching: knife-solo-0.4.1.gem <span style="color:#f92672">(</span><span style="color:#ae81ff">100</span>%<span style="color:#f92672">)</span>
+Thanks <span style="color:#66d9ef">for</span> installing knife-solo!
+
+If you run into any issues please let us know at:
+  https://github.com/matschaffer/knife-solo/issues
+
+If you are upgrading knife-solo please uninstall any old versions by
+running <span style="color:#e6db74">`</span>gem clean knife-solo<span style="color:#e6db74">`</span> to avoid any errors.
+
+See http://bit.ly/CHEF-3255 <span style="color:#66d9ef">for</span> more information on the knife bug
+that causes this.
+Successfully installed knife-solo-0.4.1
+Installing ri documentation <span style="color:#66d9ef">for</span> chef-11.14.0.alpha.2
+Installing ri documentation <span style="color:#66d9ef">for</span> chef-zero-2.0.2
+invalid options: -SNw2
+<span style="color:#f92672">(</span>invalid options are ignored<span style="color:#f92672">)</span>
+Installing ri documentation <span style="color:#66d9ef">for</span> coderay-1.1.0
+Installing ri documentation <span style="color:#66d9ef">for</span> diff-lcs-1.2.5
+Installing ri documentation <span style="color:#66d9ef">for</span> highline-1.6.21
+Installing ri documentation <span style="color:#66d9ef">for</span> ipaddress-0.8.0
+Installing ri documentation <span style="color:#66d9ef">for</span> knife-solo-0.4.1
+Installing ri documentation <span style="color:#66d9ef">for</span> method_source-0.8.2
+Installing ri documentation <span style="color:#66d9ef">for</span> mime-types-1.25.1
+Installing ri documentation <span style="color:#66d9ef">for</span> mixlib-cli-1.5.0
+Installing ri documentation <span style="color:#66d9ef">for</span> mixlib-config-2.1.0
+Installing ri documentation <span style="color:#66d9ef">for</span> mixlib-shellout-1.4.0
+Installing ri documentation <span style="color:#66d9ef">for</span> net-ssh-gateway-1.2.0
+Installing ri documentation <span style="color:#66d9ef">for</span> net-ssh-multi-1.2.0
+Installing ri documentation <span style="color:#66d9ef">for</span> ohai-7.0.4
+Installing ri documentation <span style="color:#66d9ef">for</span> pry-0.10.0.pre2
+Installing ri documentation <span style="color:#66d9ef">for</span> rest-client-1.6.8.rc1
+Installing ri documentation <span style="color:#66d9ef">for</span> slop-3.5.0
+Installing ri documentation <span style="color:#66d9ef">for</span> systemu-2.5.2
+<span style="color:#ae81ff">19</span> gems installed
+∅&gt; </code></pre></div>
+<p>As a next step we need to download the <code>hardening-kitchen</code>. This comes with a set of hardening cookbooks and works out of the box. You&rsquo;re free to extend the kitchen with your own cookbooks.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone https://github.com/TelekomLabs/example-chef-hardening.git
+cd example-chef-hardening</code></pre></div>
+<p>By now, the workstation is ready and we are able to bootstrap our server with Chef and our hardening cookbooks.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">knife solo bootstrap ubuntu@hardening.tlabscloud.com nodes/default.json 
+Bootstrapping Chef...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+<span style="color:#ae81ff">100</span> <span style="color:#ae81ff">15934</span>  <span style="color:#ae81ff">100</span> <span style="color:#ae81ff">15934</span>    <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">21847</span>      <span style="color:#ae81ff">0</span> --:--:-- --:--:-- --:--:-- <span style="color:#ae81ff">21857</span>
+Downloading Chef <span style="color:#ae81ff">11</span>.10.4 <span style="color:#66d9ef">for</span> ubuntu...
+downloading https://www.opscode.com/chef/metadata?v<span style="color:#f92672">=</span><span style="color:#ae81ff">11</span>.10.4&amp;prerelease<span style="color:#f92672">=</span>false&amp;nightlies<span style="color:#f92672">=</span>false&amp;p<span style="color:#f92672">=</span>ubuntu&amp;pv<span style="color:#f92672">=</span><span style="color:#ae81ff">14</span>.04&amp;m<span style="color:#f92672">=</span>x86_64
+  to file /tmp/install.sh.30630/metadata.txt
+trying wget...
+url https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/13.04/x86_64/chef_11.10.4-1.ubuntu.13.04_amd64.deb
+md5 25e27eeaff3304df354e735a56005f04
+sha256  98fc3ef27419ec45281306b160e5f1e736a9846ad9060a151046d5a29c49af6b
+yolo    true
+downloaded metadata file looks valid...
+downloading https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/13.04/x86_64/chef_11.10.4-1.ubuntu.13.04_amd64.deb
+  to file /tmp/install.sh.30630/chef_11.10.4-1.ubuntu.13.04_amd64.deb
+trying wget...
+Comparing checksum with sha256sum...
+
+WARNING: Chef-Client has not been regression tested on this O/S Distribution
+WARNING: Do not use this configuration <span style="color:#66d9ef">for</span> Production Applications.  Use at your own risk.
+
+Installing Chef <span style="color:#ae81ff">11</span>.10.4
+installing with dpkg...
+dpkg: warning: downgrading chef from <span style="color:#ae81ff">11</span>.12.4-1 to <span style="color:#ae81ff">11</span>.10.4-1.ubuntu.13.04
+<span style="color:#f92672">(</span>Reading database ... <span style="color:#ae81ff">62386</span> files and directories currently installed.<span style="color:#f92672">)</span>
+Preparing to unpack .../chef_11.10.4-1.ubuntu.13.04_amd64.deb ...
+Unpacking chef <span style="color:#f92672">(</span><span style="color:#ae81ff">11</span>.10.4-1.ubuntu.13.04<span style="color:#f92672">)</span> over <span style="color:#f92672">(</span><span style="color:#ae81ff">11</span>.12.4-1<span style="color:#f92672">)</span> ...
+Setting up chef <span style="color:#f92672">(</span><span style="color:#ae81ff">11</span>.10.4-1.ubuntu.13.04<span style="color:#f92672">)</span> ...
+Thank you <span style="color:#66d9ef">for</span> installing Chef!
+Running Chef on hardening.tlabscloud.com...
+Installing Berkshelf cookbooks to <span style="color:#e6db74">&#39;cookbooks&#39;</span>...
+Installing os-hardening <span style="color:#f92672">(</span><span style="color:#ae81ff">1</span>.0.1<span style="color:#f92672">)</span> from site: <span style="color:#e6db74">&#39;https://supermarket.chef.io/api/v1/cookbooks&#39;</span>
+Installing ssh-hardening <span style="color:#f92672">(</span><span style="color:#ae81ff">1</span>.0.0<span style="color:#f92672">)</span> from site: <span style="color:#e6db74">&#39;https://supermarket.chef.io/api/v1/cookbooks&#39;</span>
+Using sysctl <span style="color:#f92672">(</span><span style="color:#ae81ff">0</span>.3.4<span style="color:#f92672">)</span>
+Using ntp <span style="color:#f92672">(</span><span style="color:#ae81ff">1</span>.6.2<span style="color:#f92672">)</span>
+Using apt <span style="color:#f92672">(</span><span style="color:#ae81ff">2</span>.3.8<span style="color:#f92672">)</span>
+Using yum <span style="color:#f92672">(</span><span style="color:#ae81ff">2</span>.4.4<span style="color:#f92672">)</span>
+Uploading the kitchen...
+Generating solo config...
+Running Chef...
+Starting Chef Client, version <span style="color:#ae81ff">11</span>.10.4
+<span style="color:#f92672">[</span><span style="color:#ae81ff">2014</span>-05-14T14:53:23+00:00<span style="color:#f92672">]</span> WARN: unable to detect ip6address
+Compiling Cookbooks...
+<span style="color:#f92672">[</span><span style="color:#ae81ff">2014</span>-05-14T14:53:23+00:00<span style="color:#f92672">]</span> WARN: encrypted_data_bag_Secret is set but file does not exist. Unsetting
+/home/ubuntu/chef-solo/cookbooks-2/chef-solo-search/libraries/search.rb:57: warning: already initialized constant PARSER_LOADED
+
+...
+
+Chef Client finished, <span style="color:#ae81ff">10</span>/45 resources updated in <span style="color:#ae81ff">4</span>.206405118 seconds</code></pre></div>
+<p>In less than 5 minutes, a new server is hardened for the core system and ssh. Be aware that your server still needs some configuration in order to be production ready. For that I recommend to:</p>
+
+<ul>
+<li>Configure  your firewall properly</li>
+<li>Install  critical patches</li>
+<li>Use patch management</li>
+<li>Use system monitoring</li>
+</ul>
+
+<p>More information is available at:</p>
+
+<ul>
+<li><a href="http://dev-sec.io/">http://dev-sec.io/</a></li>
+<li><a href="http://vulcanosec.com/">http://vulcanosec.com/</a></li>
+<li><a href="https://github.com/dev-sec/hardening">https://github.com/dev-sec/hardening</a></li>
+<li><a href="https://supermarket.chef.io/cookbooks/os-hardening">https://supermarket.chef.io/cookbooks/os-hardening</a></li>
+<li><a href="https://supermarket.chef.io/cookbooks/ssh-hardening">https://supermarket.chef.io/cookbooks/ssh-hardening</a></li>
+</ul>
+
+<p>Happy Hardening!</p>
+
+<p>If you have any questions contact me via <a href="https://twitter.com/chri_hartmann">Twitter @chri_hartmann</a> or <a href="https://github.com/chris-rock">Github</a></p>
+
+<p>Commercial support for all hardening cookbooks is available via <a href="http://vulcanosec.com/">Vulcano Security</a></p>
+
+      </div>
+
+      <footer>
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      <footer class="footer">
+  <section class="container">
+    
+    <p>© 2018 Christoph Hartmann</p>
+    
+  </section>
+</footer>
+
+    </main>
+
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-50992958-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+  </body>
+
+</html>

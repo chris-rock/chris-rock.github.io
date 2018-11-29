@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Inspec on Christoph Hartmann</title>
+    <link>https://lollyrock.com/tags/inspec/</link>
+    <description>Recent content in Inspec on Christoph Hartmann</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 06 Nov 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://lollyrock.com/tags/inspec/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Testing Cloud Provisioning with Terraform and InSpec</title>
+      <link>https://lollyrock.com/talks/2018_continuous_lifecycle/</link>
+      <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/talks/2018_continuous_lifecycle/</guid>
+      <description>Cloud-Umgebungen haben die Entwicklungsprozesse über die letzten Jahre stark beeinflusst. Häufigere Aktualisierungen und Deployments von verteilten Anwendungen durch Tools wie Terraform und Cloudformation sind dadurch zum Standard geworden. Für Operations-, Compliance- und Sicherheitsteams stellt sich daher die Herausforderung, ihre Anforderungen in den automatischen Prozess einzubinden. InSpec hat sich als effektives Tool für die Überprüfung von Server- und Anwendungskonfigurationen erwiesen.
+Der Vortrag zeigt die Umsetzung von Test-driven Infrastructure für Terraform-Setups mit InSpec-2.</description>
+    </item>
+    
+    <item>
+      <title>InSpec 3 Keynote</title>
+      <link>https://lollyrock.com/talks/2018_chef_community_summit/</link>
+      <pubDate>Tue, 16 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/talks/2018_chef_community_summit/</guid>
+      <description> </description>
+    </item>
+    
+    <item>
+      <title>Google Cloud Platform support for InSpec</title>
+      <link>https://lollyrock.com/posts/inspec-cloud-gcp-setup/</link>
+      <pubDate>Wed, 23 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/inspec-cloud-gcp-setup/</guid>
+      <description>When we released InSpec 2.0 in February 2018, it shipped with native support for AWS and Azure. Over the course of the last 3 months, the InSpec team and community kept adding more AWS and Azure resources. We also showcased how Terraform can be tested effectively with InSpec. In parallel, we worked on Google Cloud Platform (GCP) support which is now available.
+Verify Google Cloud Platform resources   Google Cloud Platform support for InSpec  We wanted to extend the cloud support for a while and the InSpec community has been super fast in its adoption!</description>
+    </item>
+    
+    <item>
+      <title>Getting started with InSpec for AWS. Testing for the cloud!</title>
+      <link>https://lollyrock.com/posts/inspec-cloud-aws-setup/</link>
+      <pubDate>Wed, 28 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/inspec-cloud-aws-setup/</guid>
+      <description>With the introduction of InSpec 2.0, we got the ability to test AWS environments. Within the next 5 minutes, you are ready to write InSpec tests to verify your AWS environment. Let&amp;rsquo;s start.
+Background Dominik already introduced the new concepts of InSpec 2.0. He and I created InSpec for machine testing but abstracted InSpec&amp;rsquo;s test syntax from specific test targets. This is very helpful, since the same language can be used to describe tests for machine and api testing.</description>
+    </item>
+    
+    <item>
+      <title>Achieve compliance with AWS OpsWorks for Chef Automate</title>
+      <link>https://lollyrock.com/posts/inspec-compliance-awsopsworks/</link>
+      <pubDate>Tue, 27 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/inspec-compliance-awsopsworks/</guid>
+      <description>This example demonstrates how to implement continuous compliance in AWS environments with InSpec, Chef and Chef Automate.
+Overview The demo is based on a webinar presented by Mark Rambow and me. This post follows the pattern of the webinar by showcasing how continuous compliance is applied with AWS OpsWorks. Since OpsWorks is based on Chef Automate, it works very similar with Chef Automate standalone.
+The example is split in three sections:</description>
+    </item>
+    
+    <item>
+      <title>Provisioning testing: Verify Terraform setups with InSpec</title>
+      <link>https://lollyrock.com/posts/inspec-terraform/</link>
+      <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/inspec-terraform/</guid>
+      <description>We want to bring the same testing experience known from configuration management to provisioning and InSpec 2.0 is making it happen. We are going to explain why it is important and how you can use Terraform with InSpec.
+Overview Until today, it was not easy to verify that all your provisioned infrastructure is working properly. While InSpec 1.x is great at covering your operating system configuration and runtime, it was lacking native support for cloud environments e.</description>
+    </item>
+    
+    <item>
+      <title>DevSec - Kontinuierliche Patch- und Sicherheitsüberwachung mit InSpec</title>
+      <link>https://lollyrock.com/talks/2017_continuous_lifecycle/</link>
+      <pubDate>Wed, 15 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/talks/2017_continuous_lifecycle/</guid>
+      <description> </description>
+    </item>
+    
+    <item>
+      <title>Continuous Patch and Security Assessment with InSpec</title>
+      <link>https://lollyrock.com/talks/2017_alldaysdevops/</link>
+      <pubDate>Tue, 24 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/talks/2017_alldaysdevops/</guid>
+      <description>   Slides:
+ </description>
+    </item>
+    
+    <item>
+      <title>continuous compliance</title>
+      <link>https://lollyrock.com/talks/2017_devseccon_london/</link>
+      <pubDate>Thu, 19 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/talks/2017_devseccon_london/</guid>
+      <description>Best-practices for server hardening and patching have been in place for decades. Nevertheless, it is still very cumbersome to enforce those rules continuously and many servers are still unsecured in 2016. DevOps tools like Chef, Puppet or Ansible help to enforce secure configuration, but they cannot fully assess a state of a machine e.g. you cannot easily verify if something is not installed. InSpec is here to help. It is an open source tool for infrastructure, security and compliance testing.</description>
+    </item>
+    
+    <item>
+      <title>InSpec 2 Release</title>
+      <link>https://lollyrock.com/talks/2017_chefconf/</link>
+      <pubDate>Tue, 23 May 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/talks/2017_chefconf/</guid>
+      <description> </description>
+    </item>
+    
+    <item>
+      <title>Continuous Patch And Security Assessment With Inspec</title>
+      <link>https://lollyrock.com/talks/2017_appseceu/</link>
+      <pubDate>Tue, 09 May 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/talks/2017_appseceu/</guid>
+      <description>   </description>
+    </item>
+    
+    <item>
+      <title>InSpec for Docker</title>
+      <link>https://lollyrock.com/posts/inspec-for-docker/</link>
+      <pubDate>Mon, 01 May 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/inspec-for-docker/</guid>
+      <description>Docker environments enable you to manage fast-moving infrastructure. The faster you move, the better your test environment needs to be. InSpec provides that capability. With the recent addition of 3 new resources: docker, docker_image and a docker_container, it became even easier to verify docker hosts and docker containers. This blog post demonstrates how to use InSpec to verify your Docker environments.
+Overview   Docker Architecture Overview  Before I am talking about docker infrastructure testing, I need to explain the different parts of the docker universe quickly.</description>
+    </item>
+    
+    <item>
+      <title>Windows Infrastructure Testing and Compliance with InSpec</title>
+      <link>https://lollyrock.com/posts/inspec-windows/</link>
+      <pubDate>Mon, 10 Apr 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/inspec-windows/</guid>
+      <description>InSpec is an infrastructure testing and compliance tool that allows you to write re-usable tests for your IT components. InSpec tests can easily be used in development and production environments to shift Compliance left. This blog post will highlight how you can leverage InSpec on Windows.
+Install InSpec on Windows First things first: We need InSpec on our workstation. There are two packages that offer an easy way to get started.</description>
+    </item>
+    
+    <item>
+      <title>Using meta-profiles with Chef Compliance</title>
+      <link>https://lollyrock.com/posts/chef-compliance-meta-profiles/</link>
+      <pubDate>Tue, 06 Dec 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/chef-compliance-meta-profiles/</guid>
+      <description>This article demonstrates InSpec&amp;rsquo;s meta profile functionality in combination with Chef Compliance. This feature enables you to write profile overlays and to reuse controls from existing profiles. This is a great way to manage deviations of out-of-the-box profiles shipped with Chef Compliance.
+Meta Profiles A meta profile is an overlay or a collection of multiple profiles. Examples are:
+ a deviation from CIS benchmarks collection of all CIS profiles that apply to your infrastructure (eg.</description>
+    </item>
+    
+    <item>
+      <title>Compliance-driven infrastructure</title>
+      <link>https://lollyrock.com/talks/2016_oreilly_software_architecture/</link>
+      <pubDate>Tue, 15 Nov 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/talks/2016_oreilly_software_architecture/</guid>
+      <description> </description>
+    </item>
+    
+    <item>
+      <title>ChefConf 2016 - Save Your Crash Dummies!</title>
+      <link>https://lollyrock.com/posts/chefconf2016-save-your-crash-dummies/</link>
+      <pubDate>Fri, 12 Aug 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/chefconf2016-save-your-crash-dummies/</guid>
+      <description>With infrastructure and application automation we have gained the tools to change systems in the blink of an eye. However, with increasing size, complexity, and time, these components will inevitably challenge your expectations. This uncertainty will ultimately slow you down. This talk will introduce the workflow to gain back trust.
+A Test-driven Infrastructure Solution This talk will cover the foundation of effective infrastructure tests and failure domains for isolation. Moreover, we will look into the management of divergent environments, from legacy systems to modern clouds.</description>
+    </item>
+    
+    <item>
+      <title>Save Your Crash Dummies! A Test-driven Infrastructure Solution</title>
+      <link>https://lollyrock.com/talks/2016_chefconf/</link>
+      <pubDate>Tue, 12 Jul 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/talks/2016_chefconf/</guid>
+      <description>With infrastructure and application automation we have gained the tools to change systems in the blink of an eye. However, with increasing size, complexity, and time, these components will inevitably challenge your expectations. This uncertainty will ultimately slow you down. This talk will introduce the workflow to gain back trust. We will cover the foundation of effective infrastructure tests and failure domains for isolation. Moreover, we will look into the management of divergent environments, from legacy systems to modern clouds.</description>
+    </item>
+    
+  </channel>
+</rss>

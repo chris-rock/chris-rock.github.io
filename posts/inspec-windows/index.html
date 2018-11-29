@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Christoph Hartmann">
+    <meta name="description" content="Chris&#39;s personal website">
+    <meta name="keywords" content="blog,developer,personal">
+
+    <base href="https://lollyrock.com/">
+    <title>
+  Windows Infrastructure Testing and Compliance with InSpec · Christoph Hartmann
+</title>
+
+    <link rel="canonical" href="https://lollyrock.com/posts/inspec-windows/">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400,500,600,700,800,900|Roboto:100,300,400,500,700,900|Source+Code+Pro:200,300,400" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" integrity="sha256-oSrCnRYXvHG31SBifqP2PM1uje7SJUyX0nTwO2RJV54=" crossorigin="anonymous" />
+
+    
+      
+      
+      <link rel="stylesheet" href="https://lollyrock.com/css/coder.min.ef70d8b6c126a236b98cb3ef257062e681b40ab6658d993adad91206fca88fa2.css" integrity="sha256-73DYtsEmoja5jLPvJXBi5oG0CrZljZk62tkSBvyoj6I=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="https://lollyrock.com/img/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://lollyrock.com/img/favicon-16x16.png" sizes="16x16">
+
+    
+
+    <meta name="generator" content="Hugo 0.51" />
+  </head>
+
+  <body class=" ">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="https://lollyrock.com/">
+      Christoph Hartmann
+    </a>
+    <input type="checkbox" id="menu-toggle" />
+    <label class="menu-button float-right" for="menu-toggle"><i class="fas fa-bars"></i></label>
+    <ul class="navigation-list">
+      
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="https://lollyrock.com/posts/">Blog</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="https://lollyrock.com/talks/">Talks</a>
+          </li>
+        
+      
+      
+    </ul>
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">Windows Infrastructure Testing and Compliance with InSpec</h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fas fa-calendar"></i>
+              <time datetime='2017-04-10T00:00:00Z'>
+                April 10, 2017
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fas fa-clock"></i>
+              4 minutes read
+            </span>
+            
+            
+            <span class="author">
+                <i class="fas fa-user"></i>
+                Christoph Hartmann
+            </span>
+            
+          </div>
+          
+          <div class="tags">
+  <i class="fas fa-tag"></i>
+    <a href="https://lollyrock.com/tags/inspec/">inspec</a></div>
+
+        </div>
+      </header>
+
+      <div>
+        
+
+<p>InSpec is an infrastructure testing and compliance tool that allows you to write re-usable tests for your IT components. InSpec tests can easily be used in development and production environments to shift <a href="https://blog.chef.io/2016/09/26/shift-left-security-and-compliance-automation-with-inspec-and-chef/">Compliance left</a>. This blog post will highlight how you can leverage InSpec on Windows.</p>
+
+<h2 id="install-inspec-on-windows">Install InSpec on Windows</h2>
+
+<p>First things first: We need InSpec on our workstation. There are two packages that offer an easy way to get started. For production and standalone environments, I recommend the InSpec package. Alternatively there is ChefDK, if you need Chef + Test-Kitchen + InSpec. You can download both packages from <a href="https://downloads.chef.io/">https://downloads.chef.io/</a>.</p>
+
+<p>Another option is to install InSpec via a Powershell script:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">. { iwr -useb https<span style="color:#960050;background-color:#1e0010">:</span>//omnitruck.chef.io/install.ps1 } | iex; install -project inspec</code></pre></div>
+<p>Once InSpec is installed, run <code>inspec version</code> to verify that the installation was successful.</p>
+
+<h2 id="write-your-first-test">Write your first test</h2>
+
+<p>In my case, I am going to use <a href="https://code.visualstudio.com/">Visual Studio Code</a> to write the InSpec test. Open Powershell and create a new directory:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#75715e"># create a directory for the test</span>
+md inspec
+cd <span style="color:#f92672">.</span>\inspec
+<span style="color:#75715e"># open Visual Studio Code</span>
+code <span style="color:#f92672">.</span></code></pre></div>
+
+
+
+
+<figure>
+    
+        <img src="https://lollyrock.com/posts/inspec-windows/inspec-create-dir.png" alt="Create new directory for InSpec tests"/> <figcaption>
+                
+                    <span><b>Create new directory for InSpec tests</b></span>
+                
+                
+            </figcaption></figure>
+
+<p>Now, create a new file in Visual Studio Code and write down the first InSpec test:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">describe service(<span style="color:#e6db74">&#39;DHCP Client&#39;</span>) <span style="color:#66d9ef">do</span>
+  it { should be_installed }
+  it { should be_running }
+<span style="color:#66d9ef">end</span></code></pre></div>
+<p>This is all we need to test if the <code>DHCP Client</code> service is installed and running. Save the file and let&rsquo;s execute the test.</p>
+
+
+
+
+
+<figure>
+    
+        <img src="https://lollyrock.com/posts/inspec-windows/vscode-test.png" alt="Write InSpec tests in VSCode"/> <figcaption>
+                
+                    <span><b>Write InSpec tests in VSCode</b></span>
+                
+                
+            </figcaption></figure>
+
+<p>Execute InSpec from Powershell:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">inspec exec .<span style="color:#ae81ff">\t</span>est.rb</code></pre></div>
+
+
+
+
+<figure>
+    
+        <img src="https://lollyrock.com/posts/inspec-windows/inspec-exec-test.png" alt="Execute InSpec test"/> <figcaption>
+                
+                    <span><b>Execute InSpec test</b></span>
+                
+                
+            </figcaption></figure>
+
+<h2 id="run-inspec-tests-against-a-remote-windows-machine">Run InSpec tests against a remote Windows machine</h2>
+
+<p>I passed the <code>hello world</code> of InSpec by running the first test on our workstation. As a next step, we run the same test against a remote Windows 2012 R2 server. We will use the same InSpec command with additional target information:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">inspec exec test.rb -t winrm://Administarator@hostname -p <span style="color:#e6db74">&#39;P@ssword&#39;</span></code></pre></div>
+
+
+
+
+<figure>
+    
+        <img src="https://lollyrock.com/posts/inspec-windows/inspec-exec-remote.png" alt="Execute InSpec test remotely"/> <figcaption>
+                
+                    <span><b>Execute InSpec test remotely</b></span>
+                
+                
+            </figcaption></figure>
+
+<p>With a few commands, we executed an InSpec test against a local workstation and a remote server.</p>
+
+<h2 id="resources-for-windows">Resources for Windows</h2>
+
+<p>Above, we explained how an InSpec test is created and executed. To make this experience great, InSpec ships with a number of resources optimized for Windows environments. Those resources range from core operating system essentials to application components.</p>
+
+<p>Verify Windows settings and configuration:</p>
+
+<ul>
+<li><a href="http://inspec.io/docs/reference/resources/file/">file</a></li>
+<li><a href="http://inspec.io/docs/reference/resources/package/">package</a></li>
+<li><a href="http://inspec.io/docs/reference/resources/port/">port</a></li>
+<li><a href="http://inspec.io/docs/reference/resources/registry_key/">registry_key</a></li>
+<li><a href="http://inspec.io/docs/reference/resources/service/">service</a></li>
+<li><a href="http://inspec.io/docs/reference/resources/user/">user</a></li>
+<li><a href="http://inspec.io/docs/reference/resources/users/">users</a></li>
+<li><a href="http://inspec.io/docs/reference/resources/windows_feature/">windows_feature</a></li>
+<li><a href="http://inspec.io/docs/reference/resources/windows_task/">windows_task</a></li>
+<li><a href="http://inspec.io/docs/reference/resources/wmi/">wmi</a></li>
+</ul>
+
+<p>Audit Windows security settings:</p>
+
+<ul>
+<li><a href="http://inspec.io/docs/reference/resources/audit_policy/">audit_policy</a></li>
+<li><a href="http://inspec.io/docs/reference/resources/security_policy/">security_policy</a></li>
+</ul>
+
+<p>Run custom scripts:</p>
+
+<ul>
+<li><a href="http://inspec.io/docs/reference/resources/powershell/">powershell</a></li>
+<li><a href="http://inspec.io/docs/reference/resources/vbscript/">vbscript</a></li>
+</ul>
+
+<p>Verify IIS configuration:</p>
+
+<ul>
+<li><a href="http://inspec.io/docs/reference/resources/iis_site/">iis_site</a></li>
+</ul>
+
+<p>More resources are available and documented at <a href="http://inspec.io/docs/reference/resources/">InSpec Docs</a>.</p>
+
+<h2 id="verify-configuration-of-the-windows-operating-system">Verify configuration of the Windows operating system</h2>
+
+<p>The following example illustrate the use of the <code>file</code>, <code>user</code>, <code>users</code>, <code>package</code> and <code>windows_taks</code> resource.</p>
+
+<script src="https://gist.github.com/chris-rock/3ab57d7d1bb3d1b813f614f81dcfafbf.js"></script>
+
+<p>The result on my Windows 10 workstation will return:</p>
+
+
+
+
+
+<figure>
+    
+        <img src="https://lollyrock.com/posts/inspec-windows/test-win.png" alt="Run InSpec operating system checks"/> <figcaption>
+                
+                    <span><b>Run InSpec operating system checks</b></span>
+                
+                
+            </figcaption></figure>
+
+<h2 id="security-checks-for-windows">Security checks for Windows</h2>
+
+<p>If you are interested in operating system hardening for Windows, you need to be able to verify <code>registry_key</code>, <code>security_policy</code> or <code>audit_policy</code>.</p>
+
+<script src="https://gist.github.com/chris-rock/7269ebfbff4f2500e59f922aa9d598fa.js"></script>
+
+<p>Have a look at <a href="https://technet.microsoft.com/en-us/library/jj966254.aspx">Administer Security Policy Settings</a>,<a href="https://technet.microsoft.com/en-us/library/dn221963.aspx">User Rights Assignment</a>, <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/bb530716.aspx">Privilege Constants</a> and <a href="https://technet.microsoft.com/en-us/library/cc766468.aspx">Audit Policy</a> to learn more about possible settings.</p>
+
+
+
+
+
+<figure>
+    
+        <img src="https://lollyrock.com/posts/inspec-windows/test-sec.png" alt="Run security checks"/> <figcaption>
+                
+                    <span><b>Run security checks</b></span>
+                
+                
+            </figcaption></figure>
+
+<h2 id="reuse-existing-powershell-or-vbscript-in-inspec">Reuse existing Powershell or VBScript in InSpec</h2>
+
+<p>InSpec also supports running Powershell and VBScript. This allows you to re-use existing scripts inside InSpec. <code>powershell</code> and <code>vbscript</code> resources provide the required capabilities to embed scripts in InSpec.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">script <span style="color:#f92672">=</span> <span style="color:#e6db74">&lt;&lt;-EOH
+</span><span style="color:#e6db74"></span>  <span style="color:#66d9ef">Write</span><span style="color:#f92672">-</span><span style="color:#66d9ef">Output</span> <span style="color:#e6db74">&#39;hello&#39;</span>
+<span style="color:#66d9ef">EOH</span>
+
+describe powershell(script) <span style="color:#66d9ef">do</span>
+  its(<span style="color:#e6db74">&#39;stdout&#39;</span>) { should eq <span style="color:#e6db74">&#34;hello</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span> }
+  its(<span style="color:#e6db74">&#39;stderr&#39;</span>) { should eq <span style="color:#e6db74">&#39;&#39;</span> }
+<span style="color:#66d9ef">end</span></code></pre></div>
+<p>Besides Powershell, InSpec supports <code>vbscript</code>, too:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">script <span style="color:#f92672">=</span> <span style="color:#e6db74">&lt;&lt;-EOH
+</span><span style="color:#e6db74"></span>  <span style="color:#66d9ef">WScript</span><span style="color:#f92672">.</span>Echo <span style="color:#e6db74">&#34;hello&#34;</span>
+<span style="color:#66d9ef">EOH</span>
+
+describe vbscript(script) <span style="color:#66d9ef">do</span>
+  its(<span style="color:#e6db74">&#39;stdout&#39;</span>) { should eq <span style="color:#e6db74">&#34;hello</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span> }
+<span style="color:#66d9ef">end</span></code></pre></div>
+<h2 id="application-testing-with-inspec">Application testing with InSpec</h2>
+
+<p>In addition to operating system checks, we can test IIS configurations with InSpec as well. The following example demonstrates tests for an out-of-the-box IIS server.</p>
+
+<script src="https://gist.github.com/chris-rock/a079adf369c88ac671b2b0f96f9bb229.js"></script>
+
+<h2 id="compliance">Compliance</h2>
+
+<p>Above, we introduced InSpec as an infrastructure testing tool. For compliance, <a href="http://inspec.io/docs/reference/dsl_inspec/">additional metadata</a> can be attached around <code>describe</code> tests. The following example shows the use of criticality (<code>impact</code>), <code>title</code>, tags (<code>tag</code>) and references (<code>ref</code>).</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">control <span style="color:#e6db74">&#39;windows-base-102&#39;</span> <span style="color:#66d9ef">do</span>
+  impact <span style="color:#ae81ff">1</span><span style="color:#f92672">.</span><span style="color:#ae81ff">0</span>
+  title <span style="color:#e6db74">&#39;Anonymous Access to Windows Shares and Named Pipes is Disallowed&#39;</span>
+  tag <span style="color:#e6db74">cis</span>: <span style="color:#f92672">[</span><span style="color:#e6db74">&#39;windows_2012r2:2.3.11.8&#39;</span>, <span style="color:#e6db74">&#39;windows_2016:2.3.10.9&#39;</span><span style="color:#f92672">]</span>
+  ref <span style="color:#e6db74">&#39;CIS Microsoft Windows Server 2012 R2 Benchmark&#39;</span>
+  ref <span style="color:#e6db74">&#39;CIS Microsoft Windows Server 2016 RTM (Release 1607) Benchmark&#39;</span>
+  describe registry_key(<span style="color:#e6db74">&#39;HKLM\System\CurrentControlSet\Services\LanManServer\Parameters&#39;</span>) <span style="color:#66d9ef">do</span>
+    it { should exist }
+    its(<span style="color:#e6db74">&#39;RestrictNullSessAccess&#39;</span>) { should eq <span style="color:#ae81ff">1</span> }
+  <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">end</span></code></pre></div>
+<p>In most cases, you do not want to start from scratch to develop compliance benchmarks. The <a href="http://dev-sec.io/">DevSec.io</a> project already provides industry best-practices for Linux and Windows operating systems. The Windows benchmark is currently in development and contributions are welcome to cover more areas. Let&rsquo;s run the DevSec Windows Baseline quickly:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">inspec exec <span style="color:#e6db74">https</span>:<span style="color:#e6db74">//</span>github<span style="color:#f92672">.</span>com<span style="color:#e6db74">/dev-sec/</span>windows<span style="color:#f92672">-</span>baseline</code></pre></div>
+<p>Are you compliant?</p>
+
+
+
+
+
+<figure>
+    
+        <img src="https://lollyrock.com/posts/inspec-windows/test-devsec.png" alt="Run DevSec Windows Baseline"/> <figcaption>
+                
+                    <span><b>Run DevSec Windows Baseline</b></span>
+                
+                
+            </figcaption></figure>
+
+<p>I recommend you have a look at the following DevSec profiles:</p>
+
+<ul>
+<li><a href="https://github.com/dev-sec/windows-baseline">DevSec Windows Baseline</a></li>
+<li><a href="https://github.com/dev-sec/windows-patch-baseline">DevSec Windows Patch Baseline</a></li>
+</ul>
+
+<p>Those benchmark already support Windows 2012+, Windows 2016 and Windows Nano.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>This blog post covered the following:</p>
+
+<ul>
+<li>InSpec installation on Windows</li>
+<li>InSpec resources for Windows</li>
+<li>Execute InSpec tests locally and remotely</li>
+<li>InSpec Compliance profiles for Windows</li>
+</ul>
+
+<p>You should be prepared to start your first tests with InSpec in your own environment. If you feel that something is missing, please let me know.</p>
+
+      </div>
+
+      <footer>
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      <footer class="footer">
+  <section class="container">
+    
+    <p>© 2018 Christoph Hartmann</p>
+    
+  </section>
+</footer>
+
+    </main>
+
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-50992958-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+  </body>
+
+</html>

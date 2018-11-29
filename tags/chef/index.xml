@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Chef on Christoph Hartmann</title>
+    <link>https://lollyrock.com/tags/chef/</link>
+    <description>Recent content in Chef on Christoph Hartmann</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 12 Aug 2016 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://lollyrock.com/tags/chef/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>ChefConf 2016 - Save Your Crash Dummies!</title>
+      <link>https://lollyrock.com/posts/chefconf2016-save-your-crash-dummies/</link>
+      <pubDate>Fri, 12 Aug 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/chefconf2016-save-your-crash-dummies/</guid>
+      <description>With infrastructure and application automation we have gained the tools to change systems in the blink of an eye. However, with increasing size, complexity, and time, these components will inevitably challenge your expectations. This uncertainty will ultimately slow you down. This talk will introduce the workflow to gain back trust.
+A Test-driven Infrastructure Solution This talk will cover the foundation of effective infrastructure tests and failure domains for isolation. Moreover, we will look into the management of divergent environments, from legacy systems to modern clouds.</description>
+    </item>
+    
+    <item>
+      <title>Managing your mainframe infrastructure using Chef</title>
+      <link>https://lollyrock.com/posts/managing-mainframe-using-chef/</link>
+      <pubDate>Thu, 22 Jan 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/managing-mainframe-using-chef/</guid>
+      <description>This blog post will focus on running Chef cookbooks on AIX server. As an example we will install various Linux tools via Chef and demonstrate, how a mainframe setup can be automated.
+Introduction Recently, I published an article about running Chef on AIX. I worked the last months with Chef and AIX. For my evaluations I used the IBM Power Development Cloud. Using various AIX machines, I needed a setup, where I was able to turn a vanilla AIX system into an perfectly configured system.</description>
+    </item>
+    
+    <item>
+      <title>Chef loves AIX - Mainframe Automation</title>
+      <link>https://lollyrock.com/posts/ibm-aix-chef/</link>
+      <pubDate>Wed, 03 Dec 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/ibm-aix-chef/</guid>
+      <description>I was very exited to play with IBM AIX and Chef 12. Coming from an Open Stack background with deep knowledge about automation and security with RedHat Linux and Windows Server, I was looking forward to gain insights about using the configuration management tool Chef with AIX. I have done some big deployments on cloud infrastructures and I am very pleased to see some technologies finding their way into core enterprise applications.</description>
+    </item>
+    
+    <item>
+      <title>Chef without an internet connection / Uninstall Chef with Chef</title>
+      <link>https://lollyrock.com/posts/chef-without-internet/</link>
+      <pubDate>Sun, 24 Aug 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/chef-without-internet/</guid>
+      <description>Recently I had a discussion with a DevOps team about an installation of Chef without an internet connection. A normal chef bootstrap fetches the chef binaries via &amp;ldquo;curl -L https://www.opscode.com/chef/install.sh | sudo bash&amp;rdquo;. This will happen, even if you use a Chef Server. Therefore you would require a connection to download the Chef client binaries.
+This blog post demonstrates a chef run without an internet connection. Be aware, that we proof the basic setup only.</description>
+    </item>
+    
+    <item>
+      <title>How to harden a new server with Chef</title>
+      <link>https://lollyrock.com/posts/how-to-harden-a-new-server/</link>
+      <pubDate>Wed, 14 May 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/how-to-harden-a-new-server/</guid>
+      <description>Deutsche Telekom developed scripts in Chef and Puppet to harden servers according to well-known guidelines like bettercrypto and internal guidelines at Deutsche Telekom. More information is available at the project page of the Hardening Framework. Disclosure: I am core developer at this project.
+Today we cook with knife-solo and harden a fresh copy of Ubuntu 14.04. The process of hardening a server is quite difficult and takes a lot of knowledge and experience.</description>
+    </item>
+    
+  </channel>
+</rss>

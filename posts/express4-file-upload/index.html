@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Christoph Hartmann">
+    <meta name="description" content="Chris&#39;s personal website">
+    <meta name="keywords" content="blog,developer,personal">
+
+    <base href="https://lollyrock.com/">
+    <title>
+  Simple file uploads with Express 4 · Christoph Hartmann
+</title>
+
+    <link rel="canonical" href="https://lollyrock.com/posts/express4-file-upload/">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400,500,600,700,800,900|Roboto:100,300,400,500,700,900|Source+Code+Pro:200,300,400" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" integrity="sha256-oSrCnRYXvHG31SBifqP2PM1uje7SJUyX0nTwO2RJV54=" crossorigin="anonymous" />
+
+    
+      
+      
+      <link rel="stylesheet" href="https://lollyrock.com/css/coder.min.ef70d8b6c126a236b98cb3ef257062e681b40ab6658d993adad91206fca88fa2.css" integrity="sha256-73DYtsEmoja5jLPvJXBi5oG0CrZljZk62tkSBvyoj6I=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="https://lollyrock.com/img/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://lollyrock.com/img/favicon-16x16.png" sizes="16x16">
+
+    
+
+    <meta name="generator" content="Hugo 0.51" />
+  </head>
+
+  <body class=" ">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="https://lollyrock.com/">
+      Christoph Hartmann
+    </a>
+    <input type="checkbox" id="menu-toggle" />
+    <label class="menu-button float-right" for="menu-toggle"><i class="fas fa-bars"></i></label>
+    <ul class="navigation-list">
+      
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="https://lollyrock.com/posts/">Blog</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="https://lollyrock.com/talks/">Talks</a>
+          </li>
+        
+      
+      
+    </ul>
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">Simple file uploads with Express 4</h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fas fa-calendar"></i>
+              <time datetime='2014-11-15T00:00:00Z'>
+                November 15, 2014
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fas fa-clock"></i>
+              4 minutes read
+            </span>
+            
+            
+            <span class="author">
+                <i class="fas fa-user"></i>
+                Christoph Hartmann
+            </span>
+            
+          </div>
+          
+          <div class="tags">
+  <i class="fas fa-tag"></i>
+    <a href="https://lollyrock.com/tags/nodejs/">nodejs</a></div>
+
+        </div>
+      </header>
+
+      <div>
+        
+
+<p><a href="http://expressjs.com/">Express</a> is a great web framework for Javascript. Quite often you have to deal with file uploads. Although this may seems like a trivial point, it has its challenges, especially if everything is asynchronous.</p>
+
+<h2 id="using-busboy">Using Busboy</h2>
+
+<p>For some time, <a href="https://github.com/mscdex/busboy">Busboy</a> was the best solution, because it uses the Javascript eventing properly. The downside is the complex setup as the sample from the github profile demonstrates:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">http</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;http&#39;</span>),
+    <span style="color:#a6e22e">inspect</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;util&#39;</span>).<span style="color:#a6e22e">inspect</span>;
+
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">Busboy</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;busboy&#39;</span>);
+
+<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">createServer</span>(<span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>) {
+  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">method</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;POST&#39;</span>) {
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">busboy</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Busboy</span>({ <span style="color:#a6e22e">headers</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">headers</span> });
+    <span style="color:#a6e22e">busboy</span>.<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#39;file&#39;</span>, <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">fieldname</span>, <span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">filename</span>, <span style="color:#a6e22e">encoding</span>, <span style="color:#a6e22e">mimetype</span>) {
+      <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;File [&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">fieldname</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;]: filename: &#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">filename</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;, encoding: &#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">encoding</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;, mimetype: &#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">mimetype</span>);
+      <span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#39;data&#39;</span>, <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">data</span>) {
+        <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;File [&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">fieldname</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;] got &#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39; bytes&#39;</span>);
+      });
+      <span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#39;end&#39;</span>, <span style="color:#66d9ef">function</span>() {
+        <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;File [&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">fieldname</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;] Finished&#39;</span>);
+      });
+    });
+    <span style="color:#a6e22e">busboy</span>.<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#39;field&#39;</span>, <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">fieldname</span>, <span style="color:#a6e22e">val</span>, <span style="color:#a6e22e">fieldnameTruncated</span>, <span style="color:#a6e22e">valTruncated</span>) {
+      <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;Field [&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">fieldname</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;]: value: &#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">inspect</span>(<span style="color:#a6e22e">val</span>));
+    });
+    <span style="color:#a6e22e">busboy</span>.<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#39;finish&#39;</span>, <span style="color:#66d9ef">function</span>() {
+      <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;Done parsing form!&#39;</span>);
+      <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">writeHead</span>(<span style="color:#ae81ff">303</span>, { <span style="color:#a6e22e">Connection</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;close&#39;</span>, <span style="color:#a6e22e">Location</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;/&#39;</span> });
+      <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">end</span>();
+    });
+    <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">pipe</span>(<span style="color:#a6e22e">busboy</span>);
+  } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">method</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;GET&#39;</span>) {
+    <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">writeHead</span>(<span style="color:#ae81ff">200</span>, { <span style="color:#a6e22e">Connection</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;close&#39;</span> });
+    <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">end</span>(<span style="color:#e6db74">&#39;&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;\
+</span><span style="color:#e6db74">               &lt;form method=&#34;POST&#34; enctype=&#34;multipart/form-data&#34;&gt;\
+</span><span style="color:#e6db74">                &lt;input type=&#34;text&#34; name=&#34;textfield&#34;&gt;&lt;br /&gt;\
+</span><span style="color:#e6db74">                &lt;input type=&#34;file&#34; name=&#34;filefield&#34;&gt;&lt;br /&gt;\
+</span><span style="color:#e6db74">                &lt;input type=&#34;submit&#34;&gt;\
+</span><span style="color:#e6db74">              &lt;/form&gt;\
+</span><span style="color:#e6db74">            &lt;/body&gt;&lt;/html&gt;&#39;</span>);
+  }
+}).<span style="color:#a6e22e">listen</span>(<span style="color:#ae81ff">8000</span>, <span style="color:#66d9ef">function</span>() {
+  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;Listening for requests&#39;</span>);
+});
+</code></pre></div>
+<p>This is not fun if you need to support this complex setup for multiple routes in express. Do not get me wrong, busboy is a great module and does the job well, but it is just not the abstraction you would like to have in your project. In normal cases you <code>just</code> need a file upload.</p>
+
+<h2 id="use-multer">Use multer</h2>
+
+<p>Here comes <a href="https://github.com/expressjs/multer">multer</a>. The final piece that fits between express and busboy. It takes all complex tasks behind the scenes and offers a configurable express middleware. Let&rsquo;s try it out:</p>
+
+<p>Set up a <code>package.json</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript">{
+  <span style="color:#e6db74">&#34;name&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;expres-upload-test&#34;</span>,
+  <span style="color:#e6db74">&#34;description&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;simple form upload test&#34;</span>,
+  <span style="color:#e6db74">&#34;version&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;0.1.0&#34;</span>,
+  <span style="color:#e6db74">&#34;dependencies&#34;</span><span style="color:#f92672">:</span> {
+    <span style="color:#e6db74">&#34;express&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;~4.0.0&#34;</span>,
+    <span style="color:#e6db74">&#34;multer&#34;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;0.1.6&#34;</span>
+  },
+  <span style="color:#e6db74">&#34;devDependencies&#34;</span><span style="color:#f92672">:</span> {
+  },
+  <span style="color:#e6db74">&#34;scripts&#34;</span><span style="color:#f92672">:</span> {},
+  <span style="color:#e6db74">&#34;engines&#34;</span><span style="color:#f92672">:</span> {
+    <span style="color:#e6db74">&#34;node&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;0.10.x&#34;</span>,
+    <span style="color:#e6db74">&#34;npm&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;&gt;1.4.0&#34;</span>
+  }
+}
+</code></pre></div>
+<p>To implement the server, create a <code>server.js</code> that combines express with multer. It is 17 lines including an extra hello world route.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">express</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;express&#39;</span>),
+    <span style="color:#a6e22e">multer</span>  <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;multer&#39;</span>)
+
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">app</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">express</span>()
+<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">use</span>(<span style="color:#a6e22e">multer</span>({ <span style="color:#a6e22e">dest</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;./uploads/&#39;</span>}))
+
+<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;/&#39;</span>, <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>){
+  <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">send</span>(<span style="color:#e6db74">&#39;hello world&#39;</span>);
+});
+
+<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">post</span>(<span style="color:#e6db74">&#39;/&#39;</span>, <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>){
+    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">body</span>) <span style="color:#75715e">// form fields
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">files</span>) <span style="color:#75715e">// form files
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">status</span>(<span style="color:#ae81ff">204</span>).<span style="color:#a6e22e">end</span>()
+});
+
+<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">listen</span>(<span style="color:#ae81ff">3000</span>);
+</code></pre></div>
+<p>Of course you can try this by using <a href="https://github.com/jakubroztocil/httpie">httpie</a>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ http -f POST http://localhost:3000/ file@~/Downloads/test.pdf
+HTTP/1.1 <span style="color:#ae81ff">200</span> OK
+Connection: keep-alive
+Date: Sat, <span style="color:#ae81ff">15</span> Nov <span style="color:#ae81ff">2014</span> <span style="color:#ae81ff">11</span>:15:21 GMT
+X-Powered-By: Express
+content-length: <span style="color:#ae81ff">278</span>
+content-type: application/json
+
+<span style="color:#f92672">{</span>
+    <span style="color:#e6db74">&#34;file&#34;</span>: <span style="color:#f92672">{</span>
+        <span style="color:#e6db74">&#34;buffer&#34;</span>: null, 
+        <span style="color:#e6db74">&#34;encoding&#34;</span>: <span style="color:#e6db74">&#34;7bit&#34;</span>, 
+        <span style="color:#e6db74">&#34;extension&#34;</span>: <span style="color:#e6db74">&#34;pdf&#34;</span>, 
+        <span style="color:#e6db74">&#34;fieldname&#34;</span>: <span style="color:#e6db74">&#34;file&#34;</span>, 
+        <span style="color:#e6db74">&#34;mimetype&#34;</span>: <span style="color:#e6db74">&#34;text/plain&#34;</span>, 
+        <span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;f459076685288eed5b4b45f80a11b908.pdf&#34;</span>, 
+        <span style="color:#e6db74">&#34;originalname&#34;</span>: <span style="color:#e6db74">&#34;test.pdf&#34;</span>, 
+        <span style="color:#e6db74">&#34;path&#34;</span>: <span style="color:#e6db74">&#34;uploads/f459076685288eed5b4b45f80a11b908.pdf&#34;</span>, 
+        <span style="color:#e6db74">&#34;size&#34;</span>: <span style="color:#ae81ff">59353</span>, 
+        <span style="color:#e6db74">&#34;truncated&#34;</span>: false
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span></code></pre></div>
+<h2 id="upload-per-route">Upload per route</h2>
+
+<p>The example above works well in most use cases. If you chain multiple middleware together, you will find out, that express uses streams, but this does not fully work with middleware. Events are not piped between middleware. If you use two express middlewares in a chain and each tries to catch all stream events and calls <code>next()</code> when all the eventing is done, the second middleware will not receive the required events anymore.</p>
+
+<p>In such a case you need to optimize the middleware per route. Therefore I do not recommend to use multer as a global middleware for express. Instead I would add multer to the routes that specifically require it.</p>
+
+<p>A working example would look like:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">express</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;express&#39;</span>),
+    <span style="color:#a6e22e">multer</span>  <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;multer&#39;</span>)
+
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">app</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">express</span>()
+
+<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;/&#39;</span>, <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>){
+  <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">send</span>(<span style="color:#e6db74">&#39;hello world&#39;</span>);
+});
+
+<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">post</span>(<span style="color:#e6db74">&#39;/&#39;</span>,[ <span style="color:#a6e22e">multer</span>({ <span style="color:#a6e22e">dest</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;./uploads/&#39;</span>}), <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>){
+    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">body</span>) <span style="color:#75715e">// form fields
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">files</span>) <span style="color:#75715e">// form files
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">status</span>(<span style="color:#ae81ff">204</span>).<span style="color:#a6e22e">end</span>()
+}]);
+
+<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">listen</span>(<span style="color:#ae81ff">3000</span>);
+</code></pre></div>
+<p>If you have any questions contact me via <a href="https://twitter.com/chri_hartmann">Twitter @chri_hartmann</a> or <a href="https://github.com/chris-rock">Github</a></p>
+
+<p>See also:</p>
+
+<ul>
+<li><a href="http://lollyrock.com/articles/nodejs-encryption/">Encrypt and decrypt content with Nodejs</a></li>
+<li><a href="http://lollyrock.com/articles/nodejs-sha512/">SHA 512 Hashs with nodejs</a></li>
+<li><a href="http://lollyrock.com/articles/content-security-policy/">Applied Content Security Policy for Nginx and Nodejs</a></li>
+<li><a href="http://arlimus.github.io/articles/ready.for.es6/">Ready for ES6?</a></li>
+</ul>
+
+      </div>
+
+      <footer>
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      <footer class="footer">
+  <section class="container">
+    
+    <p>© 2018 Christoph Hartmann</p>
+    
+  </section>
+</footer>
+
+    </main>
+
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-50992958-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+  </body>
+
+</html>

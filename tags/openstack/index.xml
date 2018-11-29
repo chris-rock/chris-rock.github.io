@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Openstack on Christoph Hartmann</title>
+    <link>https://lollyrock.com/tags/openstack/</link>
+    <description>Recent content in Openstack on Christoph Hartmann</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 28 Apr 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://lollyrock.com/tags/openstack/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Run CoreOS on OpenStack</title>
+      <link>https://lollyrock.com/posts/coreos-openstack/</link>
+      <pubDate>Tue, 28 Apr 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/coreos-openstack/</guid>
+      <description>This guide will walk you through downloading CoreOS for OpenStack, importing in OpenStack with glance and start your first CoreOS cluster with the nova tool.
+Upload the Image Personally, I use the OpenStack Docker CLI image, that provides the nova and glance tool and is described here. Once you are able to connect to OpenStack, you need to download the CoreOS image and bunzip it.
+# download stable channel $ wget http://stable.</description>
+    </item>
+    
+    <item>
+      <title>OpenStack CLI in Docker</title>
+      <link>https://lollyrock.com/posts/openstack-cli-docker/</link>
+      <pubDate>Wed, 22 Apr 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/openstack-cli-docker/</guid>
+      <description>Recently, I faced the issue, that I had some python modules for OpenStack had dependency issues with other python modules. In addition I use multiple machines with the OpenStack CLI and it is always a lot of effort to synchronize the software to the latest state. I could have used virtualenv, but I had issues with this setup, too. Therefore I decided to start implementing a Docker container.
+Setup The container handles all of the pain.</description>
+    </item>
+    
+    <item>
+      <title>s3cmd with radosgw</title>
+      <link>https://lollyrock.com/posts/s3cmd-with-radosgw/</link>
+      <pubDate>Sun, 07 Sep 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/s3cmd-with-radosgw/</guid>
+      <description>Amazon introduced the concept of S3 object storage to a wide-range of users. Their interface is the defacto-standard to store files in web applications. Nowadays, it is used by other vendors as well. Ceph and RiakCS are some examples, where the same interface is available. This blog post will setup s3cmd with Ceph radosgw.
+About S3 It is used as an interface for distributed storage due to the fact that the only thing you need to put and retrieve files is http.</description>
+    </item>
+    
+    <item>
+      <title>Install OpenStack CLI on Ubuntu</title>
+      <link>https://lollyrock.com/posts/install-openstack-cli/</link>
+      <pubDate>Sun, 03 Aug 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/install-openstack-cli/</guid>
+      <description>To setup the Open Stack Cli on a new server, you need to install Python 2.7 and the xml libraries. Once everything is prepared, the cli can be installed with:
+pip install OPENSTACKTOOL-novaclient Installation on Ubuntu 14.04 LTS # Install dependencies to install nova and glance client apt-get update apt-get install -y python-pip apt-get install -y build-essential apt-get install -y python-dev libxslt1-dev libxml2-dev # Install the Open Stack Cli pip install python-novaclient pip install python-glanceclient Now, configure your environment variables for Open Stack.</description>
+    </item>
+    
+    <item>
+      <title>Open Stack Glance Image Create</title>
+      <link>https://lollyrock.com/posts/glance-image-create/</link>
+      <pubDate>Thu, 03 Apr 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/glance-image-create/</guid>
+      <description>The newest version of Ubuntu is out and we need to upload the latest version to Open Stack. Of course we try to save our bandwith. There we use -copy-from instead of --file openstack_image.img:
+glance image-create --name &amp;#39;Ubuntu 14.04 LTS&amp;#39; \  --container-format bare \  --disk-format qcow2 \  --is-public true \  --copy-from http://uec-images.ubuntu.com/releases/14.04/release/ubuntu-14.04-server-cloudimg-amd64-disk1.img +------------------+--------------------------------------+ | Property | Value | +------------------+--------------------------------------+ | checksum | None | | container_format | bare | | created_at | 2014-04-02T13:16:20 | | deleted | False | | deleted_at | None | | disk_format | qcow2 | | id | aa5ab6de-e461-4330-136e-fb149802bdc0 | | is_public | True | | min_disk | 0 | | min_ram | 0 | | name | Ubuntu 14.</description>
+    </item>
+    
+    <item>
+      <title>Open Stack VM Resizing</title>
+      <link>https://lollyrock.com/posts/openstack-vm-resize/</link>
+      <pubDate>Wed, 02 Apr 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/openstack-vm-resize/</guid>
+      <description>Once in a while you need to upgrade a VM with more CPU or storage.
+Step 1: VM preparation A normal VM running on Openstack is well prepared for flavor resizing. Our observations just brought up the network configuration as a central point of failure. Especially RedHat-based machines fix the network config in various files. e.g. for CentOS
+# ensure the vm is properly prepared rm /etc/udev/rules.d/70-persistent-net.rules touch /etc/udev/rules.d/70-persistent-net.rules # remove hardware specific settings /etc/sysconfig/network-scripts sed -i &amp;#39;/UUID/d&amp;#39; /etc/sysconfig/network-scripts/ifcfg-eth0 sed -i &amp;#39;/HWADDR/d&amp;#39; /etc/sysconfig/network-scripts/ifcfg-eth0 sed -i &amp;#39;/IPADDR/d&amp;#39; /etc/sysconfig/network-scripts/ifcfg-eth0 The vm is properly prepared by now.</description>
+    </item>
+    
+    <item>
+      <title>Havana Box</title>
+      <link>https://lollyrock.com/posts/havana-box/</link>
+      <pubDate>Mon, 28 Oct 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/havana-box/</guid>
+      <description>OpenStack Havana has just been released. It offers a bunch of new features. Everything is well documented in their Release Notes. It is nice to read, but I need a test drive.
+We are using Open Stack heavily and test new releases via DevStack before we deploy new releases in our staging environment. What would be easier than trying Havana with a vagrant box. You find my vagrant setup at Github https://github.</description>
+    </item>
+    
+  </channel>
+</rss>

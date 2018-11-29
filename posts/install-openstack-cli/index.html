@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Christoph Hartmann">
+    <meta name="description" content="Chris&#39;s personal website">
+    <meta name="keywords" content="blog,developer,personal">
+
+    <base href="https://lollyrock.com/">
+    <title>
+  Install OpenStack CLI on Ubuntu · Christoph Hartmann
+</title>
+
+    <link rel="canonical" href="https://lollyrock.com/posts/install-openstack-cli/">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400,500,600,700,800,900|Roboto:100,300,400,500,700,900|Source+Code+Pro:200,300,400" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" integrity="sha256-oSrCnRYXvHG31SBifqP2PM1uje7SJUyX0nTwO2RJV54=" crossorigin="anonymous" />
+
+    
+      
+      
+      <link rel="stylesheet" href="https://lollyrock.com/css/coder.min.ef70d8b6c126a236b98cb3ef257062e681b40ab6658d993adad91206fca88fa2.css" integrity="sha256-73DYtsEmoja5jLPvJXBi5oG0CrZljZk62tkSBvyoj6I=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="https://lollyrock.com/img/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://lollyrock.com/img/favicon-16x16.png" sizes="16x16">
+
+    
+
+    <meta name="generator" content="Hugo 0.51" />
+  </head>
+
+  <body class=" ">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="https://lollyrock.com/">
+      Christoph Hartmann
+    </a>
+    <input type="checkbox" id="menu-toggle" />
+    <label class="menu-button float-right" for="menu-toggle"><i class="fas fa-bars"></i></label>
+    <ul class="navigation-list">
+      
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="https://lollyrock.com/posts/">Blog</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="https://lollyrock.com/talks/">Talks</a>
+          </li>
+        
+      
+      
+    </ul>
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">Install OpenStack CLI on Ubuntu</h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fas fa-calendar"></i>
+              <time datetime='2014-08-03T00:00:00Z'>
+                August 3, 2014
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fas fa-clock"></i>
+              2 minutes read
+            </span>
+            
+            
+            <span class="author">
+                <i class="fas fa-user"></i>
+                Christoph Hartmann
+            </span>
+            
+          </div>
+          
+          <div class="tags">
+  <i class="fas fa-tag"></i>
+    <a href="https://lollyrock.com/tags/openstack/">openstack</a></div>
+
+        </div>
+      </header>
+
+      <div>
+        
+
+<p>To setup the Open Stack Cli on a new server, you need to install Python 2.7 and the xml libraries. Once everything is prepared, the cli can be installed with:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pip install OPENSTACKTOOL-novaclient</code></pre></div>
+<h1 id="installation-on-ubuntu-14-04-lts">Installation on Ubuntu 14.04 LTS</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># Install dependencies to install nova and glance client</span>
+apt-get update
+apt-get install -y python-pip
+apt-get install -y build-essential
+apt-get install -y python-dev libxslt1-dev libxml2-dev
+
+<span style="color:#75715e"># Install the Open Stack Cli</span>
+pip install python-novaclient
+pip install python-glanceclient</code></pre></div>
+<p>Now, configure your environment variables for Open Stack. Since I use multiple tenants, I am going to create a new file for each tenant. eg. tenant1.sh:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># tenant1.sh</span>
+export OS_USERNAME<span style="color:#f92672">=</span>chris
+export OS_PASSWORD<span style="color:#f92672">=</span>verysecurepassword
+export OS_TENANT_NAME<span style="color:#f92672">=</span>tenant1_name
+export OS_AUTH_URL<span style="color:#f92672">=</span>https://openstack.example.com:5000/v2.0/
+export OS_AUTH_STRATEGY<span style="color:#f92672">=</span>keystone</code></pre></div>
+<p>With this approach I am able to switch tenants quickly. Just <code>source tenant1.sh</code> or execute the shell script directly. Test your setup with <code>nova list</code>.</p>
+
+<p>To upload a new Ubuntu cloud image with <code>glance</code>, run the following command:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">glance image-create --name <span style="color:#e6db74">&#39;Ubuntu 12.04.4 LTS&#39;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  --container-format bare <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  --disk-format qcow2 <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  --is-public true <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  --copy-from http://uec-images.ubuntu.com/releases/12.04.4/release/ubuntu-12.04-server-cloudimg-amd64-disk1.img</code></pre></div>
+<h1 id="installation-on-macos-x">Installation on MacOS X</h1>
+
+<p>You need to install the following packages:</p>
+
+<ul>
+<li><a href="https://www.python.org/ftp/python/2.7.8/python-2.7.8-macosx10.6.dmg">Python 2.7</a></li>
+<li><a href="http://git-scm.com/download/mac">Git</a></li>
+</ul>
+
+<p>I experienced issues with Python 2.7 shipped with Mac OS. Therefore I recommend the installation of the official version from the Python team.</p>
+
+<p>After the base packages are available, open the <code>Terminal</code> and run the following commands:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># Install pip</span>
+curl --silent https://bootstrap.pypa.io/get-pip.py |sudo python2.7
+
+<span style="color:#75715e"># Install Open Stack Tools</span>
+pip install python-novaclient
+pip install python-glanceclient</code></pre></div>
+<p>If you have any questions contact me via <a href="https://twitter.com/chri_hartmann">Twitter @chri_hartmann</a> or <a href="https://github.com/chris-rock">Github</a></p>
+
+      </div>
+
+      <footer>
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      <footer class="footer">
+  <section class="container">
+    
+    <p>© 2018 Christoph Hartmann</p>
+    
+  </section>
+</footer>
+
+    </main>
+
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-50992958-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+  </body>
+
+</html>

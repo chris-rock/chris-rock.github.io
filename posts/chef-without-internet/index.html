@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Christoph Hartmann">
+    <meta name="description" content="Chris&#39;s personal website">
+    <meta name="keywords" content="blog,developer,personal">
+
+    <base href="https://lollyrock.com/">
+    <title>
+  Chef without an internet connection / Uninstall Chef with Chef · Christoph Hartmann
+</title>
+
+    <link rel="canonical" href="https://lollyrock.com/posts/chef-without-internet/">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400,500,600,700,800,900|Roboto:100,300,400,500,700,900|Source+Code+Pro:200,300,400" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" integrity="sha256-oSrCnRYXvHG31SBifqP2PM1uje7SJUyX0nTwO2RJV54=" crossorigin="anonymous" />
+
+    
+      
+      
+      <link rel="stylesheet" href="https://lollyrock.com/css/coder.min.ef70d8b6c126a236b98cb3ef257062e681b40ab6658d993adad91206fca88fa2.css" integrity="sha256-73DYtsEmoja5jLPvJXBi5oG0CrZljZk62tkSBvyoj6I=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="https://lollyrock.com/img/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://lollyrock.com/img/favicon-16x16.png" sizes="16x16">
+
+    
+
+    <meta name="generator" content="Hugo 0.51" />
+  </head>
+
+  <body class=" ">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="https://lollyrock.com/">
+      Christoph Hartmann
+    </a>
+    <input type="checkbox" id="menu-toggle" />
+    <label class="menu-button float-right" for="menu-toggle"><i class="fas fa-bars"></i></label>
+    <ul class="navigation-list">
+      
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="https://lollyrock.com/posts/">Blog</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="https://lollyrock.com/talks/">Talks</a>
+          </li>
+        
+      
+      
+    </ul>
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">Chef without an internet connection / Uninstall Chef with Chef</h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fas fa-calendar"></i>
+              <time datetime='2014-08-24T00:00:00Z'>
+                August 24, 2014
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fas fa-clock"></i>
+              5 minutes read
+            </span>
+            
+            
+            <span class="author">
+                <i class="fas fa-user"></i>
+                Christoph Hartmann
+            </span>
+            
+          </div>
+          
+          <div class="tags">
+  <i class="fas fa-tag"></i>
+    <a href="https://lollyrock.com/tags/chef/">chef</a>
+      <span class="separator">•</span>
+    <a href="https://lollyrock.com/tags/security/">security</a></div>
+
+        </div>
+      </header>
+
+      <div>
+        
+
+<p>Recently I had a discussion with a DevOps team about an installation of Chef without an internet connection. A normal chef bootstrap fetches the chef binaries via &ldquo;curl -L <a href="https://www.opscode.com/chef/install.sh">https://www.opscode.com/chef/install.sh</a> | sudo bash&rdquo;. This will happen, even if you use a Chef Server. Therefore you would require a connection to download the Chef client binaries.</p>
+
+<p>This blog post demonstrates a chef run without an internet connection. Be aware, that we proof the basic setup only. Cookbooks may depend on external urls, but most of them allow attribute overrides to set custom urls.</p>
+
+<h2 id="install-chef-without-internet">Install Chef without internet</h2>
+
+<p>Depending on your operating system, <a href="http://www.getchef.com/chef/install/">Chef provides multiple platform dependent installer</a>. E.g. for Ubuntu you could go with:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/13.04/x86_64/chef_11.12.8-2_amd64.deb</code></pre></div>
+<p>This enables you to store the binaries on a local server within your internal network. Now, you need to transfer the package on a fresh system and you can install it:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">echo <span style="color:#e6db74">&#34;---&gt; Chef install status:&#34;</span>
+dpkg-query -l chef
+
+echo <span style="color:#e6db74">&#34;---&gt; Install Chef&#34;</span>
+dpkg -i chef_11.12.8-2_amd64.deb
+
+echo <span style="color:#e6db74">&#34;---&gt; Chef install status:&#34;</span>
+dpkg-query -l chef
+
+echo <span style="color:#e6db74">&#34;---&gt; Start chef run&#34;</span>
+<span style="color:#75715e"># we use chef zero here (-z), if you use a chef server, this would work, too</span>
+chef-client -z -o chef-purge
+
+echo <span style="color:#e6db74">&#34;---&gt; Chef install status:&#34;</span>
+dpkg-query -l chef</code></pre></div>
+<p>This proofs that we are able to bootstrap a machine with a local chef binary. It would be amazing, if Chef Inc could provide apt and yum repositories. This would allow us to work with the standard operating system setup and we would be able to re-use existing package mirrors.</p>
+
+<h1 id="uninstall-chef-with-chef">Uninstall Chef with Chef</h1>
+
+<p>My customers often asked for a method to do a one-time install of <a href="http://dev-sec.io/">DevSec Hardening Framework</a>. In such a case it would be great, if we could remove the chef installer after the machine bootstrap.</p>
+
+<p>Now fun begins and we proof, that we are able to uninstall the chef binary with a chef cookbook:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#75715e">## Uninstall chef</span>
+package <span style="color:#e6db74">&#34;chef&#34;</span> <span style="color:#66d9ef">do</span>
+  action <span style="color:#e6db74">:purge</span>
+<span style="color:#66d9ef">end</span></code></pre></div>
+<p>The console output looks like:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#ae81ff">19</span>:11:34 ∅&gt; vagrant up
+Bringing machine <span style="color:#e6db74">&#39;core&#39;</span> up with <span style="color:#e6db74">&#39;virtualbox&#39;</span> provider...
+<span style="color:#f92672">[</span>core<span style="color:#f92672">]</span> VirtualBox VM is already running.
+<span style="color:#ae81ff">19</span>:12:11 ∅&gt; vagrant provision
+<span style="color:#f92672">[</span>core<span style="color:#f92672">]</span> Running provisioner: shell...
+<span style="color:#f92672">[</span>core<span style="color:#f92672">]</span> Running: inline script
+---&gt; Chef install status:
+Desired<span style="color:#f92672">=</span>Unknown/Install/Remove/Purge/Hold
+| Status<span style="color:#f92672">=</span>Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?<span style="color:#f92672">=(</span>none<span style="color:#f92672">)</span>/Reinst-required <span style="color:#f92672">(</span>Status,Err: uppercase<span style="color:#f92672">=</span>bad<span style="color:#f92672">)</span>
+<span style="color:#f92672">||</span>/ Name                             Version                           Description
++++-<span style="color:#f92672">================================</span>-<span style="color:#f92672">=================================</span>-<span style="color:#f92672">==============================================================================</span>
+un  chef                             &lt;none&gt;                            <span style="color:#f92672">(</span>no description available<span style="color:#f92672">)</span>
+Selecting previously unselected package chef.
+<span style="color:#f92672">(</span>Reading database ... <span style="color:#ae81ff">61149</span> files and directories currently installed.<span style="color:#f92672">)</span>
+Unpacking chef <span style="color:#f92672">(</span>from .../chef_11.12.8-2_amd64.deb<span style="color:#f92672">)</span> ...
+Setting up chef <span style="color:#f92672">(</span><span style="color:#ae81ff">11</span>.12.8-2<span style="color:#f92672">)</span> ...
+Thank you <span style="color:#66d9ef">for</span> installing Chef!
+---&gt; Chef install status:
+Desired<span style="color:#f92672">=</span>Unknown/Install/Remove/Purge/Hold
+| Status<span style="color:#f92672">=</span>Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?<span style="color:#f92672">=(</span>none<span style="color:#f92672">)</span>/Reinst-required <span style="color:#f92672">(</span>Status,Err: uppercase<span style="color:#f92672">=</span>bad<span style="color:#f92672">)</span>
+<span style="color:#f92672">||</span>/ Name                             Version                           Description
++++-<span style="color:#f92672">================================</span>-<span style="color:#f92672">=================================</span>-<span style="color:#f92672">==============================================================================</span>
+ii  chef                             <span style="color:#ae81ff">11</span>.12.8-2                         The full stack of chef
+---&gt; Start chef run
+<span style="color:#f92672">[</span><span style="color:#ae81ff">2014</span>-07-14T17:12:31+00:00<span style="color:#f92672">]</span> WARN: No config file found or specified on command line, using command line options.
+<span style="color:#f92672">[</span><span style="color:#ae81ff">2014</span>-07-14T17:12:31+00:00<span style="color:#f92672">]</span> INFO: Auto-discovered chef repository at /vagrant
+<span style="color:#f92672">[</span><span style="color:#ae81ff">2014</span>-07-14T17:12:31+00:00<span style="color:#f92672">]</span> INFO: Starting chef-zero on port <span style="color:#ae81ff">8889</span> with repository at repository at /vagrant
+  One version per cookbook
+
+<span style="color:#f92672">[</span><span style="color:#ae81ff">2014</span>-07-14T17:12:31+00:00<span style="color:#f92672">]</span> INFO: Forking chef instance to converge...
+<span style="color:#f92672">[</span><span style="color:#ae81ff">2014</span>-07-14T17:12:31+00:00<span style="color:#f92672">]</span> WARN: 
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+SSL validation of HTTPS requests is disabled. HTTPS connections are still
+encrypted, but chef is not able to detect forged replies or man in the middle
+attacks.
+
+To fix this issue add an entry like this to your configuration file:
+
+<span style="color:#e6db74">```</span>ruby
+  <span style="color:#75715e"># Verify all HTTPS connections (recommended)</span>
+  ssl_verify_mode :verify_peer
+
+  <span style="color:#75715e"># OR, Verify only connections to chef-server</span>
+  verify_api_cert true</code></pre></div>
+<p>To check your SSL configuration, or troubleshoot errors, you can use the
+<code>knife ssl check</code> command like so:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ knife ssl check -c 
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+
+<span style="color:#f92672">[</span><span style="color:#ae81ff">2014</span>-07-14T17:12:31+00:00<span style="color:#f92672">]</span> INFO: *** Chef <span style="color:#ae81ff">11</span>.12.8 ***
+<span style="color:#f92672">[</span><span style="color:#ae81ff">2014</span>-07-14T17:12:31+00:00<span style="color:#f92672">]</span> INFO: Chef-client pid: <span style="color:#ae81ff">3311</span>
+<span style="color:#f92672">[</span><span style="color:#ae81ff">2014</span>-07-14T17:12:33+00:00<span style="color:#f92672">]</span> WARN: Run List override has been provided.
+<span style="color:#f92672">[</span><span style="color:#ae81ff">2014</span>-07-14T17:12:33+00:00<span style="color:#f92672">]</span> WARN: Original Run List: <span style="color:#f92672">[]</span>
+<span style="color:#f92672">[</span><span style="color:#ae81ff">2014</span>-07-14T17:12:33+00:00<span style="color:#f92672">]</span> WARN: Overridden Run List: <span style="color:#f92672">[</span>recipe<span style="color:#f92672">[</span>chef-purge<span style="color:#f92672">]]</span>
+<span style="color:#f92672">[</span><span style="color:#ae81ff">2014</span>-07-14T17:12:33+00:00<span style="color:#f92672">]</span> INFO: Run List is <span style="color:#f92672">[</span>recipe<span style="color:#f92672">[</span>chef-purge<span style="color:#f92672">]]</span>
+<span style="color:#f92672">[</span><span style="color:#ae81ff">2014</span>-07-14T17:12:33+00:00<span style="color:#f92672">]</span> INFO: Run List expands to <span style="color:#f92672">[</span>chef-purge<span style="color:#f92672">]</span>
+<span style="color:#f92672">[</span><span style="color:#ae81ff">2014</span>-07-14T17:12:33+00:00<span style="color:#f92672">]</span> INFO: Starting Chef Run <span style="color:#66d9ef">for</span> vagrant-ubuntu-precise-64
+<span style="color:#f92672">[</span><span style="color:#ae81ff">2014</span>-07-14T17:12:33+00:00<span style="color:#f92672">]</span> INFO: Running start handlers
+<span style="color:#f92672">[</span><span style="color:#ae81ff">2014</span>-07-14T17:12:33+00:00<span style="color:#f92672">]</span> INFO: Start handlers complete.
+<span style="color:#f92672">[</span><span style="color:#ae81ff">2014</span>-07-14T17:12:33+00:00<span style="color:#f92672">]</span> INFO: HTTP Request Returned <span style="color:#ae81ff">404</span> Not Found : Object not found: /reports/nodes/vagrant-ubuntu-precise-64/runs
+<span style="color:#f92672">[</span><span style="color:#ae81ff">2014</span>-07-14T17:12:33+00:00<span style="color:#f92672">]</span> INFO: Loading cookbooks <span style="color:#f92672">[</span>chef-purge@0.1.0<span style="color:#f92672">]</span>
+<span style="color:#f92672">[</span><span style="color:#ae81ff">2014</span>-07-14T17:12:33+00:00<span style="color:#f92672">]</span> INFO: Processing file<span style="color:#f92672">[</span>/root/x.txt<span style="color:#f92672">]</span> action create <span style="color:#f92672">(</span>chef-purge::default line <span style="color:#ae81ff">1</span><span style="color:#f92672">)</span>
+<span style="color:#f92672">[</span><span style="color:#ae81ff">2014</span>-07-14T17:12:33+00:00<span style="color:#f92672">]</span> INFO: Processing package<span style="color:#f92672">[</span>chef<span style="color:#f92672">]</span> action purge <span style="color:#f92672">(</span>chef-purge::default line <span style="color:#ae81ff">6</span><span style="color:#f92672">)</span>
+<span style="color:#f92672">[</span><span style="color:#ae81ff">2014</span>-07-14T17:12:35+00:00<span style="color:#f92672">]</span> INFO: package<span style="color:#f92672">[</span>chef<span style="color:#f92672">]</span> purged
+<span style="color:#f92672">[</span><span style="color:#ae81ff">2014</span>-07-14T17:12:35+00:00<span style="color:#f92672">]</span> WARN: Skipping final node save because override_runlist was given
+<span style="color:#f92672">[</span><span style="color:#ae81ff">2014</span>-07-14T17:12:35+00:00<span style="color:#f92672">]</span> INFO: Chef Run complete in <span style="color:#ae81ff">1</span>.445303952 seconds
+<span style="color:#f92672">[</span><span style="color:#ae81ff">2014</span>-07-14T17:12:35+00:00<span style="color:#f92672">]</span> INFO: Running report handlers
+<span style="color:#f92672">[</span><span style="color:#ae81ff">2014</span>-07-14T17:12:35+00:00<span style="color:#f92672">]</span> INFO: Report handlers complete
+---&gt; Chef install status:
+Desired<span style="color:#f92672">=</span>Unknown/Install/Remove/Purge/Hold
+| Status<span style="color:#f92672">=</span>Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?<span style="color:#f92672">=(</span>none<span style="color:#f92672">)</span>/Reinst-required <span style="color:#f92672">(</span>Status,Err: uppercase<span style="color:#f92672">=</span>bad<span style="color:#f92672">)</span>
+<span style="color:#f92672">||</span>/ Name                             Version                           Description
++++-<span style="color:#f92672">================================</span>-<span style="color:#f92672">=================================</span>-<span style="color:#f92672">==============================================================================</span>
+un  chef                             &lt;none&gt;                            <span style="color:#f92672">(</span>no description available<span style="color:#f92672">)</span>
+<span style="color:#ae81ff">19</span>:12:40 ∅&gt;</code></pre></div>
+<h2 id="conclusion">Conclusion</h2>
+
+<ol>
+<li><p>It is possible to install the Chef client without an internet connection, but unfortunately Chef is not available via normal package systems like apt and yum.</p></li>
+
+<li><p>Chef binaries can be un-installed with a Chef run</p></li>
+</ol>
+
+<p>The full demo is available at <a href="https://github.com/chris-rock/chef-purge-demo/">Github</a>. Do you have better approaches for running Chef runs without internet?</p>
+
+<p>If you have any questions contact me via <a href="https://twitter.com/chri_hartmann">Twitter @chri_hartmann</a> or <a href="https://github.com/chris-rock">Github</a></p>
+
+      </div>
+
+      <footer>
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      <footer class="footer">
+  <section class="container">
+    
+    <p>© 2018 Christoph Hartmann</p>
+    
+  </section>
+</footer>
+
+    </main>
+
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-50992958-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+  </body>
+
+</html>

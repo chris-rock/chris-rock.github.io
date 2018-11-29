@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Christoph Hartmann">
+    <meta name="description" content="Chris&#39;s personal website">
+    <meta name="keywords" content="blog,developer,personal">
+
+    <base href="https://lollyrock.com/">
+    <title>
+  Asynchronous HTTP requests with Scala and Dispatch · Christoph Hartmann
+</title>
+
+    <link rel="canonical" href="https://lollyrock.com/posts/scala-http-requests/">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400,500,600,700,800,900|Roboto:100,300,400,500,700,900|Source+Code+Pro:200,300,400" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" integrity="sha256-oSrCnRYXvHG31SBifqP2PM1uje7SJUyX0nTwO2RJV54=" crossorigin="anonymous" />
+
+    
+      
+      
+      <link rel="stylesheet" href="https://lollyrock.com/css/coder.min.ef70d8b6c126a236b98cb3ef257062e681b40ab6658d993adad91206fca88fa2.css" integrity="sha256-73DYtsEmoja5jLPvJXBi5oG0CrZljZk62tkSBvyoj6I=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="https://lollyrock.com/img/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://lollyrock.com/img/favicon-16x16.png" sizes="16x16">
+
+    
+
+    <meta name="generator" content="Hugo 0.51" />
+  </head>
+
+  <body class=" ">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="https://lollyrock.com/">
+      Christoph Hartmann
+    </a>
+    <input type="checkbox" id="menu-toggle" />
+    <label class="menu-button float-right" for="menu-toggle"><i class="fas fa-bars"></i></label>
+    <ul class="navigation-list">
+      
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="https://lollyrock.com/posts/">Blog</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="https://lollyrock.com/talks/">Talks</a>
+          </li>
+        
+      
+      
+    </ul>
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">Asynchronous HTTP requests with Scala and Dispatch</h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fas fa-calendar"></i>
+              <time datetime='2014-08-11T00:00:00Z'>
+                August 11, 2014
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fas fa-clock"></i>
+              4 minutes read
+            </span>
+            
+            
+            <span class="author">
+                <i class="fas fa-user"></i>
+                Christoph Hartmann
+            </span>
+            
+          </div>
+          
+          <div class="tags">
+  <i class="fas fa-tag"></i>
+    <a href="https://lollyrock.com/tags/scala/">scala</a></div>
+
+        </div>
+      </header>
+
+      <div>
+        
+
+<p>Today, we use REST APIs everywhere. Quite often this requires the implementation of SDKs for specific languages. If you are going to write a SDK or you need to call a REST backend without the availability of a SDK, you need a framework to send HTTP requests. The cool thing about Scala is the fact that it has native support for <a href="http://docs.scala-lang.org/overviews/core/futures.html">Futures (aka Promises)</a>. By using futures, you simplify your life:</p>
+
+<ul>
+<li>the application does not block</li>
+<li>the application can handle more parallel requests</li>
+<li>you do not need a complex threading model</li>
+</ul>
+
+<p>In Scala, <a href="http://dispatch.databinder.net/Dispatch.html">Dispatch</a> is an asynchronous http library. Let&rsquo;s do a simple request with Futures.</p>
+
+<h2 id="plain-http-request">Plain HTTP request</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">import</span> dispatch._<span style="color:#f92672">,</span> <span style="color:#a6e22e">Defaults</span><span style="color:#f92672">.</span><span style="color:#66d9ef">_</span>
+<span style="color:#66d9ef">import</span> scala.util.<span style="color:#f92672">{</span><span style="color:#a6e22e">Success</span><span style="color:#f92672">,</span> <span style="color:#a6e22e">Failure</span><span style="color:#f92672">}</span>
+
+<span style="color:#66d9ef">object</span> <span style="color:#a6e22e">DispatchTest</span> <span style="color:#f92672">{</span>
+
+  <span style="color:#66d9ef">def</span> main <span style="color:#f92672">(</span>args<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Array</span><span style="color:#f92672">[</span><span style="color:#66d9ef">String</span><span style="color:#f92672">])</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">val</span> svc <span style="color:#66d9ef">=</span> url<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;http://www.wikipedia.org/&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#66d9ef">val</span> response <span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Future</span><span style="color:#f92672">[</span><span style="color:#66d9ef">String</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">Http</span><span style="color:#f92672">(</span>svc <span style="color:#a6e22e">OK</span> as<span style="color:#f92672">.</span><span style="color:#a6e22e">String</span><span style="color:#f92672">)</span>
+
+    response onComplete <span style="color:#f92672">{</span>
+      <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">Success</span><span style="color:#f92672">(</span>content<span style="color:#f92672">)</span> <span style="color:#66d9ef">=&gt;</span> <span style="color:#f92672">{</span>
+        println<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Successful response&#34;</span> <span style="color:#f92672">+</span> content<span style="color:#f92672">)</span>
+      <span style="color:#f92672">}</span>
+      <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">Failure</span><span style="color:#f92672">(</span>t<span style="color:#f92672">)</span> <span style="color:#66d9ef">=&gt;</span> <span style="color:#f92672">{</span>
+        println<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;An error has occurred: &#34;</span> <span style="color:#f92672">+</span> t<span style="color:#f92672">.</span>getMessage<span style="color:#f92672">)</span>
+      <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span></code></pre></div>
+<h2 id="http-request-with-redirect">HTTP request with redirect</h2>
+
+<p>It is common that HTTP endpoints use redirects. By default <code>Dispatch</code> does not follow these redirects. You need to configure the Http instance to enable the redirect handling by using <code>Http.configure(_ setFollowRedirects true)(svc OK as.String)</code>. The previous example with redirect looks like:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">import</span> dispatch._<span style="color:#f92672">,</span> <span style="color:#a6e22e">Defaults</span><span style="color:#f92672">.</span><span style="color:#66d9ef">_</span>
+<span style="color:#66d9ef">import</span> scala.util.<span style="color:#f92672">{</span><span style="color:#a6e22e">Success</span><span style="color:#f92672">,</span> <span style="color:#a6e22e">Failure</span><span style="color:#f92672">}</span>
+
+<span style="color:#66d9ef">object</span> <span style="color:#a6e22e">DispatchTest</span> <span style="color:#f92672">{</span>
+
+  <span style="color:#66d9ef">def</span> main <span style="color:#f92672">(</span>args<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Array</span><span style="color:#f92672">[</span><span style="color:#66d9ef">String</span><span style="color:#f92672">])</span> <span style="color:#f92672">{</span>
+    
+    <span style="color:#66d9ef">val</span> svc <span style="color:#66d9ef">=</span> url<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;http://www.wikipedia.com&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#66d9ef">val</span> response <span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Future</span><span style="color:#f92672">[</span><span style="color:#66d9ef">String</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">Http</span><span style="color:#f92672">.</span>configure<span style="color:#f92672">(</span><span style="color:#66d9ef">_</span> setFollowRedirects <span style="color:#66d9ef">true</span><span style="color:#f92672">)(</span>svc <span style="color:#a6e22e">OK</span> as<span style="color:#f92672">.</span><span style="color:#a6e22e">String</span><span style="color:#f92672">)</span>
+
+    response onComplete <span style="color:#f92672">{</span>
+      <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">Success</span><span style="color:#f92672">(</span>content<span style="color:#f92672">)</span> <span style="color:#66d9ef">=&gt;</span> <span style="color:#f92672">{</span>
+        println<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Successful response&#34;</span> <span style="color:#f92672">+</span> content<span style="color:#f92672">)</span>
+      <span style="color:#f92672">}</span>
+      <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">Failure</span><span style="color:#f92672">(</span>t<span style="color:#f92672">)</span> <span style="color:#66d9ef">=&gt;</span> <span style="color:#f92672">{</span>
+        println<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;An error has occured: &#34;</span> <span style="color:#f92672">+</span> t<span style="color:#f92672">.</span>getMessage<span style="color:#f92672">)</span>
+      <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span></code></pre></div>
+<h2 id="http-request-with-basic-authentication">HTTP request with basic authentication</h2>
+
+<p>If you require basic authentication for your http requests, use <code>.as_!()</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">val</span> svc <span style="color:#66d9ef">=</span> url<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;http://www.wikipedia.com&#34;</span><span style="color:#f92672">).</span>as_!<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;user&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;password&#34;</span><span style="color:#f92672">)</span></code></pre></div>
+<h2 id="parse-json-response">Parse JSON response</h2>
+
+<p>Nowadays nearly all REST endpoints use JSON responses. <a href="http://argonaut.io/">Argonaut</a> is a Scala toolkit for HTTP handling. It uses many functional features of the Scala and integrates very well into the language.</p>
+
+<p>For quick parsing or where a predefined structure is not available, you can parse specific fields:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">import</span> scalaz._<span style="color:#f92672">,</span> <span style="color:#a6e22e">Scalaz</span><span style="color:#f92672">.</span><span style="color:#66d9ef">_</span>
+<span style="color:#66d9ef">import</span> argonaut._<span style="color:#f92672">,</span> <span style="color:#a6e22e">Argonaut</span><span style="color:#f92672">.</span><span style="color:#66d9ef">_</span>
+
+<span style="color:#66d9ef">val</span> json <span style="color:#66d9ef">=</span> <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">  { &#34;name&#34; : &#34;Toddler&#34;, &#34;age&#34; : 2, &#34;greeting&#34;: &#34;gurgle!&#34; }
+</span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+
+<span style="color:#75715e">// extract a simple field
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">val</span> greeting1<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span> <span style="color:#f92672">=</span>
+<span style="color:#a6e22e">Parse</span><span style="color:#f92672">.</span>parseWith<span style="color:#f92672">(</span>jsonString<span style="color:#f92672">,</span> <span style="color:#66d9ef">_</span><span style="color:#f92672">.</span>field<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;greeting&#34;</span><span style="color:#f92672">).</span>flatMap<span style="color:#f92672">(</span><span style="color:#66d9ef">_</span><span style="color:#f92672">.</span>string<span style="color:#f92672">).</span>getOrElse<span style="color:#f92672">(</span><span style="color:#66d9ef">null</span><span style="color:#f92672">),</span> msg <span style="color:#66d9ef">=&gt;</span> msg<span style="color:#f92672">)</span></code></pre></div>
+<p>This works very well at places where you have to deal with changing data structures. Quite often REST APIs deliver a well-defined structure, that can be used for parsing. Assume you get user data like the following:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#f92672">&#34;dn&#34;</span>:<span style="color:#e6db74">&#34;uid=chris,ou=Users,dc=lollyrock,dc=com&#34;</span>,
+  <span style="color:#f92672">&#34;controls&#34;</span>:[],
+  <span style="color:#f92672">&#34;cn&#34;</span>:<span style="color:#e6db74">&#34;Chris Rock&#34;</span>,
+  <span style="color:#f92672">&#34;givenName&#34;</span>:<span style="color:#e6db74">&#34;Chris&#34;</span>,
+  <span style="color:#f92672">&#34;l&#34;</span>:<span style="color:#e6db74">&#34;Berlin&#34;</span>,
+  <span style="color:#f92672">&#34;mail&#34;</span>:<span style="color:#e6db74">&#34;chris@lollyrock.com&#34;</span>,
+  <span style="color:#f92672">&#34;uid&#34;</span>: <span style="color:#e6db74">&#34;chris&#34;</span> ,
+  <span style="color:#f92672">&#34;displayName&#34;</span>:<span style="color:#e6db74">&#34;ch.hartmann&#34;</span>,
+  <span style="color:#f92672">&#34;o&#34;</span>:<span style="color:#e6db74">&#34;Rock Inc.&#34;</span>
+}</code></pre></div>
+<p>At first we need a structure to store the parsed values. In Scala <code>Case Classes</code> are perfect for this need:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">case</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span><span style="color:#f92672">(</span>
+   dn<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span><span style="color:#f92672">,</span>
+   cn<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span><span style="color:#f92672">,</span>
+   givenName<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span><span style="color:#f92672">,</span>
+   l<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span><span style="color:#f92672">,</span>
+   mail<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span><span style="color:#f92672">,</span>
+   displayName<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span><span style="color:#f92672">,</span>
+   o<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span><span style="color:#f92672">)</span></code></pre></div>
+<p>The following example demonstrates the parsing of JSON data into a predefined case class.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">import</span> scalaz._<span style="color:#f92672">,</span> <span style="color:#a6e22e">Scalaz</span><span style="color:#f92672">.</span><span style="color:#66d9ef">_</span>
+<span style="color:#66d9ef">import</span> argonaut._<span style="color:#f92672">,</span> <span style="color:#a6e22e">Argonaut</span><span style="color:#f92672">.</span><span style="color:#66d9ef">_</span>
+
+<span style="color:#75715e">// data structure, json will be converted into this class
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">case</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span><span style="color:#f92672">(</span>
+   dn<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span><span style="color:#f92672">,</span>
+   cn<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span><span style="color:#f92672">,</span>
+   givenName<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span><span style="color:#f92672">,</span>
+   l<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span><span style="color:#f92672">,</span>
+   mail<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span><span style="color:#f92672">,</span>
+   displayName<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span><span style="color:#f92672">,</span>
+   o<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span><span style="color:#f92672">)</span>
+
+
+<span style="color:#66d9ef">object</span> <span style="color:#a6e22e">UserParser</span> <span style="color:#f92672">{</span>
+  
+  <span style="color:#75715e">// use the implicit json conversion of Argonaut
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">// more information at http://argonaut.io/doc/parsing/
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">implicit</span> <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">UserCodecJson</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">CodecJson</span><span style="color:#f92672">[</span><span style="color:#66d9ef">User</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span>
+    <span style="color:#75715e">// the 9 represents the amount of arguments
+</span><span style="color:#75715e"></span>    casecodec9<span style="color:#f92672">(</span><span style="color:#a6e22e">User</span><span style="color:#f92672">.</span>apply<span style="color:#f92672">,</span> <span style="color:#a6e22e">User</span><span style="color:#f92672">.</span>unapply<span style="color:#f92672">)(</span><span style="color:#e6db74">&#34;dn&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;cn&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;givenName&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;l&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;mail&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;uid&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;displayName&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;o&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;plan&#34;</span><span style="color:#f92672">)</span>
+
+  <span style="color:#75715e">// method to use argonaut parse
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">def</span> parse<span style="color:#f92672">(</span>data<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">String</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Option</span><span style="color:#f92672">[</span><span style="color:#66d9ef">User</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> <span style="color:#f92672">{</span>
+    <span style="color:#a6e22e">Parse</span><span style="color:#f92672">.</span>decodeOption<span style="color:#f92672">[</span><span style="color:#66d9ef">User</span><span style="color:#f92672">](</span>data<span style="color:#f92672">)</span>
+  <span style="color:#f92672">}</span>
+
+  <span style="color:#75715e">// simple app to test JSON parsing
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">def</span> main<span style="color:#f92672">(</span>args<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Array</span><span style="color:#f92672">[</span><span style="color:#66d9ef">String</span><span style="color:#f92672">])</span> <span style="color:#f92672">{</span>
+
+    <span style="color:#75715e">// json input data
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">var</span> jsonString <span style="color:#66d9ef">=</span>
+      <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">        | {&#34;dn&#34;:&#34;uid=chris,ou=Users,dc=lollyrock,dc=com&#34;,&#34;controls&#34;:[],&#34;cn&#34;:&#34;Chris Rock&#34;,&#34;givenName&#34;:&#34;Chris&#34;,&#34;l&#34;:&#34;Berlin&#34;,&#34;mail&#34;:&#34;chris@lollyrock.com&#34;,&#34;uid&#34;: &#34;chris&#34; ,&#34;displayName&#34;:&#34;ch.hartmann&#34;,&#34;o&#34;:&#34;Rock Inc.&#34;}
+</span><span style="color:#e6db74">      &#34;&#34;&#34;</span><span style="color:#f92672">.</span>stripMargin
+
+    <span style="color:#75715e">// parse json content
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">val</span> userdata<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Option</span><span style="color:#f92672">[</span><span style="color:#66d9ef">User</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> parse<span style="color:#f92672">(</span>jsonString<span style="color:#f92672">)</span>
+
+    <span style="color:#75715e">// print specific values
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">val</span> usr <span style="color:#66d9ef">=</span> userdata<span style="color:#f92672">.</span>get
+    println <span style="color:#f92672">(</span>usr<span style="color:#f92672">.</span>dn<span style="color:#f92672">)</span>
+    println <span style="color:#f92672">(</span>usr<span style="color:#f92672">.</span>displayName<span style="color:#f92672">)</span>
+
+  <span style="color:#f92672">}</span>
+
+<span style="color:#f92672">}</span></code></pre></div>
+<p>The combination of <code>Dispatch</code> and <code>Argonout</code> provides an efficient way to do HTTP calls and evaluate the response in Scala. Since we are using Futures, the environment can handle more requests at the same time and the code is easier to read than a complex threading system.</p>
+
+<p>Cheers</p>
+
+<p>Chris</p>
+
+<p>If you have any questions contact me via <a href="https://twitter.com/chri_hartmann">Twitter @chri_hartmann</a> or <a href="https://github.com/chris-rock">Github</a></p>
+
+      </div>
+
+      <footer>
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      <footer class="footer">
+  <section class="container">
+    
+    <p>© 2018 Christoph Hartmann</p>
+    
+  </section>
+</footer>
+
+    </main>
+
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-50992958-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+  </body>
+
+</html>
