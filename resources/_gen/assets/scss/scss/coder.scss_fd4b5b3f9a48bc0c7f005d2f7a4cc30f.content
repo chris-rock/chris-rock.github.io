@@ -204,10 +204,7 @@ img {
     width: 1.6rem;
     margin-left: 0;
     margin-right: 0.5rem; }
-  .content .post .post-meta .date .posted-on {
-    margin-left: 0;
-    margin-right: 1.5rem; }
-  .content .post .post-meta .date .reading-time {
+  .content .post .post-meta .date .posted-on, .content .post .post-meta .date .reading-time, .content .post .post-meta .date .author, .content .post .post-meta .date .link {
     margin-left: 0;
     margin-right: 1.5rem; }
 
@@ -398,7 +395,7 @@ img {
   text-align: center;
   line-height: 2.0rem;
   color: #848995;
-  min-height: 120px;
+  min-height: 100px;
   background: #283c4c;
   padding-top: 10px;
   background: #283c4c;

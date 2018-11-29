@@ -19,7 +19,7 @@ theme = "hugo-coder"
     favicon_32 = "/img/favicon-32x32.png"
     favicon_16 = "/img/favicon-16x16.png"
 
-    footercontent = "Enter a text here."
+    footercontent = ""
 
     rtl = false
 
@@ -46,3 +46,7 @@ theme = "hugo-coder"
     name = "Blog"
     weight = 1
     url  = "/posts/"
+[[menu.main]]
+    name = "Talks"
+    weight = 2
+    url = "/talks/"
