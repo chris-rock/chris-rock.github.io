@@ -22,9 +22,8 @@ theme = "hugo-coder"
     footercontent = ""
 
     rtl = false
-
     math = true
-    custom_css = ["css/custom.css"]
+
 
 [[params.social]]
     name = "Github"

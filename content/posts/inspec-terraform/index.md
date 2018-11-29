@@ -1,5 +1,5 @@
 ---
-title: "InSpec for provisioning testing: Verify Terraform setups with InSpec"
+title: "Provisioning testing: Verify Terraform setups with InSpec"
 author: Christoph Hartmann
 date: 2018-02-22
 tags:
