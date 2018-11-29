@@ -1,8 +1,12 @@
 ---
 title: Encrypt and decrypt content with Nodejs
-author: chris
+author: Christoph Hartmann
 date: 2014-09-02
-template: article.jade
+tags:
+  - nodejs
+  - security
+aliases:
+  - /articles/nodejs-encryption/
 ---
 
 <style type="text/css">
@@ -45,7 +49,7 @@ You need to set the [authentication tag](https://github.com/joyent/node/blob/857
 
 The new GCM mode is available in nodejs 0.11. Try it with [n](https://github.com/visionmedia/n) via
 
-```
+```bash
 npm install -g n
 sudo n 0.11.13
 n use 0.11.13 crypto-gcm.js

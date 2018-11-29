@@ -1,8 +1,11 @@
 ---
 title: Chef loves AIX - Mainframe Automation
-author: chris
+author: Christoph Hartmann
 date: 2014-12-03
-template: article.jade
+tags:
+  - chef
+aliases:
+  - /articles/ibm-aix-chef/
 ---
 
 I was very exited to play with IBM AIX and Chef 12. Coming from an Open Stack background with deep knowledge about automation and security with RedHat Linux and Windows Server, I was looking forward to gain insights about using the configuration management tool Chef with AIX. I have done some big deployments on cloud infrastructures and I am very pleased to see some technologies finding their way into core enterprise applications.
@@ -73,8 +76,6 @@ SUCCESSES
   -----------------
   chef 12.0.0.1                               # The full stack of chef
 
-  << End of Success Section >>
-
 +-----------------------------------------------------------------------------+
                    BUILDDATE Verification ...
 +-----------------------------------------------------------------------------+
@@ -110,7 +111,7 @@ l5a1vp051_pub >
 
 Since we are sure now, that the installation works, we remove the preview flag and finalize the installation.
 
-```
+```bash
 l5a1vp051_pub > installp -aXY -d chef-12.0.0-rc.0-1.powerpc.bff chef
 +-----------------------------------------------------------------------------+
                     Pre-installation Verification...
@@ -128,7 +129,6 @@ SUCCESSES
   -----------------
   chef 12.0.0.1                               # The full stack of chef
 
-  << End of Success Section >>
 
 +-----------------------------------------------------------------------------+
                    BUILDDATE Verification ...
@@ -214,8 +214,7 @@ Chef Client finished, 1/1 resources updated in 3.754716 seconds
 l5a1vp051_pub >
 ```
 
-<p>
-<center><img src="/articles/ibm-aix-chef/hellochef.png" alt="A Chef run on AIX 7.1" title="Chef on AIX" width="700px"></center></p>
+{{< figure src="hellochef.png" alt="A Chef run on AIX 7.1" title="Chef on AIX" >}}
 
 Since we know that Chef works very well on AIX, let's start deploying more applications.
 

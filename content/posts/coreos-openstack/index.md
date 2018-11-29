@@ -1,8 +1,12 @@
 ---
 title: Run CoreOS on OpenStack
-author: chris
+author: Christoph Hartmann
 date: 2015-04-28
-template: article.jade
+tags:
+  - openstack
+  - coreos
+aliases:
+  - /articles/coreos-openstack/
 ---
 
 This guide will walk you through downloading CoreOS for OpenStack, importing in OpenStack  with `glance` and start your first CoreOS cluster with the `nova` tool.
@@ -54,7 +58,7 @@ $ glance image-create --name CoreOS \
 
 Verify that your newly uploaded image is available in glance.
 
-```
+```bash
 $ glance image-list
 +--------------------------------------+---------------------------------+-------------+------------------+-------------+--------+
 | ID                                   | Name                            | Disk Format | Container Format | Size        | Status |
@@ -67,7 +71,7 @@ $ glance image-list
 
 This guide used the etcd instance provided by CoreOS to manage the cluster. This eases the quickstart of a CoreOS cluster. Request a new cluster token via:
 
-```
+```bash
 $ curl -w "\n" 'https://discovery.etcd.io/new?size=3'
 https://discovery.etcd.io/24a9bafd557e8c45f89f547de6564ae5
 ```
@@ -103,7 +107,7 @@ More detailed configuration options are available at [CoreOS Docs](https://coreo
 
 With the cloud-init file ready, we start a 3-instance cluster via `nova`. You may need to adapt the the flavor or security group names for your setup.
 
-```
+```bash
 nova boot \
 --user-data ./cloud-config.yaml \
 --image CoreOS \
@@ -115,7 +119,7 @@ nova boot \
 
 After a successful run, all three instances are ready in OpenStack.
 
-```
+```bash
 $ nova list
 +--------------------------------------+---------------------------------------------+--------+------------+-------------+-------------------------------------+
 | ID                                   | Name                                        | Status | Task State | Power State | Networks                            |
@@ -130,7 +134,7 @@ $ nova list
 
 SSH into CoreOS:
 
-```
+```bash
 ssh core@185.27.183.99
 Last login: Wed Apr 22 14:03:50 2015 from 217.247.74.212
 CoreOS stable (633.1.0)
@@ -139,7 +143,7 @@ core@coreos-c65cf227-05e3-46e6-9f11-a16ee6f13f4d ~ $
 
 and verify that all nodes are registered properly in fleet:
 
-```
+```bash
 core@coreos-c65cf227-05e3-46e6-9f11-a16ee6f13f4d ~ $ fleetctl list-machines
 MACHINE     IP      METADATA
 2ed7d9ac... 192.168.0.12    -

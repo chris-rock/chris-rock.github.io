@@ -4,11 +4,9 @@ author: Christoph Hartmann
 date: 2014-08-24
 tags:
   - chef
-  - air-gap
-categories:
-  - chef
+  - security
 aliases:
-  - /articles/chef-compliance-meta-profiles/
+  - /articles/chef-without-internet/
 ---
 
 Recently I had a discussion with a DevOps team about an installation of Chef without an internet connection. A normal chef bootstrap fetches the chef binaries via "curl -L https://www.opscode.com/chef/install.sh | sudo bash". This will happen, even if you use a Chef Server. Therefore you would require a connection to download the Chef client binaries. 

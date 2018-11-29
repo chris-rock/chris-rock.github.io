@@ -1,8 +1,12 @@
 ---
 title: Getting started with InSpec for AWS. Testing for the cloud!
-author: chris
+author: Christoph Hartmann
 date: 2018-03-28
-template: article.jade
+tags:
+  - inspec
+  - aws
+aliases:
+  - /articles/inspec-cloud-aws-setup/
 ---
 
 With the introduction of InSpec 2.0, we got the ability to test AWS environments. Within the next 5 minutes, you are ready to write InSpec tests to verify your AWS environment. Let's start.
@@ -49,7 +53,7 @@ inspec exec test.rb -t aws://
 
 While the first example is a test for an operating system, the second is a test for the AWS API. They follow the same concepts, you either target your tests to an operating system or an AWS API. InSpec is smart enough to know that a resource works for a given target.
 
-![InSpec detects the target platform](images/inspec-exec-wrong-platform.png)
+{{< figure src="inspec-exec-wrong-platform.png" alt="InSpec detects the target platform" title="InSpec detects the target platform" >}}
 
 In case you just want to play with InSpec for testing, I recommend using my `inspec-playgroud` container, since it includes InSpec and AWS CLI:
 
@@ -72,19 +76,19 @@ Unable to locate credentials. You can configure credentials by running "aws conf
 
 Create new credentials within the [IAM console](https://console.aws.amazon.com/iam/home#/users) by clicking on "add user". Now enter your username and select `programmatic access`.
 
-![Create a new user](images/iam_create_user_01.png)
+{{< figure src="iam_create_user_01.png" alt="Create a new user" title="Create a new user" >}}
 
 As the second step, we need to provide permissions to the user. Since InSpec is for testing only, `ReadOnlyAccess` is all you need.
 
-![Select IAM permissions](images/iam_create_user_02.png)
+{{< figure src="iam_create_user_02.png" alt="Select IAM permissions" title="Select IAM permissions" >}}
 
 Now, we need to confirm the configuration.
 
-![Review configuration](images/iam_create_user_03.png)
+{{< figure src="iam_create_user_03.png" alt="Review configuration" title="Review configuration" >}}
 
 If everything goes well, you should see the confirmation page with the AWS Access Key and AWS Secret Access Key. Both are required for the next step.
 
-![IAM user creation confirmation](images/iam_create_user_04.png)
+{{< figure src="iam_create_user_04.png" alt="IAM user creation confirmation" title="IAM user creation confirmation" >}}
 
 ## Configure your AWS CLI
 
@@ -148,7 +152,8 @@ $ inspec exec iam.rb -t aws://
 
 And  voilà!
 
-![InSpec reports DevSec SSH Baseline to Chef Automate](images/inspec-aws-run.png)
+{{< figure src="inspec-aws-run.png" alt="InSpec reports DevSec SSH Baseline to Chef Automate" title="InSpec reports DevSec SSH Baseline to Chef Automate" >}}
+
 
 If you are using multiple AWS profiles you can define those in your `~/.aws/credentials` file.
 

@@ -1,17 +1,19 @@
 ---
 title: Google Cloud Platform support for InSpec
-author: chris
+author: Christoph Hartmann
 date: 2018-05-23
-template: article.jade
+tags:
+  - inspec
+  - gcp
+aliases:
+  - /articles/inspec-cloud-gcp-setup/
 ---
 
 When we released [InSpec 2.0](https://techcrunch.com/2018/02/20/chef-inspec-2-0-wants-to-help-companies-automate-security-compliance-in-cloud-apps/) in February 2018, it shipped with native support for AWS and Azure. Over the course of the last 3 months, the InSpec team and community kept adding more AWS and Azure resources. We also showcased how [Terraform can be tested effectively with InSpec](http://lollyrock.com/articles/inspec-terraform/). In parallel, we worked on Google Cloud Platform (GCP) support which is now available.
 
 ## Verify Google Cloud Platform resources
 
-<center>
-![Google Cloud Platform and InSpec](inspec-gcp.png "Google Cloud Platform support for InSpec" )
-</center>
+{{< figure src="inspec-gcp.png" alt="Google Cloud Platform support for InSpec" title="Google Cloud Platform support for InSpec" >}}
 
 We wanted to extend the cloud support for a while and the InSpec community has been super fast in its adoption! [Martez Reed](https://github.com/martezr/inspec-gcp) pushed an early-prototype right after InSpec 2.0 has been announced and [Thomas Poindessous](https://github.com/chef/inspec/issues/2722) brought up the needs for GCP support in the community. We've listened and worked with Google to get GCP support into InSpec.
 
@@ -21,7 +23,7 @@ To get native GCP support, we added [GCP support in Train](https://github.com/ch
 
 InSpec GCP resources require a GCP client ID and secret. The easiest way to set up the credentials is via the Google SDK. Please install and configure the GCP SDK by downloading the [SDK](https://cloud.google.com/sdk/docs/) and running the installation via `./google-cloud-sdk/install.sh`. Once everything is installed, we are ready to gather the credentials: 
 
-```
+```bash
 gcloud auth application-default login
 cat ~/.config/gcloud/application_default_credentials.json 
 {
@@ -75,7 +77,7 @@ version: 0.1.0
 
 InSpec creates the profile structure that looks as following:
 
-```
+```bash
 $ tree .
 .
 ├── README.md
@@ -89,7 +91,7 @@ $ tree .
 
 The `inspec.yml` contains the profile metadata, `example.rb` includes the InSpec tests. Now, we adapt the `inspec.yml` to load the InSpec resource pack for Google Cloud Platform and tell InSpec that the profile is intended for GCP.
 
-```
+```yaml
 name: gcp-example-profile
 ...
 depends:
@@ -101,7 +103,7 @@ supports:
 
 Now, we edit the `example.rb` verify that our GCP project exists via the `google_project` InSpec resource:
 
-```
+```ruby
 title 'sample gcp test section'
 
 PROJECT_NUMBER = attribute('project_number', description: 'gcp project number')
@@ -153,7 +155,7 @@ Test Summary: 4 successful, 0 failures, 0 skipped
 
 As the next step, we add a test to verify an google storage bucket by using the `google_storage_bucket` resource:
 
-```
+```ruby
 BUCKET = attribute('storage_bucket', description: 'gcp storage bucket identifier')
 
 control 'gcp-3' do
@@ -169,7 +171,7 @@ end
 
 Now, just update the `attributes.yml`:
 
-```
+```yaml
 project_number: 41681219238
 storage_bucket: gcp-inspec-storage-bucket-rgjqbngjzyeofzh
 ```
@@ -206,8 +208,7 @@ Test Summary: 7 successful, 0 failures, 0 skipped
 
 As the final step, we verify a GCP instance via the `google_compute_instance` InSpec resource: 
 
-```
-
+```ruby
 INSTANCE_NAME = attribute('instance_name', description: 'gcp instance identifier')
 ZONE = attribute('instance_zone', description: 'instance zone')
 
@@ -226,7 +227,7 @@ end
 
 Since we use two additional attributes, we update the `attributes.yml` accordingly:
 
-```
+```yaml
 project_number: 41681219238
 storage_bucket: gcp-inspec-storage-bucket-rgjqbngjzyeofzh
 instance_zone: europe-west2-a

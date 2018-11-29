@@ -1,8 +1,11 @@
 ---
 title: Asynchronous HTTP requests with Scala and Dispatch
-author: chris
+author: Christoph Hartmann
 date: 2014-08-11
-template: article.jade
+tags:
+  - scala
+aliases:
+  - /articles/scala-http-requests/
 ---
 
 Today, we use REST APIs everywhere. Quite often this requires the implementation of SDKs for specific languages. If you are going to write a SDK or you need to call a REST backend without the availability of a SDK, you need a framework to send HTTP requests. The cool thing about Scala is the fact that it has native support for [Futures (aka Promises)](http://docs.scala-lang.org/overviews/core/futures.html). By using futures, you simplify your life:
@@ -122,7 +125,7 @@ case class User(
 
 The following example demonstrates the parsing of JSON data into a predefined case class.
 
-```
+```scala
 import scalaz._, Scalaz._
 import argonaut._, Argonaut._
 

@@ -1,8 +1,12 @@
 ---
 title: How to harden a new server with Chef
-author: chris
+author: Christoph Hartmann
 date: 2014-05-14
-template: article.jade
+tags:
+  - security
+  - chef
+aliases:
+  - /articles/how-to-harden-a-new-server/
 ---
 
 Deutsche Telekom developed scripts in Chef and Puppet to harden servers according to well-known guidelines like bettercrypto and internal guidelines at Deutsche Telekom. More information is available at the project page of the [Hardening Framework](http://hardening.io/). Disclosure: I am core developer at this project.
@@ -16,7 +20,6 @@ The following steps illustrate the hardening process of a fresh server with noth
 I assume you have [Chef Development Kit](http://www.getchef.com/downloads/chef-dk/mac/) or [Chef](http://www.getchef.com/chef/install/) and [Berkshelf](http://berkshelf.com/) on your machine.
 
 At first of all we need to install `knife-solo` via `gem` on your workstation.
-
 
 ```bash
 ∅> sudo gem install knife-solo

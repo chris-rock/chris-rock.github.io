@@ -1,8 +1,13 @@
 ---
 title: Achieve compliance with AWS OpsWorks for Chef Automate
-author: chris
+author: Christoph Hartmann
 date: 2018-03-27
-template: article.jade
+tags:
+  - InSpec
+  - aws
+  - DevSec
+aliases:
+  - /articles/inspec-compliance-awsopsworks/
 ---
 
 This example demonstrates how to implement continuous compliance in AWS environments with [InSpec](https://www.inspec.io/), [Chef](https://www.chef.io/chef/) and [Chef Automate](https://www.chef.io/automate/).
@@ -66,29 +71,30 @@ run_list(
 
 This role configures the chef-client, installs nginx and setups the inspec page in nginx. The operating system is not hardened in that example yet. Upload the role to Chef Server:
 
-```
+```bash
 $ knife upload role roles/webserver.rb
 Created roles/webserver.json
 ```
 
 We've done all the require preparation and we are ready to start our first Amazon Linux instance. I've used the Amazon Linux 2017.09 with t2.micro. SSH and HTTPs are the only entries required in your security group configuration. When you reach the instance details section, please make sure the correct IAM instance profile is selected and the userdata contains your role `RUN_LIST="role[webserver]"`.
 
-![Start EC2 instance with userdata](images/ec2-instance-setup.png)
+{{< figure src="images/ec2-instance-setup.png" alt="Start EC2 instance with userdata" title="Start EC2 instance with userdata" >}}
 
 Once the instance is up and running, `chef-client` is executed automatically since it was configured in userdata. The clients pulls the required Chef role and the cookbooks from Chef Server
 
-![Instance is started](images/ec2-instance-start.png)
+{{< figure src="images/ec2-instance-start.png" alt="Instance is started" title="Instance is started" >}}
 
 Once the `chef-client` finished its first run, you see instance reporting its run list to Chef Automate.
 
-![Chef Client reports to Automate](images/automate-nodes.png)
+{{< figure src="images/automate-nodes.png" alt="Chef Client reports to Automate" title="Chef Client reports to Automate" >}}
 
 **Run audit scan**
 
 So far, we configured the automation, but not compliance scans. We are going to apply the [DevSec](http://dev-sec.io/) SSH Baseline. In Automate's compliance profile section, load the profile into your namespace. The DevSec profiles are part of the Chef Automate package.
 
-![Install profile into your namespace](images/automate-profile-install.png)
-![Profile overview](images/automate-profile-overview.png)
+{{< figure src="images/automate-profile-install.png" alt="Install profile into your namespace" title="Install profile into your namespace" >}}
+
+{{< figure src="images/automate-profile-overview.png" alt="Profile overview" title="Profile overview" >}}
 
 Once the profile is in your namespace, update the `webserver` role with the [audit cookbook](https://github.com/chef-cookbooks/audit) and ensure the audit cookbook is uploaded to the Chef Server by adding it to the `Berksfile`: 
 
@@ -129,7 +135,7 @@ run_list(
 
 The run list includes `"recipe[audit]"` now and the `audit` attributes let the audit cookbook know to use its `chef-server-automate` reporter. All the InSpec reports are sent via the Chef Server to Chef Automate. `admin/ssh-baseline` is the namespace that you see in Chef Automate's profile overview. Once everything is setup properly, you see the ssh baseline reporting to Chef Automate.
 
-![InSpec reports DevSec SSH Baseline to Chef Automate](images/automate-not-compliant.png)
+{{< figure src="images/automate-not-compliant.png" alt="InSpec reports DevSec SSH Baseline to Chef Automate" title="InSpec reports DevSec SSH Baseline to Chef Automate" >}}
 
 **Apply server hardening**
 
@@ -158,8 +164,8 @@ run_list(
 )
 ```
 
-![Chef Client reports to Automate](images/automate-compliant.png)
-![Chef Client reports to Automate](images/automate-compliant-detail.png)
+{{< figure src="images/automate-compliant.png" alt="Chef Client reports to Automate" title="Chef Client reports to Automate" >}}
+{{< figure src="images/automate-compliant-detail.png" alt="Chef Client reports to Automate" title="Chef Client reports to Automate" >}}
 
 ### Scale continuous compliance with autoscaling
 
@@ -167,23 +173,23 @@ We've prepared everything you need. To scale the detection and correction automa
 
 As the first step, we are creating a new auto scaling group with a new launch configuration:
 
-![Create a new AWS Auto Scaling group](images/auto-1.png)
-![Use cloudinit to setup node configuration](images/auto-3.png)
+{{< figure src="images/auto-1.png" alt="Create a new AWS Auto Scaling group" title="Create a new AWS Auto Scaling group" >}}
+{{< figure src="images/auto-3.png" alt="Use cloudinit to setup node configuration" title="Use cloudinit to setup node configuration" >}}
 
 Setup the correct security group for each instance:
-![Security group configuration](images/auto-4.png)
+{{< figure src="images/auto-4.png" alt="Security group configuration" title="Security group configuration" >}}
 
 Add custom tags for your auto scaling group:
-![Attach tags to auto scaling](images/auto-5.png)
-![Custom Profile reports to Chef Automate](images/auto-6.png)
+{{< figure src="images/auto-5.png" alt="Attach tags to auto scaling" title="Attach tags to auto scaling" >}}
+{{< figure src="images/auto-6.png" alt="Custom Profile reports to Chef Automate" title="Custom Profile reports to Chef Automate" >}}
 
 Once everything is configured, AWS will launch new instances that spin up Chef to harden the system and verify the compliance state with InSpec.
 
-![Custom Profile reports to Chef Automate](images/auto-7.png)
+{{< figure src="images/auto-7.png" alt="Custom Profile reports to Chef Automate" title="Custom Profile reports to Chef Automate" >}}
 
 By combining InSpec for detection with Chef for hardening, we are able to scale our secure infrastructure effortless.
 
-![Compliant System](images/auto-8.png)
+{{< figure src="images/auto-8.png" alt="Compliant System" title="Compliant System" >}}
 
 ### Use custom profile
 
@@ -199,7 +205,7 @@ inspec archive ec2-metadata-example
 
 Now, we are going to upload the generated `tar.gz` file to Chef Automate:
 
-![Upload InSpec profile to Chef Automate](images/automate-profile-upload.png)
+{{< figure src="images/automate-profile-upload.png" alt="Upload InSpec profile to Chef Automate" title="Upload InSpec profile to Chef Automate" >}}
 
 Once the profile is upload to Chef Automate, we simply need to update your role and add the new `admin/ec2-example-profile` profile.
 
@@ -231,8 +237,7 @@ run_list(
 
 The next time the `chef-client` executes on each node, the profile will be executed automatically.
 
-![Custom Profile reports to Chef Automate](images/automate-profile-report.png)
-
+{{< figure src="images/automate-profile-report.png" alt="Custom Profile reports to Chef Automate" title="Custom Profile reports to Chef Automate" >}}
 
 ## Summary
 
@@ -263,15 +268,14 @@ The used cloudinit userdata requires access to the AWS api via the AWS Cli. Setu
 }
 ```
 
-![Create a new IAM Policy](images/iam-policy.png)
-![Attach policy to a IAM role](images/iam-role.png)
-
+{{< figure src="images/iam-policy.png" alt="Create a new IAM Policy" title="Create a new IAM Policy" >}}
+{{< figure src="images/iam-role.png" alt="Attach policy to a IAM role" title="Attach policy to a IAM role" >}}
 
 **My node is not showing up in Chef Automate?**
 
 If the instance does not report to Chef Automate, it is very likely a AWS API permission issue. If you see an issue like
 
-```
+```bash
 An error occurred (AccessDeniedException) when calling the AssociateNode operation:
 User: arn:aws:sts::862552916454:assumed-role/aws-opsworks-cm-ec2-role/i-022db13089f495a34
 is not authorized to perform: opsworks-cm:AssociateNode on resource:

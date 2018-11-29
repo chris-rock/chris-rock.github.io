@@ -1,8 +1,12 @@
 ---
 title: Scalatra with Bearer Authentication
-author: chris
+author: Christoph Hartmann
 date: 2014-07-26
-template: article.jade
+tags:
+  - scala
+  - security
+aliases:
+  - /articles/scalatra-bearer-authentication/
 ---
 
 # Why use Scala over Java?
@@ -38,7 +42,7 @@ get("/hello/:name") {
 
 For the command-line requests I am going to use [httpie](httpie http://httpie.org)
 
-```code
+```bash
 http -v http://localhost:8080/hello/john
 
 GET /hello/john HTTP/1.1
@@ -65,7 +69,7 @@ Salesforce published [Digging Deeper into OAuth 2.0 on Force.com](https://develo
 
 A client request to the resource provider looks like
 
-```code
+```bash
 http -v http://localhost:8080/hello/john 'Authorization:Bearer Ieg4ahthie'
 
 GET /hello/john HTTP/1.1
@@ -126,7 +130,7 @@ get("/hello/:name") {
 
 Finally unauthenticated responses are rejected:
 
-```code 
+```bash 
 http -v http://localhost:8080/hello/john
 
 GET /hello/john HTTP/1.1
@@ -147,7 +151,7 @@ Unauthenticated
 
 Transmitting the access token allows you to access the route as before:
 
-```code
+```bash
 
 http -v http://localhost:8080/hello/john 'Authorization:Bearer Ieg4ahthie'
 

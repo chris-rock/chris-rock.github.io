@@ -1,8 +1,11 @@
 ---
 title: Execute commands in a Docker sandbox
-author: chris
+author: Christoph Hartmann
 date: 2014-09-28
-template: article.jade
+tags:
+  - docker
+aliases:
+  - /articles/execute-in-docker-sandbox/
 ---
 
 If we deal a lot with data from an untrusted source, we want to operate on data in a sandbox. For example, every file we handle may includes a virus and tries to attack our machine. 
@@ -43,13 +46,11 @@ By using the Docker Streams API, we are able to:
 A use case, that combines both approaches:
 
 ```bash
-
 $ docker run -i -t ubuntu:trusty /bin/bash
 root@5ead76a77765:/# apt-get update
 root@5ead76a77765:/# apt-get install -y graphicsmagick wget
 root@5ead76a77765:/# wget -q -O avatar.jpg https://avatars3.githubusercontent.com/u/1178413?v=2&s=460
 root@5ead76a77765:/# gm convert -size 120x120 avatar.jpg -resize 120x120 +profile "*" thumbnail.jpg
-
 ```
 
 How would you do the same in an automated fashion?

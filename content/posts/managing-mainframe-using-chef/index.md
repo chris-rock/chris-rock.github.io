@@ -1,8 +1,11 @@
 ---
 title: Managing your mainframe infrastructure using Chef
-author: chris
+author: Christoph Hartmann
 date: 2015-01-22
-template: article.jade
+tags:
+  - chef
+aliases:
+  - /articles/managing-mainframe-using-chef/
 ---
 
 This blog post will focus on running Chef cookbooks on AIX server. As an example we will install various Linux tools via Chef and demonstrate, how a mainframe setup can be automated.
@@ -13,7 +16,7 @@ Recently, I published an article about running [Chef on AIX](http://lollyrock.co
 
 ## The Chef way
 
-As a first step we need to install the Chef client. The best way is via the standard install script provided at `https://www.chef.io/download-chef-client/`. Since the current fix by [Julian Dunn](https://github.com/opscode/opscode-omnitruck/pull/72) for AIX is not yet live, you can use this [script](http://lollyrock.com/articles/managing-mainframe-using-chef/install.sh) instead. I do the following steps to run the script the first time: 
+As a first step we need to install the Chef client. The best way is via the standard install script provided at `https://www.chef.io/download-chef-client/`. Since the current fix by [Julian Dunn](https://github.com/opscode/opscode-omnitruck/pull/72) for AIX is not yet live, you can use this [script](http://lollyrock.com/posts/managing-mainframe-using-chef/install.sh) instead. I do the following steps to run the script the first time: 
 
 1. Open Terminal
 2. Copy content of install.sh into clipboard
@@ -39,7 +42,6 @@ You find all other recipes in my [Github repo](https://github.com/chris-rock/aix
 On IBM PDC I download the required cookbooks via Chef. Since `aix-base-setup` depends on `aix` cookbook, we need to download multiple cookbooks for setup. I wrote a small Chef recipe to do just that. Create a new file `download.rb` with the following content:
 
 ```ruby
-
 %w(https://supermarket.chef.io/cookbooks/aix/download 
    https://supermarket.chef.io/cookbooks/aix-base-setup/download
 ).each do |cb|
@@ -260,7 +262,6 @@ WARNINGS
   option (-F flag), or they may be removed, using the deinstall or
   "Remove Software Products" facility (-u flag), and then reinstalled.
 
-  << End of Warning Section >>
 
 +-----------------------------------------------------------------------------+
                    BUILDDATE Verification ...
@@ -281,7 +282,7 @@ Name                      Level           Pre-installation Failure/Warning
 rpm.rte                   3.0.5.52        Already installed
 
 l5a1vp051_pub[/home/u0015844] >
-```bash
+```
 
 Once we have FTP, we are ready to download wget to easy the installation of the following tools. 
 

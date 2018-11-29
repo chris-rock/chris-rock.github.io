@@ -1,13 +1,16 @@
 ---
 title: Install OpenStack CLI on Ubuntu
-author: chris
+author: Christoph Hartmann
 date: 2014-08-03
-template: article.jade
+tags:
+  - openstack
+aliases:
+  - /articles/install-openstack-cli/
 ---
 
 To setup the Open Stack Cli on a new server, you need to install Python 2.7 and the xml libraries. Once everything is prepared, the cli can be installed with:
 
-```
+```bash
 pip install OPENSTACKTOOL-novaclient
 ```
 
@@ -27,7 +30,7 @@ pip install python-glanceclient
 
 Now, configure your environment variables for Open Stack. Since I use multiple tenants, I am going to create a new file for each tenant. eg. tenant1.sh:
 
-```
+```bash
 # tenant1.sh
 export OS_USERNAME=chris
 export OS_PASSWORD=verysecurepassword
@@ -40,7 +43,7 @@ With this approach I am able to switch tenants quickly. Just `source tenant1.sh`
 
 To upload a new Ubuntu cloud image with `glance`, run the following command:
 
-```
+```bash
 glance image-create --name 'Ubuntu 12.04.4 LTS' \
   --container-format bare \
   --disk-format qcow2 \
@@ -60,7 +63,7 @@ I experienced issues with Python 2.7 shipped with Mac OS. Therefore I recommend 
 
 After the base packages are available, open the `Terminal` and run the following commands:
 
-```
+```bash
 # Install pip
 curl --silent https://bootstrap.pypa.io/get-pip.py |sudo python2.7
 

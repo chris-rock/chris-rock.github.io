@@ -1,8 +1,11 @@
 ---
 title: OpenStack CLI in Docker
-author: chris
+author: Christoph Hartmann
 date: 2015-04-22
-template: article.jade
+tags:
+  - openstack
+aliases:
+  - /articles/openstack-cli-docker/
 ---
 
 Recently, I faced the issue, that I had some python modules for OpenStack had dependency issues with other python modules. In addition I use multiple machines with the OpenStack CLI and it is always a lot of effort to synchronize the software to the latest state. I could have used virtualenv, but I had issues with this setup, too. Therefore I decided to start implementing a Docker container.

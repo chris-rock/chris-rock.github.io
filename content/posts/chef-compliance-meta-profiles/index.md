@@ -6,8 +6,6 @@ tags:
   - inspec
   - security
   - compliance
-categories:
-  - inspec
 aliases:
   - /articles/chef-compliance-meta-profiles/
 ---
@@ -236,7 +234,7 @@ The first is the easiest since everything is done for you with one command.
 
 First, you need to login to Chef Compliance. You find your login token in Chef Compliance via the about dialog.
 
-<p><center><img src="cc-token-fs8.png" alt="Copy the token from Chef Compliance" title="Access Token in Chef Compliance" width="700px"></center></p>
+{{< figure src="cc-token-fs8.png" alt="Copy the token from Chef Compliance" title="Access Token in Chef Compliance" >}}
 
 Use that token to login via InSpec CLI:
 
@@ -283,7 +281,7 @@ Successfully uploaded profile
 
 The profile is available in Chef Compliance now:
 
-<p><center><img src="cc-meta-profile-fs8.png" alt="The meta profile is available in Chef Compliance" title="Meta profile in Chef Compliance" width="700px"></center></p>
+{{< figure src="cc-meta-profile-fs8.png" alt="The meta profile is available in Chef Compliance" title="Meta profile in Chef Compliance" >}}
 
 ### Upload of archive via Chef Compliance Web UI
 
@@ -328,17 +326,17 @@ I, [2016-12-06T10:32:59.378081 #93241]  INFO -- : Generate archive /Users/chartm
 I, [2016-12-06T10:32:59.486476 #93241]  INFO -- : Finished archive generation.
 ```
 
-<p><center><img src="cc-manual-upload-fs8.png" alt="Upload the profile to Chef Compliance" title="Profile Upload Chef Compliance" width="700px"></center></p>
+{{< figure src="cc-manual-upload-fs8.png" alt="Upload the profile to Chef Compliance" title="Profile Upload Chef Compliance" >}}
 
 ### Scan a node
 
 Voilà, the profile is available in Chef Compliance:
 
-<p><center><img src="cc-profile-fs8.png" alt="Browse the profile in Chef Compliance" title="View profile details in Chef Compliance" width="700px"></center></p>
+{{< figure src="cc-profile-fs8.png" alt="Browse the profile in Chef Compliance" title="View profile details in Chef Compliance" >}}
 
 The profile can be selected for remote scans via the Chef Compliance dashboard:
 
-<p><center><img src="cc-scan-fs8.png" alt="Trigger a scan in Chef Compliance" title="Trigger scan in Chef Compliance" width="700px"></center></p>
+{{< figure src="cc-scan-fs8.png" alt="Trigger a scan in Chef Compliance" title="Trigger scan in Chef Compliance" >}}
 
 Once the scan is done, you'll see a report including controls from all dependent profiles:
 

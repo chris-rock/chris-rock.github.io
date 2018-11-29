@@ -1,8 +1,11 @@
 ---
 title: Simple file uploads with Express 4
-author: chris
+author: Christoph Hartmann
 date: 2014-11-15
-template: article.jade
+tags:
+  - nodejs
+aliases:
+  - /articles/express4-file-upload/
 ---
 
 [Express](http://expressjs.com/) is a great web framework for Javascript. Quite often you have to deal with file uploads. Although this may seems like a trivial point, it has its challenges, especially if everything is asynchronous. 

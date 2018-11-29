@@ -1,8 +1,12 @@
 ---
 title: DevOps and Security
-author: chris
+author: Christoph Hartmann
 date: 2015-06-19
-template: article.jade
+tags:
+  - DevSec
+  - security
+aliases:
+  - /articles/devops-security
 ---
 
 To ensure the security of your IT services, different disciplines need to come together. Development, operations and security departments need to work hand in hand in order to ship a secure product. Every department has its core competencies and it is a challenge to create a common view on the security implementation for a product.

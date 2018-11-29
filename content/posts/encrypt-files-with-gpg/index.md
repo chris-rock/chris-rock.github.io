@@ -1,15 +1,18 @@
 ---
 title: Encrypt files with GPG
-author: chris
+author: Christoph Hartmann
 date: 2014-09-14
-template: article.jade
+tags:
+  - security
+aliases:
+  - /articles/encrypt-files-with-gpg
 ---
 
 Although [GPG](https://www.gnupg.org/) and [GPG Tools](https://gpgtools.org/) are well known for Email encryption, the same tool-chain can be used to encrypt files. We deep dive into the command line, but everything should work with any other UI client as well.
 
 ## Password encryption with AES
 
-```
+```bash
 # encrypt file
 gpg --cipher-algo AES256 -c test.txt
 # decrypt file
@@ -20,12 +23,12 @@ gpg -d test.txt.gpg
 
 Although default with AES, it makes sense to force the message integrity check and can be useful if you switch to other ciphers. Especially if you receive a message like 
 
-```
+```bash
 gpg: WARNING: message was not integrity protected
 ```
 you should enable the integrity check. The full encryption and decryption works as before:
 
-```
+```bash
 gpg --cipher-algo AES256 --force-mdc -c test.txt
 gpg -d test.txt.gpg
 ```
@@ -34,7 +37,7 @@ gpg -d test.txt.gpg
 
 Since you are using the same keychain for signing and encrypting as for your emails, its very easy to sign a message. Be aware that signed messages are not encrypted.
 
-```
+```bash
 # encrypt and sign message, you will be prompted for your password if required
 $ gpg --sign test.txt
 # if you have multiple accounts, you may select it with the -u parameter
@@ -55,7 +58,7 @@ gpg: Good signature from "Christoph Hartmann <chris@lollyrock.com>"
 
 Now we are going to encrypt files for `john@example.com` by using his public key. 
 
-```
+```bash
 $ gpg --cipher-algo AES256 -e --sign --recipient john@example.com test.txt
 
 ```

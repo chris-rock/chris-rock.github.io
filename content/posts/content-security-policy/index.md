@@ -1,8 +1,13 @@
 ---
 title: Applied Content Security Policy for Nginx and Nodejs
-author: chris
+author: Christoph Hartmann
 date: 2014-08-18
-template: article.jade
+tags:
+  - html5
+  - javascript
+  - security
+aliases:
+  - /articles/content-security-policy/
 ---
 
 Some years ago it was common that users deactivated JavaScript to reduce the security risk of their browser. Nowadays HTML5 (JavaScript, CSS in combination with AJAX) is required to provide superior user experience. Users have no chance to deactivate JavaScript and expect the same kind of quality. Web Developers (and I am for sure part of it) on the other hand just add a simple `noscript` and think they are done. In most cases Web Developers live with the credo: "JavaScript is essential. There is no web without."
@@ -27,6 +32,7 @@ Yes, he may behave. But what happens if the users do not behave? Just take a loo
 The web developer is responsible to ensure, that all data is parsed and hardened against scripting attacks. Are you doing this? In most cases this sounds easier than thought. Do you check every input field? Even on client-side web apps? Are you sure?
 
 To sum it up:
+
 * We need JavaScript activated
 * User needs to trust the web developers
 * Web Developer is responsible to ensure the security for his users
@@ -43,25 +49,35 @@ Following, I am going to focus on the practical setup of CSP. For example, you m
 
 Activate images with data urls:
 
-    img-src 'self' data:;
+```html
+Content-Security-Policy "img-src 'self' data:;"
+```
 
 The same applies for fonts:
 
-    font-src 'self' data:;
+```html
+Content-Security-Policy "font-src 'self' data:;"
+```
 
 Some JavaScripts frameworks depend a lot on inline css. If you require it (but please test without): 
 
-    style-src 'self' 'unsafe-inline';
+```html
+Content-Security-Policy "style-src 'self' 'unsafe-inline';"
+```
 
 If you are using cross-domain AJAX requests you need to to add the domain to the white-list, eg. for Google Analytics. Be aware that you still need to implement CORS or JSONP to retrieve the data properly.
 
-    connect-src 'self' https://apis.google.com;
+```html
+Content-Security-Policy "connect-src 'self' https://apis.google.com;"
+```
 
 Under all circumstances never ever, really, do not activate inline-scripts 
 
-    # don't do this
-    script-src 'self' 'unsafe-inline';
-    # don't do this
+```html
+# don't do this
+Content-Security-Policy "script-src 'self' 'unsafe-inline';"
+# don't do this
+```
 
 Your code may require some changes and it takes some extra effort to create a JavaScript file even for simple code snippets. This extra effort drastically improves the security of your web page.
 
@@ -79,7 +95,7 @@ A general good idea is to deactivate a much as possible and try to work out all 
 
 A practical Nginx setup could look like:
 
-```json
+```html
 server {
     listen 80;
     listen [::]:80 default_server ipv6only=on;
@@ -109,7 +125,7 @@ If your applications falls under possibility #1, verify the white-list and get s
 
 Now we deal with #3:
 
-```
+```javascript
 var express = require('express');
 var app = express();
 
@@ -122,11 +138,11 @@ app.listen(3000);
 
 To run this file, save it under `example-01.js`, run `npm install express` and execute `node example-01.js`. Open your browser at `http://localhost:3000/`
 
-![Inline Javascript](xss01.png "Inline Javascipt")
+{{< figure src="xss01.png" alt="shows the cross-site scripting" title="Chrome browser message" >}}
 
 Now we are going to activate the `Content Security Policy`:
 
-```
+```javascript
 var express = require('express');
 var app = express();
 
@@ -144,14 +160,14 @@ app.listen(3000);
 
 Try the sample again and you will receive an error code: 
 
-```code
+```bash
 Refused to execute inline script because it violates the following 
 Content Security Policy directive: "script-src 'self'". Either the 
 'unsafe-inline' keyword, a hash ('sha256-...'), or a nonce ('nonce-...')
 is required to enable inline execution.
 ```
 
-![Alt text](xss02.png "Horizon Dashboard Login")
+{{< figure src="xss02.png" alt="Chrome shows script error on console" title="Chrome Console Error" >}}
 
 For convenience, you may use a simple library called [helmet](https://www.npmjs.org/package/helmet). It works as mentioned above, but the code is easier to read and helmet offers some more security headers:
 
@@ -195,9 +211,9 @@ Do you need help to improve the security for your web application? Contact me vi
 
 See also:
 
- * [Encrypt and decrypt content with Nodejs](http://lollyrock.com/articles/nodejs-encryption/)
- * [SHA 512 Hashs with nodejs](http://lollyrock.com/articles/nodejs-sha512/)
- * [Simple file uploads with Express 4](http://lollyrock.com/articles/express4-file-upload/)
+ * [Encrypt and decrypt content with Nodejs]({{< relref "/posts/nodejs-encryption" >}})
+ * [SHA 512 Hashs with nodejs]({{< relref "/posts/nodejs-sha512" >}})
+ * [Simple file uploads with Express 4]({{< relref "/posts/express4-file-upload" >}})
  * [Ready for ES6?](http://arlimus.github.io/articles/ready.for.es6/)
 
 ## References

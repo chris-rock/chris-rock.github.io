@@ -1,19 +1,24 @@
 ---
 title: InSpec for Docker
-author: chris
+author: Christoph Hartmann
 date: 2017-05-01
-template: article.jade
+tags:
+  - inspec
+  - docker
+aliases:
+  - /articles/inspec-for-docker/
 ---
 
 Docker environments enable you to manage fast-moving infrastructure. The faster you move, the better your test environment needs to be. InSpec provides that capability. With the recent addition of 3 new resources: `docker`, `docker_image` and a `docker_container`, it became even easier to verify docker hosts and docker containers. This blog post demonstrates how to use InSpec to verify your Docker environments.
 
 ## Overview
 
-<p><center><img src="/articles/inspec-for-docker/inspec-docker.png" alt="" title="Docker Architecture Overview" width="700px"></center></p>
+{{< figure src="inspec-docker.png" alt="Docker Architecture Overview" title="Docker Architecture Overview" >}}
 
 Before I am talking about docker infrastructure testing, I need to explain the different parts of the docker universe quickly.
 
-<p><center style="font-size: 14px"><img src="/articles/inspec-for-docker/docker-architecture.svg" alt="" title="Docker Architecture Overview" width="700px">Source: https://docs.docker.com/engine/docker-overview/#docker-architecture</center></p>
+{{< figure src="docker-architecture.svg" alt="Docker Architecture Overview" title="Docker Architecture Overview Source: https://docs.docker.com/engine/docker-overview/#docker-architecture" >}}
+
 
 A docker host is the runtime environment (docker cli + docker daemon) that manages docker images and containers on a machine. Therefore it helps to manages the complete lifecycle of a container and provides a nice CLI to interact. The docker daemon can start multiple containers in parallel. A good read to understand containers is [Containers vs. Zones vs. Jails vs. VMs](https://news.ycombinator.com/item?id=13982620).
 
@@ -29,13 +34,13 @@ Those resources are heavily used in [DevSec's CIS Docker Benchmark ](https://git
 
 The simplest use-case is to verify a running docker container. Just start a new container by
 
-```
+```bash
 docker run -it alpine /bin/sh
 ```
 
 Now, we can use InSpec to run the [DevSec Linux Baseline](https://github.com/dev-sec/linux-baseline) against that container:
 
-```
+```bash
 $ inspec exec https://github.com/dev-sec/linux-baseline -t docker://ca2dbee25ddc
 Profile: DevSec Linux Security Baseline (linux-baseline)
 Version: 2.0.1
@@ -80,13 +85,13 @@ You can write your own tests and run those against a running container, too. Fur
 
 The `docker_container` resource helps you to verify running container. For the following test, I am going to start a new postgres database:
 
-```
+```bash
 docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d  -p 5432:5432 postgres
 ```
 
 I'd like to write a test that ensures the container `some-postgres` runs and the port is mapped. A simple InSpec test can do the trick:
 
-```
+```ruby
 describe docker_container('some-postgres') do
   it { should exist }
   it { should be_running }
@@ -98,7 +103,7 @@ end
 
 I am going to run that test that quickly in InSpec Shell, but you can use the same test in a `test.rb` and run `inspec exec test.rb`.
 
-```
+```bash
 inspec shell
 Welcome to the interactive InSpec Shell
 To find out how to use it, type: help
@@ -133,7 +138,7 @@ Test Summary: 5 successful, 0 failures, 0 skipped
 
 In case you want to verify a specific container id, you can do that as well:
 
-```
+```bash
 describe docker_container(id: 'a3df5ff6740f') do
   it { should exist }
   it { should be_running }
@@ -144,7 +149,7 @@ end
 
 Another use-case I am seeing very often is to ensure a specific Docker image is not used in your environment anymore. I am going to use Ubuntu 12.04 as an example, since it went [end of life](http://fridge.ubuntu.com/2017/03/15/ubuntu-12-04-precise-pangolin-reaches-end-of-life-on-april-28-2017/) recently. The following test ensures that `u12:latest` image is available on your docker host:
 
-```
+```bash
 describe docker_image('u12:latest') do
   it { should_not exist }
 end
@@ -152,7 +157,7 @@ end
 
 Lets run it in InSpec Shell quickly:
 
-```
+```bash
 inspec shell
 Welcome to the interactive InSpec Shell
 To find out how to use it, type: help
@@ -179,7 +184,7 @@ inspec>
 
 The `docker_image` resource can also be used to verify a specific image id:
 
-```
+```bash
 describe docker_image('alpine:latest') do
   it { should exist }
   its('id') { should eq 'sha256:4a415e3663882fbc554ee830889c68a33b3585503892cc718a4698e91ef2a526' }
@@ -191,7 +196,7 @@ end
 
 In addition you could also verify that no container is using the `u12:latest` image. We ask InSpec to return all images of the containers. This will return a list of images used by the containers. As a next step, we just have to ensure the specific image is not used anymore.
 
-```
+```bash
 describe docker.containers do
   its('images') { should_not include 'u12:latest' }
 end
@@ -208,14 +213,15 @@ The `docker` resource is more complex to use than `docker_image` and `docker_con
 
 **Docker Containers**
 
-```
+```bash
 describe docker.containers do
   its('images') { should_not include 'u12:latest' }
 end
 ```
 
 Let us inspec the `docker` resource with InSpec Shell. This will show two containers, one is already exited and another one is still running:
-```
+
+```bash
 $ inspec shell
 dockeWelcome to the interactive InSpec Shell
 To find out how to use it, type: help
@@ -262,7 +268,7 @@ inspec> docker.containers.entries
 
 The resource allows you to ask for all running containers:
 
-```
+```bash
 docker.containers.running?.entries
 => [#<struct
   command="\"docker-entrypoint.sh postgres\"",
@@ -283,7 +289,7 @@ docker.containers.running?.entries
 
 You can also filter containers by the following fields: `commands`, `ids`, `images`, `labels`, `local_volumes`, `mounts`, `names`, `networks`, `ports`, `running_for`, `sizes`,`status`, `running?`,`exists?`. For example, if you want to verify the configuration for each container, you can do the following in InSpec:
 
-```
+```bash
 # returns all container ids
 docker.containers.ids.each do |id|
   # call docker inspect to retrieve detailed information about the container
@@ -295,7 +301,7 @@ end
 
 If you want to do the following for running containers, just say so:
 
-```
+```ruby
 # returns all running container ids
 docker.containers.running?.ids.each do |id|
   # call docker inspect to retrieve detailed information about the container
@@ -307,7 +313,7 @@ end
 
 If you a looking for a specific container:
 
-```
+```ruby
 # returns all running container ids
 docker.containers.where { names == 'some-postgres' }.ids.each do |id|
   # call docker inspect to retrieve detailed information about the container
@@ -321,7 +327,7 @@ end
 
 Docker images can be inspected with a similar approach:
 
-```
+```ruby
 describe docker.images do
   its('repositories') { should_not include 'inssecure_image' }
 end
@@ -332,7 +338,7 @@ You can also filter images by the following fields: `ids`, `repositories`, `tags
 
 If you want to verify that no image is using the ADD instruction in Dockerfile, you can iterate over all image ids and ask `docker history` if the ADD instruction was used:
 
-```
+```ruby
 docker.images.ids.each do |id|
   describe command("docker history #{id}| grep 'ADD'") do
     its('stdout') { should eq '' }
@@ -344,7 +350,7 @@ end
 
 InSpec allows you to verify the docker client and server version that is used on your machine. Behind the scenes, it is using the `docker version` command. This would return the following values:
 
-```
+```bash
 $ docker version
 Client:
  Version:      17.05.0-ce-rc1
@@ -366,7 +372,7 @@ Server:
 
 In InSpec Shell, you see the parsed values:
 
-```
+```bash
 inspec> docker.version
 => {"Client"=>
   {"Version"=>"17.05.0-ce-rc1",
@@ -392,7 +398,7 @@ inspec> docker.version
 
 Now, I am going to write a check that ensures docker is newer than `1.12`
 
-```
+```ruby
 describe docker.version do
   its('Server.Version') { should cmp >= '1.12'}
   its('Client.Version') { should cmp >= '1.12'}
@@ -403,7 +409,7 @@ end
 
 `docker.info` parses the output of `docker info`:
 
-```
+```bash
 docker info
 Containers: 5
  Running: 1
@@ -416,7 +422,7 @@ Server Version: 17.05.0-ce-rc1
 
 Again, you can inspect all values in InSpec with InSpec Shell:
 
-```
+```bash
 inspec> docker.info
 => {"ID"=>"YMXQ:5C62:Q3AR:XV77:7LS6:O56G:A6VZ:V5LJ:WNNJ:UQTO:QKPB:K62P",
  "Containers"=>5,
@@ -445,7 +451,7 @@ inspec> docker.info
 
 Now, lets ensure we are not running more than 20 containers on a node:
 
-```
+```ruby
 describe docker.info do
   its('ContainersRunning') { should cmp <= 20 }
 end
@@ -453,7 +459,7 @@ end
 
 If Swarm is active, you could verify that you have only a limited amount of leaders:
 
-```
+```ruby
 describe docker.info do
   its('Swarm.Managers') { should cmp <= 3 }
 end
@@ -463,7 +469,7 @@ end
 
 Each docker object store multiple attributes. Docker allows you to see those values by running `docker inspect`. This data is parsed in InSpec too and can be used to verify entries for container and images objects:
 
-```
+```ruby
 describe docker.object(container_id) do
   its('Configuration.Path') { should eq 'value' }
 end
@@ -471,7 +477,7 @@ end
 
 Be aware that docker object is very complex and the output varies by object. An example output in InSpec shell looks like:
 
-```
+```bash
 inspec> docker.object('921f6363ceaa3c5253a31068a0c8cb7b3a78c1353cf6b4125c7a5460d4e8ce2a')
 => {"Id"=>"921f6363ceaa3c5253a31068a0c8cb7b3a78c1353cf6b4125c7a5460d4e8ce2a",
  "Created"=>"2017-04-29T11:27:45.846552618Z",
@@ -504,7 +510,7 @@ inspec> docker.object('921f6363ceaa3c5253a31068a0c8cb7b3a78c1353cf6b4125c7a5460d
 
 If you are going to run your own docker environment in production, you should make the additional work to harden the docker environment. The [CIS Docker Benchmark](https://benchmarks.cisecurity.org/tools2/docker/CIS_Docker_1.13.0_Benchmark_v1.0.0.pdf) provides a detailed overview about all best-practices. Based on those guidelines, the [DevSec Hardening Framework Team](http://atomic111.github.io/blog/inspec-cis-docker) implemented a machine-readable version that allows you to easily execute the tests. To execute the InSpec profile, just run:
 
-```
+```bash
 $ inspec exec https://github.com/dev-sec/cis-docker-benchmark
 ```
 

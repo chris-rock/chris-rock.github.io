@@ -1,8 +1,11 @@
 ---
 title: Implicit JSON conversion with Scala
-author: chris
+author: Christoph Hartmann
 date: 2014-09-21
-template: article.jade
+tags:
+  - scala
+aliases:
+  - /articles/scala-implicit-conversion/
 ---
 
 In my last blog posts about Scala, I explained [Scalatra with Bearer Authentication](http://lollyrock.com/articles/scalatra-bearer-authentication/) and [Asynchronous HTTP requests with Scala and Dispatch](http://lollyrock.com/articles/scala-http-requests/). Today I am going to focus on JSON. We will encode data types to JSON and decode JSON into existing data structures.
@@ -25,7 +28,7 @@ Before we talk about the conversion, we need to define the data model. I use the
 
 Now we are able to store a person with address:
 
-```
+```scala
   val person = Person(0, "John Rambo" , 67, 0)
   val address = Address(0, "101 W Main St", "Madison, Kentucky")
   val pa = PersonWithAddress(person, address)
@@ -91,13 +94,13 @@ implicit def PersonAddressDecodeJson: DecodeJson[PersonWithAddress] =
 
 As a result we get a valid Scala object with the expected data
 
-```code
+```scala
 PersonWithAddress(Person(0,John Rambo,67,0),Address(0,101 W Main St,Madison, Kentucky))
 ```
 
 Compared to Nodejs, this decode is also a type validation. The conversion will fail, if one parameter is missing. In case you would like to make parts optional, you need to adapt the case class and use `Option[Int]` instead of `Int`. Additionally you need to adapt the decode and parse to `Option[Int]`:
 
-```code
+```scala
   age <- (c --\ "age").as[Option[Int]]
 ```
 

@@ -1,8 +1,12 @@
 ---
 title: "InSpec for provisioning testing: Verify Terraform setups with InSpec"
-author: chris
+author: Christoph Hartmann
 date: 2018-02-22
-template: article.jade
+tags:
+  - inspec
+  - terraform
+aliases:
+  - /articles/inspec-terraform/
 ---
 
 We want to bring the same testing experience known from configuration management to provisioning and InSpec 2.0 is making it happen. We are going to explain why it is important and how you can use Terraform with InSpec.
@@ -32,11 +36,11 @@ Before InSpec, [Dominik Richter](http://arlimus.github.io) and I developed SaaS 
 
 Those early design decisions made InSpec very successful. We work with companies and government agencies that have the most rigid compliance requirements. They need to comply with PCI, HIPPA and STIGs or any combination of those. Only with InSpec, they have been successful to bring development, operations and compliance teams together by harmonized the testing language across teams. 
 
-![DevOps, Security and Compliance working together](teams.png "DevOps, Security and Compliance working together" )
+{{< figure src="teams.png" alt="DevOps, Security and Compliance working together" title="DevOps, Security and Compliance working together" >}}
 
 In InSpec, a test like
 
-```
+```bash
 SSH supports two different protocol versions. The original 
 version, SSHv1, was subject to a number of security issues. 
 Please use SSHv2 instead to avoid these.
@@ -85,7 +89,7 @@ Further information about InSpec and profiles is available on [inspec.io](https:
 
 When we started the development of InSpec, the infrastructure and compliance testing space was all focused on configuration and runtime verification. By working very closely with users, we quickly realized that a shift in the industry is happening: compliance requirements shift from operating systems to their management system. The classic example for that change is a firewall configuration. In the past, we configured every firewall rules on each operating system. In IaaS setups, you setup network and security group configuration along with your instance when you deploy it but not at the operating system level. The compliance rules stay valid, but they moved to the system that manages the virtual infrastructure. Therefore we want to describe something like:
 
-```
+```ruby
 describe aws_security_group("sg-12345678") do
   it { should exist }
 end
@@ -101,7 +105,7 @@ Faced with that challenge, we stepped back from any specific coding and thought 
 
 The main difference would be the communication to the system that we are checking. We would want to talk to the API directly and it should look like:
 
-```
+```bash
 # run test against aws api
 inspec exec test.rb -t aws://profile
 ```
@@ -116,17 +120,17 @@ Dominik specified our thought process in what we called [Platform RFC](https://g
 
 InSpec 2.0 adds initial platform support for AWS and Azure. The next part of this blog post series will demonstrate how you can InSpec 2.0 in combination with Terraform.
 
-![Environment with instances and cloud-native services](aws-infrastructure.png "Environment with instances and cloud-native services" )
+{{< figure src="aws-infrastructure.png" alt="Environment with instances and cloud-native services" title="Environment with instances and cloud-native services" >}}
 
 ## InSpec + Terraform
 
-![Terraform + InSpec](terraform_inspec_logo.png "Use Terraform with InSpec" )
+{{< figure src="terraform_inspec_logo.png" alt="Use Terraform with InSpec" title="Terraform + InSpec" >}}
 
 The following example is based on the [Basic Two-Tier AWS Architecture](https://github.com/terraform-providers/terraform-provider-aws/tree/master/examples/two-tier) example. It provides a template for running a simple two-tier architecture on AWS. Once Terraform created the environment, a stateless nginx server is running behind an Elastic Load Balancer on AWS. To get this example running, you just have to run `terraform apply`. We are going to extend this example to eliminate the manual testing. The extended example is available on [Github]((https://github.com/chris-rock/inspec-verify-provision).
 
 Within the Terraform directory run `inspec init profile test/verify` to create a new empty InSpec profile. Then adapt the `inspec.yml` to reflect your use case. As a next step, we are going to add tests. For each Terraform resource
 
-```
+```hcl
 resource "aws_security_group" "default" {
   name        = "terraform_example"
   description = "Used in the terraform"
@@ -138,7 +142,7 @@ resource "aws_security_group" "default" {
 
 you can write an test that uses available [InSpec resources](https://www.inspec.io/docs/reference/resources/)
 
-```
+```ruby
 describe aws_security_group(group_name: 'terraform_example') do
   it { should exist }
   its('group_name') { should eq 'terraform_example' }
@@ -149,7 +153,7 @@ end
 
 For some tests, we need data from Terraform. The best hand-over at this point is the use of [terraform output](https://www.terraform.io/intro/getting-started/outputs.html) variables. Define the variables that you need as an output in Terraform:
 
-```
+```hcl
 output "vpc_id" {
   value = "${aws_vpc.default.id}"
 }
@@ -157,13 +161,13 @@ output "vpc_id" {
 
 Terraform has a neat built-in feature that allows the output of the variables as json file.
 
-```
+```hcl
 terraform output --json > test/verify/files/terraform.json
 ```
 
 InSpec is able to [load files from profiles](https://github.com/chef/inspec/issues/1396) if they are located in the `files` directory directly:
 
-```
+```ruby
 # load data from Terraform output
 content = inspec.profile.file("terraform.json")
 params = JSON.parse(content)
@@ -187,7 +191,7 @@ end
 
 This allows us to use any data from Terraform in InSpec. We are ready to provision the infrastructure and run InSpec checks afterwards. To see everything in action:
 
-```
+```bash
 # clone repository
 git clone git@github.com:chris-rock/inspec-verify-provision.git
 cd inspec-verify-provision/terraform
@@ -205,7 +209,7 @@ terraform output --json > test/verify/files/terraform.json
 inspec exec test/verify -t aws://
 ```
 
-![InSpec report for Terraform provisioning](terraform_inspec.png "InSpec report for Terraform provisioning")
+{{< figure src="terraform_inspec.png" alt="InSpec report for Terraform provisioning" title="InSpec report for Terraform provisioning" >}}
 
 ## Wrap-Up
 

@@ -1,8 +1,12 @@
 ---
 title: Install Windows IoT on Raspberry Pi 2
-author: chris
+author: Christoph Hartmann
 date: 2015-05-10
-template: article.jade
+tags:
+  - windows
+  - IoT
+aliases:
+  - /articles/windows-iot-raspberry/
 ---
 
 Recently, Microsoft announced its [Windows 10 IoT Core Insider Preview](http://ms-iot.github.io/content/GetStarted.htm) and it is very exiting to get an ARM version of Windows running on a small device. Microsoft did a great job to bring the operating system to smaller devices and I am looking forward to play more with their IoT solutions. Now, lets install Windows on Raspberry 2.
@@ -19,7 +23,7 @@ We will use Windows 10 for SD card preparation. Currently, I found no easy way t
 
 Now, insert a blank 8GB Class 10 SD card into your computer and find your SD card with `diskpart`
 
-```bash
+```powershell
 Windows PowerShell
 Copyright (C) 2015 Microsoft Corporation. All rights reserved.
 
@@ -46,7 +50,7 @@ In case you do not like to command line, you could also use the graphical `Disk 
 
 With help of [Microsofts Dsim](https://msdn.microsoft.com/en-us/library/windows/desktop/dd371719%28v=vs.85%29.aspx) tool, we create the image for our Raspberry 2. Be aware that you need to replace `PhysicalDriveN` with your local disk id like `PhysicalDrive1`: 
 
-```
+```powershell
 PS C:\Users\chris\Downloads\Windows_IoT_Core_RPI2_BUILD> dism.exe /Apply-Image 
 /ImageFile:Flash.ffu /ApplyDrive:\\.\PhysicalDriveN /SkipPlatformCheck
 
@@ -61,7 +65,7 @@ PS C:\Users\chris\Downloads\Windows_IoT_Core_RPI2_BUILD>
 
 In case you receive an IO error, you may need to switch the physical knob to active writing for your SD card.
 
-```bash
+```powershell
 PS C:\Windows\system32> cd 'C:\Users\chris\Downloads\Windows_IoT_Core_RPI2_BUILD\'
 PS C:\Users\chris\Downloads\Windows_IoT_Core_RPI2_BUILD> dism.exe /Apply-Image 
 /ImageFile:Flash.ffu /ApplyDrive:\\.\PhysicalDriveN /SkipPlatformCheck
@@ -86,24 +90,24 @@ Finally, remove your SD card from your computer.
 
 Once everything is ready, boot your Raspberry Pi 2 and wait some minutes. Windows will boot and display a overview screen that displays all required information to connect to the device.
 
-![Windows IoT Raspberry 2 Boot](boot_01.png "Windows IoT Raspberry 2 Boot")
-![Windows IoT Raspberry 2 Boot](boot_02.png "Windows IoT Raspberry 2 Boot")
-![Windows IoT Raspberry 2 Boot](boot_03.png "Windows IoT Raspberry 2 Boot")
+{{< figure src="boot_01.png" alt="Windows IoT Raspberry 2 Boot" title="Windows IoT Raspberry 2 Boot" >}}
+{{< figure src="boot_02.png" alt="Windows IoT Raspberry 2 Boot" title="Windows IoT Raspberry 2 Boot" >}}
+{{< figure src="boot_03.png" alt="Windows IoT Raspberry 2 Boot" title="Windows IoT Raspberry 2 Boot" >}}
 
 ## Web Administration
 
 By default, Windows IoT ships with an Web Administration interface that is available by entering the ip address of the Raspberry Pi. It displays the installed apps, running processes, current performence and debugging information.
 
-![Windows IoT Web Administration    ](04.png "Windows IoT Web Administration")
+{{< figure src="04.png" alt="Windows IoT Web Administration" title="Windows IoT Web Administration" >}}
 
 ## Install Visual Studio
 
 To start developing for Windows IoT, [download the Visual Studio Community Edition](https://www.visualstudio.com/en-us/downloads/visual-studio-2015-downloads-vs.aspx) and installa the `Windows Developer Program for IoT Installation` that is included in `Windows_IoT_Core_RPI2_BUILD.zip`
 
-![Download Visual Studio 2015](03.png "Visual Studio 2015 download")
+{{< figure src="03.png" alt="Visual Studio 2015 download" title="Download Visual Studio 2015" >}}
 
-![Install Visual Studio 2015](01.png "Visual Studio 2015 Installation")
+{{< figure src="01.png" alt="Visual Studio 2015 Installation" title="Install Visual Studio 2015" >}}
 
-![Install Windows Developer Program for IoT](02.png "Windows Developer Program for IoT Installation")
+{{< figure src="02.png" alt="Windows Developer Program for IoT Installation" title="Install Windows Developer Program for IoT" >}}
 
 I am looking forward to play more with Windows IoT and start deploying universal apps.

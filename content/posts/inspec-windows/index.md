@@ -1,8 +1,11 @@
 ---
 title: Windows Infrastructure Testing and Compliance with InSpec
-author: chris
+author: Christoph Hartmann
 date: 2017-04-10
-template: article.jade
+tags:
+  - inspec
+aliases:
+  - /articles/inspec-windows/
 ---
 
 InSpec is an infrastructure testing and compliance tool that allows you to write re-usable tests for your IT components. InSpec tests can easily be used in development and production environments to shift [Compliance left](https://blog.chef.io/2016/09/26/shift-left-security-and-compliance-automation-with-inspec-and-chef/). This blog post will highlight how you can leverage InSpec on Windows.
@@ -13,7 +16,7 @@ First things first: We need InSpec on our workstation. There are two packages th
 
 Another option is to install InSpec via a Powershell script:
 
-```
+```powershell
 . { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project inspec
 ```
 
@@ -31,7 +34,7 @@ cd .\inspec
 code .
 ```
 
-![Create new directory for InSpec tests](inspec-create-dir.png "Create new directory for InSpec tests")
+{{< figure src="inspec-create-dir.png" alt="Create new directory for InSpec tests" title="Create new directory for InSpec tests" >}}
 
 Now, create a new file in Visual Studio Code and write down the first InSpec test:
 
@@ -44,7 +47,7 @@ end
 
 This is all we need to test if the `DHCP Client` service is installed and running. Save the file and let's execute the test.
 
-![Write InSpec tests in VSCode](vscode-test.png "Write InSpec tests in VSCode")
+{{< figure src="vscode-test.png" alt="Write InSpec tests in VSCode" title="Write InSpec tests in VSCode" >}}
 
 Execute InSpec from Powershell:
 
@@ -52,7 +55,7 @@ Execute InSpec from Powershell:
 inspec exec .\test.rb
 ```
 
-![Execute InSpec test](inspec-exec-test.png "Execute InSpec test")
+{{< figure src="inspec-exec-test.png" alt="Execute InSpec test" title="Execute InSpec test" >}}
 
 ## Run InSpec tests against a remote Windows machine
 
@@ -62,7 +65,7 @@ I passed the `hello world` of InSpec by running the first test on our workstatio
 inspec exec test.rb -t winrm://Administarator@hostname -p 'P@ssword'
 ```
 
-![Execute InSpec test remotely](inspec-exec-remote.png "Execute InSpec test remotely")
+{{< figure src="inspec-exec-remote.png" alt="Execute InSpec test remotely" title="Execute InSpec test remotely" >}}
 
 With a few commands, we executed an InSpec test against a local workstation and a remote server.
 
@@ -107,7 +110,7 @@ The following example illustrate the use of the `file`, `user`, `users`, `packag
 
 The result on my Windows 10 workstation will return:
 
-![Run InSpec operating system checks](test-win.png "Run InSpec operating system checks")
+{{< figure src="test-win.png" alt="Run InSpec operating system checks" title="Run InSpec operating system checks" >}}
 
 ## Security checks for Windows
 
@@ -117,8 +120,7 @@ If you are interested in operating system hardening for Windows, you need to be 
 
 Have a look at [Administer Security Policy Settings](https://technet.microsoft.com/en-us/library/jj966254.aspx),[User Rights Assignment](https://technet.microsoft.com/en-us/library/dn221963.aspx), [Privilege Constants](https://msdn.microsoft.com/en-us/library/windows/desktop/bb530716.aspx) and [Audit Policy](https://technet.microsoft.com/en-us/library/cc766468.aspx) to learn more about possible settings.
 
-![Run security checks](test-sec.png "Run security checks")
-
+{{< figure src="test-sec.png" alt="Run security checks" title="Run security checks" >}}
 
 ## Reuse existing Powershell or VBScript in InSpec
 
@@ -179,7 +181,7 @@ inspec exec https://github.com/dev-sec/windows-baseline
 
 Are you compliant?
 
-![Run DevSec Windows Baseline](test-devsec.png "Run DevSec Windows Baseline")
+{{< figure src="test-devsec.png" alt="Run DevSec Windows Baseline" title="Run DevSec Windows Baseline" >}}
 
 I recommend you have a look at the following DevSec profiles:
 

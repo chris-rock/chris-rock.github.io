@@ -1,8 +1,11 @@
 ---
 title: s3cmd with radosgw
-author: chris
+author: Christoph Hartmann
 date: 2014-09-07
-template: article.jade
+tags:
+  - openstack
+aliases:
+  - /articles/s3cmd-with-radosgw/
 ---
 
 Amazon introduced the concept of [S3](http://en.wikipedia.org/wiki/Amazon_S3) object storage to a wide-range of users. Their interface is the defacto-standard to store files in web applications. Nowadays, it is used by other vendors as well. [Ceph](http://ceph.com/) and [RiakCS](http://basho.com/riak-cloud-storage/) are some examples, where the same interface is available. This blog post will setup s3cmd with Ceph radosgw.
@@ -34,7 +37,7 @@ sudo apt-get install s3cmd
 
 On Mac you may use [brew](http://brew.sh/) to install s3cmd:
 
-```
+```bash
 # install s3cmd
 brew install s3cmd
 ```
@@ -73,7 +76,7 @@ s3cmd get s3://YOURBUCKET/test.txt test.txt
 
 Since `s3cmd` is optimized for Amazon S3, you need to apply a few changes to convince `s3cmd` to talk with `radosgw`. At first we create a new configuration with s3cmd via interactive mode:
 
-```code
+```bash
 s3cmd --configure -c s3test.cfg
 
 Enter new values or accept defaults in brackets with Enter.
@@ -110,7 +113,7 @@ Configuration saved to 's3test.cfg'
 
 The generated configuration file will look similar to:
 
-```code
+```ini
 [default]
 access_key = abc
 bucket_location = US
@@ -160,21 +163,21 @@ ERROR: S3 error: 403 (InvalidAccessKeyId): The AWS Access Key Id you provided do
 
 We need to adapt a few lines to configure s3cmd for radosgw. Currently `s3cmd` does not know the radosgw hostname. Replace `host_base` and `host_bucket` with the hostname of the radosgw host:
 
-```code
+```ini
 host_base = s3.amazonaws.com
 host_bucket = %(bucket)s.s3.amazonaws.com
 ```
 
 becomes:
 
-```code
+```ini
 host_base = radosgw.example.com
 host_bucket = %(bucket)s.radosgw.example.com
 ```
 
 Now you should be able to run 
 
-```code
+```bash
 s3cmd -c s3test.cfg ls
 2014-09-06 12:05  s3://YOURBUCKET
 ```
@@ -188,7 +191,7 @@ If we talk about backups, we never want to store them unencrypted. `s3cmd` suppo
 
 To activate encryption change the `s3cmd` configuration file:
 
-```code
+```ini
 encrypt = True
 gpg_command = gpg
 gpg_decrypt = %(gpg_command)s -d --verbose --no-use-agent --batch --yes --passphrase-fd %(passphrase_fd)s -o %(output_file)s %(input_file)s
@@ -200,7 +203,7 @@ At first you have to enable encryption with `encrypt = True`. Although the defau
 
 Finally, `s3cmd` works with `radosgw` and encryption.
 
-```
+```bash
 $> cat > test.txt
 samplecontent
 $> s3cmd put test.txt s3://YOURBUCKET

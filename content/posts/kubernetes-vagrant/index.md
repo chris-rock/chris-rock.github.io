@@ -1,8 +1,11 @@
 ---
 title: Try Kubernetes with Vagrant
-author: chris
+author: Christoph Hartmann
 date: 2015-06-01
-template: article.jade
+tags:
+  - kubernetes
+aliases:
+  - /articles/kubernetes-vagrant/
 ---
 
 To get familiar with kubernetes, it is always good to start with an example. This blog post will setup nginx running on kubernetes.
@@ -323,7 +326,7 @@ kubectl create -f 01-nginx-health-check.yaml
 
 Everything is setup properly. To destory the cluster, delete all definitions from kubernetes:
 
-```
+```bash
 # Delete all added parts
 $ kubectl delete -f 01-nginx-service.yaml 
 $ kubectl delete -f 01-nginx.yaml
