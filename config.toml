@@ -1,4 +1,4 @@
-baseURL = "http://example.org/"
+baseURL = "https://lollyrock.com/"
 languageCode = "en-us"
 
 pygmentsCodeFences = true
@@ -8,6 +8,8 @@ paginate = 20
 canonifyurls = true
 
 theme = "hugo-coder"
+
+googleAnalytics = "UA-50992958-1"
 
 [params]
     author = "Christoph Hartmann"
