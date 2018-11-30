@@ -5,11 +5,11 @@
   <section class="container list">
     <h1 class="title">{{ .Title }}</h1>
 
-    <ul>
+    <div style="display: flex; flex-wrap: wrap;">
       {{- range .Paginator.Pages -}}
-        {{- .Render "li" -}}
+        {{- .Render "entry" -}}
       {{- end -}}
-    </ul>
+    </div>
 
     {{ partial "pagination.html" . }}
   </section>

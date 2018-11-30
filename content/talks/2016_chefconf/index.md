@@ -8,6 +8,7 @@ tags:
   - compliance
 conference: Chef Conf 2016
 link: https://chefconf.chef.io/archive-2016/
+thumbnail: thumbnail.jpg
 ---
 
 {{< youtube LUKhcf2e-GM >}}

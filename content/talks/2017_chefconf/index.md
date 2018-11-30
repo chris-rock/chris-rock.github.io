@@ -7,6 +7,11 @@ tags:
   - security
   - compliance
 conference: Chef Conf 2017
+thumbnail: thumbnail.png
 ---
+
+{{< youtube "Lk7fXm8SJ1w?start=2539" >}}
+
+Slides:
 
 <script async class="speakerdeck-embed" data-id="9c8dc2f759d44e65b7463ca089fed5aa" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>

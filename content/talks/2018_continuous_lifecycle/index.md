@@ -8,6 +8,7 @@ tags:
   - compliance
 conference: Continuous Lifecycle 2018
 link: https://www.continuouslifecycle.de/veranstaltung-7515-%E3%9Cberpr%E3%BCfen-von-terraform-deployments-mit-inspec.html?source=0&id=7515
+thumbnail: thumbnail.jpg
 ---
 
 <script async class="speakerdeck-embed" data-id="f2cf4c6327f84f0491e5ef93dae52d3d" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>

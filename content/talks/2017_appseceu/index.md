@@ -8,6 +8,7 @@ tags:
   - compliance
 conference: AppSec EU 2017 DevSec
 link: https://2017.appsec.eu/
+thumbnail: thumbnail.jpg
 ---
 
 {{< youtube Uc941CUWedc >}}

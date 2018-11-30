@@ -8,6 +8,7 @@ tags:
   - compliance
 conference: AllDayDevops 2017
 link: https://www.alldaydevops.com/devsecops-2017
+thumbnail: thumbnail.jpg
 ---
 
 {{< youtube 6riVSUHnyPk >}}
