@@ -22,7 +22,7 @@ Der Vortrag zeigt die Umsetzung von Test-driven Infrastructure für Terraform-Se
     </item>
     
     <item>
-      <title>InSpec 3 Keynote</title>
+      <title>InSpec 3 Release Keynote</title>
       <link>https://lollyrock.com/talks/2018_chef_community_summit/</link>
       <pubDate>Tue, 16 Oct 2018 00:00:00 +0000</pubDate>
       
@@ -50,7 +50,7 @@ Der Vortrag zeigt die Umsetzung von Test-driven Infrastructure für Terraform-Se
     </item>
     
     <item>
-      <title>continuous compliance</title>
+      <title>Continuous Compliance</title>
       <link>https://lollyrock.com/talks/2017_devseccon_london/</link>
       <pubDate>Thu, 19 Oct 2017 00:00:00 +0000</pubDate>
       
@@ -64,7 +64,8 @@ Der Vortrag zeigt die Umsetzung von Test-driven Infrastructure für Terraform-Se
       <pubDate>Tue, 23 May 2017 00:00:00 +0000</pubDate>
       
       <guid>https://lollyrock.com/talks/2017_chefconf/</guid>
-      <description> </description>
+      <description>   Slides:
+ </description>
     </item>
     
     <item>
@@ -88,7 +89,7 @@ Meta Profiles A meta profile is an overlay or a collection of multiple profiles.
     </item>
     
     <item>
-      <title>Compliance-driven infrastructure</title>
+      <title>Compliance-Driven Infrastructure</title>
       <link>https://lollyrock.com/talks/2016_oreilly_software_architecture/</link>
       <pubDate>Tue, 15 Nov 2016 00:00:00 +0000</pubDate>
       
