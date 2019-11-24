@@ -6,10 +6,21 @@
     <description>Recent content in Security on Christoph Hartmann</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 06 Nov 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 14 Oct 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://lollyrock.com/tags/security/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>AuthN &#43; AuthZ in GraphQL</title>
+      <link>https://lollyrock.com/talks/2019_graphql_berlin/</link>
+      <pubDate>Mon, 14 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/talks/2019_graphql_berlin/</guid>
+      <description>Key learnings from implementing authentication and authorization using GraphQL
+Using GraphQL in production requires some re-thinking of existing security mechanisms normally used for REST services. Especially implementing authorization can be challenging since the GraphQL resolver may be easily used for privilege escalations.
+The talk will provide an overview of different approaches implementing authentication and authorization for GraphQL services.</description>
+    </item>
     
     <item>
       <title>Testing Cloud Provisioning with Terraform and InSpec</title>
