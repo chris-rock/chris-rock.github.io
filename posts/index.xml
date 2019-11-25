@@ -6,10 +6,20 @@
     <description>Recent content in Posts on Christoph Hartmann</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 23 May 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 24 Nov 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://lollyrock.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Introducing Vesper - HTTP Framework for Unix Shell</title>
+      <link>https://lollyrock.com/posts/vesper-intro-bash-shell-http-framework/</link>
+      <pubDate>Sun, 24 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/posts/vesper-intro-bash-shell-http-framework/</guid>
+      <description>Technology is moving fast. The world has changed a lot since the 70ies. But one thing is still around: Unix shell. The bourne shell was initially released in 1977 and bash saw the light of the world in 1989. Why is the shell still around? And should we handle HTTP requests with the shell?
+Background: Is the shell dead? Before we talk about vesper, let&amp;rsquo;s think about the shell itself.</description>
+    </item>
     
     <item>
       <title>Google Cloud Platform support for InSpec</title>

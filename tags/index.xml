@@ -39,6 +39,15 @@
     </item>
     
     <item>
+      <title>Bash</title>
+      <link>https://lollyrock.com/tags/bash/</link>
+      <pubDate>Sun, 24 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/tags/bash/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Chef</title>
       <link>https://lollyrock.com/tags/chef/</link>
       <pubDate>Fri, 12 Aug 2016 00:00:00 +0000</pubDate>
@@ -129,6 +138,15 @@
     </item>
     
     <item>
+      <title>Http</title>
+      <link>https://lollyrock.com/tags/http/</link>
+      <pubDate>Sun, 24 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/tags/http/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Inspec</title>
       <link>https://lollyrock.com/tags/inspec/</link>
       <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
@@ -201,6 +219,24 @@
     </item>
     
     <item>
+      <title>Sh</title>
+      <link>https://lollyrock.com/tags/sh/</link>
+      <pubDate>Sun, 24 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/tags/sh/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Shell</title>
+      <link>https://lollyrock.com/tags/shell/</link>
+      <pubDate>Sun, 24 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/tags/shell/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Terraform</title>
       <link>https://lollyrock.com/tags/terraform/</link>
       <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
@@ -215,6 +251,15 @@
       <pubDate>Fri, 12 Aug 2016 00:00:00 +0000</pubDate>
       
       <guid>https://lollyrock.com/tags/test-kitchen/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Unix</title>
+      <link>https://lollyrock.com/tags/unix/</link>
+      <pubDate>Sun, 24 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://lollyrock.com/tags/unix/</guid>
       <description></description>
     </item>
     
