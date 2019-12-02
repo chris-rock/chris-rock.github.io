@@ -166,4 +166,4 @@ The full experiment is available on [github.com/chris-rock/vesper](https://githu
 
 ## Conclusion
 
-Although I built it for fun over the weekend, I am still not convinced if this is a good idea or not. It has some pros by being able to reuse existing scripts. From a security perspective, I think this is not a good idea at all. Just alone the missing input param validation is crying for privilege escalations. I'd like to hear your opinion via [Twitter](https://twitter.com/chri_hartmann) or [Github](https://github.com/chris-rock/)
+Although I built it for fun over the weekend, I am still not convinced if this is a good idea or not. It has some pros by being able to reuse existing scripts. From a security perspective, I think this is not a good idea at all. Just alone the missing input param validation is crying for privilege escalations. I'd like to hear your opinion via [Reddit](https://www.reddit.com/r/bash/comments/e3cy2r/vesper_http_framework_for_bash_shell/), [Twitter](https://twitter.com/chri_hartmann) or [Github](https://github.com/chris-rock/)
